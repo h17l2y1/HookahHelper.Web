@@ -1,0 +1,44 @@
+<div class="popup-container">
+  <form [formGroup]="createBrandForm" class="example-form">
+    <div class="create-tobacco-container">
+      <div class="side">
+        <app-image-upload></app-image-upload>
+      </div>
+      <div class="side">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Назва бренду</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Країна виробник</mat-label>
+          <input matInput formControlName="madeIn">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Опис</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="side">
+        <button class="button add-line-btn example-full-width" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>
+        <div formArrayName="lines">
+          <div *ngFor="let line of getLines.controls; let i=index" class="brand-line-container">
+            <div [formGroupName]="i" class="inp-brand-line">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Назва лiнiйки</mat-label>
+                <input formControlName="name" matInput>
+              </mat-form-field>
+              <br>
+            </div>
+            <button mat-mini-fab color="warn" class="btn-remove" (click)="onRemove(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div mat-dialog-actions class="popup-action-container">
+    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+  </div>
+</div>

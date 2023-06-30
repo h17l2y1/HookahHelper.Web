@@ -1,0 +1,44 @@
+.popup-container {
+  margin: 20px;
+
+  .create-tobacco-container {
+    display: flex;
+
+    .side {
+      width: 33%;
+      padding: 10px;
+    }
+
+    .example-full-width {
+      width: 100%;
+    }
+
+    .add-line-btn {
+      height: 56px;
+      margin-bottom: 24px;
+    }
+
+    .brand-line-container {
+      display: flex;
+      justify-content: space-between;
+
+      .btn-remove {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .popup-action-container {
+    top: 23px;
+    display: flex;
+
+    .popup-actions-button {
+      height: 42px;
+      min-width: 130px;
+    }
+  }
+}
+
+
+
+

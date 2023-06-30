@@ -1,0 +1,59 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(-45deg, #eca690, #f579a9, #97d5ec, #8fecd6);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.button {
+  background-color: rgb(255 255 255 / 50%) !important;
+  border-radius: 14px !important;
+}
+
+table, th, td {
+  background-color: rgb(255 255 255 / 0%) !important;
+  box-shadow: none !important;
+}
+
+tr {
+  background-color: rgb(255 255 255 / 0%) !important;
+}
+
+.mat-mdc-dialog-surface {
+  background-color: rgb(255 255 255 / 80%) !important;
+  border-radius: 20px !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  border-radius: 14px !important;
+}
+
+.mat-warn {
+  background-color: rgb(255 0 0 / 55%) !important;
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: center !important;
+}
+
+.cancel-color {
+  color: #757575;
+}
+
