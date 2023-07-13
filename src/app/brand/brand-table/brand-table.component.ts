@@ -7,6 +7,7 @@ import {BrandService} from "../brand.service";
 import {Observable, tap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
+import {BrandCreateComponent} from "../brand-create/brand-create.component";
 
 @Component({
   selector: 'app-brand-table',
@@ -30,7 +31,7 @@ export class BrandTableComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private brandService: BrandService,
+    private readonly brandService: BrandService,
   ) {}
 
   ngOnInit(): void {
@@ -71,23 +72,22 @@ export class BrandTableComponent implements OnInit {
     }
   }
 
-  // public openDialog(): void {
-  //   const enterAnimationDuration = '600ms';
-  //   const exitAnimationDuration = '400ms';
-  //
-  //   const dialogRef = this.dialog.open(BrandCreateComponent, {
-  //     data: {},
-  //     height: '450px',
-  //     width: '900px',
-  //     enterAnimationDuration,
-  //     exitAnimationDuration,
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     const xxx = result;
-  //   });
-  // }
+  public openDialog(): void {
+    const enterAnimationDuration = '600ms';
+    const exitAnimationDuration = '400ms';
+
+    const dialogRef = this.dialog.open(BrandCreateComponent, {
+      data: {},
+      height: '450px',
+      width: '900px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getBrands().subscribe();
+    });
+  }
 
 
 
