@@ -14,6 +14,8 @@ import {AppModule} from "../app.module";
 import {ImageUploadComponent} from "../shared/components/image-upload/image-upload.component";
 import {SharedModule} from "../shared/shared.module";
 import {BrandService} from "./brand.service";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import {BrandService} from "./brand.service";
     MatDialogModule,
     MatTableModule,
     SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
     BrandService

@@ -1,17 +1,24 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
+import {Brand} from "../interfaces/entity/brand";
+import {GetAllResponse} from "../interfaces/models/get-all-response";
 
 @Injectable()
 export class BrandService {
 
   readonly rootUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  public getAll(): Observable<any> {
-    return this.http.get<any>(this.rootUrl + 'Brand/GetAll');
+  public getAll(page: number, take: number, sortBy: string, type: string, filterBy?: string): Observable<GetAllResponse<Brand>> {
+    if (filterBy){
+      return this.http.get<GetAllResponse<Brand>>(this.rootUrl + `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}&filterBy=${filterBy}`);
+    }
+
+    return this.http.get<GetAllResponse<Brand>>(this.rootUrl + `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`);
   }
 
   public create(data: any): Observable<any> {

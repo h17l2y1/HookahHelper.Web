@@ -1,33 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from "@angular/material/dialog";
-import {BrandCreateComponent} from "../brand-create/brand-create.component";
 import {BrandService} from "../brand.service";
-import {Observable} from "rxjs";
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-];
+import {Observable, tap} from "rxjs";
+import {Brand} from "../../interfaces/entity/brand";
+import {GetAllResponse} from "../../interfaces/models/get-all-response";
 
 @Component({
   selector: 'app-brand-table',
@@ -35,10 +14,19 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./brand-table.component.scss']
 })
 export class BrandTableComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  public xxx = this.brandService.getAll();
+  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
+  public totalRows = 0;
+  public currentPage = 0;
+  public pageSize = 5;
+  public pageSizeOptions = [5, 10, 25, 100];
+  public sortBy = 'asc';
+  public sorColumn = 'name';
+  public filterBy?: string;
+
+  public dataSource!: MatTableDataSource<Brand>;
 
   constructor(
     public dialog: MatDialog,
@@ -46,28 +34,60 @@ export class BrandTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.xxx.subscribe(response => {
-      console.log(response);
+    this.getBrands().subscribe(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      this.sort.sortChange.subscribe(sort => {
+        this.sortBy = sort.direction;
+        this.sorColumn = sort.active;
+        this.getBrands().subscribe();
+      })
     });
   }
 
-  public openDialog(): void {
-    const enterAnimationDuration = '600ms';
-    const exitAnimationDuration = '400ms';
-
-    const dialogRef = this.dialog.open(BrandCreateComponent, {
-      data: {},
-      height: '450px',
-      width: '900px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      const xxx = result;
-    });
+  private getBrands(): Observable<GetAllResponse<Brand>> {
+    return this.brandService.getAll(this.currentPage, this.pageSize, this.sortBy, this.sorColumn, this.filterBy).pipe(
+      tap(response => {
+        this.dataSource = new MatTableDataSource<Brand>(response.list);
+        this.dataSource.data = response.list;
+        this.totalRows = response.total;
+        this.paginator.pageIndex = this.currentPage;
+      })
+    )
   }
+
+  public paginationChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex ;
+    this.getBrands().subscribe();
+  }
+  public applyFilter(event: Event): void {
+    this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.getBrands().subscribe();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  // public openDialog(): void {
+  //   const enterAnimationDuration = '600ms';
+  //   const exitAnimationDuration = '400ms';
+  //
+  //   const dialogRef = this.dialog.open(BrandCreateComponent, {
+  //     data: {},
+  //     height: '450px',
+  //     width: '900px',
+  //     enterAnimationDuration,
+  //     exitAnimationDuration,
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     const xxx = result;
+  //   });
+  // }
 
 
 
