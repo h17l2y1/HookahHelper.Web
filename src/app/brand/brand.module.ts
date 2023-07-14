@@ -16,26 +16,28 @@ import {SharedModule} from "../shared/shared.module";
 import {BrandService} from "./brand.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
     BrandTableComponent,
     BrandCreateComponent,
   ],
-  imports: [
-    CommonModule,
-    BrandRoutingModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatTableModule,
-    SharedModule,
-    MatPaginatorModule,
-    MatSortModule,
-  ],
+    imports: [
+        CommonModule,
+        BrandRoutingModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatTableModule,
+        SharedModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatProgressSpinnerModule,
+    ],
   providers: [
     BrandService
   ]

@@ -1,11 +1,12 @@
 import {Line} from "./line";
 import {Country} from "./country";
+import {Image} from "./image";
 
 export interface Brand {
   id: string;
   name: string;
   description: string;
   country: Country;
-  image64: string;
+  image: Image;
   lines: Array<Line>;
 }

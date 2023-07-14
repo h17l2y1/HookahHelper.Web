@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {ImageUploadService} from "./image-upload.service";
@@ -10,6 +10,8 @@ import {ImageUploadService} from "./image-upload.service";
 })
 
 export class ImageUploadComponent implements OnInit {
+  @Output() newItemEvent = new EventEmitter<string>();
+
   selectedFiles?: FileList;
   selectedFileNames: string[] = [];
 
@@ -38,7 +40,7 @@ export class ImageUploadComponent implements OnInit {
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
-          console.log(e.target.result);
+          this.newItemEvent.emit(e.target.result);
           this.previews.push(e.target.result);
         };
 

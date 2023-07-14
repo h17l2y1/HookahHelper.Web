@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../brand.service";
-import {Observable, tap} from "rxjs";
+import {catchError, map, merge, Observable, of, startWith, switchMap, tap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
@@ -14,7 +14,7 @@ import {BrandCreateComponent} from "../brand-create/brand-create.component";
   templateUrl: './brand-table.component.html',
   styleUrls: ['./brand-table.component.scss']
 })
-export class BrandTableComponent implements OnInit {
+export class BrandTableComponent implements AfterViewInit  {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -23,49 +23,45 @@ export class BrandTableComponent implements OnInit {
   public currentPage = 0;
   public pageSize = 5;
   public pageSizeOptions = [5, 10, 25, 100];
-  public sortBy = 'asc';
-  public sorColumn = 'name';
   public filterBy?: string;
+  public isLoadingResults = true;
 
   public dataSource!: MatTableDataSource<Brand>;
+
 
   constructor(
     public dialog: MatDialog,
     private readonly brandService: BrandService,
   ) {}
 
-  ngOnInit(): void {
-    this.getBrands().subscribe(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
-      this.sort.sortChange.subscribe(sort => {
-        this.sortBy = sort.direction;
-        this.sorColumn = sort.active;
-        this.getBrands().subscribe();
-      })
-    });
+  ngAfterViewInit(): void {
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.getBrands();
   }
 
-  private getBrands(): Observable<GetAllResponse<Brand>> {
-    return this.brandService.getAll(this.currentPage, this.pageSize, this.sortBy, this.sorColumn, this.filterBy).pipe(
-      tap(response => {
-        this.dataSource = new MatTableDataSource<Brand>(response.list);
-        this.dataSource.data = response.list;
-        this.totalRows = response.total;
-        this.paginator.pageIndex = this.currentPage;
-      })
-    )
+  private getBrands(): void {
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filterBy)
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          this.totalRows = data.total;
+          return data.list;
+        }),
+      )
+      .subscribe((data: Brand[]) => {
+        this.dataSource = new MatTableDataSource<Brand>(data);
+        // this.dataSource.data = data
+      });
   }
 
-  public paginationChange(event: PageEvent): void {
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex ;
-    this.getBrands().subscribe();
-  }
   public applyFilter(event: Event): void {
     this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.getBrands().subscribe();
+    this.getBrands();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -85,7 +81,7 @@ export class BrandTableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getBrands().subscribe();
+      this.getBrands();
     });
   }
 

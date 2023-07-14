@@ -24,43 +24,46 @@ export class BrandCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
-  onSave(): void {
+  // TODO! edit country logic
+  public onSave(): void {
     const request = this.createBrandForm.value as CreateBrand;
     request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';
+    request.image.name = `brand: ${request.name}`;
+
+    if (request.lines?.length){
+      request.lines = undefined
+    }
+
     this.brandService.create(request).subscribe(() => {
       this.dialogRef.close();
     });
-
-
-    console.log(request);
-    // request.lines = request.lines.map(x => ({_id: x.id, name: x.name}));
-
-    // this.brandService.createWithDependencies(request).subscribe(() => {
-    //   this.notificationService.success(`${request.name} created`);
-    //   this.dialogRef.close();
-    // });
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.dialogRef.close();
+  }
+
+  public addImage(item: any): void {
+    this.createBrandForm.patchValue({image:{base64: item}})
   }
 
   private initCreateTobaccoForm(): FormGroup {
     return this.formBuilder.group({
-      imageBase64: null,
+      image: this.formBuilder.group({
+        name: null,
+        base64: null,
+      }),
       name: [null, [Validators.required]],
       description: null,
       countryId: [{ value: null, disabled: true }, [Validators.required]],
       lines: this.formBuilder.array([
         this.formBuilder.group({
           tempId: this.formBuilder.control(this.getNextId()),
-          name: this.formBuilder.control('')
+          name: this.formBuilder.control(null)
         })
       ]),
-
     });
   };
 
@@ -72,11 +75,11 @@ export class BrandCreateComponent implements OnInit {
     return ++this.tempId;
   }
 
-  public onRemove(tempId: number) {
+  public onRemove(tempId: number): void {
     this.getLines.removeAt(tempId);
   }
 
-  public setImage(imageBase64: string | ArrayBuffer) {
+  public setImage(imageBase64: string | ArrayBuffer): void {
     this.createBrandForm.patchValue({imageBase64: imageBase64});
   }
 
