@@ -43,7 +43,6 @@ import {GlobalErrorHandler} from "./services/error-handler";
     ToastrModule.forRoot()
   ],
   providers: [
-    // { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   exports: [],

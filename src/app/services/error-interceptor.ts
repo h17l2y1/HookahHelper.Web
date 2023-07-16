@@ -1,38 +1,26 @@
-import {Injectable, Injector} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   HttpEvent, HttpRequest, HttpHandler,
-  HttpInterceptor, HttpErrorResponse
+  HttpInterceptor, HttpErrorResponse, HttpResponse
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
-import {ToastrService} from "ngx-toastr";
+import { Observable } from 'rxjs';
+import {GlobalErrorHandler} from "./error-handler";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector) { }
+  constructor(private error: GlobalErrorHandler) { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const notifier = this.injector.get(ToastrService);
-
-    return next.handle(request).pipe(
-      // @ts-ignore
-      catchError((error: HttpErrorResponse) => {
-        if (error.error instanceof ErrorEvent) {
-          console.log('This is client side error');
-          notifier.error('Server error');
-          // errorMsg = `Error: ${error.error.message}`;
-        } else {
-          console.log('This is server side error');
-          // errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return new Observable((observer) => {
+      next.handle(req).subscribe(res => {
+          if (res instanceof HttpResponse) {
+            observer.next(res);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          this.error.handleError(err);
         }
-        // if (error.status === 401) {
-        //   // refresh token
-        // } else {
-        //   console.log('error')
-        //   // return throwError(error);
-        //   return throwError('Valid token not returned');
-        // }
-      })
-    );
+      );
+    });
   }
 }

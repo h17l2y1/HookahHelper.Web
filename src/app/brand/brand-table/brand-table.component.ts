@@ -31,13 +31,8 @@ export class BrandTableComponent implements AfterViewInit  {
 
   constructor(
     public dialog: MatDialog,
-    private readonly brandService: BrandService,
-    private toastr: ToastrService
+    private readonly brandService: BrandService
   ) {}
-
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
-  }
 
   getError(): void {
     this.brandService.error().subscribe();
@@ -91,7 +86,6 @@ export class BrandTableComponent implements AfterViewInit  {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getBrands();
-      this.toastr.success('Hello world!', 'Toastr fun!');
     });
   }
 
