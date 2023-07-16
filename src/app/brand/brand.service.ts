@@ -33,4 +33,8 @@ export class BrandService {
   public remove(data: any): Observable<any> {
     return this.http.post<any>(this.rootUrl + 'Brand/Remove', data);
   }
+
+  public error(): Observable<void> {
+    return this.http.get<void>(this.rootUrl + 'Brand/Error');
+  }
 }

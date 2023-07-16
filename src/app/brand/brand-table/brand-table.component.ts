@@ -8,6 +8,7 @@ import {catchError, map, merge, Observable, of, startWith, switchMap, tap} from 
 import {Brand} from "../../interfaces/entity/brand";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-brand-table',
@@ -28,11 +29,19 @@ export class BrandTableComponent implements AfterViewInit  {
 
   public dataSource!: MatTableDataSource<Brand>;
 
-
   constructor(
     public dialog: MatDialog,
     private readonly brandService: BrandService,
+    private toastr: ToastrService
   ) {}
+
+  showSuccess() {
+    this.toastr.success('Hello world!', 'Toastr fun!');
+  }
+
+  getError(): void {
+    this.brandService.error().subscribe();
+  }
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -82,6 +91,7 @@ export class BrandTableComponent implements AfterViewInit  {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getBrands();
+      this.toastr.success('Hello world!', 'Toastr fun!');
     });
   }
 

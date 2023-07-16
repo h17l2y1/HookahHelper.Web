@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
@@ -15,6 +15,10 @@ import {AppComponent} from './app.component';
 import {SidenavComponent} from "./sidenav/sidenav.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {SharedModule} from "./shared/shared.module";
+import {ToastrModule} from "ngx-toastr";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ErrorInterceptor} from "./services/error-interceptor";
+import {GlobalErrorHandler} from "./services/error-handler";
 
 @NgModule({
   declarations: [
@@ -36,8 +40,12 @@ import {SharedModule} from "./shared/shared.module";
     MatExpansionModule,
     MatTooltipModule,
     RouterModule.forRoot([]),
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    // { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   exports: [],
   bootstrap: [AppComponent]
 })
