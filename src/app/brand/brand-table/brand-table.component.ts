@@ -1,25 +1,25 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../brand.service";
-import {catchError, map, merge, Observable, of, startWith, switchMap, tap} from "rxjs";
+import {forkJoin, map, merge, startWith, switchMap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
-import {GetAllResponse} from "../../interfaces/models/get-all-response";
+import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
+import {CountryService} from "../../services/country.service";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-brand-table',
   templateUrl: './brand-table.component.html',
   styleUrls: ['./brand-table.component.scss']
 })
-export class BrandTableComponent implements AfterViewInit  {
+export class BrandTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
+  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
   public totalRows = 0;
   public currentPage = 0;
   public pageSize = 5;
@@ -31,11 +31,9 @@ export class BrandTableComponent implements AfterViewInit  {
 
   constructor(
     public dialog: MatDialog,
-    private readonly brandService: BrandService
-  ) {}
-
-  getError(): void {
-    this.brandService.error().subscribe();
+    private readonly brandService: BrandService,
+    private readonly countryService: CountryService,
+  ) {
   }
 
   ngAfterViewInit(): void {
@@ -59,7 +57,6 @@ export class BrandTableComponent implements AfterViewInit  {
       )
       .subscribe((data: Brand[]) => {
         this.dataSource = new MatTableDataSource<Brand>(data);
-        // this.dataSource.data = data
       });
   }
 
@@ -72,7 +69,7 @@ export class BrandTableComponent implements AfterViewInit  {
     }
   }
 
-  public openDialog(): void {
+  public create(): void {
     const enterAnimationDuration = '600ms';
     const exitAnimationDuration = '400ms';
 
@@ -84,11 +81,28 @@ export class BrandTableComponent implements AfterViewInit  {
       exitAnimationDuration,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.getBrands();
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.getBrands()
+      }
     });
   }
 
+  public update(id: string): void {
+    const dialogRef = this.dialog.open(BrandEditorComponent, {
+      data: {id: id},
+    });
 
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.getBrands()
+      }
+    });
+  }
+
+  public delete(id: string): void {
+    // TODO: add popup
+    this.brandService.remove(id).subscribe(() => this.getBrands())
+  }
 
 }

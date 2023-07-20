@@ -17,6 +17,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     } else {
       // The backend returned an unsuccessful response code.
       errorMessage = "Server Error check console";
+      console.log(err.message)
     }
     this.toastr.error(errorMessage);
   }

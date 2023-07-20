@@ -1,8 +1,9 @@
 <div class="popup-container">
-  <form [formGroup]="createBrandForm" class="example-form">
+  <h1 mat-dialog-title>Редакувати Бренд</h1>
+  <form [formGroup]="brandForm" *ngIf="brandForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
-        <app-image-upload></app-image-upload>
+        <app-image-upload (newItemEvent)="addImage($event)"></app-image-upload>
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">

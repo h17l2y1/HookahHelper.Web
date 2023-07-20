@@ -39,10 +39,6 @@ table, th, td {
   box-shadow: none !important;
 }
 
-tr {
-  background-color: rgb(255 255 255 / 0%) !important;
-}
-
 .mat-mdc-dialog-surface {
   background-color: rgb(255 255 255 / 80%) !important;
   border-radius: 20px !important;
@@ -80,5 +76,17 @@ mat-paginator {
   color: aqua;
   font-size: 13px;
   font-weight: normal;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.delete {
+  color: #b70000;
+}
+
+.edit {
+  color: #404dff;
 }
 

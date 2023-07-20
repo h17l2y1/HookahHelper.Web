@@ -3,8 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Brand} from "../../interfaces/entity/brand";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreateBrand} from "../../interfaces/other/create-brand";
-import {Line} from "../../interfaces/entity/line";
-import {NewLine} from "../../interfaces/other/new-line";
 import {BrandService} from "../brand.service";
 
 @Component({
@@ -30,7 +28,7 @@ export class BrandCreateComponent implements OnInit {
   public onSave(): void {
     const request = this.createBrandForm.value as CreateBrand;
     request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';
-    request.image.name = `brand: ${request.name}`;
+    // request.image?.name = `brand: ${request.name}`;
 
     if (request.lines?.length){
       request.lines = undefined

@@ -1,4 +1,5 @@
 export interface Image {
-  base64: string;
+  id: string;
   name: string;
+  base64: string;
 }
