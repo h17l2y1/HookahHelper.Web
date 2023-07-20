@@ -15,6 +15,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatButtonModule,
     MatDialogModule,
     MatTableModule,
+    MatCardModule,
     SharedModule,
     MatPaginatorModule,
     MatSortModule,
