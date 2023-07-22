@@ -8,6 +8,7 @@ import {map, merge, startWith, switchMap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-brand-table',
@@ -30,7 +31,8 @@ export class BrandTableComponent implements AfterViewInit {
 
   constructor(
     public dialog: MatDialog,
-    private readonly brandService: BrandService) {
+    private readonly brandService: BrandService,
+    private router: Router) {
   }
 
   ngAfterViewInit(): void {
@@ -103,6 +105,10 @@ export class BrandTableComponent implements AfterViewInit {
   public delete(id: string): void {
     // TODO: add popup
     this.brandService.remove(id).subscribe(() => this.getBrands())
+  }
+
+  public onBrand(id: string) {
+    this.router.navigateByUrl(`/tobacco/${id}`);
   }
 
 }
