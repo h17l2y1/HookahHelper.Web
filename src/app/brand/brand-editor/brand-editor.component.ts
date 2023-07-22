@@ -54,16 +54,12 @@ export class BrandEditorComponent implements OnInit {
     }
 
     this.brandService.update(request).subscribe(() => {
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     });
   }
 
   public onCancel(): void {
     this.dialogRef.close();
-  }
-
-  public addImage(item: any): void {
-    this.brandForm.patchValue({image: {base64: item}})
   }
 
   private initBrandForm(brand: Brand): FormGroup {
@@ -103,10 +99,6 @@ export class BrandEditorComponent implements OnInit {
 
   public onRemove(tempId: number): void {
     this.getLines.removeAt(tempId);
-  }
-
-  public setImage(imageBase64: string | ArrayBuffer): void {
-    this.brandForm.patchValue({imageBase64: imageBase64});
   }
 
   get getLines(): FormArray {
