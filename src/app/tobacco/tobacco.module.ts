@@ -1,12 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TobaccoCreateComponent } from './tobacco-create/tobacco-create.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {TobaccoCreateComponent} from './tobacco-create/tobacco-create.component';
 import {TobaccoRoutingModule} from "./tobacco-routing.module";
-import { TobaccoTableComponent } from './tobacco-table/tobacco-table.component';
+import {TobaccoTableComponent} from './tobacco-table/tobacco-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
+import {TobaccoService} from "./tobacco.service";
+import {SharedModule} from "../shared/shared.module";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
+import {MatIconModule} from "@angular/material/icon";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -16,10 +25,22 @@ import {MatInputModule} from "@angular/material/input";
   imports: [
     CommonModule,
     TobaccoRoutingModule,
-    MatTableModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    MatInputModule
+    MatTableModule,
+    MatCardModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
   ],
+  providers: [
+    TobaccoService
+  ]
 })
-export class TobaccoModule { }
+export class TobaccoModule {
+}

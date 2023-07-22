@@ -1,42 +1,38 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-];
+import {TobaccoService} from "../tobacco.service";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {Tobacco} from "../../interfaces/entity/tobacco";
+import {GetAllResponse} from "../../interfaces/models/get-all-response";
 
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+export class TobaccoTableComponent implements AfterViewInit  {
+  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
 
-  constructor(public dialog: MatDialog) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  public totalRows = 0;
+  public currentPage = 0;
+  public pageSize = 2;
+  public pageSizeOptions = [2, 5, 10, 25, 100];
+  public filterBy?: string;
+  public isLoadingResults = true;
+
+  public tobaccos!: Tobacco[];
+
+  constructor(
+    public dialog: MatDialog,
+    private readonly tobaccoService: TobaccoService
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.getTobaccos();
+  }
 
   public openDialog(): void {
     const enterAnimationDuration = '600ms';
@@ -56,6 +52,30 @@ export class TobaccoTableComponent {
     });
   }
 
+  public getTobaccos(): void {
+    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filterBy)
+      .subscribe((data: GetAllResponse<Tobacco>) => {
+        this.tobaccos = data.list;
+        this.totalRows =data.total
+      });
+  }
 
+  handlePageEvent(e: PageEvent) {
+    this.pageSize = e.pageSize;
+    this.currentPage = e.pageIndex;
+    this.getTobaccos();
+  }
 
+  public applyFilter(event: Event): void {
+    this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.getTobaccos();
+
+    let firstPage = 0;
+    this.paginator.pageIndex = firstPage;
+    this.paginator.page.next({
+      pageIndex: firstPage,
+      pageSize: this.paginator.pageSize,
+      length: this.paginator.length
+    });
+  }
 }
