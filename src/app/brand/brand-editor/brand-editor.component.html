@@ -3,7 +3,10 @@
   <form [formGroup]="brandForm" *ngIf="brandForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
-        <app-image-upload (newItemEvent)="addImage($event)"></app-image-upload>
+        <app-image-upload
+          [currentImage]="brandForm.value.image?.base64"
+          (newItemEvent)="addImage($event)">
+        </app-image-upload>
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">

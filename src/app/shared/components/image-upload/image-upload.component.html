@@ -1,58 +1,16 @@
 <div class="image-uploader-container">
-
-  <div *ngIf="!previews.length" class="image-zone"></div>
-
-  <div *ngIf="previews.length">
-    <img *ngFor='let preview of previews' [src]="preview" class="preview" alt="image error">
-  </div>
-
-  <div *ngFor="let progressInfo of progressInfos">
-    <span>{{ progressInfo.fileName }}</span>
-    <mat-toolbar class="progress-bar">
-      <mat-progress-bar color="accent" [value]="progressInfo.value"></mat-progress-bar>
-      <span class="progress">{{ progressInfo.value }}%</span>
-    </mat-toolbar>
-  </div>
-
-<!--  <mat-form-field>-->
+  <div *ngIf="!currentImage; else elseBlock" class="image-zone">image-zone</div>
+  <ng-template #elseBlock>
+      <img [src]="currentImage" class="preview" alt="image error">
+  </ng-template>
     <div>
-<!--      <mat-toolbar>-->
-<!--        <button mat-flat-button color="primary"-->
-<!--          [disabled]="!selectedFiles"-->
-<!--          (click)="uploadFiles()">-->
-<!--          Upload-->
-<!--        </button>-->
-<!--      </mat-toolbar>-->
-
       <input
         class="input-fix"
         type="file"
         id="fileInput"
         name="fileInput"
-        accept="image/*" multiple
+        accept="image/*"
         (change)="selectFiles($event)">
       <label for="fileInput">Choose file</label>
     </div>
-<!--  </mat-form-field>-->
-
-  <div *ngIf="message.length" class="message">
-    <ul *ngFor="let msg of message; let i = index">
-      <li>{{ msg }}</li>
-    </ul>
-  </div>
-
-<!--  <mat-card class="list-card">-->
-<!--    <mat-card-header>-->
-<!--      <mat-card-title>List of Images</mat-card-title>-->
-<!--    </mat-card-header>-->
-<!--    <mat-card-content>-->
-<!--      <mat-list role="list">-->
-<!--        <mat-list-item role="listitem" *ngFor="let image of imageInfos | async" class="list-item">-->
-<!--          <p matLine><a href="{{ image.url }}">{{ image.name }}</a></p>-->
-<!--          <img src="{{ image.url }}" alt="{{ image.name }}" height="50px"/>-->
-<!--        </mat-list-item>-->
-<!--      </mat-list>-->
-<!--    </mat-card-content>-->
-<!--  </mat-card>-->
-
 </div>
