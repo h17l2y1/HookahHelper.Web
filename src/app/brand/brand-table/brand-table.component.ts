@@ -4,10 +4,9 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../brand.service";
-import {forkJoin, map, merge, startWith, switchMap} from "rxjs";
+import {map, merge, startWith, switchMap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
-import {CountryService} from "../../services/country.service";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
 
 @Component({
@@ -31,9 +30,7 @@ export class BrandTableComponent implements AfterViewInit {
 
   constructor(
     public dialog: MatDialog,
-    private readonly brandService: BrandService,
-    private readonly countryService: CountryService,
-  ) {
+    private readonly brandService: BrandService) {
   }
 
   ngAfterViewInit(): void {
@@ -74,11 +71,9 @@ export class BrandTableComponent implements AfterViewInit {
     const exitAnimationDuration = '400ms';
 
     const dialogRef = this.dialog.open(BrandCreateComponent, {
-      data: {},
-      height: '450px',
-      width: '900px',
+      data: null,
       enterAnimationDuration,
-      exitAnimationDuration,
+      exitAnimationDuration
     });
 
     dialogRef.afterClosed().subscribe(resp => {
@@ -89,8 +84,13 @@ export class BrandTableComponent implements AfterViewInit {
   }
 
   public update(id: string): void {
+    const enterAnimationDuration = '600ms';
+    const exitAnimationDuration = '400ms';
+
     const dialogRef = this.dialog.open(BrandEditorComponent, {
       data: {id: id},
+      enterAnimationDuration,
+      exitAnimationDuration,
     });
 
     dialogRef.afterClosed().subscribe(resp => {
