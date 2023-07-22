@@ -1,4 +1,12 @@
 <div class="tobacco-container">
+  <div class="tobacco-top-panel">
+    <mat-form-field>
+      <mat-label>Filter by Name</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+
+    <button class="button" mat-flat-button (click)="openDialog()">Create</button>
+  </div>
   <div class="card-container" >
     <mat-card class="tobacco-card"*ngFor="let tobacco of tobaccos">
       <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">

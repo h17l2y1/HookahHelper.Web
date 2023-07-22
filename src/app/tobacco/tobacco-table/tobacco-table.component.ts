@@ -65,4 +65,17 @@ export class TobaccoTableComponent implements AfterViewInit  {
     this.currentPage = e.pageIndex;
     this.getTobaccos();
   }
+
+  public applyFilter(event: Event): void {
+    this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.getTobaccos();
+
+    let firstPage = 0;
+    this.paginator.pageIndex = firstPage;
+    this.paginator.page.next({
+      pageIndex: firstPage,
+      pageSize: this.paginator.pageSize,
+      length: this.paginator.length
+    });
+  }
 }
