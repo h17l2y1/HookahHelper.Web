@@ -6,50 +6,71 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ActivatedRoute} from "@angular/router";
+import {BrandService} from "../../brand/brand.service";
+import {CountryService} from "../../services/country.service";
+import {forkJoin, tap} from "rxjs";
 
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent implements OnInit, AfterViewInit  {
+export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public totalRows = 0;
   public currentPage = 0;
-  public pageSize = 2;
-  public pageSizeOptions = [2, 5, 10, 25, 100];
+  public pageSize = 10;
+  public pageSizeOptions = [5, 10, 25, 100];
   public filterBy?: string;
-  public isLoadingResults = true;
 
   public tobaccos!: Tobacco[];
   private sub: any;
 
+  public brands$ = this.brandService.getOptions();
+  public countries$ = this.countryService.getOptions();
+  private brandId!: string | null;
+
   constructor(
     public dialog: MatDialog,
     private readonly tobaccoService: TobaccoService,
+    private readonly brandService: BrandService,
+    private readonly countryService: CountryService,
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(){
+  ngOnInit() {
+    // const brands$ = this.brandService.getOptions();
+    // const countries$ = this.countryService.getOptions();
+    //
+    // forkJoin([
+    //   brands$.pipe(tap(brands => {})),
+    //   countries$.pipe(tap(countries => {})),
+    // ]).subscribe();
+
     this.sub = this.route.params.subscribe(params => {
-      let id = this.route.snapshot.paramMap.get('id');
+      this.brandId = this.route.snapshot.paramMap.get('id');
       // if (id){
-      //   this.tobaccoService.getByBrandId(id).subscribe(response => {
-      //     this.tobaccos = response;
-      //   });
+      //   this.filterBy =
+      //   this.getTobaccos();
       //   return;
       // }
-      // this.tobaccoService.getAll().subscribe(response => {
-      //   this.tobaccos = response;
-      // })
+      // this.getTobaccos();
     });
   }
 
   ngAfterViewInit(): void {
     this.getTobaccos();
+  }
+
+  public getTobaccos(): void {
+    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filterBy)
+      .subscribe((data: GetAllResponse<Tobacco>) => {
+        this.tobaccos = data.list;
+        this.totalRows = data.total
+      });
   }
 
   public openDialog(): void {
@@ -70,15 +91,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit  {
     });
   }
 
-  public getTobaccos(): void {
-    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filterBy)
-      .subscribe((data: GetAllResponse<Tobacco>) => {
-        this.tobaccos = data.list;
-        this.totalRows =data.total
-      });
-  }
-
-  handlePageEvent(e: PageEvent) {
+  public handlePageEvent(e: PageEvent) {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
     this.getTobaccos();
@@ -86,8 +99,6 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit  {
 
   public applyFilter(event: Event): void {
     this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.getTobaccos();
-
     let firstPage = 0;
     this.paginator.pageIndex = firstPage;
     this.paginator.page.next({
@@ -95,5 +106,6 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit  {
       pageSize: this.paginator.pageSize,
       length: this.paginator.length
     });
+    this.getTobaccos();
   }
 }

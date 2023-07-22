@@ -5,11 +5,32 @@
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
 
-    <button class="button" mat-flat-button (click)="openDialog()">Create</button>
+    <mat-form-field>
+      <mat-label>Бренд</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let item of brands$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Країна</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+<!--    <button class="button" mat-flat-button (click)="openDialog()">Create</button>-->
   </div>
-  <div class="card-container" >
-    <mat-card class="tobacco-card"*ngFor="let tobacco of tobaccos">
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
+
+
+  <div class="card-container">
+    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos">
+      <img mat-card-image class="image" src="{{tobacco.image?.base64}}" alt="Photo of a Shiba Inu">
       <mat-card-content>
         <div class="rating"><span>Rating</span></div>
         <mat-card-title>{{tobacco.name}}</mat-card-title>

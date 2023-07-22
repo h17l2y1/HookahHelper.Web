@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {Brand} from "../interfaces/entity/brand";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {CreateBrand} from "../interfaces/other/create-brand";
+import {Tobacco} from "../interfaces/entity/tobacco";
 
 @Injectable()
 export class BrandService {
@@ -20,6 +21,10 @@ export class BrandService {
     }
 
     return this.http.get<GetAllResponse<Brand>>(this.rootUrl + `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`);
+  }
+
+  public getOptions(): Observable<Brand[]> {
+    return this.http.get<Brand[]>(this.rootUrl + 'Brand/GetOptions');
   }
 
   public getById(id: string): Observable<Brand> {
