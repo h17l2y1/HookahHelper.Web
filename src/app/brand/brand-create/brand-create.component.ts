@@ -11,7 +11,7 @@ import {BrandService} from "../brand.service";
   styleUrls: ['./brand-create.component.scss']
 })
 export class BrandCreateComponent implements OnInit {
-  public createBrandForm: FormGroup = this.initCreateTobaccoForm();
+  public createBrandForm: FormGroup = this.initCreateBrandForm();
   private tempId: number = 0;
 
   constructor(
@@ -43,7 +43,7 @@ export class BrandCreateComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private initCreateTobaccoForm(): FormGroup {
+  private initCreateBrandForm(): FormGroup {
     return this.formBuilder.group({
       image: this.formBuilder.group({
         name: null,
