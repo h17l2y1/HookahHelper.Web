@@ -8,6 +8,7 @@ import {map, merge, startWith, switchMap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
+import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
 import {Router} from "@angular/router";
 
 @Component({
@@ -103,8 +104,13 @@ export class BrandTableComponent implements AfterViewInit {
   }
 
   public delete(id: string): void {
-    // TODO: add popup
-    this.brandService.remove(id).subscribe(() => this.getBrands())
+    const dialogRef = this.dialog.open(ConfirmationPopupComponent);
+
+    dialogRef.afterClosed().subscribe(popupResponse => {
+      if (popupResponse) {
+        this.brandService.remove(id).subscribe(() => this.getBrands())
+      }
+    });
   }
 
   public onBrand(id: string) {
