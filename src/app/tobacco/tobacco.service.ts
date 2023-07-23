@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Tobacco} from "../interfaces/entity/tobacco";
+import {Filter} from "../interfaces/models/filter";
 
 @Injectable()
 export class TobaccoService {
@@ -13,12 +14,13 @@ export class TobaccoService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filterBy?: string): Observable<GetAllResponse<Tobacco>> {
-    if (filterBy){
-      return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + `Tobacco/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}&filterBy=${filterBy}`);
-    }
+  public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Tobacco>> {
+    let req = `Tobacco/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
+    req = filters?.name ? req + `&name=${filters.name}` : req;
+    req = filters?.brandId ? req + `&brandId=${filters.brandId}` : req;
+    req = filters?.countyId ? req + `&brandId=${filters.countyId}` : req;
 
-    return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + `Tobacco/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`);
+    return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
   }
 
   public create(data: Tobacco): Observable<void> {
