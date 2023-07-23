@@ -6,6 +6,7 @@ import {Brand} from "../interfaces/entity/brand";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {CreateBrand} from "../interfaces/other/create-brand";
 import {Tobacco} from "../interfaces/entity/tobacco";
+import {Filter} from "../interfaces/models/filter";
 
 @Injectable()
 export class BrandService {
@@ -15,12 +16,11 @@ export class BrandService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filterBy?: string): Observable<GetAllResponse<Brand>> {
-    if (filterBy){
-      return this.http.get<GetAllResponse<Brand>>(this.rootUrl + `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}&filterBy=${filterBy}`);
-    }
+  public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Brand>> {
+    let req = `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
+    req = filters?.name ? req + `&name=${filters.name}` : req;
 
-    return this.http.get<GetAllResponse<Brand>>(this.rootUrl + `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`);
+    return this.http.get<GetAllResponse<Brand>>(this.rootUrl + req);
   }
 
   public getOptions(): Observable<Brand[]> {

@@ -9,6 +9,7 @@ import {ActivatedRoute} from "@angular/router";
 import {BrandService} from "../../brand/brand.service";
 import {CountryService} from "../../services/country.service";
 import {forkJoin, tap} from "rxjs";
+import {Filter} from "../../interfaces/models/filter";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -25,7 +26,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public pageSize = 10;
   public pageSizeOptions = [5, 10, 25, 100];
   public filterBy?: string;
-
+  public filters!: Filter;
   public tobaccos!: Tobacco[];
   private sub: any;
 
@@ -58,6 +59,11 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       //   return;
       // }
       // this.getTobaccos();
+      this.filters = {
+        name: null,
+        brandId: this.brandId,
+        countyId: null,
+      };
     });
   }
 
@@ -66,7 +72,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   }
 
   public getTobaccos(): void {
-    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filterBy)
+    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filters)
       .subscribe((data: GetAllResponse<Tobacco>) => {
         this.tobaccos = data.list;
         this.totalRows = data.total
@@ -98,7 +104,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   }
 
   public applyFilter(event: Event): void {
-    this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.filters.name = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
     let firstPage = 0;
     this.paginator.pageIndex = firstPage;
     this.paginator.page.next({

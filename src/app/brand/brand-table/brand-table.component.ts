@@ -9,6 +9,7 @@ import {Brand} from "../../interfaces/entity/brand";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
 import {Router} from "@angular/router";
+import {Filter} from "../../interfaces/models/filter";
 
 @Component({
   selector: 'app-brand-table',
@@ -24,7 +25,7 @@ export class BrandTableComponent implements AfterViewInit {
   public currentPage = 0;
   public pageSize = 5;
   public pageSizeOptions = [5, 10, 25, 100];
-  public filterBy?: string;
+  public filters!: Filter;
   public isLoadingResults = true;
 
   public dataSource!: MatTableDataSource<Brand>;
@@ -46,7 +47,7 @@ export class BrandTableComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filterBy)
+          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filters)
         }),
         map(data => {
           this.isLoadingResults = false;
@@ -60,7 +61,9 @@ export class BrandTableComponent implements AfterViewInit {
   }
 
   public applyFilter(event: Event): void {
-    this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.filters = {
+      name: (event.target as HTMLInputElement).value.trim().toLowerCase()
+    };
     this.getBrands();
 
     if (this.dataSource.paginator) {
