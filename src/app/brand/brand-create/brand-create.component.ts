@@ -35,16 +35,12 @@ export class BrandCreateComponent implements OnInit {
     }
 
     this.brandService.create(request).subscribe(() => {
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     });
   }
 
   public onCancel(): void {
     this.dialogRef.close();
-  }
-
-  public addImage(item: any): void {
-    this.createBrandForm.patchValue({image:{base64: item}})
   }
 
   private initCreateTobaccoForm(): FormGroup {
@@ -75,10 +71,6 @@ export class BrandCreateComponent implements OnInit {
 
   public onRemove(tempId: number): void {
     this.getLines.removeAt(tempId);
-  }
-
-  public setImage(imageBase64: string | ArrayBuffer): void {
-    this.createBrandForm.patchValue({imageBase64: imageBase64});
   }
 
   get getLines(): FormArray {

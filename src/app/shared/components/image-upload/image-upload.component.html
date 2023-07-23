@@ -1,16 +1,16 @@
 <div class="image-uploader-container">
-  <div *ngIf="!currentImage; else elseBlock" class="image-zone">image-zone</div>
+  <div *ngIf="!control?.value; else elseBlock" class="image-zone">image-zone</div>
   <ng-template #elseBlock>
-      <img [src]="currentImage" class="preview" alt="image error">
+    <img [src]="control?.value" class="preview" alt="image error">
   </ng-template>
-    <div>
-      <input
-        class="input-fix"
-        type="file"
-        id="fileInput"
-        name="fileInput"
-        accept="image/*"
-        (change)="selectFiles($event)">
-      <label for="fileInput">Choose file</label>
-    </div>
+  <div>
+    <input
+      class="input-fix"
+      type="file"
+      id="fileInput"
+      name="fileInput"
+      accept="image/*"
+      (change)="selectFiles($event)">
+    <label for="fileInput">Choose file</label>
+  </div>
 </div>

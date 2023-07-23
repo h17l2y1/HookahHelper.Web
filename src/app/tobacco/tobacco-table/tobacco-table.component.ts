@@ -1,17 +1,18 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
 import {TobaccoService} from "../tobacco.service";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent implements AfterViewInit  {
+export class TobaccoTableComponent implements OnInit, AfterViewInit  {
   public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -24,11 +25,28 @@ export class TobaccoTableComponent implements AfterViewInit  {
   public isLoadingResults = true;
 
   public tobaccos!: Tobacco[];
+  private sub: any;
 
   constructor(
     public dialog: MatDialog,
-    private readonly tobaccoService: TobaccoService
+    private readonly tobaccoService: TobaccoService,
+    private route: ActivatedRoute
   ) {}
+
+  ngOnInit(){
+    this.sub = this.route.params.subscribe(params => {
+      let id = this.route.snapshot.paramMap.get('id');
+      // if (id){
+      //   this.tobaccoService.getByBrandId(id).subscribe(response => {
+      //     this.tobaccos = response;
+      //   });
+      //   return;
+      // }
+      // this.tobaccoService.getAll().subscribe(response => {
+      //   this.tobaccos = response;
+      // })
+    });
+  }
 
   ngAfterViewInit(): void {
     this.getTobaccos();

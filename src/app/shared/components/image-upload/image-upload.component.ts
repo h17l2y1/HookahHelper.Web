@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroupDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-image-upload',
@@ -6,21 +7,24 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./image-upload.component.scss']
 })
 
-export class ImageUploadComponent {
-  @Input() currentImage?: string;
-  @Output() newItemEvent: EventEmitter<string> = new EventEmitter<string>();
+export class ImageUploadComponent implements OnInit {
+  public control!: FormControl;
 
-  constructor() {
+  constructor(private rootFormGroup: FormGroupDirective) {
+  }
+
+  ngOnInit(): void {
+    this.control = this.rootFormGroup.control.get('image.base64') as FormControl;
   }
 
   public selectFiles(event: any): void {
-    this.currentImage = '';
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (e: any) => {
-      this.newItemEvent.emit(e.target.result);
-      this.currentImage = e.target.result;
+      this.control?.setValue(e.target.result);
     };
   }
+
+
 
 }
