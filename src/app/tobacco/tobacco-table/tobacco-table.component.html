@@ -1,15 +1,36 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
-    <mat-form-field>
-      <mat-label>Filter by Name</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
-    </mat-form-field>
+    <form [formGroup]="filterForm" class="example-form">
+      <mat-form-field>
+        <mat-label>Filter by Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Бренд</mat-label>
+        <mat-select formControlName="brandId">
+          <mat-option *ngFor="let item of brands$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Країна</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
 
-    <button class="button" mat-flat-button (click)="openDialog()">Create</button>
+<!--    <button class="button" mat-flat-button (click)="openDialog()">Create</button>-->
   </div>
-  <div class="card-container" >
-    <mat-card class="tobacco-card"*ngFor="let tobacco of tobaccos">
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
+
+
+  <div class="card-container">
+    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos">
+      <img mat-card-image class="image" src="{{tobacco.image?.base64}}" alt="Photo of a Shiba Inu">
       <mat-card-content>
         <div class="rating"><span>Rating</span></div>
         <mat-card-title>{{tobacco.name}}</mat-card-title>

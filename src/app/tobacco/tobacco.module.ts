@@ -16,6 +16,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
+import {BrandService} from "../brand/brand.service";
+import {CountryService} from "../services/country.service";
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import {MatCardModule} from "@angular/material/card";
     MatProgressSpinnerModule,
   ],
   providers: [
-    TobaccoService
+    TobaccoService,
+    BrandService,
+    CountryService
   ]
 })
 export class TobaccoModule {

@@ -6,50 +6,98 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ActivatedRoute} from "@angular/router";
+import {BrandService} from "../../brand/brand.service";
+import {CountryService} from "../../services/country.service";
+import {forkJoin, Observable, tap} from "rxjs";
+import {Filter} from "../../interfaces/models/filter";
+import {Brand} from "../../interfaces/entity/brand";
+import {Country} from "../../interfaces/entity/country";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent implements OnInit, AfterViewInit  {
-  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
-
+export class TobaccoTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public totalRows = 0;
   public currentPage = 0;
-  public pageSize = 2;
-  public pageSizeOptions = [2, 5, 10, 25, 100];
-  public filterBy?: string;
-  public isLoadingResults = true;
-
+  public pageSize = 10;
+  public pageSizeOptions = [5, 10, 25, 100];
+  public filters!: Filter;
   public tobaccos!: Tobacco[];
-  private sub: any;
+  public brands$: Observable<Brand[]> = this.brandService.getOptions();
+  public countries$: Observable<Country[]>  = this.countryService.getOptions();
+  public brandId!: string | null;
+  public filterForm!: FormGroup;
+
+  public brandControl = this.formBuilder.control('');
+  public countyControl = this.formBuilder.control('');
 
   constructor(
     public dialog: MatDialog,
-    private readonly tobaccoService: TobaccoService,
-    private route: ActivatedRoute
+    private tobaccoService: TobaccoService,
+    private brandService: BrandService,
+    private countryService: CountryService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit(){
-    this.sub = this.route.params.subscribe(params => {
-      let id = this.route.snapshot.paramMap.get('id');
-      // if (id){
-      //   this.tobaccoService.getByBrandId(id).subscribe(response => {
-      //     this.tobaccos = response;
-      //   });
-      //   return;
-      // }
-      // this.tobaccoService.getAll().subscribe(response => {
-      //   this.tobaccos = response;
-      // })
+  ngOnInit() {
+    this.initFilterForm();
+
+    this.filterForm.valueChanges.pipe(
+      tap((filters: Filter) => {
+        this.filters = filters;
+        this.getTobaccos();
+      })
+    ).subscribe();
+
+    // this.brandControl.valueChanges.pipe(
+    //   tap(data => {
+    //     console.log('brand pipe')
+    //   })
+    // ).subscribe();
+
+    this.countyControl.valueChanges.pipe(
+      tap(data => {
+        this.brandControl.setValue(null, {emitEvent: false});
+      })
+    ).subscribe();
+
+
+    this.route.params.subscribe(params => {
+      this.brandId = this.route.snapshot.paramMap.get('id');
+      this.filters = {
+        name: null,
+        brandId: this.brandId,
+        countryId: null,
+      };
+
+      this.brandControl.setValue(this.brandId, {emitEvent: false});
     });
   }
 
   ngAfterViewInit(): void {
     this.getTobaccos();
+  }
+
+  public getTobaccos(): void {
+    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filters)
+      .subscribe((data: GetAllResponse<Tobacco>) => {
+        this.tobaccos = data.list;
+        this.totalRows = data.total
+      });
+  }
+
+  private initFilterForm(): void {
+    this.filterForm = this.formBuilder.group({
+      name: null,
+      brandId: this.brandControl,
+      countryId: this.countyControl
+    })
   }
 
   public openDialog(): void {
@@ -70,23 +118,14 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit  {
     });
   }
 
-  public getTobaccos(): void {
-    this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filterBy)
-      .subscribe((data: GetAllResponse<Tobacco>) => {
-        this.tobaccos = data.list;
-        this.totalRows =data.total
-      });
-  }
-
-  handlePageEvent(e: PageEvent) {
+  public handlePageEvent(e: PageEvent) {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
     this.getTobaccos();
   }
 
   public applyFilter(event: Event): void {
-    this.filterBy = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.getTobaccos();
+    this.filters.name = (event.target as HTMLInputElement).value.trim().toLowerCase();
 
     let firstPage = 0;
     this.paginator.pageIndex = firstPage;
@@ -95,5 +134,6 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit  {
       pageSize: this.paginator.pageSize,
       length: this.paginator.length
     });
+    this.getTobaccos();
   }
 }
