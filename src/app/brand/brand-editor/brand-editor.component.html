@@ -1,6 +1,6 @@
-<div class="popup-container">
+<div class="popup-container" *ngIf="brandForm">
   <h1 mat-dialog-title>Редакувати Бренд</h1>
-  <form [formGroup]="brandForm" *ngIf="brandForm" class="example-form">
+  <form [formGroup]="brandForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
         <app-image-upload></app-image-upload>
@@ -11,8 +11,12 @@
           <input matInput formControlName="name">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Країна виробник</mat-label>
-          <input matInput formControlName="countryId">
+          <mat-label>Країна</mat-label>
+          <mat-select formControlName="countryId">
+            <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Опис</mat-label>
@@ -40,6 +44,6 @@
   </form>
   <div mat-dialog-actions class="popup-action-container">
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
-    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Сохранити</button>
   </div>
 </div>

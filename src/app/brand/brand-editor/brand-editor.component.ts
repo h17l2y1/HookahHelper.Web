@@ -5,10 +5,8 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreateBrand} from "../../interfaces/other/create-brand";
 import {Line} from "../../interfaces/entity/line";
 import {BrandService} from "../brand.service";
-import {combineLatest, forkJoin, map, switchMap, take, tap} from "rxjs";
+import {tap} from "rxjs";
 import {CountryService} from "../../services/country.service";
-import {Country} from "../../interfaces/entity/country";
-import {GetAllResponse} from "../../interfaces/models/get-all-response";
 
 @Component({
   selector: 'app-brand-editor',
@@ -18,7 +16,9 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 export class BrandEditorComponent implements OnInit {
   public brandForm!: FormGroup;
   private tempId: number = 0;
-  private resp!: GetAllResponse<Country>;
+  public countyControl = this.formBuilder.control('', [Validators.required]);
+  public brand$ = this.brandService.getById(this.data.id);
+  public countries$ = this.countryService.getOptions();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: string },
@@ -33,20 +33,15 @@ export class BrandEditorComponent implements OnInit {
   }
 
   private getUpdateData(): void {
-    const brand$ = this.brandService.getById(this.data.id);
-    const options$ = this.countryService.getAll();
-
-    forkJoin([brand$.pipe(
-      tap(res => {
-        this.brandForm = this.initBrandForm(res);
+    this.brand$.pipe(
+      tap(response => {
+        this.brandForm = this.initBrandUpdateForm(response);
       })
-    ), options$]).subscribe();
+    ).subscribe()
   }
 
-  // TODO! edit country logic
   public onSave(): void {
-    const request = this.brandForm.value as CreateBrand;
-    request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';
+    const request: CreateBrand = this.brandForm.value;
     request.image.name = `brand: ${request.name}`;
 
     if (request.lines?.length) {
@@ -62,7 +57,9 @@ export class BrandEditorComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private initBrandForm(brand: Brand): FormGroup {
+  private initBrandUpdateForm(brand: Brand): FormGroup {
+    this.countyControl.setValue(brand.country.id);
+
     return this.formBuilder.group({
       id: brand.id,
       image: this.formBuilder.group({
@@ -72,7 +69,7 @@ export class BrandEditorComponent implements OnInit {
       }),
       name: [brand.name, [Validators.required]],
       description: brand.description,
-      countryId: [{value: brand.country.name, disabled: true}, [Validators.required]],
+      countryId: this.countyControl,
       lines: brand.lines ? this.setLines(brand.lines) : [],
     });
   };
@@ -87,10 +84,6 @@ export class BrandEditorComponent implements OnInit {
     })
 
     return this.formBuilder.array(arr);
-  }
-
-  public onNoClick(): void {
-    this.dialogRef.close();
   }
 
   private getNextId(): number {

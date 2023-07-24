@@ -10,8 +10,12 @@
           <input matInput formControlName="name">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Країна виробник</mat-label>
-          <input matInput formControlName="countryId">
+          <mat-label>Країна</mat-label>
+          <mat-select formControlName="countryId">
+            <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Опис</mat-label>

@@ -4,6 +4,7 @@ import {Brand} from "../../interfaces/entity/brand";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreateBrand} from "../../interfaces/other/create-brand";
 import {BrandService} from "../brand.service";
+import {CountryService} from "../../services/country.service";
 
 @Component({
   selector: 'app-brand-create',
@@ -13,23 +14,23 @@ import {BrandService} from "../brand.service";
 export class BrandCreateComponent implements OnInit {
   public createBrandForm: FormGroup = this.initCreateTobaccoForm();
   private tempId: number = 0;
+  public countries$ = this.countryService.getOptions();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Brand,
     public dialogRef: MatDialogRef<BrandCreateComponent>,
     private formBuilder: FormBuilder,
-    private readonly brandService: BrandService) {
+    private readonly brandService: BrandService,
+    private readonly countryService: CountryService,
+  ) {
   }
 
   ngOnInit(): void {
   }
 
-  // TODO! edit country logic
   public onSave(): void {
-    const request = this.createBrandForm.value as CreateBrand;
-    request.countryId = 'Ukraine';
+    const request: CreateBrand = this.createBrandForm.value;
     request.image.name = `brand: ${request.name}`;
-
     if (request.lines?.length){
       request.lines = undefined
     }
@@ -51,7 +52,7 @@ export class BrandCreateComponent implements OnInit {
       }),
       name: [null, [Validators.required]],
       description: null,
-      countryId: [{ value: null, disabled: true }, [Validators.required]],
+      countryId: [null, [Validators.required]],
       lines: this.formBuilder.array([
         this.formBuilder.group({
           tempId: this.formBuilder.control(this.getNextId()),
@@ -60,10 +61,6 @@ export class BrandCreateComponent implements OnInit {
       ]),
     });
   };
-
-  public onNoClick(): void {
-    this.dialogRef.close();
-  }
 
   private getNextId(): number {
     return ++this.tempId;

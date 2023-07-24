@@ -1,23 +1,25 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../brand.service";
-import {map, merge, startWith, switchMap} from "rxjs";
+import {map, merge, startWith, switchMap, tap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
 import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
 import {Router} from "@angular/router";
 import {Filter} from "../../interfaces/models/filter";
+import {CountryService} from "../../services/country.service";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-brand-table',
   templateUrl: './brand-table.component.html',
   styleUrls: ['./brand-table.component.scss']
 })
-export class BrandTableComponent implements AfterViewInit {
+export class BrandTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -26,15 +28,30 @@ export class BrandTableComponent implements AfterViewInit {
   public currentPage = 0;
   public pageSize = 5;
   public pageSizeOptions = [5, 10, 25, 100];
-  public filters!: Filter;
+  public filters: Filter = {
+    name: null,
+    brandId: null,
+    countryId: null
+  };
   public isLoadingResults = true;
 
   public dataSource!: MatTableDataSource<Brand>;
+  public countries$ = this.countryService.getOptions();
+  public countryControl = this.formBuilder.control('');
 
   constructor(
     public dialog: MatDialog,
-    private readonly brandService: BrandService,
+    private brandService: BrandService,
+    private countryService: CountryService,
+    private formBuilder: FormBuilder,
     private router: Router) {
+  }
+
+  ngOnInit(): void {
+    this.countryControl.valueChanges.pipe(tap(countryId => {
+      this.filters.countryId = countryId
+      this.getBrands();
+    })).subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -62,9 +79,7 @@ export class BrandTableComponent implements AfterViewInit {
   }
 
   public applyFilter(event: Event): void {
-    this.filters = {
-      name: (event.target as HTMLInputElement).value.trim().toLowerCase()
-    };
+    this.filters.name = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.getBrands();
 
     if (this.dataSource.paginator) {
