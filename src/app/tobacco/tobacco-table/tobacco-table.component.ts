@@ -8,8 +8,11 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ActivatedRoute} from "@angular/router";
 import {BrandService} from "../../brand/brand.service";
 import {CountryService} from "../../services/country.service";
-import {forkJoin, tap} from "rxjs";
+import {forkJoin, Observable, tap} from "rxjs";
 import {Filter} from "../../interfaces/models/filter";
+import {Brand} from "../../interfaces/entity/brand";
+import {Country} from "../../interfaces/entity/country";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -17,53 +20,63 @@ import {Filter} from "../../interfaces/models/filter";
   styleUrls: ['./tobacco-table.component.scss']
 })
 export class TobaccoTableComponent implements OnInit, AfterViewInit {
-  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country'];
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public totalRows = 0;
   public currentPage = 0;
   public pageSize = 10;
   public pageSizeOptions = [5, 10, 25, 100];
-  public filterBy?: string;
   public filters!: Filter;
   public tobaccos!: Tobacco[];
-  private sub: any;
+  public brands$: Observable<Brand[]> = this.brandService.getOptions();
+  public countries$: Observable<Country[]>  = this.countryService.getOptions();
+  public brandId!: string | null;
+  public filterForm!: FormGroup;
 
-  public brands$ = this.brandService.getOptions();
-  public countries$ = this.countryService.getOptions();
-  private brandId!: string | null;
+  public brandControl = this.formBuilder.control('');
+  public countyControl = this.formBuilder.control('');
 
   constructor(
     public dialog: MatDialog,
-    private readonly tobaccoService: TobaccoService,
-    private readonly brandService: BrandService,
-    private readonly countryService: CountryService,
-    private route: ActivatedRoute
+    private tobaccoService: TobaccoService,
+    private brandService: BrandService,
+    private countryService: CountryService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    // const brands$ = this.brandService.getOptions();
-    // const countries$ = this.countryService.getOptions();
-    //
-    // forkJoin([
-    //   brands$.pipe(tap(brands => {})),
-    //   countries$.pipe(tap(countries => {})),
-    // ]).subscribe();
+    this.initFilterForm();
 
-    this.sub = this.route.params.subscribe(params => {
+    this.filterForm.valueChanges.pipe(
+      tap((filters: Filter) => {
+        this.filters = filters;
+        this.getTobaccos();
+      })
+    ).subscribe();
+
+    // this.brandControl.valueChanges.pipe(
+    //   tap(data => {
+    //     console.log('brand pipe')
+    //   })
+    // ).subscribe();
+
+    this.countyControl.valueChanges.pipe(
+      tap(data => {
+        this.brandControl.setValue(null, {emitEvent: false});
+      })
+    ).subscribe();
+
+
+    this.route.params.subscribe(params => {
       this.brandId = this.route.snapshot.paramMap.get('id');
-      // if (id){
-      //   this.filterBy =
-      //   this.getTobaccos();
-      //   return;
-      // }
-      // this.getTobaccos();
       this.filters = {
         name: null,
         brandId: this.brandId,
-        countyId: null,
+        countryId: null,
       };
+
+      this.brandControl.setValue(this.brandId, {emitEvent: false});
     });
   }
 
@@ -77,6 +90,14 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         this.tobaccos = data.list;
         this.totalRows = data.total
       });
+  }
+
+  private initFilterForm(): void {
+    this.filterForm = this.formBuilder.group({
+      name: null,
+      brandId: this.brandControl,
+      countryId: this.countyControl
+    })
   }
 
   public openDialog(): void {

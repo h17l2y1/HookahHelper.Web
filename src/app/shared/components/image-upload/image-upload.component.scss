@@ -1,87 +1,32 @@
-.image-uploader-container {
-
-  label {
-    cursor: pointer;
-    margin-top: 1rem;
-    background-color: rgb(255 255 255 / 50%) !important;
-    border-radius: 14px !important;
-    height: 30px;
-    font-weight: 700;
-    justify-content: center;
-    display: flex;
-    padding-top: 10px;
-  }
-
-  .input-fix {
-    height: 1px !important;
-  }
-
-  .image-zone {
-    width: 278px;
-    height: 250px;
-    background-color: #e3e3e3;
-    border: 1px dashed black;
-  }
-
-  .progress-bar {
-    padding: 0;
-  }
-
-  .progress {
-    width: 50px;
-  }
-
-  .mat-input-element {
-    font-size: medium;
-    font-weight: 200;
-  }
-
-  #fileInput {
-    position: absolute;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0;
-    height: 100%;
-    left: 0px;
-    top: 0px;
-  }
-
-  .mat-toolbar-single-row {
-    height: auto !important;
-    background: transparent;
-    padding: 0;
-  }
-
-  .mat-toolbar-single-row button {
-    width: 100px;
-  }
-
-  .mat-form-field {
-    width: 100%;
-  }
-
-  .message {
-    background-color: #ddd;
-    padding: 15px;
-    color: #333;
-    border: #aaa solid 1px;
-    border-radius: 4px;
-    margin: 15px 0;
-  }
-
-  .preview {
-    max-width: 278px;
-    max-height: 250px;
-    vertical-align: middle;
-  }
-
-  .list-card {
-    margin-top: 20px;
-  }
-
-  .list-item {
-    margin-bottom: 20px;
-  }
-
+.choose-file-area {
+  width: 100%;
 }
 
+.final-result {
+  border: 1px solid black;
+  width: 100%;
+}
+
+.mat-toolbar-single-row {
+  height: 20px;
+  background: transparent;
+}
+
+.mat-toolbar-single-row button {
+  width: 200px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+#uploadFile {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+}
