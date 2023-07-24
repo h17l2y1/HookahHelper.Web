@@ -14,10 +14,7 @@
     [maintainAspectRatio]="true"
     [aspectRatio]="4 / 3"
     format="png"
-    (imageCropped)="imageCropped($event)"
-    (imageLoaded)="imageLoaded()"
-    (cropperReady)="cropperReady()"
-    (loadImageFailed)="loadImageFailed()">
+    (imageCropped)="imageCropped($event)">
   </image-cropper>
   <hr>
   <img class="final-result" [src]="croppedImage">

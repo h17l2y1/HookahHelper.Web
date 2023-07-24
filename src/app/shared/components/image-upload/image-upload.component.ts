@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective} from "@angular/forms";
 import {DomSanitizer} from "@angular/platform-browser";
-import {ImageCroppedEvent, LoadedImage} from "ngx-image-cropper";
+import {ImageCroppedEvent} from "ngx-image-cropper";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-image-upload',
@@ -10,7 +11,7 @@ import {ImageCroppedEvent, LoadedImage} from "ngx-image-cropper";
 })
 
 export class ImageUploadComponent implements OnInit {
-  public control!: FormControl;
+  public imageControl!: FormControl;
   imageChangedEvent: any = '';
   croppedImage: any = '';
   fileAttr = 'Choose File';
@@ -20,7 +21,7 @@ export class ImageUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.control = this.rootFormGroup.control.get('image.base64') as FormControl;
+    this.imageControl = this.rootFormGroup.control.get('image.base64') as FormControl;
   }
 
   fileChangeEvent(event: any): void {
@@ -31,7 +32,7 @@ export class ImageUploadComponent implements OnInit {
   async imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl as string);
     const base64 = await this.convertBlobToBase64(event.blob);
-    this.control?.setValue(base64);
+    this.imageControl?.setValue(base64);
   }
 
   private convertBlobToBase64 = (blob: any) => new Promise((resolve, reject) => {
@@ -42,19 +43,4 @@ export class ImageUploadComponent implements OnInit {
     };
     reader.readAsDataURL(blob);
   });
-
-  imageLoaded(image?: LoadedImage) {
-    // show cropper
-    // console.log('imageLoaded')
-  }
-
-  cropperReady() {
-    // cropper ready
-    // console.log('cropperReady')
-  }
-
-  loadImageFailed() {
-    // show message
-  }
-
 }
