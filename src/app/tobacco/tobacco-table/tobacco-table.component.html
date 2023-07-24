@@ -1,27 +1,27 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
-    <mat-form-field>
-      <mat-label>Filter by Name</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Бренд</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let item of brands$ | async" [value]="item.id">
-          {{item.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Країна</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
-          {{item.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <form [formGroup]="filterForm" class="example-form">
+      <mat-form-field>
+        <mat-label>Filter by Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Бренд</mat-label>
+        <mat-select formControlName="brandId">
+          <mat-option *ngFor="let item of brands$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Країна</mat-label>
+        <mat-select formControlName="countryId">
+          <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
 
 <!--    <button class="button" mat-flat-button (click)="openDialog()">Create</button>-->
   </div>

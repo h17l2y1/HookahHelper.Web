@@ -6,14 +6,15 @@ export interface Tobacco {
   id: string;
   name: string;
   description: string;
-  sweetness: number;
-  acidity: number;
-  spice: number;
-  freshness: number;
-  rating: number;
-  taste: number;
-  fortress: number;
-  smokiness: number;
+  // sweetness: number;
+  // acidity: number;
+  // spice: number;
+  // freshness: number;
+  // rating: number;
+  // taste: number;
+  // fortress: number;
+  // smokiness: number;
+  brandId: string;
   line: Line;
   image: Image;
 }
