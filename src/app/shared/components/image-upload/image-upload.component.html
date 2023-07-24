@@ -1,16 +1,26 @@
-<div class="image-uploader-container">
-  <div *ngIf="!control?.value; else elseBlock" class="image-zone">image-zone</div>
-  <ng-template #elseBlock>
-    <img [src]="control?.value" class="preview" alt="image error">
-  </ng-template>
+<mat-form-field class="choose-file-area">
   <div>
-    <input
-      class="input-fix"
-      type="file"
-      id="fileInput"
-      name="fileInput"
-      accept="image/*"
-      (change)="selectFiles($event)">
-    <label for="fileInput">Choose file</label>
+    <mat-toolbar>
+      <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+      <button mat-flat-button color="primary">Browse File</button>
+    </mat-toolbar>
+    <input id="uploadFile" name="uploadFile" type="file" (change)="fileChangeEvent($event)">
   </div>
-</div>
+</mat-form-field>
+
+<ng-container *ngIf="isFileChoose">
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()">
+  </image-cropper>
+  <hr>
+  <img class="final-result" [src]="croppedImage">
+</ng-container>
+
+
