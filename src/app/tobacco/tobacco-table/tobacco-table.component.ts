@@ -28,8 +28,13 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public pageSizeOptions = [5, 10, 25, 100];
   public filters!: Filter;
   public tobaccos!: Tobacco[];
-  public brands$: Observable<Brand[]> = this.brandService.getOptions();
-  public countries$: Observable<Country[]>  = this.countryService.getOptions();
+  private brandsOption? : Brand[];
+  public brands$: Observable<Brand[]> = this.brandService.getOptions().pipe(
+    tap(response => {
+      this.brandsOption = response;
+    })
+  );
+  public countries$: Observable<Country[]> = this.countryService.getOptions();
   public brandId!: string | null;
   public filterForm!: FormGroup;
 
@@ -43,7 +48,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     private countryService: CountryService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.initFilterForm();
@@ -105,7 +111,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     const exitAnimationDuration = '400ms';
 
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
-      data: {},
+      data: {
+        brandId: this.brandId,
+        brandsOption: this.brandsOption
+      },
       height: '400px',
       width: '600px',
       enterAnimationDuration,

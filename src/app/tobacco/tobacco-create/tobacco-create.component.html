@@ -13,24 +13,15 @@
           <mat-label>Опис</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>Бренд</mat-label>
+          <mat-select formControlName="brandId">
+            <mat-option *ngFor="let item of data.brandsOption " [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-<!--      <div class="side">-->
-<!--        <button class="button add-line-btn example-full-width" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>-->
-<!--        <div formArrayName="lines">-->
-<!--          <div *ngFor="let line of getLines.controls; let i=index" class="brand-line-container">-->
-<!--            <div [formGroupName]="i" class="inp-brand-line">-->
-<!--              <mat-form-field class="example-full-width" appearance="fill">-->
-<!--                <mat-label>Назва лiнiйки</mat-label>-->
-<!--                <input formControlName="name" matInput>-->
-<!--              </mat-form-field>-->
-<!--              <br>-->
-<!--            </div>-->
-<!--            <button mat-mini-fab color="warn" class="btn-remove" (click)="onRemove(i)">-->
-<!--              <mat-icon>delete</mat-icon>-->
-<!--            </button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
