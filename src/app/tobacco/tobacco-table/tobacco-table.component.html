@@ -21,6 +21,14 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Лінійка</mat-label>
+        <mat-select formControlName="lineId">
+          <mat-option *ngFor="let item of linesOption" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </form>
 
     <button class="button" mat-flat-button (click)="openDialog()">Create</button>

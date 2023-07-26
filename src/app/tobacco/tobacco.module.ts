@@ -18,6 +18,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {BrandService} from "../brand/brand.service";
 import {CountryService} from "../services/country.service";
+import {LineService} from "../services/line.service";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {CountryService} from "../services/country.service";
   providers: [
     TobaccoService,
     BrandService,
-    CountryService
+    CountryService,
+    LineService
   ]
 })
 export class TobaccoModule {
