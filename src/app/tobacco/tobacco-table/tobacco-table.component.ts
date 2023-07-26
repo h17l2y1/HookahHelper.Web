@@ -8,11 +8,13 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ActivatedRoute} from "@angular/router";
 import {BrandService} from "../../brand/brand.service";
 import {CountryService} from "../../services/country.service";
-import {forkJoin, Observable, tap} from "rxjs";
+import {filter, forkJoin, Observable, switchMap, tap} from "rxjs";
 import {Filter} from "../../interfaces/models/filter";
 import {Brand} from "../../interfaces/entity/brand";
 import {Country} from "../../interfaces/entity/country";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Line} from "../../interfaces/entity/line";
+import {LineService} from "../../services/line.service";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -28,22 +30,32 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public pageSizeOptions = [5, 10, 25, 100];
   public filters!: Filter;
   public tobaccos!: Tobacco[];
-  public brands$: Observable<Brand[]> = this.brandService.getOptions();
-  public countries$: Observable<Country[]>  = this.countryService.getOptions();
+  private brandsOption?: Brand[];
+  public linesOption: Line[]=[];
+  public brands$: Observable<Brand[]> = this.brandService.getOptions().pipe(
+    tap(response => {
+      this.brandsOption = response;
+    })
+  );
+  public countries$: Observable<Country[]> = this.countryService.getOptions();
   public brandId!: string | null;
+  // public leines$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.brandId);
   public filterForm!: FormGroup;
 
   public brandControl = this.formBuilder.control('');
   public countyControl = this.formBuilder.control('');
+  public lineControl = this.formBuilder.control('');
 
   constructor(
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
     private brandService: BrandService,
     private countryService: CountryService,
+    private lineService: LineService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.initFilterForm();
@@ -55,12 +67,20 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       })
     ).subscribe();
 
-    // this.brandControl.valueChanges.pipe(
-    //   tap(data => {
-    //     console.log('brand pipe')
-    //   })
-    // ).subscribe();
-
+    this.brandControl.valueChanges.pipe(
+      tap(brandId => {
+        this.linesOption = [];
+        this.brandId = brandId;
+      }),
+      filter(Boolean),
+      switchMap(
+        (brandId) => this.lineService.getLinesByBrandId(brandId as string)
+      ),
+      tap(lines => {
+        this.linesOption = lines;
+      }),
+    ).subscribe();
+// const zzz = this.filterForm.get('countryId');
     this.countyControl.valueChanges.pipe(
       tap(data => {
         this.brandControl.setValue(null, {emitEvent: false});
@@ -96,7 +116,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     this.filterForm = this.formBuilder.group({
       name: null,
       brandId: this.brandControl,
-      countryId: this.countyControl
+      countryId: this.countyControl,
+      lineId: this.lineControl
     })
   }
 
@@ -105,7 +126,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     const exitAnimationDuration = '400ms';
 
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
-      data: {},
+      data: {
+        brandId: this.brandId,
+        brandsOption: this.brandsOption
+      },
       height: '400px',
       width: '600px',
       enterAnimationDuration,
