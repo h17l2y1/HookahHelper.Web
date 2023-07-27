@@ -28,7 +28,9 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public currentPage = 0;
   public pageSize = 10;
   public pageSizeOptions = [5, 10, 25, 100];
+
   public filters!: Filter;
+
   public tobaccos!: Tobacco[];
   private brandsOption?: Brand[];
   public linesOption: Line[]=[];
@@ -38,6 +40,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     })
   );
   public countries$: Observable<Country[]> = this.countryService.getOptions();
+
   public brandId!: string | null;
   // public leines$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.brandId);
   public filterForm!: FormGroup;
@@ -127,8 +130,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
       data: {
-        brandId: this.brandId,
-        brandsOption: this.brandsOption
+        // brandsOption: this.brandsOption,
+        // linesOption: this.linesOption
       },
       height: '400px',
       width: '600px',

@@ -3,8 +3,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {TobaccoService} from "../tobacco.service";
-import {Observable} from "rxjs";
+import {filter, Observable, switchMap, tap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
+import {Line} from "../../interfaces/entity/line";
+import {LineService} from "../../services/line.service";
+import {BrandService} from "../../brand/brand.service";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -12,20 +15,66 @@ import {Brand} from "../../interfaces/entity/brand";
   styleUrls: ['./tobacco-create.component.scss']
 })
 export class TobaccoCreateComponent implements OnInit {
-  public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
+  public createTobaccoForm!: FormGroup;
   private tempId: number = 0;
 
+  public brandsOption?: Brand[];
+  public linesOption: Line[] = [];
+  public brands$: Observable<Brand[]> = this.brandService.getOptions().pipe(
+    tap(response => {
+      this.brandsOption = response;
+    })
+  );
+
+  public brandControl = this.formBuilder.control('');
+  public lineControl = this.formBuilder.control('');
+
+  public brandId!: string | null;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { brandId: string, brandsOption:Brand[] },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      // brandsOption:Brand[],
+      // lineOption: Line[]
+    },
     public dialogRef: MatDialogRef<TobaccoCreateComponent>,
     private formBuilder: FormBuilder,
     private readonly tobaccoService: TobaccoService,
+    private brandService: BrandService,
+    private readonly lineService: LineService,
   ) {
   }
 
 
   ngOnInit(): void {
-    console.log('liasgdlagsdahjk')
+    this.initCreateTobaccoForm();
+
+    this.brandControl.valueChanges.pipe(
+      tap(brandId => {
+        this.linesOption = [];
+        this.brandId = brandId;
+      }),
+      filter(Boolean),
+      switchMap(
+        (brandId) => this.lineService.getLinesByBrandId(brandId as string)
+      ),
+      tap(lines => {
+        this.linesOption = lines;
+      }),
+    ).subscribe();
+
+  //   this.lineControl.valueChanges.pipe(
+  //     tap(brandId => {
+  //       this.linesOption = [];
+  //       this.brandId = brandId;
+  //     }),
+  //     filter(Boolean),
+  //     switchMap(
+  //       (brandId) => this.lineService.getLinesByBrandId(brandId as string)
+  //     ),
+  //     tap(lines => {
+  //       this.linesOption = lines;
+  //     }),
+  //   ).subscribe();
   }
 
   onNoClick(): void {
@@ -52,15 +101,16 @@ export class TobaccoCreateComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private initCreateTobaccoForm(): FormGroup {
-    return this.formBuilder.group({
+  private initCreateTobaccoForm(): void {
+    this.createTobaccoForm = this.formBuilder.group({
       image: this.formBuilder.group({
         name: null,
         base64: null,
       }),
       name: [null, [Validators.required]],
       description: null,
-      brandId: this.data.brandId,
+      brandId: this.brandControl,
+      line: this.lineControl
     });
   };
 }

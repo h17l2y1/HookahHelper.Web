@@ -16,8 +16,16 @@
         <mat-form-field>
           <mat-label>Бренд</mat-label>
           <mat-select formControlName="brandId">
-            <mat-option *ngFor="let item of data.brandsOption " [value]="item.id">
+            <mat-option *ngFor="let item of brands$ | async" [value]="item.id">
               {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Лінійки</mat-label>
+          <mat-select formControlName="line">
+            <mat-option *ngFor="let item of linesOption " [value]="item">
+              {{item.name}}x
             </mat-option>
           </mat-select>
         </mat-form-field>
