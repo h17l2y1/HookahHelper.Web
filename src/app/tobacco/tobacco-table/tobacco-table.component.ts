@@ -8,13 +8,15 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ActivatedRoute} from "@angular/router";
 import {BrandService} from "../../brand/brand.service";
 import {CountryService} from "../../services/country.service";
-import {filter, forkJoin, Observable, switchMap, tap} from "rxjs";
+import {filter, Observable, switchMap, tap} from "rxjs";
 import {Filter} from "../../interfaces/models/filter";
 import {Brand} from "../../interfaces/entity/brand";
 import {Country} from "../../interfaces/entity/country";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Line} from "../../interfaces/entity/line";
 import {LineService} from "../../services/line.service";
+import {HeavinessService} from "../../services/heaviness.service";
+import {Heaviness} from "../../interfaces/entity/heaviness";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -31,20 +33,18 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public filters!: Filter;
   public tobaccos!: Tobacco[];
   private brandsOption?: Brand[];
-  public linesOption: Line[]=[];
-  public brands$: Observable<Brand[]> = this.brandService.getOptions().pipe(
-    tap(response => {
-      this.brandsOption = response;
-    })
-  );
+  public linesOption: Line[] = [];
+  public brands$: Observable<Brand[]> = this.brandService.getOptions()
+    .pipe(
+      tap(response => this.brandsOption = response)
+    );
   public countries$: Observable<Country[]> = this.countryService.getOptions();
+  public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
   public brandId!: string | null;
-  // public leines$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.brandId);
   public filterForm!: FormGroup;
-
-  public brandControl = this.formBuilder.control('');
-  public countyControl = this.formBuilder.control('');
-  public lineControl = this.formBuilder.control('');
+  public brandControl: FormControl = this.formBuilder.control('');
+  public countyControl: FormControl = this.formBuilder.control('');
+  public lineControl: FormControl = this.formBuilder.control('');
 
   constructor(
     public dialog: MatDialog,
@@ -52,10 +52,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     private brandService: BrandService,
     private countryService: CountryService,
     private lineService: LineService,
+    private heavinessService: HeavinessService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.initFilterForm();
@@ -73,20 +73,15 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         this.brandId = brandId;
       }),
       filter(Boolean),
-      switchMap(
-        (brandId) => this.lineService.getLinesByBrandId(brandId as string)
-      ),
-      tap(lines => {
-        this.linesOption = lines;
-      }),
-    ).subscribe();
-// const zzz = this.filterForm.get('countryId');
-    this.countyControl.valueChanges.pipe(
-      tap(data => {
-        this.brandControl.setValue(null, {emitEvent: false});
-      })
+      switchMap((brandId) => this.lineService.getLinesByBrandId(brandId as string)),
+      tap(lines => this.linesOption = lines),
     ).subscribe();
 
+    this.countyControl.valueChanges.pipe(
+      tap(data => {
+        // this.brandControl.setValue(null, {emitEvent: false})
+      })
+    ).subscribe();
 
     this.route.params.subscribe(params => {
       this.brandId = this.route.snapshot.paramMap.get('id');
@@ -94,6 +89,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         name: null,
         brandId: this.brandId,
         countryId: null,
+        lineId: null,
+        heavinessId: null
       };
 
       this.brandControl.setValue(this.brandId, {emitEvent: false});
@@ -117,7 +114,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       name: null,
       brandId: this.brandControl,
       countryId: this.countyControl,
-      lineId: this.lineControl
+      lineId: this.lineControl,
+      heavinessId: null,
     })
   }
 

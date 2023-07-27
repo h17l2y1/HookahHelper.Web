@@ -1,4 +1,4 @@
-export interface Line {
+export interface Heaviness {
   id: string;
   name: string;
 }

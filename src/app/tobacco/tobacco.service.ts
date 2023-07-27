@@ -18,8 +18,11 @@ export class TobaccoService {
     let req = `Tobacco/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
     req = filters?.brandId ? req + `&brandId=${filters.brandId}` : req;
-    req = filters?.countryId ? req + `&CountryId=${filters.countryId}` : req;
-    req = filters?.lineId ? req + `&LineId=${filters.lineId}` : req;
+    req = filters?.countryId ? req + `&countryId=${filters.countryId}` : req;
+    req = filters?.lineId ? req + `&lineId=${filters.lineId}` : req;
+    req = filters?.heavinessId ? req + `&heavinessId=${filters.heavinessId}` : req;
+
+    console.log(req)
 
     return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
   }

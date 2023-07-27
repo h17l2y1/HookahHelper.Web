@@ -42,11 +42,15 @@ export class BrandEditorComponent implements OnInit {
 
   public onSave(): void {
     const request: CreateBrand = this.brandForm.value;
-    request.image.name = `brand: ${request.name}`;
+    request.lines = request.lines ? request.lines : undefined;
+    // if (!request.lines?.length) {
+    //   request.lines = undefined
+    // }
 
-    if (request.lines?.length) {
-      request.lines = undefined
-    }
+    // request.lines = request.lines.map(x => {
+    //   return { name: x.name}
+    // })
+    // const xxx2 = request.lines.map(x => x.name)
 
     this.brandService.update(request).subscribe(() => {
       this.dialogRef.close(true);
@@ -102,7 +106,8 @@ export class BrandEditorComponent implements OnInit {
     this.getLines.push(
       this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
-        name: this.formBuilder.control('')
+        name: this.formBuilder.control(''),
+        isNew: true,
       })
     );
   }
