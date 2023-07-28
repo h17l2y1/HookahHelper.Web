@@ -33,7 +33,7 @@ export class TobaccoService {
   }
 
   public update(data: any): Observable<any> {
-    return this.http.post<any>(this.rootUrl + 'Tobacco/Update', data);
+    return this.http.put<any>(this.rootUrl + 'Tobacco/Update', data);
   }
 
   public remove(data: any): Observable<any> {

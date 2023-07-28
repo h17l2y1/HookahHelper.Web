@@ -92,7 +92,7 @@ export class TobaccoEditorComponent implements OnInit {
     const request = this.editTobaccoForm.value as Tobacco;
     // request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';
     // request.image?.name = `brand: ${request.name}`;
-    // request.image.name = `tobacco: ${request.name}`;
+    request.image.name = `tobacco: ${request.name}`;
 
     this.tobaccoService.update(request).subscribe(() => {
       this.dialogRef.close(true);
@@ -105,9 +105,9 @@ export class TobaccoEditorComponent implements OnInit {
 
   private initEditTobaccoForm(): void {
     this.editTobaccoForm = this.formBuilder.group({
-      // image: this.formBuilder.group({
-      //   base64: this.tobacco.image.base64,
-      // }),
+      image: this.formBuilder.group({
+        base64: this.tobacco.image.base64,
+      }),
       name: [this.tobacco.name, [Validators.required]],
       description: this.tobacco.description,
       brandId: this.brandControl,
