@@ -1,10 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {TobaccoService} from "../tobacco.service";
-import {Observable} from "rxjs";
+import {filter, Observable, switchMap, tap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
+import {Heaviness} from "../../interfaces/entity/heaviness";
+import {HeavinessService} from "../../services/heaviness.service";
+import {LineService} from "../../services/line.service";
+import {Line} from "../../interfaces/entity/line";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -13,27 +17,32 @@ import {Brand} from "../../interfaces/entity/brand";
 })
 export class TobaccoCreateComponent implements OnInit {
   public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
-  private tempId: number = 0;
-
+  public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
+  public brandControl: FormControl = this.formBuilder.control('');
+  public linesOption: Line[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { brandId: string, brandsOption:Brand[] },
     public dialogRef: MatDialogRef<TobaccoCreateComponent>,
     private formBuilder: FormBuilder,
-    private readonly tobaccoService: TobaccoService,
-  ) {
-  }
+    private tobaccoService: TobaccoService,
+    private lineService: LineService,
+    private heavinessService: HeavinessService,
+  ) {}
 
 
   ngOnInit(): void {
-    console.log('liasgdlagsdahjk')
+    this.brandControl.valueChanges.pipe(
+      tap(brandId => {
+        this.linesOption = [];
+      }),
+      filter(Boolean),
+      switchMap((brandId) => this.lineService.getLinesByBrandId(brandId as string)),
+      tap(lines => this.linesOption = lines),
+    ).subscribe();
   }
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  private getNextId(): number {
-    return ++this.tempId;
   }
 
   public onSave(): void {
@@ -61,6 +70,7 @@ export class TobaccoCreateComponent implements OnInit {
       name: [null, [Validators.required]],
       description: null,
       brandId: this.data.brandId,
+      heavinessId: null,
     });
   };
 }

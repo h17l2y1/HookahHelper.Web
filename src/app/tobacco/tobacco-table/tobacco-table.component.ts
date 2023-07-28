@@ -128,8 +128,6 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         brandId: this.brandId,
         brandsOption: this.brandsOption
       },
-      height: '400px',
-      width: '600px',
       enterAnimationDuration,
       exitAnimationDuration,
     });

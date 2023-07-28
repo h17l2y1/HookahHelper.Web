@@ -10,16 +10,36 @@
           <input matInput formControlName="name">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Опис</mat-label>
-          <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
-        <mat-form-field>
           <mat-label>Бренд</mat-label>
           <mat-select formControlName="brandId">
             <mat-option *ngFor="let item of data.brandsOption " [value]="item.id">
               {{item.name}}
             </mat-option>
           </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Важкість</mat-label>
+          <mat-select formControlName="heavinessId">
+            <mat-option>Усi</mat-option>
+            <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Лiнiйка</mat-label>
+          <mat-select formControlName="lineId">
+            <mat-option>Усi</mat-option>
+            <mat-option *ngFor="let option of linesOption" [value]="option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="side">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Опис</mat-label>
+          <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
       </div>
     </div>
@@ -29,16 +49,3 @@
     <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
   </div>
 </div>
-
-<!--<h1 mat-dialog-title>Hi {{data.name}}</h1>-->
-<!--<div mat-dialog-content>-->
-<!--  <mat-form-field>-->
-<!--    <mat-label>Favorite Animal</mat-label>-->
-<!--    <input matInput>-->
-<!--  </mat-form-field>-->
-<!--</div>-->
-<!--<div mat-dialog-actions>-->
-<!--  <button mat-button (click)="onNoClick()">No Thanks</button>-->
-<!--  <button mat-button cdkFocusInitial>Ok</button>-->
-<!--&lt;!&ndash;  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>&ndash;&gt;-->
-<!--</div>-->
