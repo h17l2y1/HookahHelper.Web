@@ -149,8 +149,6 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       data: {
         tobaccoId: id
       },
-      height: '400px',
-      width: '600px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
