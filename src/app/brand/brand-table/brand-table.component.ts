@@ -26,8 +26,8 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
   public totalRows = 0;
   public currentPage = 0;
-  public pageSize = 5;
-  public pageSizeOptions = [5, 10, 25, 100];
+  public pageSizeOptions = [10, 25, 100];
+  public pageSize = this.pageSizeOptions[0];
   public filters: Filter = {
     name: null,
     brandId: null,
@@ -48,10 +48,12 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.countryControl.valueChanges.pipe(tap(countryId => {
-      this.filters.countryId = countryId
-      this.getBrands();
-    })).subscribe();
+    this.countryControl.valueChanges.pipe(
+      tap(countryId => {
+        this.filters.countryId = countryId
+        this.getBrands();
+      })
+    ).subscribe();
   }
 
   ngAfterViewInit(): void {

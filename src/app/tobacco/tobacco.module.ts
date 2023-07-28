@@ -20,6 +20,7 @@ import {BrandService} from "../brand/brand.service";
 import {CountryService} from "../services/country.service";
 import { TobaccoEditorComponent } from './tobacco-editor/tobacco-editor.component';
 import {LineService} from "../services/line.service";
+import {HeavinessService} from "../services/heaviness.service";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {LineService} from "../services/line.service";
     TobaccoService,
     BrandService,
     CountryService,
-    LineService
+    LineService,
+    HeavinessService,
   ]
 })
 export class TobaccoModule {
