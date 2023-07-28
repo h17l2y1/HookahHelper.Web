@@ -119,7 +119,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public openDialog(): void {
+  public onCreate(): void {
     const enterAnimationDuration = '600ms';
     const exitAnimationDuration = '400ms';
 
@@ -133,8 +133,12 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      const xxx = result;
+      if (result !== null){
+        this.onCreate();
+        if (!result){
+          this.getTobaccos();
+        }
+      }
     });
   }
 
