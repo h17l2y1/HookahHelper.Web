@@ -91,7 +91,6 @@ export class TobaccoCreateComponent implements OnInit {
     // request.image?.name = `brand: ${request.name}`;
     request.image.name = `tobacco: ${request.name}`;
 
-
     this.tobaccoService.create(request).subscribe(() => {
       this.dialogRef.close(true);
     });

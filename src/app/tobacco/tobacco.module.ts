@@ -18,12 +18,14 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {BrandService} from "../brand/brand.service";
 import {CountryService} from "../services/country.service";
+import { TobaccoEditorComponent } from './tobacco-editor/tobacco-editor.component';
 import {LineService} from "../services/line.service";
 
 @NgModule({
   declarations: [
     TobaccoCreateComponent,
-    TobaccoTableComponent
+    TobaccoTableComponent,
+    TobaccoEditorComponent
   ],
   imports: [
     CommonModule,

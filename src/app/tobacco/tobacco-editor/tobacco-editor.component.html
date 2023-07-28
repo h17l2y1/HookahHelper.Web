@@ -1,5 +1,5 @@
 <div class="popup-container">
-  <form [formGroup]="createTobaccoForm" class="example-form">
+  <form *ngIf="editTobaccoForm" [formGroup]="editTobaccoForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
         <app-image-upload></app-image-upload>
@@ -37,16 +37,3 @@
     <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
   </div>
 </div>
-
-<!--<h1 mat-dialog-title>Hi {{data.name}}</h1>-->
-<!--<div mat-dialog-content>-->
-<!--  <mat-form-field>-->
-<!--    <mat-label>Favorite Animal</mat-label>-->
-<!--    <input matInput>-->
-<!--  </mat-form-field>-->
-<!--</div>-->
-<!--<div mat-dialog-actions>-->
-<!--  <button mat-button (click)="onNoClick()">No Thanks</button>-->
-<!--  <button mat-button cdkFocusInitial>Ok</button>-->
-<!--&lt;!&ndash;  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>&ndash;&gt;-->
-<!--</div>-->

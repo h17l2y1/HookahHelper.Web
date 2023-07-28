@@ -37,9 +37,9 @@
 
 
   <div class="card-container">
-    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos">
+    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos" >
       <img mat-card-image class="image" src="{{tobacco.image?.base64}}" alt="Photo of a Shiba Inu">
-      <mat-card-content>
+      <mat-card-content (click)="openEditTobaccoDialog(tobacco.id)">
         <div class="rating"><span>Rating</span></div>
         <mat-card-title>{{tobacco.name}}</mat-card-title>
         <div class="description">

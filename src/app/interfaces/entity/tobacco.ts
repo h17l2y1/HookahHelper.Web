@@ -15,6 +15,6 @@ export interface Tobacco {
   // fortress: number;
   // smokiness: number;
   brandId: string;
-  line: Line;
+  lineId: string;
   image: Image;
 }

@@ -15,6 +15,7 @@ import {Country} from "../../interfaces/entity/country";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Line} from "../../interfaces/entity/line";
 import {LineService} from "../../services/line.service";
+import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -33,7 +34,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
   public tobaccos!: Tobacco[];
   private brandsOption?: Brand[];
-  public linesOption: Line[]=[];
+  public linesOption: Line[] = [];
   public brands$: Observable<Brand[]> = this.brandService.getOptions().pipe(
     tap(response => {
       this.brandsOption = response;
@@ -132,6 +133,26 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       data: {
         // brandsOption: this.brandsOption,
         // linesOption: this.linesOption
+      },
+      height: '400px',
+      width: '600px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      const xxx = result;
+    });
+  }
+
+  public openEditTobaccoDialog(id: string): void {
+    const enterAnimationDuration = '600ms';
+    const exitAnimationDuration = '400ms';
+
+    const dialogRef = this.dialog.open(TobaccoEditorComponent, {
+      data: {
+        tobaccoId: id
       },
       height: '400px',
       width: '600px',

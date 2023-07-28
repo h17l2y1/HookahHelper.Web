@@ -24,6 +24,10 @@ export class TobaccoService {
     return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
   }
 
+  public getById(id: string): Observable<Tobacco> {
+    return this.http.get<Tobacco>(this.rootUrl + `Tobacco/GetById/${id}`);
+  }
+
   public create(data: Tobacco): Observable<void> {
     return this.http.post<void>(this.rootUrl + 'Tobacco/Create', data);
   }
