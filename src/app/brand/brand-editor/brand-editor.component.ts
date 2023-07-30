@@ -67,9 +67,9 @@ export class BrandEditorComponent implements OnInit {
     return this.formBuilder.group({
       id: brand.id,
       image: this.formBuilder.group({
-        id: brand.image?.id,
-        name: brand.image?.name,
-        base64: brand.image?.base64,
+        id: brand.image.id,
+        name: brand.image.name,
+        link: brand.image.link,
       }),
       name: [brand.name, [Validators.required]],
       description: brand.description,

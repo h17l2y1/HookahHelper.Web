@@ -1,5 +1,6 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
+    <button class="button" mat-flat-button (click)="onCreate()">Create</button>
     <form [formGroup]="filterForm" class="example-form">
       <mat-form-field>
         <mat-label>Filter by Name</mat-label>
@@ -41,13 +42,12 @@
         </mat-select>
       </mat-form-field>
     </form>
-    <button class="button" mat-flat-button (click)="onCreate()">Create</button>
   </div>
 
   <div class="card-container">
-    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos" >
-      <img mat-card-image class="image" src="{{tobacco.image?.base64}}" alt="Photo of a Shiba Inu">
-      <mat-card-content (click)="openEditTobaccoDialog(tobacco.id)">
+    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos" (click)="onEdit(tobacco.id)">
+      <img mat-card-image class="image" src="{{tobacco.image?.link}}" alt="image error">
+      <mat-card-content>
         <div class="rating"><span>Rating</span></div>
         <mat-card-title>{{tobacco.name}}</mat-card-title>
         <div class="description">

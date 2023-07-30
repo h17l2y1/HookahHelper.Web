@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective} from "@angular/forms";
-import {DomSanitizer} from "@angular/platform-browser";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {ImageCroppedEvent} from "ngx-image-cropper";
-import {tap} from "rxjs";
 
 @Component({
   selector: 'app-image-upload',
@@ -11,28 +10,33 @@ import {tap} from "rxjs";
 })
 
 export class ImageUploadComponent implements OnInit {
-  public imageControl!: FormControl;
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  fileAttr = 'Choose File';
-  public isFileChoose = false;
+  public imageControlLink!: FormControl;
+  public imageControlBase64!: FormControl;
+  public imageChangedEvent!: any;
+  public croppedImage!: SafeUrl;
+  public fileAttr = 'Choose File';
+  public isFileExist = false;
 
-  constructor(private rootFormGroup: FormGroupDirective, private sanitizer: DomSanitizer) {
-  }
+  constructor(private rootFormGroup: FormGroupDirective, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
-    this.imageControl = this.rootFormGroup.control.get('image.base64') as FormControl;
+    this.imageControlLink = this.rootFormGroup.control.get('image.link') as FormControl;
+    this.imageControlBase64 = this.rootFormGroup.control.get('image.base64') as FormControl;
+    if (this.imageControlLink.value){
+      this.isFileExist = true;
+      this.fileChangeEvent(this.imageControlLink.value, true);
+    }
   }
 
-  fileChangeEvent(event: any): void {
-    this.isFileChoose = true;
+  public fileChangeEvent(event: any, isNew?: boolean): void {
+    this.isFileExist = !!isNew;
     this.imageChangedEvent = event;
   }
 
-  async imageCropped(event: ImageCroppedEvent) {
+  public async imageCropped(event: ImageCroppedEvent): Promise<void> {
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl as string);
     const base64 = await this.convertBlobToBase64(event.blob);
-    this.imageControl?.setValue(base64);
+    this.imageControlBase64.setValue(base64);
   }
 
   private convertBlobToBase64 = (blob: any) => new Promise((resolve, reject) => {

@@ -42,25 +42,11 @@ export class TobaccoCreateComponent implements OnInit {
     ).subscribe();
   }
 
-  public onSave(): void {
-    const request = this.createTobaccoForm.value as Tobacco;
-    // request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';
-    // request.image?.name = `brand: ${request.name}`;
-    request.image.name = `tobacco: ${request.name}`;
-
-    this.tobaccoService.create(request).subscribe(() => {
-      this.dialogRef.close(true);
-    });
-  }
-
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
   private initCreateTobaccoForm(): FormGroup {
     return this.formBuilder.group({
       image: this.formBuilder.group({
         name: null,
+        link: null,
         base64: null,
       }),
       name: [null, [Validators.required]],

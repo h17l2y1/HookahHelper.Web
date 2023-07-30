@@ -46,7 +46,7 @@ export class BrandCreateComponent implements OnInit {
     return this.formBuilder.group({
       image: this.formBuilder.group({
         name: null,
-        base64: null,
+        link: null,
       }),
       name: [null, [Validators.required]],
       description: null,

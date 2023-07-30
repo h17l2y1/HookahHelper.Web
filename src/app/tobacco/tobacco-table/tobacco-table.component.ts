@@ -49,7 +49,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public filterForm!: FormGroup;
   public brandControl: FormControl = this.formBuilder.control('');
   public countyControl: FormControl = this.formBuilder.control('');
-  public lineControl: FormControl = this.formBuilder.control('');
+  public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
 
   constructor(
     public dialog: MatDialog,
@@ -74,12 +74,18 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
     this.brandControl.valueChanges.pipe(
       tap(brandId => {
-        this.linesOption = [];
+        if (!brandId){
+          this.lineControl.reset();
+          this.lineControl.disable();
+        }
         this.brandId = brandId;
       }),
       filter(Boolean),
       switchMap((brandId) => this.lineService.getLinesByBrandId(brandId as string)),
-      tap(lines => this.linesOption = lines),
+      tap(lines => {
+        this.linesOption = lines;
+        this.lineControl.enable();
+      }),
     ).subscribe();
 
     this.countyControl.valueChanges.pipe(
@@ -133,39 +139,41 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         brandsOption: this.brandsOption,
         linesOption: this.linesOption
       },
-      // height: '400px',
-      // width: '600px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      const xxx = result;
+      this.getTobaccos();
     });
   }
 
-  public openEditTobaccoDialog(id: string): void {
+  public onEdit(id: string): void {
     const enterAnimationDuration = '600ms';
     const exitAnimationDuration = '400ms';
 
-    const dialogRef = this.dialog.open(TobaccoEditorComponent, {
-      data: {
-        tobaccoId: id,
-        heaviness: this.heavinessOption
-      },
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
+    this.tobaccoService.getById(id).pipe(
+      tap(response => {
+        const dialogRef = this.dialog.open(TobaccoEditorComponent, {
+          data: {
+            tobacco: response,
+            brands$: this.brands$,
+            heaviness: this.heavinessOption
+          },
+          enterAnimationDuration,
+          exitAnimationDuration,
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined){
-        this.onCreate();
-        if (!result){
-          this.getTobaccos();
-        }
-      }
-    });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result !== undefined){
+            this.onCreate();
+            if (!result){
+              this.getTobaccos();
+            }
+          }
+        });
+      }))
+      .subscribe();
   }
 
   public handlePageEvent(e: PageEvent) {

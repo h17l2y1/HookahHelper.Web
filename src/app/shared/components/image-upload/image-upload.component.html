@@ -8,7 +8,9 @@
   </div>
 </mat-form-field>
 
-<ng-container *ngIf="isFileChoose">
+<img *ngIf="isFileExist" class="final-result" src="{{imageControlLink.value}}" alt="image error">
+
+<ng-container *ngIf="!isFileExist">
   <image-cropper
     [imageChangedEvent]="imageChangedEvent"
     [maintainAspectRatio]="true"
@@ -16,8 +18,11 @@
     format="png"
     (imageCropped)="imageCropped($event)">
   </image-cropper>
-  <hr>
-  <img class="final-result" [src]="croppedImage">
+  <div *ngIf="croppedImage">
+    <hr>
+    <img class="final-result" [src]="croppedImage" alt="image">
+  </div>
+
 </ng-container>
 
 

@@ -10,6 +10,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {ImageCropperModule} from "ngx-image-cropper";
 import {FormsModule} from "@angular/forms";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -17,17 +18,18 @@ import {FormsModule} from "@angular/forms";
     ConfirmationPopupComponent
   ],
   providers:[],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    MatButtonModule,
-    ImageCropperModule,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatProgressBarModule,
+        MatDialogModule,
+        MatButtonModule,
+        ImageCropperModule,
+        FormsModule,
+        MatCardModule
+    ],
   exports: [
     ImageUploadComponent,
     ConfirmationPopupComponent
