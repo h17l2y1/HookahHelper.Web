@@ -8,6 +8,8 @@ import {TobaccoService} from "../tobacco.service";
 import {BrandService} from "../../brand/brand.service";
 import {LineService} from "../../services/line.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
+import {Heaviness} from "../../interfaces/entity/heaviness";
+import {HeavinessService} from "../../services/heaviness.service";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -16,6 +18,7 @@ import {Tobacco} from "../../interfaces/entity/tobacco";
 })
 export class TobaccoEditorComponent implements OnInit {
   public editTobaccoForm!: FormGroup;
+  // public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
   private tempId: number = 0;
 
   public brandsOption?: Brand[];
@@ -29,6 +32,7 @@ export class TobaccoEditorComponent implements OnInit {
 
   public brandControl = this.formBuilder.control('');
   public lineControl = this.formBuilder.control('');
+  public heavinessControl = this.formBuilder.control('');
 
   public brandId!: string | null;
 
@@ -36,13 +40,15 @@ export class TobaccoEditorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       // brandsOption:Brand[],
       // lineOption: Line[]
-      tobaccoId: string
+      tobaccoId: string,
+      heaviness: Heaviness[]
     },
     public dialogRef: MatDialogRef<TobaccoEditorComponent>,
     private formBuilder: FormBuilder,
     private readonly tobaccoService: TobaccoService,
     private brandService: BrandService,
     private readonly lineService: LineService,
+    private heavinessService: HeavinessService,
   ) {
   }
 
@@ -80,14 +86,6 @@ export class TobaccoEditorComponent implements OnInit {
     //   ).subscribe();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  private getNextId(): number {
-    return ++this.tempId;
-  }
-
   public onSave(): void {
     const request = this.editTobaccoForm.value as Tobacco;
     // request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';
@@ -111,7 +109,8 @@ export class TobaccoEditorComponent implements OnInit {
       name: [this.tobacco.name, [Validators.required]],
       description: this.tobacco.description,
       brandId: this.brandControl,
-      line: this.lineControl
+      line: this.lineControl,
+      heaviness: this.heavinessControl
     });
   };
 
@@ -121,6 +120,7 @@ export class TobaccoEditorComponent implements OnInit {
           this.tobacco = response;
           this.brandControl.setValue(response.brandId);
           this.lineControl.setValue(response.lineId);
+          this.heavinessControl.setValue(response.heavinessId);
           this.initEditTobaccoForm();
         }))
       .subscribe();

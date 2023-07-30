@@ -42,10 +42,6 @@ export class TobaccoCreateComponent implements OnInit {
     ).subscribe();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   public onSave(): void {
     const request = this.createTobaccoForm.value as Tobacco;
     // request.countryId = '39c3ea35-f04a-4da2-92d2-eaabb2d90241';

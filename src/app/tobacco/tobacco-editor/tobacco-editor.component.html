@@ -21,6 +21,15 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Важкість</mat-label>
+          <mat-select formControlName="heavinessId">
+            <mat-option>Усi</mat-option>
+            <mat-option *ngFor="let option of data.heaviness" [value]="option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-form-field>
           <mat-label>Лінійки</mat-label>
           <mat-select formControlName="line">

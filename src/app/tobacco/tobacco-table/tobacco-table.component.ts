@@ -34,13 +34,17 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public filters!: Filter;
   public tobaccos!: Tobacco[];
   private brandsOption?: Brand[];
+  private heavinessOption?: Heaviness[];
   public linesOption: Line[] = [];
   public brands$: Observable<Brand[]> = this.brandService.getOptions()
     .pipe(
       tap(response => this.brandsOption = response)
     );
   public countries$: Observable<Country[]> = this.countryService.getOptions();
-  public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
+  public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions()
+    .pipe(
+      tap(response => this.heavinessOption = response)
+    );
   public brandId!: string | null;
   public filterForm!: FormGroup;
   public brandControl: FormControl = this.formBuilder.control('');
@@ -129,8 +133,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         brandsOption: this.brandsOption,
         linesOption: this.linesOption
       },
-      height: '400px',
-      width: '600px',
+      // height: '400px',
+      // width: '600px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
@@ -147,7 +151,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
     const dialogRef = this.dialog.open(TobaccoEditorComponent, {
       data: {
-        tobaccoId: id
+        tobaccoId: id,
+        heaviness: this.heavinessOption
       },
       enterAnimationDuration,
       exitAnimationDuration,
