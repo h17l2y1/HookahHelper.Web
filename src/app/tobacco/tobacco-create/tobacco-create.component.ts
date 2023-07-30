@@ -17,12 +17,13 @@ import {BrandService} from "../../brand/brand.service";
   styleUrls: ['./tobacco-create.component.scss']
 })
 export class TobaccoCreateComponent implements OnInit {
-  public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
-  public brandControl: FormControl = this.formBuilder.control('');
+  public brandControl: FormControl = this.formBuilder.control(this.data.brandId);
+  public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
   public linesOption: Line[] = [];
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { brandId: string, brandsOption:Brand[] },
+    @Inject(MAT_DIALOG_DATA) public data: { brandId: string, brandsOption: Brand[] },
     public dialogRef: MatDialogRef<TobaccoCreateComponent>,
     private formBuilder: FormBuilder,
     private tobaccoService: TobaccoService,
@@ -30,15 +31,14 @@ export class TobaccoCreateComponent implements OnInit {
     private heavinessService: HeavinessService,
   ) {}
 
-
   ngOnInit(): void {
     this.brandControl.valueChanges.pipe(
-      tap(brandId => {
-        this.linesOption = [];
-      }),
       filter(Boolean),
       switchMap((brandId) => this.lineService.getLinesByBrandId(brandId as string)),
-      tap(lines => this.linesOption = lines),
+      tap(lines => {
+        this.linesOption = lines;
+        this.createTobaccoForm.get('lineId')?.enable();
+      }),
     ).subscribe();
   }
 
@@ -65,8 +65,21 @@ export class TobaccoCreateComponent implements OnInit {
       }),
       name: [null, [Validators.required]],
       description: null,
-      brandId: this.data.brandId,
+      brandId: this.brandControl,
+      lineId: {value: null, disabled: true},
       heavinessId: null,
     });
   };
+
+  public onSave(oneMore?: boolean): void {
+    const request = this.createTobaccoForm.value as Tobacco;
+    this.tobaccoService.create(request).subscribe(() => {
+      this.dialogRef.close(oneMore);
+    });
+  }
+
+  public onCancel(): void {
+    this.dialogRef.close();
+  }
+
 }

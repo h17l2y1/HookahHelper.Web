@@ -20,7 +20,6 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Важкість</mat-label>
           <mat-select formControlName="heavinessId">
-            <mat-option>Усi</mat-option>
             <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
               {{option.name}}
             </mat-option>
@@ -29,7 +28,6 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Лiнiйка</mat-label>
           <mat-select formControlName="lineId">
-            <mat-option>Усi</mat-option>
             <mat-option *ngFor="let option of linesOption" [value]="option.id">
               {{option.name}}
             </mat-option>
@@ -47,5 +45,6 @@
   <div mat-dialog-actions class="popup-action-container">
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
     <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onSave(true)">Створити ще</button>
   </div>
 </div>
