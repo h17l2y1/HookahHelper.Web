@@ -133,7 +133,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== null){
+      if (result !== undefined){
         this.onCreate();
         if (!result){
           this.getTobaccos();

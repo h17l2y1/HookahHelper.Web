@@ -30,7 +30,9 @@ export class BrandCreateComponent implements OnInit {
 
   public onSave(): void {
     const request: CreateBrand = this.createBrandForm.value;
-    request.lines = request.lines ? request.lines : undefined;
+    if (request.lines){
+      request.lines = request.lines[0].name ? request.lines : undefined;
+    }
     this.brandService.create(request).subscribe(() => {
       this.dialogRef.close(true);
     });
