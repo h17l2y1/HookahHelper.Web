@@ -36,6 +36,10 @@ export class TobaccoEditorComponent {
   }
 
   public onSave(): void {
+    if (this.editTobaccoForm.invalid) {
+      this.editTobaccoForm.markAllAsTouched();
+      return;
+    }
     const request: Tobacco = this.editTobaccoForm.value;
     request.brandId = this.data.tobacco.brandId;
     this.tobaccoService.update(request).subscribe(() => {
@@ -48,18 +52,17 @@ export class TobaccoEditorComponent {
   }
 
   public initEditTobaccoForm(): FormGroup {
-    return this.formBuilder.group({
-      id: [this.data.tobacco.id, [Validators.required]],
-      name: [this.data.tobacco.name, [Validators.required]],
-      description: this.data.tobacco.description,
-      brandId: {value: this.data.tobacco.brandId, disabled: true},
-      lineId: this.lineControl,
-      heavinessId: this.heavinessControl,
+    return  this.formBuilder.group({
       image: this.formBuilder.group({
-        id: this.data.tobacco.image.id,
-        base64: this.data.tobacco.image.base64,
-        link: this.data.tobacco.image.link,
+        name: null,
+        link: null,
+        base64: null,
       }),
+      name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
+      description: [null,Validators.maxLength(256)],
+      brandId: {value: this.data.tobacco.brandId, disabled: true},
+      lineId: [null, [Validators.required]],
+      heavinessId: [null, [Validators.required]],
     });
   };
 }

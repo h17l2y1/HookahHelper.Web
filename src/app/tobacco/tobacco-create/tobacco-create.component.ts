@@ -17,7 +17,7 @@ import {Line} from "../../interfaces/entity/line";
 })
 export class TobaccoCreateComponent implements OnInit {
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
-  public brandControl: FormControl = this.formBuilder.control(this.data.brandId);
+  public brandControl: FormControl = this.formBuilder.control(this.data.brandId, Validators.required);
   public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
   public linesOption: Line[] = [];
 
@@ -48,15 +48,22 @@ export class TobaccoCreateComponent implements OnInit {
         link: null,
         base64: null,
       }),
-      name: [null, [Validators.required]],
-      description: null,
+      name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
+      description: [null,Validators.maxLength(256)],
       brandId: this.brandControl,
-      lineId: {value: null, disabled: true},
-      heavinessId: null,
+      lineId: [
+        {value: null, disabled: true},
+        {validators: [Validators.required]}
+      ],
+      heavinessId: [null, [Validators.required]],
     });
   };
 
   public onSave(oneMore?: boolean): void {
+    if (this.createTobaccoForm.invalid) {
+      this.createTobaccoForm.markAllAsTouched();
+      return;
+    }
     const request: Tobacco = this.createTobaccoForm.value;
     this.tobaccoService.create(request).subscribe(() => {
       this.dialogRef.close(oneMore);
