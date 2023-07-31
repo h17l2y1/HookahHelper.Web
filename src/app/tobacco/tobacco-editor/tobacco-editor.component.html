@@ -9,10 +9,6 @@
           <mat-label>Назва тютюну</mat-label>
           <input matInput formControlName="name">
         </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Опис</mat-label>
-          <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
         <mat-form-field>
           <mat-label>Бренд</mat-label>
           <mat-select formControlName="brandId">
@@ -38,12 +34,16 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Опис</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
       </div>
       <div class="side"></div>
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
-    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Змінити</button>
   </div>
 </div>
