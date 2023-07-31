@@ -21,6 +21,7 @@ import {CountryService} from "../services/country.service";
 import {TobaccoEditorComponent} from './tobacco-editor/tobacco-editor.component';
 import {LineService} from "../services/line.service";
 import {HeavinessService} from "../services/heaviness.service";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {HeavinessService} from "../services/heaviness.service";
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatBadgeModule,
   ],
   providers: [
     TobaccoService,

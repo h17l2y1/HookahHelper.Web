@@ -41,7 +41,7 @@ export class TobaccoEditorComponent {
     const request: Tobacco = this.editTobaccoForm.value;
     request.brandId = this.data.tobacco.brandId;
     this.tobaccoService.update(request).subscribe(() => {
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     });
   }
 

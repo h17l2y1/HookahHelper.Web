@@ -22,8 +22,6 @@ export class TobaccoService {
     req = filters?.lineId ? req + `&lineId=${filters.lineId}` : req;
     req = filters?.heavinessId ? req + `&heavinessId=${filters.heavinessId}` : req;
 
-    console.log(req)
-
     return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
   }
 

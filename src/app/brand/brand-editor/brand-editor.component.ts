@@ -15,13 +15,13 @@ import {Country} from "../../interfaces/entity/country";
   styleUrls: ['./brand-editor.component.scss']
 })
 export class BrandEditorComponent implements OnInit {
-  public brandForm!: FormGroup;
+  public updateBrandForm!: FormGroup;
   private tempId: number = 0;
   public countyControl: FormControl = this.formBuilder.control('', [Validators.required]);
   public brand$: Observable<Brand> = this.brandService.getById(this.data.id).pipe(
     tap(response => {
       this.countyControl.setValue(response.country.id)
-      this.brandForm = this.initBrandUpdateForm(response);
+      this.updateBrandForm = this.initBrandUpdateForm(response);
     })
   );
   public countries$: Observable<Country[]> = this.countryService.getOptions();
@@ -39,7 +39,7 @@ export class BrandEditorComponent implements OnInit {
   }
 
   public onSave(): void {
-    const request: CreateBrand = this.brandForm.value;
+    const request: CreateBrand = this.updateBrandForm.value;
     request.lines = request.lines ? request.lines : undefined;
     this.brandService.update(request).subscribe(() => {
       this.dialogRef.close(true);
@@ -87,7 +87,7 @@ export class BrandEditorComponent implements OnInit {
   }
 
   get getLines(): FormArray {
-    return this.brandForm.get('lines') as FormArray;
+    return this.updateBrandForm.get('lines') as FormArray;
   }
 
   public addLine(): void {

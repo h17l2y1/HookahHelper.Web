@@ -1,6 +1,6 @@
-<div class="popup-container" *ngIf="brandForm">
+<div class="popup-container" *ngIf="updateBrandForm">
   <h1 mat-dialog-title>Редакувати Бренд</h1>
-  <form [formGroup]="brandForm" class="example-form">
+  <form [formGroup]="updateBrandForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
         <app-image-upload></app-image-upload>
@@ -24,7 +24,7 @@
         </mat-form-field>
       </div>
       <div class="side">
-        <button class="button add-line-btn example-full-width" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>
+        <button class="button add-line-btn example-full-width cancel-color" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>
         <div formArrayName="lines">
           <div *ngFor="let line of getLines.controls; let i=index" class="brand-line-container">
             <div [formGroupName]="i" class="inp-brand-line">
@@ -43,7 +43,7 @@
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
+    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Редакувати</button>
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
-    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Сохранити</button>
   </div>
 </div>

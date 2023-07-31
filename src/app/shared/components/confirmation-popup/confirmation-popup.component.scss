@@ -1,5 +1,12 @@
-.buttons{
-  display: flex;
-  justify-content: space-around;
+.remove-container {
+  padding: 0 20px 20px 20px;
 }
 
+.mat-mdc-dialog-title {
+  background-color: #ffabab !important;
+  padding-bottom: 18px;
+}
+
+.remove-color {
+  background-color: #ffabab !important;
+}

@@ -137,8 +137,9 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.getTobaccos();
+        this.onCreate();
       }
+      this.getTobaccos();
     });
   }
 
@@ -157,9 +158,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result){
-            this.onCreate();
+            this.getTobaccos();
           }
-          this.getTobaccos();
         });
       }))
       .subscribe();

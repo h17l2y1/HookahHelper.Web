@@ -120,8 +120,9 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   }
 
   public delete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmationPopupComponent);
-
+    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+      width: "300px"
+    });
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
         this.brandService.remove(id).subscribe(() => this.getBrands())

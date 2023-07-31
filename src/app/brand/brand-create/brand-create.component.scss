@@ -1,5 +1,8 @@
 .popup-container {
-  margin: 20px;
+
+  .example-form {
+    padding: 0 20px 0 20px;
+  }
 
   .create-tobacco-container {
     display: flex;
@@ -30,10 +33,16 @@
 
   .popup-action-container {
     display: flex;
+    padding-bottom: 30px;
 
     .popup-actions-button {
       height: 42px;
       min-width: 130px;
     }
   }
+}
+
+.mat-mdc-dialog-title {
+  background-color: #abffbc !important;
+  padding-bottom: 18px;
 }

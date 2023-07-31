@@ -1,4 +1,5 @@
 <div class="popup-container">
+  <h1 mat-dialog-title>Редакувати Табак</h1>
   <form *ngIf="editTobaccoForm" [formGroup]="editTobaccoForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
@@ -20,7 +21,6 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Важкість</mat-label>
           <mat-select formControlName="heavinessId">
-            <mat-option>Усi</mat-option>
             <mat-option *ngFor="let option of data.heaviness" [value]="option.id">
               {{option.name}}
             </mat-option>
@@ -34,16 +34,17 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
+      <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Опис</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
       </div>
-      <div class="side"></div>
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
+    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Змінити</button>
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
-    <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Змінити</button>
   </div>
 </div>
