@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
 import {Observable} from "rxjs";
@@ -16,8 +16,6 @@ import {Heaviness} from "../../interfaces/entity/heaviness";
   styleUrls: ['./tobacco-editor.component.scss']
 })
 export class TobaccoEditorComponent {
-  public lineControl: FormControl = this.formBuilder.control(this.data.tobacco.lineId);
-  public heavinessControl: FormControl = this.formBuilder.control(this.data.tobacco.heavinessId);
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
   public linesOption$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.data.tobacco.brandId);
 
@@ -52,17 +50,18 @@ export class TobaccoEditorComponent {
   }
 
   public initEditTobaccoForm(): FormGroup {
-    return  this.formBuilder.group({
-      image: this.formBuilder.group({
-        name: null,
-        link: null,
-        base64: null,
-      }),
-      name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
-      description: [null,Validators.maxLength(256)],
+    return this.formBuilder.group({
+      id: [this.data.tobacco.id, [Validators.required]],
+      name: [this.data.tobacco.name, [Validators.required]],
+      description: this.data.tobacco.description,
       brandId: {value: this.data.tobacco.brandId, disabled: true},
-      lineId: [null, [Validators.required]],
-      heavinessId: [null, [Validators.required]],
+      lineId: [this.data.tobacco.lineId, [Validators.required]],
+      heavinessId: [this.data.tobacco.heavinessId, [Validators.required]],
+      image: this.formBuilder.group({
+        id: this.data.tobacco.image.id,
+        base64: this.data.tobacco.image.base64,
+        link: this.data.tobacco.image.link,
+      })
     });
-  };
+  }
 }
