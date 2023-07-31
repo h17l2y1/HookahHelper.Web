@@ -1,32 +1,30 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Brand} from "../../interfaces/entity/brand";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreateBrand} from "../../interfaces/other/create-brand";
 import {BrandService} from "../brand.service";
 import {CountryService} from "../../services/country.service";
+import {Observable} from "rxjs";
+import {Country} from "../../interfaces/entity/country";
 
 @Component({
   selector: 'app-brand-create',
   templateUrl: './brand-create.component.html',
   styleUrls: ['./brand-create.component.scss']
 })
-export class BrandCreateComponent implements OnInit {
+export class BrandCreateComponent {
   public createBrandForm: FormGroup = this.initCreateBrandForm();
   private tempId: number = 0;
-  public countries$ = this.countryService.getOptions();
+  public countries$: Observable<Country[]> = this.countryService.getOptions();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Brand,
     public dialogRef: MatDialogRef<BrandCreateComponent>,
     private formBuilder: FormBuilder,
-    private readonly brandService: BrandService,
-    private readonly countryService: CountryService,
-  ) {
-  }
-
-  ngOnInit(): void {
-  }
+    private brandService: BrandService,
+    private countryService: CountryService,
+  ) {}
 
   public onSave(): void {
     const request: CreateBrand = this.createBrandForm.value;
@@ -47,6 +45,7 @@ export class BrandCreateComponent implements OnInit {
       image: this.formBuilder.group({
         name: null,
         link: null,
+        base64: null,
       }),
       name: [null, [Validators.required]],
       description: null,

@@ -1,15 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, Inject} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
-import {filter, Observable, switchMap, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TobaccoService} from "../tobacco.service";
 import {BrandService} from "../../brand/brand.service";
 import {LineService} from "../../services/line.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {Heaviness} from "../../interfaces/entity/heaviness";
-import {HeavinessService} from "../../services/heaviness.service";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -17,7 +16,6 @@ import {HeavinessService} from "../../services/heaviness.service";
   styleUrls: ['./tobacco-editor.component.scss']
 })
 export class TobaccoEditorComponent {
-  public brandControl: FormControl = this.formBuilder.control({value: this.data.tobacco.brandId, disabled: true});
   public lineControl: FormControl = this.formBuilder.control(this.data.tobacco.lineId);
   public heavinessControl: FormControl = this.formBuilder.control(this.data.tobacco.heavinessId);
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
@@ -43,8 +41,9 @@ export class TobaccoEditorComponent {
       return;
     }
     const request: Tobacco = this.editTobaccoForm.value;
+    request.brandId = this.data.tobacco.brandId;
     this.tobaccoService.update(request).subscribe(() => {
-      this.dialogRef.close(true);
+      this.dialogRef.close();
     });
   }
 
@@ -61,7 +60,7 @@ export class TobaccoEditorComponent {
       }),
       name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
       description: [null,Validators.maxLength(256)],
-      brandId: this.brandControl,
+      brandId: {value: this.data.tobacco.brandId, disabled: true},
       lineId: [null, [Validators.required]],
       heavinessId: [null, [Validators.required]],
     });

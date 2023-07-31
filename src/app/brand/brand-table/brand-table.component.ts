@@ -4,7 +4,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../brand.service";
-import {map, merge, startWith, switchMap, tap} from "rxjs";
+import {map, merge, Observable, startWith, switchMap, tap} from "rxjs";
 import {Brand} from "../../interfaces/entity/brand";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
@@ -12,7 +12,9 @@ import {ConfirmationPopupComponent} from "../../shared/components/confirmation-p
 import {Router} from "@angular/router";
 import {Filter} from "../../interfaces/models/filter";
 import {CountryService} from "../../services/country.service";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl} from "@angular/forms";
+import {Country} from "../../interfaces/entity/country";
+import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 
 @Component({
   selector: 'app-brand-table',
@@ -36,8 +38,8 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   public isLoadingResults = true;
 
   public dataSource!: MatTableDataSource<Brand>;
-  public countries$ = this.countryService.getOptions();
-  public countryControl = this.formBuilder.control('');
+  public countries$: Observable<Country[]> = this.countryService.getOptions();
+  public countryControl: FormControl = this.formBuilder.control('');
 
   constructor(
     public dialog: MatDialog,
@@ -90,13 +92,10 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   }
 
   public create(): void {
-    const enterAnimationDuration = '600ms';
-    const exitAnimationDuration = '400ms';
-
     const dialogRef = this.dialog.open(BrandCreateComponent, {
       data: null,
-      enterAnimationDuration,
-      exitAnimationDuration
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
     dialogRef.afterClosed().subscribe(resp => {
@@ -107,13 +106,10 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   }
 
   public update(id: string): void {
-    const enterAnimationDuration = '600ms';
-    const exitAnimationDuration = '400ms';
-
     const dialogRef = this.dialog.open(BrandEditorComponent, {
       data: {id: id},
-      enterAnimationDuration,
-      exitAnimationDuration,
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
     dialogRef.afterClosed().subscribe(resp => {
@@ -133,8 +129,9 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public onBrand(id: string) {
-    this.router.navigateByUrl(`/tobacco/${id}`);
+  public onBrand(id: string): void {
+    this.router.navigateByUrl(`/tobacco/${id}`).then(() => {
+    });
   }
 
 }

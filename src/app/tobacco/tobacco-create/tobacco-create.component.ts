@@ -9,7 +9,6 @@ import {Heaviness} from "../../interfaces/entity/heaviness";
 import {HeavinessService} from "../../services/heaviness.service";
 import {LineService} from "../../services/line.service";
 import {Line} from "../../interfaces/entity/line";
-import {BrandService} from "../../brand/brand.service";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -29,8 +28,7 @@ export class TobaccoCreateComponent implements OnInit {
     private tobaccoService: TobaccoService,
     private lineService: LineService,
     private heavinessService: HeavinessService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.brandControl.valueChanges.pipe(
@@ -66,7 +64,7 @@ export class TobaccoCreateComponent implements OnInit {
       this.createTobaccoForm.markAllAsTouched();
       return;
     }
-    const request = this.createTobaccoForm.value as Tobacco;
+    const request: Tobacco = this.createTobaccoForm.value;
     this.tobaccoService.create(request).subscribe(() => {
       this.dialogRef.close(oneMore);
     });

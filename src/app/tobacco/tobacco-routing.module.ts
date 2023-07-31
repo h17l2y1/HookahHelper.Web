@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
 
 const routes: Routes = [
-  { path: '', component: TobaccoTableComponent },
+  {path: '', component: TobaccoTableComponent},
 ];
 
 @NgModule({
@@ -18,4 +18,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class TobaccoRoutingModule { }
+export class TobaccoRoutingModule {
+}
