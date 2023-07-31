@@ -1,15 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, Inject} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
-import {filter, Observable, switchMap, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TobaccoService} from "../tobacco.service";
 import {BrandService} from "../../brand/brand.service";
 import {LineService} from "../../services/line.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {Heaviness} from "../../interfaces/entity/heaviness";
-import {HeavinessService} from "../../services/heaviness.service";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -17,7 +16,6 @@ import {HeavinessService} from "../../services/heaviness.service";
   styleUrls: ['./tobacco-editor.component.scss']
 })
 export class TobaccoEditorComponent {
-  public brandControl: FormControl = this.formBuilder.control({value: this.data.tobacco.brandId, disabled: true});
   public lineControl: FormControl = this.formBuilder.control(this.data.tobacco.lineId);
   public heavinessControl: FormControl = this.formBuilder.control(this.data.tobacco.heavinessId);
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
@@ -39,8 +37,9 @@ export class TobaccoEditorComponent {
 
   public onSave(): void {
     const request: Tobacco = this.editTobaccoForm.value;
+    request.brandId = this.data.tobacco.brandId;
     this.tobaccoService.update(request).subscribe(() => {
-      this.dialogRef.close(true);
+      this.dialogRef.close();
     });
   }
 
@@ -49,11 +48,11 @@ export class TobaccoEditorComponent {
   }
 
   public initEditTobaccoForm(): FormGroup {
-    return  this.formBuilder.group({
-      id: [this.data.tobacco.name, [Validators.required]],
+    return this.formBuilder.group({
+      id: [this.data.tobacco.id, [Validators.required]],
       name: [this.data.tobacco.name, [Validators.required]],
       description: this.data.tobacco.description,
-      brandId: this.brandControl,
+      brandId: {value: this.data.tobacco.brandId, disabled: true},
       lineId: this.lineControl,
       heavinessId: this.heavinessControl,
       image: this.formBuilder.group({

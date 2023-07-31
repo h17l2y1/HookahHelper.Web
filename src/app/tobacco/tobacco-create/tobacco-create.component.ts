@@ -9,7 +9,6 @@ import {Heaviness} from "../../interfaces/entity/heaviness";
 import {HeavinessService} from "../../services/heaviness.service";
 import {LineService} from "../../services/line.service";
 import {Line} from "../../interfaces/entity/line";
-import {BrandService} from "../../brand/brand.service";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -58,7 +57,7 @@ export class TobaccoCreateComponent implements OnInit {
   };
 
   public onSave(oneMore?: boolean): void {
-    const request = this.createTobaccoForm.value as Tobacco;
+    const request: Tobacco = this.createTobaccoForm.value;
     this.tobaccoService.create(request).subscribe(() => {
       this.dialogRef.close(oneMore);
     });

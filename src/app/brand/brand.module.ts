@@ -10,15 +10,13 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
-import {AppModule} from "../app.module";
-import {ImageUploadComponent} from "../shared/components/image-upload/image-upload.component";
 import {SharedModule} from "../shared/shared.module";
 import {BrandService} from "./brand.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CountryService} from "../services/country.service";
-import { BrandCreateComponent } from './brand-create/brand-create.component';
+import {BrandCreateComponent} from './brand-create/brand-create.component';
 
 @NgModule({
   declarations: [
@@ -26,21 +24,21 @@ import { BrandCreateComponent } from './brand-create/brand-create.component';
     BrandEditorComponent,
     BrandCreateComponent,
   ],
-    imports: [
-        CommonModule,
-        BrandRoutingModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatTableModule,
-        SharedModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatProgressSpinnerModule,
-    ],
+  imports: [
+    CommonModule,
+    BrandRoutingModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatTableModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+  ],
   providers: [
     BrandService,
     CountryService

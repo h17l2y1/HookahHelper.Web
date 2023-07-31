@@ -18,6 +18,7 @@ import {LineService} from "../../services/line.service";
 import {HeavinessService} from "../../services/heaviness.service";
 import {Heaviness} from "../../interfaces/entity/heaviness";
 import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
+import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -88,13 +89,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       }),
     ).subscribe();
 
-    this.countyControl.valueChanges.pipe(
-      tap(data => {
-        // this.brandControl.setValue(null, {emitEvent: false})
-      })
-    ).subscribe();
-
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(() => {
       this.brandId = this.route.snapshot.paramMap.get('id');
       this.filters = {
         name: null,
@@ -131,27 +126,23 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   }
 
   public onCreate(): void {
-    const enterAnimationDuration = '600ms';
-    const exitAnimationDuration = '400ms';
-
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
       data: {
         brandsOption: this.brandsOption,
         linesOption: this.linesOption
       },
-      enterAnimationDuration,
-      exitAnimationDuration,
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getTobaccos();
+      if (result){
+        this.getTobaccos();
+      }
     });
   }
 
   public onEdit(id: string): void {
-    const enterAnimationDuration = '600ms';
-    const exitAnimationDuration = '400ms';
-
     this.tobaccoService.getById(id).pipe(
       tap(response => {
         const dialogRef = this.dialog.open(TobaccoEditorComponent, {
@@ -160,17 +151,15 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
             brands$: this.brands$,
             heaviness: this.heavinessOption
           },
-          enterAnimationDuration,
-          exitAnimationDuration,
+          enterAnimationDuration: ENTER_ANIMATION_DURATION,
+          exitAnimationDuration: EXIT_ANIMATION_DURATION
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          if (result !== undefined){
+          if (result){
             this.onCreate();
-            if (!result){
-              this.getTobaccos();
-            }
           }
+          this.getTobaccos();
         });
       }))
       .subscribe();
