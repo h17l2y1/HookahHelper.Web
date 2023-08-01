@@ -1,28 +1,22 @@
-<mat-form-field class="choose-file-area">
-  <div>
-    <mat-toolbar>
-      <input matInput [(ngModel)]="fileAttr" readonly name="name" />
-      <button mat-flat-button color="primary">Browse File</button>
-    </mat-toolbar>
-    <input id="uploadFile" name="uploadFile" type="file" (change)="fileChangeEvent($event)">
+<div class="file-upload-container">
+  <img *ngIf="isFileExist" class="final-result" src="{{imageControlLink.value}}" alt="image error">
+  <ng-container *ngIf="!isFileExist">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4 / 3"
+      format="png"
+      (imageCropped)="imageCropped($event)">
+    </image-cropper>
+    <div *ngIf="croppedImage">
+      <img class="final-result" [src]="croppedImage" alt="image">
+    </div>
+  </ng-container>
+  <div (click)="uploadFile.click()" class="file-upload-button">
+    <button mat-raised-button color="primary">Choose File</button>
+    <input #uploadFile (change)="fileChangeEvent($event)" type='file' style="display:none"/>
   </div>
-</mat-form-field>
+</div>
 
-<img *ngIf="isFileExist" class="final-result" src="{{imageControlLink.value}}" alt="image error">
-
-<ng-container *ngIf="!isFileExist">
-  <image-cropper
-    [imageChangedEvent]="imageChangedEvent"
-    [maintainAspectRatio]="true"
-    [aspectRatio]="4 / 3"
-    format="png"
-    (imageCropped)="imageCropped($event)">
-  </image-cropper>
-  <div *ngIf="croppedImage">
-    <hr>
-    <img class="final-result" [src]="croppedImage" alt="image">
-  </div>
-
-</ng-container>
 
 

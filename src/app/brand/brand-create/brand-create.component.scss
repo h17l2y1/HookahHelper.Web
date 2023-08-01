@@ -23,10 +23,14 @@
 
     .brand-line-container {
       display: flex;
-      justify-content: space-between;
+
+      .inp-brand-line {
+        width: 100%;
+      }
 
       .btn-remove {
         margin-top: 5px;
+        margin-left: 30px;
       }
     }
   }
@@ -46,3 +50,6 @@
   background-color: #abffbc !important;
   padding-bottom: 18px;
 }
+
+
+

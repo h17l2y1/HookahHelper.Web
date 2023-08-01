@@ -1,22 +1,42 @@
-.mat-mdc-row:hover {
-  background-color: red;
-}
-
 .button {
   width: 200px;
   height: 50px;
-}
-
-.tobacco-card {
-  width: 200px;
-  height: 270px;
-  padding: 12px;
-  margin: 5px;
 }
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
 }
+
+.tobacco-card {
+  width: 225px;
+  //height: 270px;
+  margin: 10px;
+  border-radius: 30px;
+  box-shadow: none;
+}
+
+.title {
+  font-size: 1.1em;
+  text-align: center
+}
+
+.tobacco-card:hover {
+  box-shadow: #8fecd6;
+  //transition: all 0.3s linear;
+}
+
+mat-card {
+  //backdrop-filter: blur(15px) !important;
+  //filter: blur(10px);
+}
+
+mat-card-content {
+  display: block;
+  //filter: blur(10px);
+  //backdrop-filter: blur(15px);
+}
+
+
 
 

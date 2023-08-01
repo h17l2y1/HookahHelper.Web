@@ -14,7 +14,6 @@ export class ImageUploadComponent implements OnInit {
   public imageControlBase64!: FormControl;
   public imageChangedEvent!: any;
   public croppedImage!: SafeUrl;
-  public fileAttr = 'Choose File';
   public isFileExist = false;
 
   constructor(private rootFormGroup: FormGroupDirective, private sanitizer: DomSanitizer) {}

@@ -30,8 +30,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
   public totalRows = 0;
   public currentPage = 0;
-  public pageSize = 10;
-  public pageSizeOptions = [5, 10, 25, 100];
+  public pageSizeOptions = [25, 50, 100];
+  public pageSize = this.pageSizeOptions[0];
   public filters!: Filter;
   public tobaccos!: Tobacco[];
   private brandsOption?: Brand[];
@@ -131,6 +131,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         brandsOption: this.brandsOption,
         linesOption: this.linesOption
       },
+      maxWidth: '1000px',
+      backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
@@ -152,6 +154,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
             brands$: this.brands$,
             heaviness: this.heavinessOption
           },
+          maxWidth: '1000px',
+          backdropClass: 'blurred',
           enterAnimationDuration: ENTER_ANIMATION_DURATION,
           exitAnimationDuration: EXIT_ANIMATION_DURATION
         });

@@ -94,6 +94,8 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   public create(): void {
     const dialogRef = this.dialog.open(BrandCreateComponent, {
       data: null,
+      maxWidth: '1000px',
+      backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
@@ -108,6 +110,8 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   public update(id: string): void {
     const dialogRef = this.dialog.open(BrandEditorComponent, {
       data: {id: id},
+      maxWidth: '1000px',
+      backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
