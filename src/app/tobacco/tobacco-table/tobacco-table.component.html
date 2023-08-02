@@ -2,11 +2,11 @@
   <div class="tobacco-top-panel">
     <button class="button" mat-flat-button (click)="onCreate()">Create</button>
     <form [formGroup]="filterForm" class="example-form">
-      <mat-form-field>
+      <mat-form-field class="filter">
         <mat-label>Filter by Name</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="filter">
         <mat-label>Бренд</mat-label>
         <mat-select formControlName="brandId">
           <mat-option>Усi</mat-option>
@@ -15,7 +15,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="filter">
         <mat-label>Країна</mat-label>
         <mat-select formControlName="countryId">
           <mat-option>Усi</mat-option>
@@ -24,7 +24,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="filter">
         <mat-label>Лінійка</mat-label>
         <mat-select formControlName="lineId">
           <mat-option *ngFor="let option of linesOption" [value]="option.id">
@@ -32,7 +32,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="filter">
         <mat-label>Важкість</mat-label>
         <mat-select formControlName="heavinessId">
           <mat-option>Усi</mat-option>

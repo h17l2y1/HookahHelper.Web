@@ -1,7 +1,18 @@
-.button {
-  width: 200px;
-  height: 50px;
+.tobacco-top-panel {
+  //border: 1px solid white;
+
+  .button {
+    width: 210px;
+    height: 56px;
+    margin-bottom: 20px;
+  }
+
+  .filter {
+    padding-right: 20px;
+  }
 }
+
+
 
 .card-container {
   display: flex;
@@ -25,18 +36,6 @@
   box-shadow: #8fecd6;
   //transition: all 0.3s linear;
 }
-
-mat-card {
-  //backdrop-filter: blur(15px) !important;
-  //filter: blur(10px);
-}
-
-mat-card-content {
-  display: block;
-  //filter: blur(10px);
-  //backdrop-filter: blur(15px);
-}
-
 
 
 
