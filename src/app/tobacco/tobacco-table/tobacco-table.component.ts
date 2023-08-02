@@ -132,6 +132,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         linesOption: this.linesOption
       },
       maxWidth: '1000px',
+      height: '70%',
       backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION
@@ -155,6 +156,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
             heaviness: this.heavinessOption
           },
           maxWidth: '1000px',
+          height: '70%',
           backdropClass: 'blurred',
           enterAnimationDuration: ENTER_ANIMATION_DURATION,
           exitAnimationDuration: EXIT_ANIMATION_DURATION
