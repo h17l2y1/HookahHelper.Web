@@ -13,10 +13,6 @@ export class CountryService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(): Observable<GetAllResponse<Country>> {
-    return this.http.get<GetAllResponse<Country>>(this.rootUrl + `Country/GetAll?Page=0&Take=100&SortBy=asc&Column=name'`);
-  }
-
   public getOptions(): Observable<Country[]> {
     return this.http.get<Country[]>(this.rootUrl + 'Country/GetOptions');
   }

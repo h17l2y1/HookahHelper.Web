@@ -1,31 +1,32 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
-import {TobaccoService} from "../tobacco.service";
+import {Component, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {Tobacco} from "../../interfaces/entity/tobacco";
-import {GetAllResponse} from "../../interfaces/models/get-all-response";
-import {ActivatedRoute} from "@angular/router";
-import {BrandService} from "../../brand/brand.service";
-import {CountryService} from "../../services/country.service";
-import {filter, Observable, switchMap, tap} from "rxjs";
 import {Filter} from "../../interfaces/models/filter";
+import {Tobacco} from "../../interfaces/entity/tobacco";
 import {Brand} from "../../interfaces/entity/brand";
+import {Heaviness} from "../../interfaces/entity/heaviness";
+import {Line} from "../../interfaces/entity/line";
+import {filter, Observable, switchMap, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Line} from "../../interfaces/entity/line";
+import {MatDialog} from "@angular/material/dialog";
+import {TobaccoService} from "../tobacco.service";
+import {BrandService} from "../../brand/brand.service";
+import {CountryService} from "../../services/country.service";
 import {LineService} from "../../services/line.service";
 import {HeavinessService} from "../../services/heaviness.service";
-import {Heaviness} from "../../interfaces/entity/heaviness";
-import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
+import {ActivatedRoute} from "@angular/router";
+import {GetAllResponse} from "../../interfaces/models/get-all-response";
+import {ThemePalette} from "@angular/material/core";
+import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
+import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
 
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent implements OnInit, AfterViewInit {
+export class TobaccoTableComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public totalRows = 0;
@@ -51,6 +52,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public brandControl: FormControl = this.formBuilder.control('');
   public countyControl: FormControl = this.formBuilder.control('');
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
+
+  color: ThemePalette = 'accent';
+  checked = false;
+  disabled = false;
 
   constructor(
     public dialog: MatDialog,
@@ -103,8 +108,14 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.getTobaccos();
+  private initFilterForm(): void {
+    this.filterForm = this.formBuilder.group({
+      name: null,
+      brandId: this.brandControl,
+      countryId: this.countyControl,
+      lineId: this.lineControl,
+      heavinessId: null,
+    })
   }
 
   public getTobaccos(): void {
@@ -115,14 +126,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private initFilterForm(): void {
-    this.filterForm = this.formBuilder.group({
-      name: null,
-      brandId: this.brandControl,
-      countryId: this.countyControl,
-      lineId: this.lineControl,
-      heavinessId: null,
-    })
+  public handlePageEvent(e: PageEvent): void {
+    this.pageSize = e.pageSize;
+    this.currentPage = e.pageIndex;
+    this.getTobaccos();
   }
 
   public onCreate(): void {
@@ -169,24 +176,5 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
         });
       }))
       .subscribe();
-  }
-
-  public handlePageEvent(e: PageEvent) {
-    this.pageSize = e.pageSize;
-    this.currentPage = e.pageIndex;
-    this.getTobaccos();
-  }
-
-  public applyFilter(event: Event): void {
-    this.filters.name = (event.target as HTMLInputElement).value.trim().toLowerCase();
-
-    let firstPage = 0;
-    this.paginator.pageIndex = firstPage;
-    this.paginator.page.next({
-      pageIndex: firstPage,
-      pageSize: this.paginator.pageSize,
-      length: this.paginator.length
-    });
-    this.getTobaccos();
   }
 }

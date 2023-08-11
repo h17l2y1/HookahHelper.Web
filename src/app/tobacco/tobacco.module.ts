@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TobaccoCreateComponent} from './tobacco-create/tobacco-create.component';
 import {TobaccoRoutingModule} from "./tobacco-routing.module";
-import {TobaccoTableComponent} from './tobacco-table/tobacco-table.component';
+import {TobaccoListTableComponent} from './tobacco-table/tobacco-list-table/tobacco-list-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -22,12 +22,17 @@ import {TobaccoEditorComponent} from './tobacco-editor/tobacco-editor.component'
 import {LineService} from "../services/line.service";
 import {HeavinessService} from "../services/heaviness.service";
 import {MatBadgeModule} from "@angular/material/badge";
+import { TobaccoCardTableComponent } from './tobacco-table/tobacco-card-table/tobacco-card-table.component';
+import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
     TobaccoCreateComponent,
+    TobaccoEditorComponent,
+    TobaccoListTableComponent,
+    TobaccoCardTableComponent,
     TobaccoTableComponent,
-    TobaccoEditorComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +50,7 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatSortModule,
     MatProgressSpinnerModule,
     MatBadgeModule,
+    MatSlideToggleModule,
   ],
   providers: [
     TobaccoService,

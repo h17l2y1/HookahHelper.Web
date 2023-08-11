@@ -1,0 +1,71 @@
+<div class="tobacco-container">
+<!--  <div class="tobacco-top-panel">-->
+<!--    <button class="button" mat-flat-button (click)="onCreate()">Create</button>-->
+<!--    <form [formGroup]="filterForm" class="example-form">-->
+<!--      <mat-form-field class="filter">-->
+<!--        <mat-label>Filter by Name</mat-label>-->
+<!--        <input matInput formControlName="name">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field class="filter">-->
+<!--        <mat-label>Бренд</mat-label>-->
+<!--        <mat-select formControlName="brandId">-->
+<!--          <mat-option>Усi</mat-option>-->
+<!--          <mat-option *ngFor="let option of brands$ | async" [value]="option.id">-->
+<!--            {{option.name}}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field class="filter">-->
+<!--        <mat-label>Країна</mat-label>-->
+<!--        <mat-select formControlName="countryId">-->
+<!--          <mat-option>Усi</mat-option>-->
+<!--          <mat-option *ngFor="let option of countries$ | async" [value]="option.id">-->
+<!--            {{option.name}}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field class="filter">-->
+<!--        <mat-label>Лінійка</mat-label>-->
+<!--        <mat-select formControlName="lineId">-->
+<!--          <mat-option *ngFor="let option of linesOption" [value]="option.id">-->
+<!--            {{option.name}}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field class="filter">-->
+<!--        <mat-label>Важкість</mat-label>-->
+<!--        <mat-select formControlName="heavinessId">-->
+<!--          <mat-option>Усi</mat-option>-->
+<!--          <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">-->
+<!--            {{option.name}}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
+<!--    </form>-->
+<!--  </div>-->
+
+  <div class="card-container">
+    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos" (click)="onEdit(tobacco.id)">
+      <img mat-card-image class="image" src="{{tobacco.image?.link}}" alt="image error">
+      <mat-card-content>
+<!--        <div class="rating"><span>Rating</span></div>-->
+        <mat-card-title class="title">{{tobacco.name}}</mat-card-title>
+        <div class="description">
+          <p>
+            {{tobacco.description}}
+          </p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+<!--  <mat-paginator-->
+<!--    (page)="handlePageEvent($event)"-->
+<!--    [length]="totalRows"-->
+<!--    [pageIndex]="currentPage"-->
+<!--    [pageSize]="pageSize"-->
+<!--    [pageSizeOptions]="pageSizeOptions"-->
+<!--    aria-label="Select page">-->
+<!--  </mat-paginator>-->
+</div>
+
+
