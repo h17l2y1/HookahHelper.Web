@@ -53,9 +53,7 @@
     </mat-slide-toggle>
   </section>
 
-  <app-tobacco-list-table-table *ngIf="tobaccos"
-    [tobaccos]="tobaccos">
-  </app-tobacco-list-table-table>
+  <app-tobacco-list-table-table [tobaccos]="tobaccos"></app-tobacco-list-table-table>
 
   <mat-paginator
     (page)="handlePageEvent($event)"

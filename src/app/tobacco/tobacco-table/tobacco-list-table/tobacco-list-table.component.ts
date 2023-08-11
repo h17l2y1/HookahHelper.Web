@@ -28,6 +28,7 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../consta
 // export class TobaccoListTableComponent implements OnInit, AfterViewInit {
 export class TobaccoListTableComponent {
   @Input() brands$!: Observable<Brand[]>;
+  @Input() tobaccos!: Tobacco[];
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
   //
   // public totalRows = 0;
@@ -64,7 +65,7 @@ export class TobaccoListTableComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
-    const x = this.tobaccos;
+    console.log(this.tobaccos)
   }
 
   // ngOnInit() {

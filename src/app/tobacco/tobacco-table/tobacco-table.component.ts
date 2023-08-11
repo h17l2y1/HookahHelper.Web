@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Filter} from "../../interfaces/models/filter";
 import {Tobacco} from "../../interfaces/entity/tobacco";
@@ -26,7 +26,7 @@ import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent {
+export class TobaccoTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public totalRows = 0;
