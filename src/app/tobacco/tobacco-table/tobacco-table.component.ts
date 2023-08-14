@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Filter} from "../../interfaces/models/filter";
 import {Tobacco} from "../../interfaces/entity/tobacco";
@@ -26,7 +26,7 @@ import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent implements OnInit {
+export class TobaccoTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public totalRows = 0;
@@ -48,14 +48,14 @@ export class TobaccoTableComponent implements OnInit {
       tap(response => this.heavinessOption = response)
     );
   public brandId!: string | null;
+  public switchControl: FormControl = this.formBuilder.control(true);
   public filterForm!: FormGroup;
   public brandControl: FormControl = this.formBuilder.control('');
   public countyControl: FormControl = this.formBuilder.control('');
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
 
   color: ThemePalette = 'accent';
-  checked = false;
-  disabled = false;
+  checked = true;
 
   constructor(
     public dialog: MatDialog,
@@ -68,7 +68,7 @@ export class TobaccoTableComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initFilterForm();
 
     this.filterForm.valueChanges.pipe(
@@ -94,6 +94,12 @@ export class TobaccoTableComponent implements OnInit {
       }),
     ).subscribe();
 
+    this.switchControl.valueChanges.pipe(
+      tap(result => {
+        this.checked = result;
+      })
+    ).subscribe()
+
     this.route.params.subscribe(() => {
       this.brandId = this.route.snapshot.paramMap.get('id');
       this.filters = {
@@ -106,6 +112,10 @@ export class TobaccoTableComponent implements OnInit {
 
       this.brandControl.setValue(this.brandId, {emitEvent: false});
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.getTobaccos();
   }
 
   private initFilterForm(): void {
@@ -153,28 +163,29 @@ export class TobaccoTableComponent implements OnInit {
     });
   }
 
-  public onEdit(id: string): void {
-    this.tobaccoService.getById(id).pipe(
-      tap(response => {
-        const dialogRef = this.dialog.open(TobaccoEditorComponent, {
-          data: {
-            tobacco: response,
-            brands$: this.brands$,
-            heaviness: this.heavinessOption
-          },
-          maxWidth: '1000px',
-          height: '70%',
-          backdropClass: 'blurred',
-          enterAnimationDuration: ENTER_ANIMATION_DURATION,
-          exitAnimationDuration: EXIT_ANIMATION_DURATION
-        });
+  // public onEdit(id: string): void {
+  //   this.tobaccoService.getById(id).pipe(
+  //     tap(response => {
+  //       const dialogRef = this.dialog.open(TobaccoEditorComponent, {
+  //         data: {
+  //           tobacco: response,
+  //           brands$: this.brands$,
+  //           heaviness: this.heavinessOption
+  //         },
+  //         maxWidth: '1000px',
+  //         height: '70%',
+  //         backdropClass: 'blurred',
+  //         enterAnimationDuration: ENTER_ANIMATION_DURATION,
+  //         exitAnimationDuration: EXIT_ANIMATION_DURATION
+  //       });
+  //
+  //       dialogRef.afterClosed().subscribe(result => {
+  //         if (result){
+  //           this.getTobaccos();
+  //         }
+  //       });
+  //     }))
+  //     .subscribe();
+  // }
 
-        dialogRef.afterClosed().subscribe(result => {
-          if (result){
-            this.getTobaccos();
-          }
-        });
-      }))
-      .subscribe();
-  }
 }
