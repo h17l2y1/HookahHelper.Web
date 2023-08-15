@@ -25,6 +25,8 @@ import {MatBadgeModule} from "@angular/material/badge";
 import { TobaccoTableListComponent } from './tobacco-table/tobacco-table-list/tobacco-table-list.component';
 import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatProgressSpinnerModule,
     MatBadgeModule,
     MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
   providers: [
     TobaccoService,

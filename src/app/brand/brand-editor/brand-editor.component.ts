@@ -25,6 +25,7 @@ export class BrandEditorComponent implements OnInit {
     })
   );
   public countries$: Observable<Country[]> = this.countryService.getOptions();
+  private brandId!: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: string },
@@ -51,6 +52,7 @@ export class BrandEditorComponent implements OnInit {
   }
 
   private initBrandUpdateForm(brand: Brand): FormGroup {
+    this.brandId = brand.id;
     return this.formBuilder.group({
       id: brand.id,
       image: this.formBuilder.group({
@@ -71,6 +73,7 @@ export class BrandEditorComponent implements OnInit {
       return this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
         id: this.formBuilder.control(line.id),
+        brandId: this.formBuilder.control(this.brandId),
         name: this.formBuilder.control(line.name)
       })
     })
@@ -94,6 +97,7 @@ export class BrandEditorComponent implements OnInit {
     this.getLines.push(
       this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
+        brandId: this.formBuilder.control(this.brandId),
         name: this.formBuilder.control(''),
         isNew: true,
       })

@@ -1,4 +1,5 @@
 import {Image} from "./image";
+import {Tag} from "./tag";
 
 export interface Tobacco {
   id: string;
@@ -8,4 +9,5 @@ export interface Tobacco {
   heavinessId: string;
   lineId: string;
   image: Image;
+  tags: Tag[];
 }
