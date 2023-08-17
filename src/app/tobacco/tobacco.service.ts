@@ -37,7 +37,7 @@ export class TobaccoService {
     return this.http.put<any>(this.rootUrl + 'Tobacco/Update', data);
   }
 
-  public remove(data: any): Observable<any> {
-    return this.http.post<any>(this.rootUrl + 'Tobacco/Remove', data);
+  public remove(id: any): Observable<any> {
+    return this.http.delete<void>(this.rootUrl + `Tobacco/Remove/${id}`);
   }
 }
