@@ -1,17 +1,17 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
-import {map, Observable, startWith} from "rxjs";
+import {Observable, startWith, switchMap, tap} from "rxjs";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TobaccoService} from "../tobacco.service";
-import {BrandService} from "../../brand/brand.service";
 import {LineService} from "../../services/line.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {Heaviness} from "../../interfaces/entity/heaviness";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {Tag} from "../../interfaces/entity/tag";
+import {TagService} from "../../services/tag.service";
+import {HeavinessService} from "../../services/heaviness.service";
+import {TobaccoTag} from "../../interfaces/entity/tobacco-tag";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -21,80 +21,103 @@ import {Tag} from "../../interfaces/entity/tag";
 export class TobaccoEditorComponent implements OnInit {
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
   public linesOption$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.data.tobacco.brandId);
+  public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
 
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
   public tagControl = new FormControl('');
-  filteredTags!: Observable<Tag[]>;
-  public usedTags: Tag[] = this.data.tobacco.tags;
-  public allTags: Tag[] = [
-    {id: '1', name: 'Apple'},
-    {id: '2', name: 'Lemon'},
-    {id: '3', name: 'Lime'},
-    {id: '4', name: 'Orange'},
-    {id: '5', name: 'Strawberry'}
-  ];
-  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  public filteredTags!: Tag[];
+  public selectedTags: Tag[] = this.data.tobacco.tags;
+  public allTags!: Tag[];
+  public removedTags: TobaccoTag[] = [];
+  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      tobacco: Tobacco,
-      brands$: Observable<Brand[]>,
-      heaviness: Heaviness[]
-    },
+    @Inject(MAT_DIALOG_DATA) public data: { tobacco: Tobacco },
     public dialogRef: MatDialogRef<TobaccoEditorComponent>,
     private formBuilder: FormBuilder,
     private tobaccoService: TobaccoService,
-    private brandService: BrandService,
     private lineService: LineService,
+    private tagService: TagService,
+    private heavinessService: HeavinessService,
   ) {}
 
-  ngOnInit() {
-    this.filteredTags = this.tagControl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),
+  ngOnInit(): void {
+    this.tagService.getOptions().pipe(
+      tap(response => this.allTags = response),
+      switchMap((tagsResponse: Tag[]) => {
+        return this.tagControl.valueChanges.pipe(
+          startWith(null),
+          tap((value) => {
+            if (!value) {
+              // filtering tags by default
+              this.filteredTags = this.filter();
+              return;
+            }
+            if (typeof value === 'object') {
+              // filtering after select
+              const newTag = value as Tag;
+              newTag.isNew = true;
+              this.selectedTags.push(newTag);
+              this.filteredTags = this.filter();
+              this.tagInput.nativeElement.value = '';
+              this.tagControl.setValue(null, {emitEvent: false});
+              return;
+            }
+            // filtering by name when use input
+            this.filteredTags = this.filteredTags.filter(tag => tag.name.toLowerCase().includes(value));
+          }),
+        )
+      })
+    ).subscribe();
+  }
+
+  private filter(): Tag[] {
+    return this.allTags.filter(tag => !this.selectedTags.some(selectedTag =>
+      selectedTag.name === tag.name) && !tag.isRemoved
     );
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    //
-    // // Add our fruit
-    // if (value) {
-    //   this.tags.push(value);
-    // }
+  public removeTag(removedTag: Tag): void {
+    const exTag = this.data.tobacco.tobaccoTags?.find(tag => tag.tagId === removedTag.id && !removedTag.isNew);
 
-    // Clear the input value
-    event.chipInput!.clear();
-    this.tagControl.setValue(null);
-  }
-
-  public removeTag(tag: Tag): void {
-    const index = this.usedTags.indexOf(tag);
-    if (index >= 0) {
-      this.usedTags.splice(index, 1);
+    if (exTag) {
+      exTag.isRemoved = true
+      this.removedTags.push(exTag)
     }
+
+    const index = this.selectedTags.indexOf(removedTag);
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    }
+
+    this.filteredTags = this.filter();
   }
 
-  public selected(tag: Tag): void {
-    this.usedTags.push(tag);
-    this.fruitInput.nativeElement.value = '';
-    this.tagControl.setValue(null);
-  }
-
-  private _filter(value: string): Tag[] {
-    const filterValue = value.toLowerCase();
-    return this.allTags.filter(fruit => fruit.name.toLowerCase().includes(filterValue));
-  }
   public onSave(): void {
     if (this.editTobaccoForm.invalid) {
       this.editTobaccoForm.markAllAsTouched();
       return;
     }
-    const request: Tobacco = this.editTobaccoForm.value;
-    request.brandId = this.data.tobacco.brandId;
+    const request = this.mapRequestModel();
     this.tobaccoService.update(request).subscribe(() => {
       this.dialogRef.close(true);
     });
+  }
+
+  private mapRequestModel(): Tobacco {
+    const request: Tobacco = this.editTobaccoForm.value;
+    request.brandId = this.data.tobacco.brandId;
+    request.tobaccoTags = this.selectedTags.map(tag => {
+      return {
+        id: undefined,
+        tobaccoId: request.id,
+        tagId: tag.id,
+        isNew: tag.isNew
+      }
+    });
+    request.tobaccoTags = request.tobaccoTags.concat(this.removedTags);
+
+    return request;
   }
 
   public onCancel(): void {

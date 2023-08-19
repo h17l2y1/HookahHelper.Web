@@ -19,7 +19,8 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ThemePalette} from "@angular/material/core";
 import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
-import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
+import {Tag} from "../../interfaces/entity/tag";
+import {TagService} from "../../services/tag.service";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -35,18 +36,17 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public pageSize = this.pageSizeOptions[0];
   public filters!: Filter;
   public tobaccos!: Tobacco[];
-  private brandsOption?: Brand[];
-  private heavinessOption?: Heaviness[];
+  public brandsOption!: Brand[];
+  public tagOption!: Tag[];
+  public heavinessOption!: Heaviness[];
   public linesOption: Line[] = [];
+  public tags$: Observable<Tag[]> = this.tagService.getOptions()
+    .pipe(tap(response => this.tagOption = response));
   public brands$: Observable<Brand[]> = this.brandService.getOptions()
-    .pipe(
-      tap(response => this.brandsOption = response)
-    );
+    .pipe(tap(response => this.brandsOption = response));
   public countries$: Observable<Country[]> = this.countryService.getOptions();
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions()
-    .pipe(
-      tap(response => this.heavinessOption = response)
-    );
+    .pipe(tap(response => this.heavinessOption = response));
   public brandId!: string | null;
   public switchControl: FormControl = this.formBuilder.control(true);
   public filterForm!: FormGroup;
@@ -64,6 +64,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     private countryService: CountryService,
     private lineService: LineService,
     private heavinessService: HeavinessService,
+    private tagService: TagService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {}
@@ -80,7 +81,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
 
     this.brandControl.valueChanges.pipe(
       tap(brandId => {
-        if (!brandId){
+        if (!brandId) {
           this.lineControl.reset();
           this.lineControl.disable();
         }
@@ -121,6 +122,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   private initFilterForm(): void {
     this.filterForm = this.formBuilder.group({
       name: null,
+      tags: null,
       brandId: this.brandControl,
       countryId: this.countyControl,
       lineId: this.lineControl,
@@ -156,36 +158,11 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result){
+      if (result) {
         this.onCreate();
       }
       this.getTobaccos();
     });
   }
-
-  // public onEdit(id: string): void {
-  //   this.tobaccoService.getById(id).pipe(
-  //     tap(response => {
-  //       const dialogRef = this.dialog.open(TobaccoEditorComponent, {
-  //         data: {
-  //           tobacco: response,
-  //           brands$: this.brands$,
-  //           heaviness: this.heavinessOption
-  //         },
-  //         maxWidth: '1000px',
-  //         height: '70%',
-  //         backdropClass: 'blurred',
-  //         enterAnimationDuration: ENTER_ANIMATION_DURATION,
-  //         exitAnimationDuration: EXIT_ANIMATION_DURATION
-  //       });
-  //
-  //       dialogRef.afterClosed().subscribe(result => {
-  //         if (result){
-  //           this.getTobaccos();
-  //         }
-  //       });
-  //     }))
-  //     .subscribe();
-  // }
 
 }

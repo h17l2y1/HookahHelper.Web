@@ -7,6 +7,15 @@
         <input matInput formControlName="name">
       </mat-form-field>
       <mat-form-field class="filter">
+        <mat-label>Тeгi</mat-label>
+        <mat-select formControlName="tags">
+          <mat-option>Нема</mat-option>
+          <mat-option *ngFor="let option of tags$ | async" [value]="option.id">
+            {{option.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="filter">
         <mat-label>Бренд</mat-label>
         <mat-select formControlName="brandId">
           <mat-option>Усi</mat-option>
@@ -41,23 +50,23 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
       <div class="filter">
         <section class="example-section filter">
-          <mat-slide-toggle class="example-margin"
-                            [color]="color"
-                            [checked]="checked"
-                            [formControl]="switchControl">
+          <mat-slide-toggle
+            class="example-margin"
+            [color]="color"
+            [checked]="checked"
+            [formControl]="switchControl">
             Switch View
           </mat-slide-toggle>
         </section>
       </div>
-
     </form>
   </div>
 
   <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccos"></app-tobacco-table-card>
-  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-list>
+  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()">
+  </app-tobacco-table-list>
 
   <mat-paginator
     (page)="handlePageEvent($event)"

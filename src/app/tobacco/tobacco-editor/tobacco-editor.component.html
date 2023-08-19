@@ -12,16 +12,12 @@
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Бренд</mat-label>
-          <mat-select formControlName="brandId">
-            <mat-option *ngFor="let item of data.brands$ | async" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
+          <input matInput disabled [value]="data.tobacco.brand.name">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Важкість</mat-label>
           <mat-select formControlName="heavinessId">
-            <mat-option *ngFor="let option of data.heaviness" [value]="option.id">
+            <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
               {{option.name}}
             </mat-option>
           </mat-select>
@@ -43,21 +39,20 @@
         <mat-form-field class="example-chip-list">
           <mat-label>Tags</mat-label>
           <mat-chip-grid #chipGrid aria-label="Fruit selection">
-            <mat-chip-row *ngFor="let tag of usedTags" (removed)="removeTag(tag)">
+            <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
               {{tag.name}}
               <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
                 <mat-icon>cancel</mat-icon>
               </button>
             </mat-chip-row>
           </mat-chip-grid>
-          <input placeholder="New Tag..." #fruitInput
+          <input placeholder="New Tag..." #tagInput
                  [formControl]="tagControl"
                  [matChipInputFor]="chipGrid"
                  [matAutocomplete]="auto"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 (matChipInputTokenEnd)="add($event)"/>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event.option.value)">
-            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let tag of filteredTags" [value]="tag">
               {{tag.name}}
             </mat-option>
           </mat-autocomplete>

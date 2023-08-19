@@ -27,6 +27,7 @@ import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {TagService} from "../services/tag.service";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     CountryService,
     LineService,
     HeavinessService,
+    TagService,
   ]
 })
 export class TobaccoModule {
