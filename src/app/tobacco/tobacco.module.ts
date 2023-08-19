@@ -28,6 +28,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {TagService} from "../services/tag.service";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -37,26 +38,27 @@ import {TagService} from "../services/tag.service";
     TobaccoTableListComponent,
     TobaccoTableComponent,
   ],
-  imports: [
-    CommonModule,
-    TobaccoRoutingModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatTableModule,
-    MatCardModule,
-    SharedModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatBadgeModule,
-    MatSlideToggleModule,
-    MatChipsModule,
-    MatAutocompleteModule,
-  ],
+    imports: [
+        CommonModule,
+        TobaccoRoutingModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatTableModule,
+        MatCardModule,
+        SharedModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatProgressSpinnerModule,
+        MatBadgeModule,
+        MatSlideToggleModule,
+        MatChipsModule,
+        MatAutocompleteModule,
+        MatButtonToggleModule,
+    ],
   providers: [
     TobaccoService,
     BrandService,

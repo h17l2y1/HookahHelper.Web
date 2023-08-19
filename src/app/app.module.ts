@@ -17,6 +17,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor} from "./services/error-interceptor";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {ErrorInterceptor} from "./services/error-interceptor";
     MatExpansionModule,
     MatTooltipModule,
     RouterModule.forRoot([]),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatTabsModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

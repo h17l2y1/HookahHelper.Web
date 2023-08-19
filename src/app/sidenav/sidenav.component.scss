@@ -1,13 +1,9 @@
-.main-container {
-  padding-top: 10px;
-}
-
 .toolbar-item-spacer {
   flex: 1 1 auto;
 }
 
 .mat-toolbar {
-  margin: 20px 20px 0 40px;
+  margin: 20px;
   border-radius: 30px;
   width: auto;
   color: white;
@@ -18,31 +14,15 @@
   margin: 0;
 }
 
-.app-sidenav {
-  width: 230px;
-  border-radius: 30px;
-  margin: 20px;
-  padding: 15px;
-  box-shadow: none;
-  overflow: hidden;
-  user-select: none;
+.tabs {
+  background-color: #5d5d5d;
+  border-radius: 4px;
 }
 
-.app-sidenav-content {
-  //display: flex;
-  //height: 100%;
-  //align-items: center;
-  //justify-content: center;
-  border-radius: 30px;
-  margin: 20px 20px 20px 40px;
-  padding: 15px;
+.active-link {
+  color: #F20B22;
 }
 
-mat-list-item {
-  margin-bottom: 8px;
-  border-radius: 14px;
-  background-color: #565656;
+.main-container {
+  padding: 20px;
 }
-
-
-

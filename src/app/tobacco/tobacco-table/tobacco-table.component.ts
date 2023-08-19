@@ -19,7 +19,6 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {ThemePalette} from "@angular/material/core";
 import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
-import {Tag} from "../../interfaces/entity/tag";
 import {TagService} from "../../services/tag.service";
 
 @Component({
@@ -37,11 +36,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public filters!: Filter;
   public tobaccos!: Tobacco[];
   public brandsOption!: Brand[];
-  public tagOption!: Tag[];
   public heavinessOption!: Heaviness[];
   public linesOption: Line[] = [];
-  public tags$: Observable<Tag[]> = this.tagService.getOptions()
-    .pipe(tap(response => this.tagOption = response));
   public brands$: Observable<Brand[]> = this.brandService.getOptions()
     .pipe(tap(response => this.brandsOption = response));
   public countries$: Observable<Country[]> = this.countryService.getOptions();
@@ -122,7 +118,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   private initFilterForm(): void {
     this.filterForm = this.formBuilder.group({
       name: null,
-      tags: null,
+      tags: {value: null, disabled: true},
       brandId: this.brandControl,
       countryId: this.countyControl,
       lineId: this.lineControl,

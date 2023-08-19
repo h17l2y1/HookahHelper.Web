@@ -1,18 +1,17 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
-    <button class="button" mat-flat-button (click)="onCreate()">Create</button>
     <form [formGroup]="filterForm" class="example-form">
       <mat-form-field class="filter">
         <mat-label>Filter by Name</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
       <mat-form-field class="filter">
-        <mat-label>Тeгi</mat-label>
+        <mat-label>Смаки</mat-label>
         <mat-select formControlName="tags">
-          <mat-option>Нема</mat-option>
-          <mat-option *ngFor="let option of tags$ | async" [value]="option.id">
-            {{option.name}}
-          </mat-option>
+          <mat-option>Усi</mat-option>
+<!--          <mat-option *ngFor="let option of tags$ | async" [value]="option.id">-->
+<!--            {{option.name}}-->
+<!--          </mat-option>-->
         </mat-select>
       </mat-form-field>
       <mat-form-field class="filter">
@@ -51,15 +50,17 @@
         </mat-select>
       </mat-form-field>
       <div class="filter">
-        <section class="example-section filter">
-          <mat-slide-toggle
-            class="example-margin"
-            [color]="color"
-            [checked]="checked"
-            [formControl]="switchControl">
-            Switch View
-          </mat-slide-toggle>
-        </section>
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+          <mat-button-toggle (change)="checked = !checked">
+            <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle (change)="checked = !checked">
+            <mat-icon>view_module</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <div class="filter">
+        <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
   </div>
