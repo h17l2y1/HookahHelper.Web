@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Tobacco} from "../interfaces/entity/tobacco";
 import {Filter} from "../interfaces/models/filter";
+import {Brand} from "../interfaces/entity/brand";
 
 @Injectable()
 export class TobaccoService {
@@ -33,11 +34,15 @@ export class TobaccoService {
     return this.http.post<void>(this.rootUrl + 'Tobacco/Create', data);
   }
 
-  public update(data: any): Observable<any> {
-    return this.http.put<any>(this.rootUrl + 'Tobacco/Update', data);
+  public update(data: Tobacco): Observable<void> {
+    return this.http.put<void>(this.rootUrl + 'Tobacco/Update', data);
   }
 
-  public remove(id: any): Observable<any> {
+  public remove(id: string): Observable<void> {
     return this.http.delete<void>(this.rootUrl + `Tobacco/Remove/${id}`);
+  }
+
+  public getOptions(): Observable<Tobacco[]> {
+    return this.http.get<Tobacco[]>(this.rootUrl + 'Tobacco/GetOptions');
   }
 }
