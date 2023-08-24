@@ -16,21 +16,23 @@
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Бренд</mat-label>
-        <mat-select formControlName="brandId">
+        <input type="text" matInput [formControl]="brandAutocompleteControl" [matAutocomplete]="autoBrands">
+        <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
           <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let option of brands$ | async" [value]="option.id">
+          <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
             {{option.name}}
           </mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Країна</mat-label>
-        <mat-select formControlName="countryId">
+        <input type="text" matInput [formControl]="countryAutocompleteControl" [matAutocomplete]="autoCountry">
+        <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
           <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let option of countries$ | async" [value]="option.id">
+          <mat-option *ngFor="let option of filteredCountriesOptions" [value]="option">
             {{option.name}}
           </mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Лінійка</mat-label>

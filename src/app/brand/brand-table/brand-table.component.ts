@@ -63,6 +63,63 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
     this.getBrands();
   }
 
+  public applyFilter(event: Event): void {
+    this.filters.name = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.getBrands();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  public onCreate(): void {
+    const dialogRef = this.dialog.open(BrandCreateComponent, {
+      data: null,
+      maxWidth: '1000px',
+      backdropClass: 'blurred',
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
+    });
+
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.getBrands()
+      }
+    });
+  }
+
+  public onUpdate(id: string): void {
+    const dialogRef = this.dialog.open(BrandEditorComponent, {
+      data: {id: id},
+      maxWidth: '1000px',
+      backdropClass: 'blurred',
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
+    });
+
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.getBrands()
+      }
+    });
+  }
+
+  public onDelete(id: string): void {
+    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+      width: "300px"
+    });
+    dialogRef.afterClosed().subscribe(popupResponse => {
+      if (popupResponse) {
+        this.brandService.remove(id).subscribe(() => this.getBrands())
+      }
+    });
+  }
+
+  public onBrand(id: string): void {
+    this.router.navigateByUrl(`/tobacco/${id}`).then(() => {
+    });
+  }
+
   private getBrands(): void {
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
@@ -81,62 +138,4 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource<Brand>(data);
       });
   }
-
-  public applyFilter(event: Event): void {
-    this.filters.name = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.getBrands();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  public create(): void {
-    const dialogRef = this.dialog.open(BrandCreateComponent, {
-      data: null,
-      maxWidth: '1000px',
-      backdropClass: 'blurred',
-      enterAnimationDuration: ENTER_ANIMATION_DURATION,
-      exitAnimationDuration: EXIT_ANIMATION_DURATION
-    });
-
-    dialogRef.afterClosed().subscribe(resp => {
-      if (resp) {
-        this.getBrands()
-      }
-    });
-  }
-
-  public update(id: string): void {
-    const dialogRef = this.dialog.open(BrandEditorComponent, {
-      data: {id: id},
-      maxWidth: '1000px',
-      backdropClass: 'blurred',
-      enterAnimationDuration: ENTER_ANIMATION_DURATION,
-      exitAnimationDuration: EXIT_ANIMATION_DURATION
-    });
-
-    dialogRef.afterClosed().subscribe(resp => {
-      if (resp) {
-        this.getBrands()
-      }
-    });
-  }
-
-  public delete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      width: "300px"
-    });
-    dialogRef.afterClosed().subscribe(popupResponse => {
-      if (popupResponse) {
-        this.brandService.remove(id).subscribe(() => this.getBrands())
-      }
-    });
-  }
-
-  public onBrand(id: string): void {
-    this.router.navigateByUrl(`/tobacco/${id}`).then(() => {
-    });
-  }
-
 }

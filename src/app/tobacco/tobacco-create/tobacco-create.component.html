@@ -12,11 +12,12 @@
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Бренд</mat-label>
-          <mat-select formControlName="brandId">
-            <mat-option *ngFor="let item of data.brandsOption " [value]="item.id">
-              {{item.name}}
+          <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="autoBrands">
+          <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
+              {{option.name}}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Важкість</mat-label>
@@ -49,3 +50,6 @@
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
   </div>
 </div>
+
+<!--brandControl: {{brandControl.value | json}}-->
+<!--brandAutocompleteControl: {{brandAutocompleteControl.value | json}}-->
