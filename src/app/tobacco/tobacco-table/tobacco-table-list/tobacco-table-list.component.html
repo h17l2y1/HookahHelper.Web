@@ -1,8 +1,8 @@
 <div class="table-container">
   <div class="example-container mat-elevation-z8">
-    <!--  <div class="example-loading-shade" *ngIf="isLoadingResults">-->
-    <!--    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>-->
-    <!--  </div>-->
+      <div class="example-loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
     <div class="example-table-container">
       <table mat-table [dataSource]="tobaccos" matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
         <ng-container matColumnDef="id">
@@ -26,7 +26,6 @@
           <th mat-header-cell *matHeaderCellDef>Дія</th>
           <td mat-cell *matCellDef="let row">
             <mat-icon class="icon edit" aria-hidden="false" fontIcon="settings" (click)="onEdit(row.id)"></mat-icon>
-            <!--          <mat-icon class="icon delete" fontIcon="delete" (click)="delete(row.id)"></mat-icon>-->
             <mat-icon class="icon delete" fontIcon="delete" (click)="onDelete(row.id)" ></mat-icon>
           </td>
         </ng-container>

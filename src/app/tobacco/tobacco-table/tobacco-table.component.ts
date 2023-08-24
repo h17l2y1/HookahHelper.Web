@@ -49,7 +49,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public brandControl: FormControl = this.formBuilder.control('');
   public countyControl: FormControl = this.formBuilder.control('');
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
-
+  public isLoadingResults = true;
   color: ThemePalette = 'accent';
   checked = true;
 
@@ -127,8 +127,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   }
 
   public getTobaccos(): void {
+    this.isLoadingResults = true;
     this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filters)
       .subscribe((data: GetAllResponse<Tobacco>) => {
+        this.isLoadingResults = false;
         this.tobaccos = data.list;
         this.totalRows = data.total
       });
