@@ -1,18 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Tobacco} from "../../../interfaces/entity/tobacco";
-import {Observable, tap} from "rxjs";
+import {tap} from "rxjs";
 import {TobaccoEditorComponent} from "../../tobacco-editor/tobacco-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoService} from "../../tobacco.service";
 import {ConfirmationPopupComponent} from "../../../shared/components/confirmation-popup/confirmation-popup.component";
-import {Heaviness} from "../../../interfaces/entity/heaviness";
-import {Tag} from "../../../interfaces/entity/tag";
-import {Brand} from "../../../interfaces/entity/brand";
-import {Country} from "../../../interfaces/entity/country";
-import {TagService} from "../../../services/tag.service";
-import {BrandService} from "../../../brand/brand.service";
-import {HeavinessService} from "../../../services/heaviness.service";
+
 
 @Component({
   selector: 'app-tobacco-table-list',
@@ -24,13 +18,12 @@ export class TobaccoTableListComponent {
   @Input() isLoadingResults!: boolean;
   @Output("getTobaccosEmit") getTobaccos: EventEmitter<any> = new EventEmitter();
 
-  // public isLoadingResults = true;
   public readonly displayedColumns: string[] = ['image', 'name', 'description', 'action'];
 
   constructor(
     public dialog: MatDialog,
-    private tobaccoService: TobaccoService,
-  ) {}
+    private tobaccoService: TobaccoService)
+  {}
 
   public onEdit(id: string): void {
     this.tobaccoService.getById(id).pipe(
@@ -66,5 +59,4 @@ export class TobaccoTableListComponent {
       }
     });
   }
-
 }
