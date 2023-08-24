@@ -21,20 +21,15 @@ import {HeavinessService} from "../../../services/heaviness.service";
 })
 export class TobaccoTableListComponent {
   @Input() tobaccos!: Tobacco[];
-  // @Input() heavinessOption!: Heaviness[];
-  // @Input() brandsOption!: Brand[];
-  // @Input() tagOption!: Tag[];
+  @Input() isLoadingResults!: boolean;
   @Output("getTobaccosEmit") getTobaccos: EventEmitter<any> = new EventEmitter();
 
-  public isLoadingResults = true;
+  // public isLoadingResults = true;
   public readonly displayedColumns: string[] = ['image', 'name', 'description', 'action'];
 
   constructor(
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
-    // private tagService: TagService,
-    // private brandService: BrandService,
-    // private heavinessService: HeavinessService,
   ) {}
 
   public onEdit(id: string): void {
@@ -42,10 +37,7 @@ export class TobaccoTableListComponent {
       tap(response => {
         const dialogRef = this.dialog.open(TobaccoEditorComponent, {
           data: {
-            tobacco: response,
-            // brand: this.brandsOption.find(brand => brand.id === response.brandId),
-            // tags: this.tagOption,
-            // heaviness: this.heavinessOption
+            tobacco: response
           },
           maxWidth: '1000px',
           backdropClass: 'blurred',
@@ -55,7 +47,7 @@ export class TobaccoTableListComponent {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            // this.getTobaccos();
+            this.getTobaccos.emit();
           }
         });
       }))
