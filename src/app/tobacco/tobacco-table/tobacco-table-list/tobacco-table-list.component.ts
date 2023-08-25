@@ -1,12 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {tap} from "rxjs";
 import {TobaccoEditorComponent} from "../../tobacco-editor/tobacco-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoService} from "../../tobacco.service";
 import {ConfirmationPopupComponent} from "../../../shared/components/confirmation-popup/confirmation-popup.component";
-
+import {Tobacco} from "../../../interfaces/entity/tobacco";
 
 @Component({
   selector: 'app-tobacco-table-list',
@@ -14,8 +13,8 @@ import {ConfirmationPopupComponent} from "../../../shared/components/confirmatio
   styleUrls: ['./tobacco-table-list.component.scss']
 })
 export class TobaccoTableListComponent {
-  @Input() tobaccos!: Tobacco[];
   @Input() isLoadingResults!: boolean;
+  @Input() tobaccos!: Tobacco[];
   @Output("getTobaccosEmit") getTobaccos: EventEmitter<any> = new EventEmitter();
 
   public readonly displayedColumns: string[] = ['image', 'name', 'description', 'action'];

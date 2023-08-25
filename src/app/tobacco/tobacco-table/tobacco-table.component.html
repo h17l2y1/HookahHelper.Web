@@ -67,8 +67,8 @@
     </form>
   </div>
 
-  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccos"></app-tobacco-table-card>
-  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" [isLoadingResults]="isLoadingResults" (getTobaccosEmit)="getTobaccos()" >
+  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
+  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()" [isLoadingResults]="isLoadingResults">
   </app-tobacco-table-list>
 
   <mat-paginator

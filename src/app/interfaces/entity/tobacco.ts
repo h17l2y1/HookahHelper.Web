@@ -14,4 +14,5 @@ export interface Tobacco {
   tags: Tag[];
   tobaccoTags?: TobaccoTag[];
   brand: Brand;
+  tagsDescription: string[];
 }

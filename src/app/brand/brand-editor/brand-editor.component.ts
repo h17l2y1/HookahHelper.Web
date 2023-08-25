@@ -41,6 +41,7 @@ export class BrandEditorComponent implements OnInit {
 
   public onSave(): void {
     const request: CreateBrand = this.updateBrandForm.value;
+    request.image.name = `brand: ${request.name};`
     request.lines = request.lines ? request.lines : undefined;
     this.brandService.update(request).subscribe(() => {
       this.dialogRef.close(true);

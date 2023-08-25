@@ -41,15 +41,33 @@
           <mat-label>Опис</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
+        <mat-form-field class="example-chip-list">
+          <mat-label>Tags</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Fruit selection">
+            <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+              {{tag.name}}
+              <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </mat-chip-grid>
+          <input placeholder="New Tag..." #tagInput
+                 [formControl]="tagControl"
+                 [matChipInputFor]="chipGrid"
+                 [matAutocomplete]="auto"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let tag of filteredTags" [value]="tag">
+              {{tag.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </div>
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
     <button class="button popup-actions-button create-color" mat-flat-button (click)="onSave()">Створити</button>
     <button class="button popup-actions-button create-color" mat-flat-button (click)="onSave(true)">Створити ще</button>
-    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
+    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
   </div>
 </div>
-
-<!--brandControl: {{brandControl.value | json}}-->
-<!--brandAutocompleteControl: {{brandAutocompleteControl.value | json}}-->

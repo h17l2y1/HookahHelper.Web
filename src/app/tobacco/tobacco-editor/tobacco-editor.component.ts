@@ -44,7 +44,7 @@ export class TobaccoEditorComponent implements OnInit {
   ngOnInit(): void {
     this.tagService.getOptions().pipe(
       tap(response => this.allTags = response),
-      switchMap((tagsResponse: Tag[]) => {
+      switchMap(() => {
         return this.tagControl.valueChanges.pipe(
           startWith(null),
           tap((value) => {
@@ -116,6 +116,8 @@ export class TobaccoEditorComponent implements OnInit {
       }
     });
     request.tobaccoTags = request.tobaccoTags.concat(this.removedTags);
+    request.tags = this.selectedTags;
+    request.image.name = `tobacco: ${request.name}`;
 
     return request;
   }

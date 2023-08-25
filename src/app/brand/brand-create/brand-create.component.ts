@@ -28,6 +28,8 @@ export class BrandCreateComponent {
 
   public onSave(): void {
     const request: CreateBrand = this.createBrandForm.value;
+    request.image.name = `brand: ${request.name};`
+
     if (request.lines){
       request.lines = request.lines[0].name ? request.lines : undefined;
     }

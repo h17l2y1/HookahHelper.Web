@@ -150,17 +150,20 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public onCreate(): void {
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
       maxWidth: '1000px',
-      height: '70%',
       backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((result: {oneMore?: boolean, isCreated?: boolean}) => {
+      if (result?.oneMore){
         this.onCreate();
+        return;
       }
-      this.getTobaccos();
+
+      if (!result?.oneMore && result?.isCreated){
+        this.getTobaccos();
+      }
     });
   }
 

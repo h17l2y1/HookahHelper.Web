@@ -6,9 +6,7 @@ import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Tag} from "../interfaces/entity/tag";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TagService {
 
   readonly rootUrl: string = environment.apiUrl;
