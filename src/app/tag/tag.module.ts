@@ -13,11 +13,12 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
 import {TagService} from "./tag.service";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
 import { TagCreateComponent } from './tag-create/tag-create.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { TagEditorComponent } from './tag-editor/tag-editor.component';
+import {NamePipe} from "../shared/pipes/name.pipe";
 
 
 @NgModule({
@@ -41,10 +42,12 @@ import { TagEditorComponent } from './tag-editor/tag-editor.component';
     MatSortModule,
     MatTableModule,
     SharedModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   providers: [
     TagService,
+    NamePipe
   ]
 })
 export class TagModule {

@@ -1,17 +1,17 @@
 <div class="popup-container" *ngIf="editTagForm">
-  <h1 mat-dialog-title>Редакувати Бренд</h1>
+  <h1 mat-dialog-title>Редакувати Тег</h1>
   <form [formGroup]="editTagForm" class="example-form">
     <div class="edit-tag-container">
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Назва тегу</mat-label>
-          <input matInput formControlName="name">
+          <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
       </div>
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Редакувати</button>
+    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Змінити</button>
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
   </div>
 </div>

@@ -5,7 +5,7 @@
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Назва тегу</mat-label>
-          <input matInput formControlName="name">
+          <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
       </div>
     </div>

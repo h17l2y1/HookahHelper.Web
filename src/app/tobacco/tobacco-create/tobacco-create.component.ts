@@ -13,6 +13,7 @@ import {BrandService} from "../../brand/brand.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TagService} from "../../tag/tag.service";
+import {NamePipe} from "../../shared/pipes/name.pipe";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -42,7 +43,9 @@ export class TobaccoCreateComponent implements OnInit {
     private heavinessService: HeavinessService,
     private brandService: BrandService,
     private tagService: TagService,
-  ) {}
+    private namePipe: NamePipe,
+  ) {
+  }
 
   ngOnInit(): void {
     this.tagService.getOptions().pipe(
@@ -151,8 +154,8 @@ export class TobaccoCreateComponent implements OnInit {
         link: null,
         base64: null,
       }),
-      name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
-      description: [null,Validators.maxLength(256)],
+      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      description: [null, Validators.maxLength(256)],
       brandId: this.brandControl,
       lineId: [
         {value: null, disabled: true},
@@ -171,5 +174,11 @@ export class TobaccoCreateComponent implements OnInit {
     return this.allTags.filter(tag => !this.selectedTags.some(selectedTag =>
       selectedTag.name === tag.name) && !tag.isRemoved
     );
+  }
+
+  public onChange(): void {
+    this.createTobaccoForm.patchValue({
+      name: this.namePipe.transform(this.createTobaccoForm.value.name)
+    }, {emitEvent: false});
   }
 }

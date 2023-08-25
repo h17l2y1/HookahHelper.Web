@@ -7,6 +7,7 @@ import {BrandService} from "../brand.service";
 import {CountryService} from "../../services/country.service";
 import {Observable} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
+import {NamePipe} from "../../shared/pipes/name.pipe";
 
 @Component({
   selector: 'app-brand-create',
@@ -24,13 +25,15 @@ export class BrandCreateComponent {
     private formBuilder: FormBuilder,
     private brandService: BrandService,
     private countryService: CountryService,
-  ) {}
+    private namePipe: NamePipe,
+  ) {
+  }
 
   public onSave(): void {
     const request: CreateBrand = this.createBrandForm.value;
     request.image.name = `brand: ${request.name};`
 
-    if (request.lines){
+    if (request.lines) {
       request.lines = request.lines[0].name ? request.lines : undefined;
     }
     this.brandService.create(request).subscribe(() => {
@@ -80,5 +83,11 @@ export class BrandCreateComponent {
         name: this.formBuilder.control('')
       })
     );
+  }
+
+  public onChange(): void {
+    this.createBrandForm.patchValue({
+      name: this.namePipe.transform(this.createBrandForm.value.name)
+    }, {emitEvent: false})
   }
 }

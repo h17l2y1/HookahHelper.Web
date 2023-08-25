@@ -17,6 +17,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CountryService} from "../services/country.service";
 import {BrandCreateComponent} from './brand-create/brand-create.component';
+import {NamePipe} from "../shared/pipes/name.pipe";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {BrandCreateComponent} from './brand-create/brand-create.component';
   ],
   providers: [
     BrandService,
-    CountryService
+    CountryService,
+    NamePipe
   ]
 })
 export class BrandModule {
