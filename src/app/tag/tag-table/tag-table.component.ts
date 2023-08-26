@@ -4,9 +4,7 @@ import {MatSort} from "@angular/material/sort";
 import {Filter} from "../../interfaces/models/filter";
 import {MatTableDataSource} from "@angular/material/table";
 import {map, merge, startWith, switchMap, tap} from "rxjs";
-import {FormBuilder} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
-import {Router} from "@angular/router";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
 import {TagService} from "../tag.service";
@@ -23,7 +21,7 @@ export class TagTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  public readonly displayedColumns: string[] = ['name', 'action'];
+  public readonly displayedColumns: string[] = ['name', 'isGlobal', 'action'];
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [10, 25, 100];
@@ -36,8 +34,7 @@ export class TagTableComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialog: MatDialog,
-    private tagService: TagService,
-    private formBuilder: FormBuilder) {
+    private tagService: TagService,) {
   }
 
   ngOnInit(): void {
@@ -63,8 +60,8 @@ export class TagTableComponent implements OnInit, AfterViewInit {
           return data.list;
         }),
       ).subscribe((data: Tag[]) => {
-        this.dataSource = new MatTableDataSource<Tag>(data);
-      });
+      this.dataSource = new MatTableDataSource<Tag>(data);
+    });
   }
 
   public handlePageEvent(e: PageEvent): void {
@@ -85,7 +82,7 @@ export class TagTableComponent implements OnInit, AfterViewInit {
   public onCreate(): void {
     const dialogRef = this.dialog.open(TagCreateComponent, {
       data: null,
-      maxWidth: '1000px',
+      minWidth: '380px',
       backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION
@@ -106,7 +103,7 @@ export class TagTableComponent implements OnInit, AfterViewInit {
           data: {
             tag: response,
           },
-          maxWidth: '1000px',
+          minWidth: '380px',
           backdropClass: 'blurred',
           enterAnimationDuration: ENTER_ANIMATION_DURATION,
           exitAnimationDuration: EXIT_ANIMATION_DURATION
@@ -123,7 +120,7 @@ export class TagTableComponent implements OnInit, AfterViewInit {
 
   public onDelete(id: string): void {
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      width: "300px"
+      width: "380px"
     });
 
     dialogRef.afterClosed().subscribe(popupResponse => {

@@ -20,6 +20,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { TagEditorComponent } from './tag-editor/tag-editor.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 
@@ -46,7 +48,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     SharedModule,
     MatDialogModule,
     FormsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCheckboxModule
   ],
   providers: [
     TagService,
