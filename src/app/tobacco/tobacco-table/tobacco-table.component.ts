@@ -5,7 +5,7 @@ import {Tobacco} from "../../interfaces/entity/tobacco";
 import {Brand} from "../../interfaces/entity/brand";
 import {Heaviness} from "../../interfaces/entity/heaviness";
 import {Line} from "../../interfaces/entity/line";
-import {Observable, tap} from "rxjs";
+import {filter, Observable, switchMap, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
@@ -18,7 +18,9 @@ import {ActivatedRoute} from "@angular/router";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
-import {TagService} from "../../services/tag.service";
+import {Tag} from "../../interfaces/entity/tag";
+import {TagService} from "../../tag/tag.service";
+import {TobaccoList} from "./tobacco-table-list/TobaccoList";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -27,20 +29,21 @@ import {TagService} from "../../services/tag.service";
 })
 export class TobaccoTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   public checked = true;
   public totalRows = 0;
   public currentPage = 0;
-  public pageSizeOptions = [25, 50, 100];
+  public pageSizeOptions = [11, 25, 50, 100];
   public pageSize = this.pageSizeOptions[0];
   public filters!: Filter;
   public tobaccos!: Tobacco[];
+  public tobaccosList!: TobaccoList[];
   public allBrandsOption!: Brand[];
   public filteredBrandsOptions!: Brand[];
   public allCountriesOption!: Country[];
   public filteredCountriesOptions!: Country[];
   public linesOption: Line[] = [];
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
+  public tagsGlobal$: Observable<Tag[]> = this.tagService.getGlobalOptions();
   public brandId!: string | null;
   public filterForm!: FormGroup;
   public brandControl: FormControl = this.formBuilder.control('');
@@ -48,6 +51,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public countryAutocompleteControl: FormControl = this.formBuilder.control('');
   public countyControl: FormControl = this.formBuilder.control('');
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
+  public tagControl: FormControl = this.formBuilder.control('');
   public isLoadingResults = true;
 
   constructor(
@@ -69,6 +73,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       this.brandId = this.route.snapshot.paramMap.get('id');
       this.filters = {
         name: null,
+        tagId: null,
         brandId: this.brandId,
         countryId: null,
         lineId: null,
@@ -81,6 +86,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
     this.filterForm.valueChanges.pipe(
       tap((filters: Filter) => {
         this.filters = filters;
+        this.paginator.firstPage();
         this.getTobaccos();
       })
     ).subscribe();
@@ -103,6 +109,21 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       }),
     ).subscribe();
 
+    this.brandControl.valueChanges.pipe(
+      tap(value => {
+        if (!value){
+          this.lineControl.setValue(null,{ emitEvent: false });
+          this.lineControl.disable({ emitEvent: false });
+        }
+      }),
+      filter(Boolean),
+      switchMap(value => this.lineService.getLinesByBrandId(value)),
+      tap(lines => {
+        this.linesOption = lines;
+        this.lineControl.enable({ emitEvent: false });
+      })
+    ).subscribe()
+
     this.countryService.getOptions().pipe(
       tap(countries => {
         this.allCountriesOption = countries;
@@ -117,7 +138,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
           return;
         }
         this.countyControl.setValue(value?.id)
-        this.filteredCountriesOptions = value?.name ? this._filter(this.allCountriesOption, value.name) : this.allBrandsOption.slice();
+        this.filteredCountriesOptions = value?.name ? this._filter(this.allCountriesOption, value.name) : this.allCountriesOption.slice();
       }),
     ).subscribe();
 
@@ -134,10 +155,20 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public getTobaccos(): void {
     this.isLoadingResults = true;
     this.tobaccoService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filters)
-      .subscribe((data: GetAllResponse<Tobacco>) => {
+      .pipe(
+        tap((response: GetAllResponse<Tobacco>) => {
+          this.tobaccos = response.list;
+          this.totalRows = response.total
+          this.tobaccosList = this.tobaccos?.map(tobacco => {
+            const tobaccoList = tobacco as TobaccoList;
+            tobaccoList.tagsDefault = tobacco.tags.filter(tag => !tag.isGlobal);
+            tobaccoList.tagsGlobal = tobacco.tags.filter(tag => tag.isGlobal);
+            return tobaccoList;
+          })
+        })
+      )
+      .subscribe(() => {
         this.isLoadingResults = false;
-        this.tobaccos = data.list;
-        this.totalRows = data.total
       });
   }
 
@@ -170,7 +201,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   private initFilterForm(): void {
     this.filterForm = this.formBuilder.group({
       name: null,
-      tags: {value: null, disabled: true},
+      tagId: this.tagControl,
       brandId: this.brandControl,
       countryId: this.countyControl,
       lineId: this.lineControl,

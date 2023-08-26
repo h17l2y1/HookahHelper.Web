@@ -7,11 +7,11 @@
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Смаки</mat-label>
-        <mat-select formControlName="tags">
+        <mat-select formControlName="tagId">
           <mat-option>Усi</mat-option>
-<!--          <mat-option *ngFor="let option of tags$ | async" [value]="option.id">-->
-<!--            {{option.name}}-->
-<!--          </mat-option>-->
+          <mat-option *ngFor="let option of tagsGlobal$ | async" [value]="option.id">
+            {{option.name}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="filter">
@@ -67,7 +67,7 @@
     </form>
   </div>
 
-  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
+  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccosList" (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
   <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()" [isLoadingResults]="isLoadingResults">
   </app-tobacco-table-list>
 

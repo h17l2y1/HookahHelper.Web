@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoService} from "../../tobacco.service";
-import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {Observable, tap} from "rxjs";
 import {Brand} from "../../../interfaces/entity/brand";
 import {TobaccoEditorComponent} from "../../tobacco-editor/tobacco-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
+import {TobaccoList} from "../tobacco-table-list/TobaccoList";
 
 @Component({
   selector: 'app-tobacco-table-card',
@@ -14,7 +14,7 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../consta
 })
 export class TobaccoTableCardComponent {
   @Input() brands$!: Observable<Brand[]>;
-  @Input() tobaccos!: Tobacco[];
+  @Input() tobaccos!: TobaccoList[];
   @Output("getTobaccosEmit") getTobaccos: EventEmitter<any> = new EventEmitter();
 
   constructor(

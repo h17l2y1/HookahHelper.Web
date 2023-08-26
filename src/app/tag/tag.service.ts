@@ -20,10 +20,6 @@ export class TagService {
     return this.http.get<GetAllResponse<Tag>>(this.rootUrl + req);
   }
 
-  public getOptions(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(this.rootUrl + 'Tag/GetOptions');
-  }
-
   public getById(id: string): Observable<Tag> {
     return this.http.get<Tag>(this.rootUrl + `Tag/GetById/${id}`);
   }
@@ -38,5 +34,13 @@ export class TagService {
 
   public remove(id: string): Observable<void> {
     return this.http.delete<void>(this.rootUrl + `Tag/Remove/${id}`);
+  }
+
+  public getOptions(): Observable<Tag[]> {
+    return this.http.get<Tag[]>(this.rootUrl + 'Tag/GetOptions');
+  }
+
+  public getGlobalOptions(): Observable<Tag[]> {
+    return this.http.get<Tag[]>(this.rootUrl + 'Tag/GetGlobalOptions');
   }
 }

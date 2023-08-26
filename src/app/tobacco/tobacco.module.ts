@@ -27,10 +27,9 @@ import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {TagService} from "../services/tag.service";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {TagModule} from "../tag/tag.module";
 import {NamePipe} from "../shared/pipes/name.pipe";
+import {TagService} from "../tag/tag.service";
 
 @NgModule({
   declarations: [
@@ -59,8 +58,7 @@ import {NamePipe} from "../shared/pipes/name.pipe";
     MatSlideToggleModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatButtonToggleModule,
-    TagModule
+    MatButtonToggleModule
   ],
   providers: [
     TobaccoService,
@@ -68,8 +66,8 @@ import {NamePipe} from "../shared/pipes/name.pipe";
     CountryService,
     LineService,
     HeavinessService,
-    TagService,
     NamePipe,
+    TagService
   ]
 })
 export class TobaccoModule {

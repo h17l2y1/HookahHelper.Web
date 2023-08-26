@@ -4,4 +4,5 @@ export interface Filter {
   countryId?: string | null;
   lineId?: string | null;
   heavinessId?: string | null;
+  tagId?: string | null;
 }

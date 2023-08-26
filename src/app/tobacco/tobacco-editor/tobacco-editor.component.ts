@@ -9,10 +9,10 @@ import {Tobacco} from "../../interfaces/entity/tobacco";
 import {Heaviness} from "../../interfaces/entity/heaviness";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Tag} from "../../interfaces/entity/tag";
-import {TagService} from "../../services/tag.service";
 import {HeavinessService} from "../../services/heaviness.service";
 import {TobaccoTag} from "../../interfaces/entity/tobacco-tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
+import {TagService} from "../../tag/tag.service";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -23,14 +23,19 @@ export class TobaccoEditorComponent implements OnInit {
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
   public linesOption$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.data.tobacco.brandId);
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
-
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public tagControl = new FormControl('');
+  public tagTasteControl = new FormControl('');
+  public selectedTags: Tag[] = this.data.tobacco.tags.filter(tag => !tag.isGlobal);
+  public selectedTasteTags: Tag[] = this.data.tobacco.tags.filter(tag => tag.isGlobal);
   public filteredTags!: Tag[];
-  public selectedTags: Tag[] = this.data.tobacco.tags;
+  public filteredTasteTags!: Tag[];
   public allTags!: Tag[];
+  public allTasteTags!: Tag[];
   public removedTags: TobaccoTag[] = [];
+  public removedTasteTags: TobaccoTag[] = [];
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('tagTasteInput') tagTasteInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { tobacco: Tobacco },
@@ -45,7 +50,10 @@ export class TobaccoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.tagService.getOptions().pipe(
-      tap(response => this.allTags = response),
+      tap(response => {
+        this.allTags = response.filter(tag => !tag.isGlobal);
+        this.allTasteTags = response.filter(tag => tag.isGlobal);
+      }),
       switchMap(() => {
         return this.tagControl.valueChanges.pipe(
           startWith(null),
@@ -53,6 +61,7 @@ export class TobaccoEditorComponent implements OnInit {
             if (!value) {
               // filtering tags by default
               this.filteredTags = this.filter();
+              this.filteredTasteTags = this.filterTasteTags();
               return;
             }
             if (typeof value === 'object') {
@@ -71,6 +80,28 @@ export class TobaccoEditorComponent implements OnInit {
         )
       })
     ).subscribe();
+
+    this.tagTasteControl.valueChanges.pipe(
+      tap((value) => {
+        if (!value) {
+          // filtering tags by default
+          this.filteredTasteTags = this.filterTasteTags();
+          return;
+        }
+        if (typeof value === 'object') {
+          // filtering after select
+          const newTag = value as Tag;
+          newTag.isNew = true;
+          this.selectedTasteTags.push(newTag);
+          this.filteredTasteTags = this.filterTasteTags();
+          this.tagTasteInput.nativeElement.value = '';
+          this.tagTasteControl.setValue(null, {emitEvent: false});
+          return;
+        }
+        // filtering by name when use input
+        this.filteredTasteTags = this.filteredTasteTags.filter(tag => tag.name.toLowerCase().includes(value));
+      }),
+    ).subscribe()
   }
 
   private filter(): Tag[] {
@@ -95,6 +126,27 @@ export class TobaccoEditorComponent implements OnInit {
     this.filteredTags = this.filter();
   }
 
+  public removeTasteTag(removedTag: Tag): void {
+    const exTag = this.data.tobacco.tobaccoTags?.find(tag => tag.tagId === removedTag.id && !removedTag.isNew);
+    if (exTag) {
+      exTag.isRemoved = true
+      this.removedTasteTags.push(exTag)
+    }
+
+    const index = this.selectedTasteTags.indexOf(removedTag);
+    if (index >= 0) {
+      this.selectedTasteTags.splice(index, 1);
+    }
+
+    this.filteredTasteTags = this.filterTasteTags();
+  }
+
+  private filterTasteTags(): Tag[] {
+    return this.allTasteTags.filter(tag => !this.selectedTasteTags.some(selectedTag =>
+      selectedTag.name === tag.name) && !tag.isRemoved
+    );
+  }
+
   public onSave(): void {
     if (this.editTobaccoForm.invalid) {
       this.editTobaccoForm.markAllAsTouched();
@@ -109,7 +161,10 @@ export class TobaccoEditorComponent implements OnInit {
   private mapRequestModel(): Tobacco {
     const request: Tobacco = this.editTobaccoForm.value;
     request.brandId = this.data.tobacco.brandId;
-    request.tobaccoTags = this.selectedTags.map(tag => {
+    request.tags = this.selectedTags;
+    const tags = this.selectedTags.concat(this.selectedTasteTags);
+    const removedTags = this.removedTags.concat(this.removedTasteTags);
+    request.tobaccoTags = tags.map(tag => {
       return {
         id: undefined,
         tobaccoId: request.id,
@@ -117,8 +172,7 @@ export class TobaccoEditorComponent implements OnInit {
         isNew: tag.isNew
       }
     });
-    request.tobaccoTags = request.tobaccoTags.concat(this.removedTags);
-    request.tags = this.selectedTags;
+    request.tobaccoTags = request.tobaccoTags.concat(removedTags);
     request.image.name = `tobacco: ${request.name}`;
 
     return request;

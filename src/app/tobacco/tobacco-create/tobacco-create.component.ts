@@ -22,17 +22,23 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 })
 export class TobaccoCreateComponent implements OnInit {
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('tagTasteInput') tagTasteInput!: ElementRef<HTMLInputElement>;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
   public brandControl: FormControl = this.formBuilder.control('', Validators.required);
   public tagControl = new FormControl('', Validators.required);
+  public tagTasteControl = new FormControl('', Validators.required);
   public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
   public linesOption!: Line[];
   public allBrandsOption!: Brand[];
   public filteredBrandsOptions!: Brand[];
   public selectedTags: Tag[] = [];
+  public selectedTasteTags: Tag[] = [];
   public filteredTags!: Tag[];
+  public filteredTasteTags!: Tag[];
   public allTags!: Tag[];
+  public allTasteTags!: Tag[];
+  public croppedImage: any = null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: null,
@@ -49,7 +55,10 @@ export class TobaccoCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.tagService.getOptions().pipe(
-      tap(response => this.allTags = response),
+      tap(response => {
+        this.allTags = response.filter(tag => !tag.isGlobal);
+        this.allTasteTags = response.filter(tag => tag.isGlobal);
+      }),
       switchMap(() => {
         return this.tagControl.valueChanges.pipe(
           startWith(null),
@@ -57,6 +66,7 @@ export class TobaccoCreateComponent implements OnInit {
             if (!value) {
               // filtering tags by default
               this.filteredTags = this.filterTags();
+              this.filteredTasteTags = this.filterTasteTags();
               return;
             }
             if (typeof value === 'object') {
@@ -70,11 +80,33 @@ export class TobaccoCreateComponent implements OnInit {
               return;
             }
             // filtering by name when use input
-            this.filteredTags = this.filteredTags.filter(tag => tag.name.toLowerCase().includes(value));
+            this.filteredTags = this.filteredTags.filter(tag => tag.name.toLowerCase().includes(value.toLowerCase()));
           }),
         )
       })
     ).subscribe();
+
+    this.tagTasteControl.valueChanges.pipe(
+      tap((value) => {
+        if (!value) {
+          // filtering tags by default
+          this.filteredTasteTags = this.filterTasteTags();
+          return;
+        }
+        if (typeof value === 'object') {
+          // filtering after select
+          const newTag = value as Tag;
+          newTag.isNew = true;
+          this.selectedTasteTags.push(newTag);
+          this.filteredTasteTags = this.filterTasteTags();
+          this.tagTasteInput.nativeElement.value = '';
+          this.tagTasteControl.setValue(null, {emitEvent: false});
+          return;
+        }
+        // filtering by name when use input
+        this.filteredTasteTags = this.filteredTasteTags.filter(tag => tag.name.toLowerCase().includes(value.toLowerCase()));
+      }),
+    ).subscribe()
 
     this.brandService.getOptions().pipe(
       tap(brands => {
@@ -113,6 +145,15 @@ export class TobaccoCreateComponent implements OnInit {
     this.filteredTags = this.filterTags();
   }
 
+  public removeTasteTag(removedTag: Tag): void {
+    const index = this.selectedTasteTags.indexOf(removedTag);
+    if (index >= 0) {
+      this.selectedTasteTags.splice(index, 1);
+    }
+
+    this.filteredTasteTags = this.filterTasteTags();
+  }
+
   public onSave(oneMore = false): void {
     if (this.createTobaccoForm.invalid) {
       this.createTobaccoForm.markAllAsTouched();
@@ -121,15 +162,30 @@ export class TobaccoCreateComponent implements OnInit {
 
     const request = this.mapCreateTobaccoRequest();
     this.tobaccoService.create(request).subscribe(() => {
-      const res = {oneMore: oneMore, isCreated: true};
-      this.dialogRef.close(res);
+      if (oneMore) {
+        this.croppedImage = '';
+        this.createTobaccoForm.patchValue({
+          name: null,
+          description: null,
+          image: {
+            name: null,
+            link: null,
+            base64: null,
+          }
+        })
+        this.selectedTags = [];
+        return;
+      }
+      this.dialogRef.close(true);
     });
   }
 
   private mapCreateTobaccoRequest(): Tobacco {
     const request: Tobacco = this.createTobaccoForm.value;
     request.brandId = this.createTobaccoForm.value.brandId.id;
-    request.tobaccoTags = this.selectedTags.map(tag => {
+    request.tags = this.selectedTags;
+    const tags = this.selectedTags.concat(this.selectedTasteTags);
+    request.tobaccoTags = tags.map(tag => {
       return {
         id: undefined,
         tobaccoId: request.id,
@@ -172,6 +228,12 @@ export class TobaccoCreateComponent implements OnInit {
 
   private filterTags(): Tag[] {
     return this.allTags.filter(tag => !this.selectedTags.some(selectedTag =>
+      selectedTag.name === tag.name) && !tag.isRemoved
+    );
+  }
+
+  private filterTasteTags(): Tag[] {
+    return this.allTasteTags.filter(tag => !this.selectedTasteTags.some(selectedTag =>
       selectedTag.name === tag.name) && !tag.isRemoved
     );
   }
