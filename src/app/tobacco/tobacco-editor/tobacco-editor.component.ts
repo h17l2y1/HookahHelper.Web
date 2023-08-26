@@ -12,6 +12,7 @@ import {Tag} from "../../interfaces/entity/tag";
 import {TagService} from "../../services/tag.service";
 import {HeavinessService} from "../../services/heaviness.service";
 import {TobaccoTag} from "../../interfaces/entity/tobacco-tag";
+import {NamePipe} from "../../shared/pipes/name.pipe";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -39,6 +40,7 @@ export class TobaccoEditorComponent implements OnInit {
     private lineService: LineService,
     private tagService: TagService,
     private heavinessService: HeavinessService,
+    private namePipe: NamePipe,
   ) {}
 
   ngOnInit(): void {
@@ -140,5 +142,11 @@ export class TobaccoEditorComponent implements OnInit {
         link: this.data.tobacco.image.link,
       })
     });
+  }
+
+  public onChange(): void {
+    this.editTobaccoForm.patchValue({
+      name: this.namePipe.transform(this.editTobaccoForm.value.name)
+    }, {emitEvent: false})
   }
 }

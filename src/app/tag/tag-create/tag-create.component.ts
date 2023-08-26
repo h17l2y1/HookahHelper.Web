@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
+import {NamePipe} from "../../shared/pipes/name.pipe";
 
 @Component({
   selector: 'app-tag-create',
@@ -17,6 +18,7 @@ export class TagCreateComponent {
     public dialogRef: MatDialogRef<TagCreateComponent>,
     private formBuilder: FormBuilder,
     private tagService: TagService,
+    private namePipe: NamePipe,
   ) {}
 
   private initCreateTagForm(): FormGroup {
@@ -38,5 +40,11 @@ export class TagCreateComponent {
 
   public onCancel(): void {
     this.dialogRef.close();
+  }
+
+  public onChange(): void {
+    this.createTagForm.patchValue({
+      name: this.namePipe.transform(this.createTagForm.value.name)
+    }, {emitEvent: false})
   }
 }

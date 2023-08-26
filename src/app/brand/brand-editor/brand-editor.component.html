@@ -8,7 +8,7 @@
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Назва бренду</mat-label>
-          <input matInput formControlName="name">
+          <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Країна</mat-label>
@@ -43,7 +43,7 @@
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Редакувати</button>
+    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Змінити</button>
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
   </div>
 </div>

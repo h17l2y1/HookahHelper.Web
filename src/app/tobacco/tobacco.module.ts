@@ -30,6 +30,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {TagService} from "../services/tag.service";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {TagModule} from "../tag/tag.module";
+import {NamePipe} from "../shared/pipes/name.pipe";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import {TagModule} from "../tag/tag.module";
     LineService,
     HeavinessService,
     TagService,
+    NamePipe,
   ]
 })
 export class TobaccoModule {
