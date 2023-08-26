@@ -32,7 +32,8 @@ export class TagEditorComponent {
   public initEditTagForm(): FormGroup {
     return this.formBuilder.group({
       id: this.data.tag.id,
-      name: [this.data.tag.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]]
+      name: [this.data.tag.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      isGlobal: this.data.tag.isGlobal
     });
   }
 

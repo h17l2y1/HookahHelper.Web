@@ -1,6 +1,6 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
@@ -24,6 +24,7 @@ export class TagCreateComponent {
   private initCreateTagForm(): FormGroup {
     return this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
+      isGlobal: false
     });
   };
 

@@ -19,6 +19,8 @@ import { TagCreateComponent } from './tag-create/tag-create.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { TagEditorComponent } from './tag-editor/tag-editor.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import {NamePipe} from "../shared/pipes/name.pipe";
     MatTableModule,
     SharedModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatSlideToggleModule
   ],
   providers: [
     TagService,
