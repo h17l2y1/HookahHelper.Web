@@ -186,13 +186,8 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
-    dialogRef.afterClosed().subscribe((result: {oneMore?: boolean, isCreated?: boolean}) => {
-      if (result?.oneMore){
-        this.onCreate();
-        return;
-      }
-
-      if (!result?.oneMore && result?.isCreated){
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
         this.getTobaccos();
       }
     });
