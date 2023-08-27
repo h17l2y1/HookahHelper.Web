@@ -6,11 +6,9 @@
     margin-bottom: 20px;
   }
 
-  .filter {
-    padding-right: 20px;
-  }
-
-  .example-form {
+  .example-full-width {
     display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 }

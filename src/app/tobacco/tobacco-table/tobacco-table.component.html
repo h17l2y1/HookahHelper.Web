@@ -1,6 +1,6 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
-    <form [formGroup]="filterForm" class="example-form">
+    <form [formGroup]="filterForm" class="example-full-width xxx">
       <mat-form-field class="filter">
         <mat-label>Filter by Name</mat-label>
         <input matInput formControlName="name">
@@ -51,7 +51,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="filter">
+      <div class="">
         <mat-button-toggle-group #group="matButtonToggleGroup">
           <mat-button-toggle (change)="checked = !checked">
             <mat-icon>view_list</mat-icon>
@@ -61,14 +61,16 @@
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
-      <div class="filter">
+      <div class="">
         <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
   </div>
 
-  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccosList" (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
-  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()" [isLoadingResults]="isLoadingResults">
+  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccosList"
+                          (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
+  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()"
+                          [isLoadingResults]="isLoadingResults">
   </app-tobacco-table-list>
 
   <mat-paginator
