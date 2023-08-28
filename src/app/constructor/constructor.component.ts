@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TobaccoService} from "../tobacco/tobacco.service";
 import {BrandService} from "../brand/brand.service";
-import {Observable, switchMap, tap} from "rxjs";
+import {filter, Observable, switchMap, tap} from "rxjs";
 import {Brand} from "../interfaces/entity/brand";
 import {Tobacco} from "../interfaces/entity/tobacco";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
@@ -21,18 +21,19 @@ export class ConstructorComponent implements OnInit {
   done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   public brandControl: FormControl = this.formBuilder.control('');
-
+  public tobaccos$!: Observable<Tobacco[]>;
 
   constructor(
-    private tobaccoService: TobaccoService,
     private brandService: BrandService,
+    private tobaccoService: TobaccoService,
     private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.brandControl.valueChanges.pipe(
-      // switchMap((brandId) => this.tobaccoService.getTobaccosWithBrand()),
-    ).subscribe();
+    this.tobaccos$ = this.brandControl.valueChanges.pipe(
+      filter(Boolean),
+      switchMap((brandId) => this.tobaccoService.getByBrandId(brandId)),
+    );
   }
 
   drop(event: CdkDragDrop<string[]>) {

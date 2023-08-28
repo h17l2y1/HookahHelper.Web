@@ -46,4 +46,9 @@ export class TobaccoService {
   public getOptions(): Observable<Tobacco[]> {
     return this.http.get<Tobacco[]>(this.rootUrl + 'Tobacco/GetOptions');
   }
+
+  public getByBrandId(brandId: string): Observable<Tobacco[]> {
+    return this.http.get<Tobacco[]>(this.rootUrl + `Tobacco/GetByBrandId/${brandId}`);
+  }
+
 }
