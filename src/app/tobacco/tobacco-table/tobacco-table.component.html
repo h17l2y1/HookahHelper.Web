@@ -1,36 +1,38 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
-    <form [formGroup]="filterForm" class="example-form">
+    <form [formGroup]="filterForm" class="example-full-width xxx">
       <mat-form-field class="filter">
         <mat-label>Filter by Name</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Смаки</mat-label>
-        <mat-select formControlName="tags">
+        <mat-select formControlName="tagId">
           <mat-option>Усi</mat-option>
-<!--          <mat-option *ngFor="let option of tags$ | async" [value]="option.id">-->
-<!--            {{option.name}}-->
-<!--          </mat-option>-->
+          <mat-option *ngFor="let option of tagsGlobal$ | async" [value]="option.id">
+            {{option.name}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Бренд</mat-label>
-        <mat-select formControlName="brandId">
+        <input type="text" matInput [formControl]="brandAutocompleteControl" [matAutocomplete]="autoBrands">
+        <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
           <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let option of brands$ | async" [value]="option.id">
+          <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
             {{option.name}}
           </mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Країна</mat-label>
-        <mat-select formControlName="countryId">
+        <input type="text" matInput [formControl]="countryAutocompleteControl" [matAutocomplete]="autoCountry">
+        <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
           <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let option of countries$ | async" [value]="option.id">
+          <mat-option *ngFor="let option of filteredCountriesOptions" [value]="option">
             {{option.name}}
           </mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Лінійка</mat-label>
@@ -49,7 +51,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="filter">
+      <div class="">
         <mat-button-toggle-group #group="matButtonToggleGroup">
           <mat-button-toggle (change)="checked = !checked">
             <mat-icon>view_list</mat-icon>
@@ -59,14 +61,16 @@
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
-      <div class="filter">
+      <div class="">
         <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
   </div>
 
-  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccos"></app-tobacco-table-card>
-  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()">
+  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccosList"
+                          (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
+  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()"
+                          [isLoadingResults]="isLoadingResults">
   </app-tobacco-table-list>
 
   <mat-paginator

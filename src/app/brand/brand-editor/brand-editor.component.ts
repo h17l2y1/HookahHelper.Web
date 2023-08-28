@@ -8,6 +8,7 @@ import {BrandService} from "../brand.service";
 import {Observable, tap} from "rxjs";
 import {CountryService} from "../../services/country.service";
 import {Country} from "../../interfaces/entity/country";
+import {NamePipe} from "../../shared/pipes/name.pipe";
 
 @Component({
   selector: 'app-brand-editor',
@@ -32,7 +33,9 @@ export class BrandEditorComponent implements OnInit {
     public dialogRef: MatDialogRef<BrandEditorComponent>,
     private formBuilder: FormBuilder,
     private countryService: CountryService,
-    private brandService: BrandService) {
+    private brandService: BrandService,
+    private namePipe: NamePipe,
+  ) {
   }
 
   ngOnInit(): void {
@@ -41,6 +44,7 @@ export class BrandEditorComponent implements OnInit {
 
   public onSave(): void {
     const request: CreateBrand = this.updateBrandForm.value;
+    request.image.name = `brand: ${request.name};`
     request.lines = request.lines ? request.lines : undefined;
     this.brandService.update(request).subscribe(() => {
       this.dialogRef.close(true);
@@ -102,5 +106,11 @@ export class BrandEditorComponent implements OnInit {
         isNew: true,
       })
     );
+  }
+
+  public onChange(): void {
+    this.updateBrandForm.patchValue({
+      name: this.namePipe.transform(this.updateBrandForm.value.name)
+    }, {emitEvent: false})
   }
 }

@@ -17,30 +17,25 @@
 }
 
 .image {
-  width: 100px;
+  width: 77px;
+  height: 77px;
 }
 
 .edit {
-  margin-right: 15px;
+  margin-right: 6px;
 }
 
-tr.mat-mdc-row:hover {
-  cursor: pointer;
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
 }
 
-.mat-column-image {
-  width: 20%;
+.mat-column-globalTags {
+  width: 15%;
 }
 
-.mat-column-name {
-  width: 35%;
-}
-
-.mat-column-description {
-  width: 35%;
-}
-
-.mat-column-action {
-  width: 10%;
+.action-container {
+  display: flex;
 }
 

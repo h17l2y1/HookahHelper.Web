@@ -3,7 +3,7 @@
 }
 
 .mat-toolbar {
-  margin: 20px;
+  //margin: 20px;
   border-radius: 30px;
   width: auto;
   color: white;
@@ -14,9 +14,13 @@
   margin: 0;
 }
 
-.tabs {
-  background-color: #5d5d5d;
-  border-radius: 4px;
+.tabs{
+  color: white;
+  border-radius: 15px;
+
+  .tab:hover{
+    background-color: rgba(202, 202, 202, 0.55) !important;
+  }
 }
 
 .active-link {
@@ -24,5 +28,5 @@
 }
 
 .main-container {
-  padding: 20px;
+  padding-top: 20px;
 }

@@ -8,7 +8,7 @@
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Назва тютюну</mat-label>
-          <input matInput formControlName="name">
+          <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Бренд</mat-label>
@@ -36,7 +36,7 @@
           <mat-label>Опис</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
-        <mat-form-field class="example-chip-list">
+        <mat-form-field class="example-full-width">
           <mat-label>Tags</mat-label>
           <mat-chip-grid #chipGrid aria-label="Fruit selection">
             <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
@@ -57,11 +57,32 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Taste</mat-label>
+          <mat-chip-grid #chipTasteGrid aria-label="Fruit selection">
+            <mat-chip-row *ngFor="let tag of selectedTasteTags" (removed)="removeTasteTag(tag)">
+              {{tag.name}}
+              <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </mat-chip-grid>
+          <input placeholder="New Tag..." #tagTasteInput
+                 [formControl]="tagTasteControl"
+                 [matChipInputFor]="chipTasteGrid"
+                 [matAutocomplete]="autoTaste"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+          <mat-autocomplete #autoTaste="matAutocomplete">
+            <mat-option *ngFor="let tag of filteredTasteTags" [value]="tag">
+              {{tag.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </div>
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
     <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Змінити</button>
-    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Вiдмiнити</button>
+    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
   </div>
 </div>

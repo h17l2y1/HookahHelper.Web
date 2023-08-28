@@ -22,13 +22,14 @@ import {TobaccoEditorComponent} from './tobacco-editor/tobacco-editor.component'
 import {LineService} from "../services/line.service";
 import {HeavinessService} from "../services/heaviness.service";
 import {MatBadgeModule} from "@angular/material/badge";
-import { TobaccoTableListComponent } from './tobacco-table/tobacco-table-list/tobacco-table-list.component';
+import {TobaccoTableListComponent} from './tobacco-table/tobacco-table-list/tobacco-table-list.component';
 import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {TagService} from "../services/tag.service";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {NamePipe} from "../shared/pipes/name.pipe";
+import {TagService} from "../tag/tag.service";
 
 @NgModule({
   declarations: [
@@ -38,34 +39,35 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     TobaccoTableListComponent,
     TobaccoTableComponent,
   ],
-    imports: [
-        CommonModule,
-        TobaccoRoutingModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatTableModule,
-        MatCardModule,
-        SharedModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatProgressSpinnerModule,
-        MatBadgeModule,
-        MatSlideToggleModule,
-        MatChipsModule,
-        MatAutocompleteModule,
-        MatButtonToggleModule,
-    ],
+  imports: [
+    CommonModule,
+    TobaccoRoutingModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatTableModule,
+    MatCardModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatBadgeModule,
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule
+  ],
   providers: [
     TobaccoService,
     BrandService,
     CountryService,
     LineService,
     HeavinessService,
-    TagService,
+    NamePipe,
+    TagService
   ]
 })
 export class TobaccoModule {

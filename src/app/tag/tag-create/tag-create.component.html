@@ -1,0 +1,19 @@
+<div class="popup-container">
+  <h1 mat-dialog-title>Створити новий Тег</h1>
+  <form [formGroup]="createTagForm" class="example-form">
+    <div class="create-tag-container">
+      <div class="side">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Назва тегу</mat-label>
+          <input matInput formControlName="name" (keyup)="onChange()">
+        </mat-form-field>
+        <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+  <div mat-dialog-actions class="popup-action-container">
+    <button class="button popup-actions-button create-color" mat-flat-button (click)="onSave()">Створити</button>
+    <button class="button popup-actions-button create-color" mat-flat-button (click)="onSave(true)">Створити ще</button>
+    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
+  </div>
+</div>

@@ -3,4 +3,5 @@ export interface Tag {
   name: string;
   isRemoved: boolean;
   isNew: boolean;
+  isGlobal: boolean;
 }
