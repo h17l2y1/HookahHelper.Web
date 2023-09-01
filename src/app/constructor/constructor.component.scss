@@ -1,40 +1,87 @@
 .ctor-main {
-  border: 1px solid white;
+  border: 1px solid #000000;
   width: 100%;
-  height: 500px;
   display: flex;
-  justify-content: center;
+}
+
+.example-container2 {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 25px 25px 0;
+  //align-items: center;
+
+  .example-list2 {
+    display: flex;
+    justify-content: space-around;
+    border: dashed 2px #ccc;
+    min-height: 400px;
+    background: #303030;
+    border-radius: 4px;
+    overflow: auto;
+    flex-wrap: wrap;
+
+    .tobacco-card {
+      width: 225px;
+      height: 325px;
+      border-radius: 30px;
+      box-shadow: none;
+      transition: transform .5s;
+      color: #d3d3d3;
+
+      .title {
+        font-size: 1.1em;
+        text-align: center;
+      }
+
+      .example-full-width2 {
+        width: 193px;
+
+      }
+    }
+  }
+
 }
 
 .example-container {
-  width: 400px;
-  max-width: 100%;
-  margin: 0 25px 25px 0;
+  //min-width: 400px;
+  width: 20%;
+  padding: 25px 13px 25px 13px;
   display: inline-block;
   vertical-align: top;
+
+  .example-full-width {
+    width: 100%;
+  }
+
+  .my_scroll_div{
+    overflow-y: auto;
+    max-height: 700px;
+  }
+
+  .my-preview {
+    transform: scale(0.7) translate(-200px, -100px);
+  }
+
+  .cdk-drag-preview {
+    //width: 100px;
+    //height: 100px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
 }
 
 .example-list {
   border: solid 1px #ccc;
   min-height: 60px;
-  background: white;
+  background: #4a4a4a;
   border-radius: 4px;
   overflow: hidden;
   display: block;
-}
-
-.example-box {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
-  color: white;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  cursor: move;
-  background: #515151;
-  font-size: 14px;
 }
 
 .cdk-drag-preview {
@@ -61,7 +108,49 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-//.xxx {
-//  width: 100%;
-//  margin: 0 25px 0 25px;
-//}
+.example-box {
+  //border-radius: 20px;
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(255, 255, 255, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: #4a4a4a;
+  font-size: 14px;
+}
+
+.example-box:active {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.mat-badge-content {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  line-height: 28px;
+  right: 0px !important;
+  top: -1px !important;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+}
+
+.card-wrapper {
+  //margin-top: 25px;
+}
+
+.badge {
+  width: 28px;
+  height: 28px;
+  z-index: 2;
+  top: 20px;
+  right: -210px;
+  cursor: pointer;
+  user-select: none;
+}
+

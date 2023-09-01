@@ -12,36 +12,38 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
-import {MatLegacyAutocompleteModule} from "@angular/material/legacy-autocomplete";
-import {MatLegacyFormFieldModule} from "@angular/material/legacy-form-field";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
-import {MatLegacyOptionModule} from "@angular/material/legacy-core";
+import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MixService} from "../services/mix.service";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
   declarations: [
     ConstructorComponent
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        ConstructorRoutingModule,
-        CdkDropList,
-        DragDropModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatOptionModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        MatLegacyAutocompleteModule,
-        MatLegacyFormFieldModule,
-        MatLegacyInputModule,
-        MatLegacyOptionModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    ConstructorRoutingModule,
+    CdkDropList,
+    DragDropModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatBadgeModule,
+  ],
   providers: [
     TobaccoService,
     BrandService,
+    MixService
   ]
 })
 export class ConstructorModule { }

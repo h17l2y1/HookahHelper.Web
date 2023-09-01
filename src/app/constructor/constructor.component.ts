@@ -1,12 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {TobaccoService} from "../tobacco/tobacco.service";
 import {BrandService} from "../brand/brand.service";
-import {filter, Observable, switchMap, tap} from "rxjs";
+import {filter, switchMap, tap} from "rxjs";
 import {Brand} from "../interfaces/entity/brand";
 import {Tobacco} from "../interfaces/entity/tobacco";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {FormBuilder, FormControl} from "@angular/forms";
-import {GetAllResponse} from "../interfaces/models/get-all-response";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from "@angular/forms";
+import {MixService} from "../services/mix.service";
+import {TobaccoMix} from "../interfaces/entity/tobacco-mix";
+import {Mix} from "../interfaces/entity/mix";
 
 @Component({
   selector: 'app-constructor',
@@ -14,41 +23,142 @@ import {GetAllResponse} from "../interfaces/models/get-all-response";
   styleUrls: ['./constructor.component.scss']
 })
 export class ConstructorComponent implements OnInit {
-
-  public brands$: Observable<Brand[]> = this.brandService.getOptions();
-  // public tobaccos$: Observable<Tobacco[]> = this.tobaccoService.getOptions();
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
-
   public brandControl: FormControl = this.formBuilder.control('');
-  public tobaccos$!: Observable<Tobacco[]>;
+  public brandAutocompleteControl: FormControl = this.formBuilder.control('');
+  public filteredBrandsOptions!: Brand[];
+  public allBrandsOption!: Brand[];
+  public tobaccos: Tobacco[] = [];
+  public selectedTobaccos: Tobacco[] = [];
+  public constructorForm!: FormGroup;
+  private tempId: number = 0;
 
   constructor(
     private brandService: BrandService,
     private tobaccoService: TobaccoService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private mixService: MixService) {
   }
 
   ngOnInit(): void {
-    this.tobaccos$ = this.brandControl.valueChanges.pipe(
+    this.constructorForm = this.initFormArray()
+
+    this.constructorForm.valueChanges.pipe(
+      tap((data: Mix) => {
+        const total = data.tobaccoMixes.reduce((n, {percent}) => n + +percent, 0);
+        console.log(total)
+        if (total > 100) {
+          console.log('> 100')
+        }
+      })
+    ).subscribe()
+
+    this.brandService.getOptions().pipe(
+      tap(brands => {
+        this.allBrandsOption = brands;
+        this.filteredBrandsOptions = brands;
+      })
+    ).subscribe();
+
+    this.brandControl.valueChanges.pipe(
       filter(Boolean),
       switchMap((brandId) => this.tobaccoService.getByBrandId(brandId)),
+      tap(response => this.tobaccos = response)
+    ).subscribe();
+
+    this.brandAutocompleteControl.valueChanges.pipe(
+      tap((value: string | Brand) => {
+        if (typeof value === 'string') {
+          this.filteredBrandsOptions = this._filter(value);
+          return;
+        }
+        this.brandControl.setValue(value?.id)
+        this.filteredBrandsOptions = value?.name ? this._filter(value.name) : this.allBrandsOption.slice();
+      }),
+    ).subscribe();
+  }
+
+  get getTobaccoMix(): FormArray {
+    return this.constructorForm.get('tobaccoMixes') as FormArray;
+  }
+
+  public addTobaccoMix(value: Tobacco): void {
+    this.getTobaccoMix.push(
+      this.formBuilder.group({
+        tempId: this.formBuilder.control(this.getNextId()),
+        imageLink: value.image.link,
+        tobaccoName: value.name,
+        tobaccoId: value.id,
+        brandId: value.brandId,
+        percent: [0, [Validators.min(1), Validators.max(99)]]
+      })
     );
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  public displayFn(brand: { name: string }): string {
+    return brand && brand.name ? brand.name : '';
+  }
+
+  public drop(event: CdkDragDrop<Tobacco[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+      const value: Tobacco = event.container.data[event.currentIndex];
+      this.addTobaccoMix(value);
     }
   }
 
+  public onRemove(tobaccoMix: TobaccoMix, tempId: number): void {
+    if (tobaccoMix.brandId === this.brandControl.value) {
+      const tobacco = {
+        id: tobaccoMix.tobaccoId,
+        name: tobaccoMix.tobaccoName,
+        brandId: tobaccoMix.brandId,
+        image: {
+          link: tobaccoMix.imageLink
+        },
+      } as unknown as Tobacco;
+      this.tobaccos.push(tobacco);
+      this.tobaccos.sort((a, b) => (a.name < b.name ? -1 : 1));
+    }
 
+    this.getTobaccoMix.removeAt(tempId);
+  }
+
+  public onSave(): void {
+    if (this.constructorForm.invalid) {
+      this.constructorForm.markAllAsTouched();
+      return;
+    }
+
+    this.mixService.create(this.constructorForm.value).pipe(
+
+    ).subscribe()
+  }
+
+  private getNextId(): number {
+    return ++this.tempId;
+  }
+
+  private _filter(name: string): Brand[] {
+    const filterValue = name.toLowerCase();
+    return this.allBrandsOption.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  private initFormArray(): FormGroup {
+    return this.formBuilder.group({
+      name: [null, [Validators.required]],
+      tobaccoMixes: this.formBuilder.array([], this.MyCustomValidator),
+    })
+  }
+
+  public MyCustomValidator(control: AbstractControl): null {
+    const data = control.value as TobaccoMix[];
+    const total = data?.reduce((n, {percent}) => n + +percent, 0);
+    if (total > 100){
+      control.setErrors({'total percentage over 100': true});
+    }
+    return  null;
+  }
 
 }

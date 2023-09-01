@@ -7,6 +7,7 @@ const routes: Routes = [
   {path: 'brand', loadChildren: () => import('./brand/brand.module').then(m => m.BrandModule)},
   {path: 'tag', loadChildren: () => import('./tag/tag.module').then(m => m.TagModule)},
   {path: 'constructor', loadChildren: () => import('./constructor/constructor.module').then(m => m.ConstructorModule)},
+  {path: 'mixes', loadChildren: () => import('./top-mix/top-mix.module').then(m => m.TopMixModule)},
   {path: '', redirectTo: 'tobacco', pathMatch: 'full'},
 ];
 
