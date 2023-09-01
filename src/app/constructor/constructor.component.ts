@@ -13,7 +13,7 @@ import {
   FormGroup,
   Validators
 } from "@angular/forms";
-import {MixService} from "../services/mix.service";
+import {TopMixService} from "../top-mix/top-mix.service";
 import {TobaccoMix} from "../interfaces/entity/tobacco-mix";
 import {Mix} from "../interfaces/entity/mix";
 
@@ -36,7 +36,7 @@ export class ConstructorComponent implements OnInit {
     private brandService: BrandService,
     private tobaccoService: TobaccoService,
     private formBuilder: FormBuilder,
-    private mixService: MixService) {
+    private mixService: TopMixService) {
   }
 
   ngOnInit(): void {

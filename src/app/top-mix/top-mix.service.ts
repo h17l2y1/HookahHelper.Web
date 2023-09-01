@@ -7,7 +7,7 @@ import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Mix} from "../interfaces/entity/mix";
 
 @Injectable()
-export class MixService {
+export class TopMixService {
   readonly rootUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {

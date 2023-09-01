@@ -15,7 +15,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {MixService} from "../services/mix.service";
+import {TopMixService} from "../top-mix/top-mix.service";
 import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
@@ -43,7 +43,7 @@ import {MatBadgeModule} from "@angular/material/badge";
   providers: [
     TobaccoService,
     BrandService,
-    MixService
+    TopMixService
   ]
 })
 export class ConstructorModule { }

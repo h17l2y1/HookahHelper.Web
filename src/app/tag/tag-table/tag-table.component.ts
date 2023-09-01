@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {Filter} from "../../interfaces/models/filter";
@@ -17,7 +17,7 @@ import {TagEditorComponent} from "../tag-editor/tag-editor.component";
   templateUrl: './tag-table.component.html',
   styleUrls: ['./tag-table.component.scss']
 })
-export class TagTableComponent implements OnInit, AfterViewInit {
+export class TagTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -35,10 +35,6 @@ export class TagTableComponent implements OnInit, AfterViewInit {
   constructor(
     public dialog: MatDialog,
     private tagService: TagService,) {
-  }
-
-  ngOnInit(): void {
-
   }
 
   ngAfterViewInit(): void {
