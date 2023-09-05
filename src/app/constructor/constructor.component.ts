@@ -16,6 +16,8 @@ import {
 import {TopMixService} from "../top-mix/top-mix.service";
 import {TobaccoMix} from "../interfaces/entity/tobacco-mix";
 import {Mix} from "../interfaces/entity/mix";
+import {escapeLabel, formatLabel} from "@swimlane/ngx-charts";
+import {ChartValue} from "./chart-value";
 
 @Component({
   selector: 'app-constructor',
@@ -31,6 +33,14 @@ export class ConstructorComponent implements OnInit {
   public selectedTobaccos: Tobacco[] = [];
   public constructorForm!: FormGroup;
   private tempId: number = 0;
+
+  // public chartData: ChartValue[] = [];
+  public chartData: ChartValue[] = [
+    // { name: "Mobiles", value: 10 },
+    // { name: "Laptop", value: 20 },
+    // { name: "AC", value: 20 },
+    // { name: "AC1", value: 50 },
+  ];
 
   constructor(
     private brandService: BrandService,
@@ -49,6 +59,7 @@ export class ConstructorComponent implements OnInit {
         if (total > 100) {
           console.log('> 100')
         }
+        this.updateChart();
       })
     ).subscribe()
 
@@ -105,6 +116,9 @@ export class ConstructorComponent implements OnInit {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
       const value: Tobacco = event.container.data[event.currentIndex];
       this.addTobaccoMix(value);
+      // this.updateChart();
+      // this.chartData.push({name: "asd", value: 10})
+      // this.chartData = this.chartData.concat([{name: "asd", value: 10}])
     }
   }
 
@@ -123,6 +137,23 @@ export class ConstructorComponent implements OnInit {
     }
 
     this.getTobaccoMix.removeAt(tempId);
+    // this.updateChart();
+  }
+
+  private updateChart(): void {
+    const xxx: TobaccoMix[] = this.getTobaccoMix.value;
+
+    // const mapped = xxx.map(x =><ChartValue> {
+    //   name: x.tobaccoName,
+    //   value: x.percent
+    // })
+
+    // this.chartData = this.chartData.concat(asd);
+    // const arr = [{name: "asd", value: 10}, {name: "asd1", value: 10}]
+    this.chartData = xxx.map(x =><ChartValue> {
+      name: x.tobaccoName,
+      value: x.percent
+    })
   }
 
   public onSave(): void {

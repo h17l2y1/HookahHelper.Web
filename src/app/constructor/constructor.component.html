@@ -29,6 +29,15 @@
         </div>
       </div>
     </form>
+
+    <div class="chart">
+      <ngx-charts-advanced-pie-chart
+        [results]="chartData"
+        [gradient]="true" >
+      </ngx-charts-advanced-pie-chart>
+    </div>
+
+
   </div>
 
   <div class="example-container">
@@ -62,3 +71,5 @@
 </div>
 
 <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+
+

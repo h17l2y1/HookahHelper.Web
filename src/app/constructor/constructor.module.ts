@@ -17,6 +17,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {TopMixService} from "../top-mix/top-mix.service";
 import {MatBadgeModule} from "@angular/material/badge";
+import {PieChartModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatIconModule,
     MatButtonModule,
     MatBadgeModule,
+    PieChartModule,
   ],
   providers: [
     TobaccoService,
