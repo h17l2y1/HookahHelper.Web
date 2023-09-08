@@ -14,7 +14,7 @@
   <button mat-icon-button matTooltip="Notifications">
     <mat-icon>notifications</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+  <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu" (click)="signUp()">
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">

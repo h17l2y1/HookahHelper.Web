@@ -18,11 +18,17 @@ import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ErrorInterceptor} from "./services/error-interceptor";
 import {MatTabsModule} from "@angular/material/tabs";
+import {AuthorizationService} from "./services/authorization.service";
+import {SignUpComponent} from "./authorization/sign-up/sign-up.component";
+import {LoginComponent} from "./authorization/login/login.component";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavComponent,
+    SignUpComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +46,11 @@ import {MatTabsModule} from "@angular/material/tabs";
     MatTooltipModule,
     RouterModule.forRoot([]),
     ToastrModule.forRoot(),
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
   ],
   providers: [
+    AuthorizationService,
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   exports: [],
