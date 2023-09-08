@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {TobaccoService} from "../tobacco/tobacco.service";
 import {BrandService} from "../brand/brand.service";
 import {filter, switchMap, tap} from "rxjs";
@@ -33,20 +33,14 @@ export class ConstructorComponent implements OnInit {
   public selectedTobaccos: Tobacco[] = [];
   public constructorForm!: FormGroup;
   private tempId: number = 0;
-
-  // public chartData: ChartValue[] = [];
-  public chartData: ChartValue[] = [
-    // { name: "Mobiles", value: 10 },
-    // { name: "Laptop", value: 20 },
-    // { name: "AC", value: 20 },
-    // { name: "AC1", value: 50 },
-  ];
+  public chartData: ChartValue[] = [];
 
   constructor(
     private brandService: BrandService,
     private tobaccoService: TobaccoService,
     private formBuilder: FormBuilder,
-    private mixService: TopMixService) {
+    private mixService: TopMixService,
+    private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -58,6 +52,13 @@ export class ConstructorComponent implements OnInit {
         console.log(total)
         if (total > 100) {
           console.log('> 100')
+          // const control = this.constructorForm.get('tobaccoMixes');
+          // control?.setErrors({'total percentage over 100': true});
+          this.getTobaccoMix.controls.forEach(control => {
+            control?.setErrors({'total percentage over 100': true});
+            control.markAsTouched();
+            this.changeDetectorRef.markForCheck();
+          })
         }
         this.updateChart();
       })
@@ -103,6 +104,8 @@ export class ConstructorComponent implements OnInit {
         percent: [0, [Validators.min(1), Validators.max(99)]]
       })
     );
+    this.setAvgPercentToControls();
+    this.updateChart();
   }
 
   public displayFn(brand: { name: string }): string {
@@ -116,9 +119,6 @@ export class ConstructorComponent implements OnInit {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
       const value: Tobacco = event.container.data[event.currentIndex];
       this.addTobaccoMix(value);
-      // this.updateChart();
-      // this.chartData.push({name: "asd", value: 10})
-      // this.chartData = this.chartData.concat([{name: "asd", value: 10}])
     }
   }
 
@@ -135,25 +135,44 @@ export class ConstructorComponent implements OnInit {
       this.tobaccos.push(tobacco);
       this.tobaccos.sort((a, b) => (a.name < b.name ? -1 : 1));
     }
-
     this.getTobaccoMix.removeAt(tempId);
-    // this.updateChart();
+    this.setAvgPercentToControls();
+  }
+
+  public onReset(): void {
+    const tobaccoMixes: TobaccoMix[] = this.getTobaccoMix.value;
+    tobaccoMixes.forEach(tobaccoMix => {
+      const tobacco = {
+        id: tobaccoMix.tobaccoId,
+        name: tobaccoMix.tobaccoName,
+        brandId: tobaccoMix.brandId,
+        image: {
+          link: tobaccoMix.imageLink
+        },
+      } as Tobacco
+
+      this.tobaccos.push(tobacco);
+    })
+
+    this.tobaccos.sort((a, b) => (a.name < b.name ? -1 : 1));
+    this.chartData = [];
+    this.getTobaccoMix.clear();
+  }
+
+  private setAvgPercentToControls(): void {
+    const count = this.getTobaccoMix.value.length;
+    const res = 100 / count;
+    this.getTobaccoMix.controls.forEach(control => {
+      control.patchValue({percent: res}, {emitEvent: false});
+    })
   }
 
   private updateChart(): void {
-    const xxx: TobaccoMix[] = this.getTobaccoMix.value;
-
-    // const mapped = xxx.map(x =><ChartValue> {
-    //   name: x.tobaccoName,
-    //   value: x.percent
-    // })
-
-    // this.chartData = this.chartData.concat(asd);
-    // const arr = [{name: "asd", value: 10}, {name: "asd1", value: 10}]
-    this.chartData = xxx.map(x =><ChartValue> {
+    const tobaccoMixes: TobaccoMix[] = this.getTobaccoMix.value;
+    this.chartData = tobaccoMixes.map(x => <ChartValue> {
       name: x.tobaccoName,
       value: x.percent
-    })
+    });
   }
 
   public onSave(): void {
@@ -184,11 +203,11 @@ export class ConstructorComponent implements OnInit {
   }
 
   public MyCustomValidator(control: AbstractControl): null {
-    const data = control.value as TobaccoMix[];
-    const total = data?.reduce((n, {percent}) => n + +percent, 0);
-    if (total > 100){
-      control.setErrors({'total percentage over 100': true});
-    }
+    // const data = control.value as TobaccoMix[];
+    // const total = data?.reduce((n, {percent}) => n + +percent, 0);
+    // if (total > 100){
+    //   control.setErrors({'total percentage over 100': true});
+    // }
     return  null;
   }
 

@@ -5,6 +5,9 @@
         <mat-label>Назва</mat-label>
         <input matInput formControlName="name" placeholder="Назва мiксу">
       </mat-form-field>
+      <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+      <button class="button popup-actions-button" mat-flat-button (click)="onReset()">Reset</button>
+
       <div cdkDropList
            #doneList="cdkDropList"
            [cdkDropListData]="selectedTobaccos"
@@ -22,6 +25,7 @@
               <mat-form-field class="example-full-width2">
                 <mat-label>Percent</mat-label>
                 <input matInput formControlName="percent" placeholder="Percent" value="{{tobacco.value.percent}}">
+                <mat-error *ngIf="tobacco.invalid">TOTAL MORE 100</mat-error>
                 <mat-icon [inline]="true" matSuffix>%</mat-icon>
               </mat-form-field>
             </mat-card-content>
@@ -36,8 +40,6 @@
         [gradient]="true" >
       </ngx-charts-advanced-pie-chart>
     </div>
-
-
   </div>
 
   <div class="example-container">
@@ -70,6 +72,5 @@
   </div>
 </div>
 
-<button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
 
 
