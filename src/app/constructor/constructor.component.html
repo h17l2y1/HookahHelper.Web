@@ -1,0 +1,76 @@
+<div class="ctor-main">
+  <div class="example-container2">
+    <form [formGroup]="constructorForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Назва</mat-label>
+        <input matInput formControlName="name" placeholder="Назва мiксу">
+      </mat-form-field>
+      <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
+      <button class="button popup-actions-button" mat-flat-button (click)="onReset()">Reset</button>
+
+      <div cdkDropList
+           #doneList="cdkDropList"
+           [cdkDropListData]="selectedTobaccos"
+           [cdkDropListConnectedTo]="[todoList]"
+           class="example-list2"
+           (cdkDropListDropped)="drop($event)"
+           formArrayName="tobaccoMixes">
+
+        <div class="card-wrapper" *ngFor="let tobacco of getTobaccoMix.controls; let i=index">
+          <div matBadge="delete" matBadgeColor="warn" class="demo-section badge" (click)="onRemove(tobacco.value, i)"></div>
+          <mat-card class="tobacco-card">
+            <img mat-card-image class="image" src="{{tobacco.value.imageLink}}" alt="image error">
+            <mat-card-content [formGroupName]="i">
+              <mat-card-title class="title">{{tobacco.value.tobaccoName}}</mat-card-title>
+              <mat-form-field class="example-full-width2">
+                <mat-label>Percent</mat-label>
+                <input matInput formControlName="percent" placeholder="Percent" value="{{tobacco.value.percent}}">
+                <mat-error *ngIf="tobacco.invalid">TOTAL MORE 100</mat-error>
+                <mat-icon [inline]="true" matSuffix>%</mat-icon>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+
+    <div class="chart">
+      <ngx-charts-advanced-pie-chart
+        [results]="chartData"
+        [gradient]="true" >
+      </ngx-charts-advanced-pie-chart>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Бренд</mat-label>
+      <input type="text" matInput placeholder="Select Brand" [formControl]="brandAutocompleteControl"
+             [matAutocomplete]="autoBrands">
+      <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
+        <mat-option>Усi</mat-option>
+        <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <h2>Tobaccos</h2>
+    <div class="my_scroll_div">
+      <div
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="tobaccos"
+        [cdkDropListConnectedTo]="[doneList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of tobaccos" cdkDrag>
+          {{item.name}}
+          <img class="my-preview" *cdkDragPreview [src]="item.image.link" [alt]="item.name">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

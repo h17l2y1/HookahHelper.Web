@@ -12,12 +12,14 @@ import {ImageCropperModule} from "ngx-image-cropper";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import {NamePipe} from "./pipes/name.pipe";
+import { OnlyNumbersPipe } from './pipes/only-numbers.pipe';
 
 @NgModule({
   declarations: [
     ImageUploadComponent,
     ConfirmationPopupComponent,
-    NamePipe
+    NamePipe,
+    OnlyNumbersPipe
   ],
   providers: [],
   imports: [
