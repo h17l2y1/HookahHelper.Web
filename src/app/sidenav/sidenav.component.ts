@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {TagService} from "../tag/tag.service";
 import {AuthorizationService} from "../services/authorization.service";
-import {TagCreateComponent} from "../tag/tag-create/tag-create.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 
@@ -15,7 +13,6 @@ export class SidenavComponent {
 
   constructor(
     public dialog: MatDialog,
-    private tagService: TagService,
     private authorizationService:AuthorizationService) {
   }
   public signUp(): void {
