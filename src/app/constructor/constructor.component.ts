@@ -6,7 +6,6 @@ import {Brand} from "../interfaces/entity/brand";
 import {Tobacco} from "../interfaces/entity/tobacco";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -16,7 +15,6 @@ import {
 import {TopMixService} from "../top-mix/top-mix.service";
 import {TobaccoMix} from "../interfaces/entity/tobacco-mix";
 import {Mix} from "../interfaces/entity/mix";
-import {escapeLabel, formatLabel} from "@swimlane/ngx-charts";
 import {ChartValue} from "./chart-value";
 
 @Component({
@@ -182,7 +180,7 @@ export class ConstructorComponent implements OnInit {
     }
 
     this.mixService.create(this.constructorForm.value).pipe(
-
+      tap(() => this.onReset())
     ).subscribe()
   }
 
@@ -202,7 +200,7 @@ export class ConstructorComponent implements OnInit {
     })
   }
 
-  public MyCustomValidator(control: AbstractControl): null {
+  public MyCustomValidator(): null {
     // const data = control.value as TobaccoMix[];
     // const total = data?.reduce((n, {percent}) => n + +percent, 0);
     // if (total > 100){

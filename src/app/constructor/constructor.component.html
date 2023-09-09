@@ -1,13 +1,14 @@
 <div class="ctor-main">
   <div class="example-container2">
-    <form [formGroup]="constructorForm">
-      <mat-form-field class="example-full-width">
-        <mat-label>Назва</mat-label>
-        <input matInput formControlName="name" placeholder="Назва мiксу">
-      </mat-form-field>
-      <button class="button popup-actions-button" mat-flat-button (click)="onSave()">Створити</button>
-      <button class="button popup-actions-button" mat-flat-button (click)="onReset()">Reset</button>
-
+    <form [formGroup]="constructorForm" class="example-full-width">
+      <div class="button-container">
+        <mat-form-field>
+          <mat-label>Назва</mat-label>
+          <input matInput formControlName="name" placeholder="Назва мiксу">
+        </mat-form-field>
+        <button class="button" mat-flat-button (click)="onSave()">Створити</button>
+        <button class="button push" mat-flat-button (click)="onReset()">Reset</button>
+      </div>
       <div cdkDropList
            #doneList="cdkDropList"
            [cdkDropListData]="selectedTobaccos"
@@ -34,7 +35,7 @@
       </div>
     </form>
 
-    <div class="chart">
+    <div class="chart" *ngIf="getTobaccoMix.controls.length">
       <ngx-charts-advanced-pie-chart
         [results]="chartData"
         [gradient]="true" >

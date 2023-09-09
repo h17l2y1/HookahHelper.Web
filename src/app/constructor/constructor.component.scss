@@ -7,7 +7,7 @@
   width: 80%;
   display: flex;
   flex-direction: column;
-  padding: 25px 25px 25px 0;
+  //padding: 25px 25px 25px 0;
   //align-items: center;
 
   .example-list2 {
@@ -129,10 +129,10 @@
 }
 
 .mat-badge-content {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons', serif;
   font-size: 20px;
   line-height: 28px;
-  right: 0px !important;
+  right: 0 !important;
   top: -1px !important;
   z-index: 1;
   width: 30px;
@@ -158,3 +158,19 @@
   height: 200px;
   color: white;
 }
+
+
+
+.button-container {
+  display: flex;
+
+  .button {
+    height: 56px;
+    margin-left: 20px;
+  }
+
+  .push {
+    margin-left: auto;
+  }
+}
+
