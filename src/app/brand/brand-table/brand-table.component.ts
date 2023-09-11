@@ -59,7 +59,7 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.getBrands();
   }
 
