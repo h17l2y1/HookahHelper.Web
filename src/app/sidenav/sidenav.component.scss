@@ -1,9 +1,34 @@
+.flex {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  padding: 0
+}
+
+.header {
+  padding: 20px 20px 0 20px;
+  //background: green;
+}
+
+.h100 {
+  padding: 20px;
+  //background: yellow;
+  flex-grow: 3;
+}
+
+.footer {
+  //background: red;
+}
+
 .toolbar-item-spacer {
   flex: 1 1 auto;
 }
 
 .mat-toolbar {
-  //margin: 20px;
   border-radius: 30px;
   width: auto;
   color: white;
@@ -28,5 +53,5 @@
 }
 
 .main-container {
-  padding-top: 20px;
+  height: 100%;
 }
