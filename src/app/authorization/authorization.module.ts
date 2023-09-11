@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { LoginComponent } from './login/login.component';
 import {AuthorizationService} from "../services/authorization.service";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 
 
@@ -13,6 +18,14 @@ import {AuthorizationService} from "../services/authorization.service";
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    // MatInputModule,
+    // MatDialogModule,
+    // MatButtonModule,
+    // ReactiveFormsModule,
   ],
   providers: [
     AuthorizationService,
