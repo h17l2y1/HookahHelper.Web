@@ -4,6 +4,16 @@
       <img mat-card-image class="image" src="{{tobacco.image.link}}" alt="image error">
       <mat-card-content>
         <mat-card-title class="title">{{tobacco.name}}</mat-card-title>
+        <div class="rating-container">
+          <star-rating
+            [showHalfStars]="true"
+            [starType]="'svg'"
+            [rating]="tobacco.rating"
+            [readOnly]="true">
+          </star-rating>
+          {{tobacco.rating}}
+        </div>
+
         <div class="description">
           <p>
             {{tobacco.description}}

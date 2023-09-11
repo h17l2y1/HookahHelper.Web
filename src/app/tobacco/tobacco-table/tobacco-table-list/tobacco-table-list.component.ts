@@ -17,7 +17,7 @@ export class TobaccoTableListComponent {
   @Input() tobaccos!: Tobacco[];
   @Output("getTobaccosEmit") getTobaccos: EventEmitter<any> = new EventEmitter();
 
-  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'action'];
+  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
 
   constructor(
     public dialog: MatDialog,
