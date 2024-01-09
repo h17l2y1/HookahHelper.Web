@@ -1,1 +1,21 @@
-<p>login works!</p>
+<div class="popup-container">
+  <h1 mat-dialog-title>Авторизація</h1>
+  <form [formGroup]="createLoginForm" class="example-form" *ngIf="createLoginForm">
+    <div class="create-account-container">
+      <div class="side">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Пароль</mat-label>
+          <input matInput formControlName="password">
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div mat-dialog-actions class="popup-action-container">
+    <button class="button popup-actions-button create-color" mat-flat-button (click)="onSave()">Створити</button>
+    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
+  </div>
+</div>

@@ -1,19 +1,26 @@
 import {Component} from '@angular/core';
-import {CreateBrand} from "../../interfaces/other/create-brand";
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthorizationService} from "../../services/authorization.service";
 import {User} from "../../interfaces/entity/user";
 
+interface Role {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.css'],
 })
 
 
 export class SignUpComponent {
   public createSignUpForm: FormGroup = this.initCreateUserForm();
+  roles: Role[] = [
+    {value: 'admin', viewValue: 'Admin'},
+    {value: 'user', viewValue: 'User'},
+  ];
 
   constructor(
     public dialogRef: MatDialogRef<SignUpComponent>,
@@ -39,6 +46,7 @@ export class SignUpComponent {
       email: [null, [Validators.required]],
       password: [null, [Validators.required]],
       confirmPassword: [null, [Validators.required]],
+      role: [null, [Validators.required]],
     });
   };
 
