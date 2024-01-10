@@ -173,7 +173,7 @@ export class TobaccoEditorComponent implements OnInit {
       }
     });
     request.tobaccoTags = request.tobaccoTags.concat(removedTags);
-    request.image.name = `tobacco: ${request.name}`;
+    request.image.name = request.name;
 
     return request;
   }

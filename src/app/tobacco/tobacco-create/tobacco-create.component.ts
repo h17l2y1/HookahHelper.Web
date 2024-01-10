@@ -194,7 +194,7 @@ export class TobaccoCreateComponent implements OnInit {
       }
     });
     request.tags = this.selectedTags;
-    request.image.name = `tobacco: ${request.name}`;
+    request.image.name = request.name;
 
     return request;
   }
