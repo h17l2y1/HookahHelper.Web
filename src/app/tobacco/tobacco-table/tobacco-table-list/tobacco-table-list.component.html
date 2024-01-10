@@ -11,7 +11,7 @@
             <img class="image" src="{{row.image?.link}}" alt="image"></td>
         </ng-container>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Назва</th>
+          <th mat-header-cell *matHeaderCellDef >Назва</th>
           <td mat-cell *matCellDef="let row"> {{row.name}} </td>
         </ng-container>
         <ng-container matColumnDef="description">
@@ -35,6 +35,20 @@
               <mat-chip class="example-box" *ngFor="let tag of row.tagsGlobal">
                 {{tag.name}}
               </mat-chip>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="rating">
+          <th mat-header-cell *matHeaderCellDef >Рейтинг</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="rating-container">
+              <star-rating
+                [showHalfStars]="true"
+                [starType]="'svg'"
+                [rating]="row.rating"
+                [readOnly]="true">
+              </star-rating>
+              {{row.rating}}
             </div>
           </td>
         </ng-container>

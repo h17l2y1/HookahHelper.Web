@@ -22,9 +22,6 @@ import {NamePipe} from "../shared/pipes/name.pipe";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
-
-
-
 @NgModule({
   declarations: [
     TagTableComponent,

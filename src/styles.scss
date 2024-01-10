@@ -5,6 +5,12 @@
 //@import 'bootstrap/scss/variables';
 //@import 'bootstrap/scss/mixins';
 
+$color-negative-rating: #ae4a4a !default;
+$color-ok-rating: #ff8000 !default;
+$color-positive-rating: #ffa900 !default;
+$color-default-rating: #c8c851 !default;
+
+@import 'css-star-rating/scss/star-rating';
 html, body {
   height: 100%;
 }
@@ -17,6 +23,8 @@ body {
 
 .button {
   border-radius: 16px !important;
+  width: 200px !important;
+  height: 50px;
 }
 
 .mat-elevation-z8 {
@@ -76,5 +84,3 @@ body {
 .mat-mdc-paginator {
   border-top: 1px solid #616161;
 }
-
-
