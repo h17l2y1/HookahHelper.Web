@@ -22,10 +22,8 @@ import {MatButtonModule} from "@angular/material/button";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatDialogModule,
-    // MatInputModule,
-    // MatDialogModule,
-    // MatButtonModule,
-    // ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
   ],
   providers: [
     AuthorizationService,

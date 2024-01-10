@@ -27,6 +27,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {SharedModule} from "./shared/shared.module";
+import {AuthorizationModule} from "./authorization/authorization.module";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {SharedModule} from "./shared/shared.module";
     MatSelectModule,
     ReactiveFormsModule,
     SharedModule,
+    AuthorizationModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
