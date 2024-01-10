@@ -8,6 +8,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {MatButtonModule} from "@angular/material/button";
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   providers: [
     AuthorizationService,
