@@ -1,6 +1,6 @@
 <div class="popup-container">
   <h1 mat-dialog-title>Реєстрація</h1>
-  <form [formGroup]="createSignUpForm" class="example-form" *ngIf="createSignUpForm">
+  <form [formGroup]="createSignUpForm" class="example-form">
     <div class="create-account-container">
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
@@ -22,6 +22,14 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Повторіть пароль</mat-label>
           <input matInput formControlName="confirmPassword">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Роль</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role.value">
+              {{role.viewValue}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </div>

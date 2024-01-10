@@ -5,7 +5,7 @@
       <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="tabs">
         <a class="tab" mat-tab-link routerLink="/brand" routerLinkActive="active-link">Бренди</a>
         <a class="tab" mat-tab-link routerLink="/tobacco" routerLinkActive="active-link">Табаки</a>
-        <a class="tab" mat-tab-link routerLink="/tag" routerLinkActive="active-link">Теги</a>
+        <a class="tab" mat-tab-link routerLink="/tag" routerLinkActive="active-link" *ngIf="role === 'admin'">Теги</a>
         <a class="tab" mat-tab-link routerLink="/constructor" routerLinkActive="active-link">Конструктор</a>
         <a class="tab" mat-tab-link routerLink="/mixes" routerLinkActive="active-link">Топ мiкси</a>
       </nav>
@@ -24,9 +24,9 @@
           <mat-icon>person</mat-icon>
           <span>Sign In</span>
         </button>
-        <button mat-menu-item routerLink="#">
+        <button mat-menu-item (click)="login()">
           <mat-icon>person</mat-icon>
-          <span>My Account</span>
+          <span>Login</span>
         </button>
         <button mat-menu-item routerLink="#">
           <mat-icon>settings</mat-icon>
@@ -37,7 +37,7 @@
           <span>Help</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="#">
+        <button mat-menu-item (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
           Logout
         </button>
@@ -52,6 +52,7 @@
     </div>
   </div>
   <div class=footer></div>
+>>>>>>>>> Temporary merge branch 2
 </div>
 
 

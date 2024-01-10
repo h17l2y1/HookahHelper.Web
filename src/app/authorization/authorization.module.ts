@@ -9,8 +9,6 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 
-
-
 @NgModule({
   declarations: [
     SignUpComponent,

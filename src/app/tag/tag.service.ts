@@ -13,6 +13,7 @@ export class TagService {
 
   constructor(private http: HttpClient) {
   }
+
   public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Tag>> {
     let req = `Tag/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
