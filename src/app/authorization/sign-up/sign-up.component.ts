@@ -43,11 +43,10 @@ export class SignUpComponent {
     return this.formBuilder.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      confirmPassword: [null, [Validators.required]],
+      email: ["test_mail@gmail.com", [Validators.required]],
+      password: ["kHK4*v#f47", [Validators.required]],
+      confirmPassword: ["kHK4*v#f47", [Validators.required]],
       role: [null, [Validators.required]],
     });
   };
-
 }

@@ -29,6 +29,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {SharedModule} from "./shared/shared.module";
 import {AuthorizationModule} from "./authorization/authorization.module";
 import {AddTokenInterceptor} from "./services/add-token.interceptor";
+import {AuthGuard} from "./services/guards/auth.guard";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,9 @@ import {AddTokenInterceptor} from "./services/add-token.interceptor";
     AuthorizationModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
+    AuthGuard,
+    AuthorizationService
   ],
   exports: [],
   bootstrap: [AppComponent]
