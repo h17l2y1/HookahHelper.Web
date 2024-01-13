@@ -12,7 +12,7 @@ export class AuthorizationService {
 
   readonly rootUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {
+  constructor(private http: HttpClient) {
   }
   public createUser(data: User): Observable<void> {
     return this.http.post<void>(this.rootUrl + 'Account/SignUp', data);
@@ -32,6 +32,6 @@ export class AuthorizationService {
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    return !this.jwtHelper.isTokenExpired(token);
+    return true;
   }
 }

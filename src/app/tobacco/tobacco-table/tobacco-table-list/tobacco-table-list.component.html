@@ -48,7 +48,8 @@
                 [rating]="row.rating"
                 [readOnly]="true">
               </star-rating>
-              {{row.rating}}
+              {{row.rating | number:'1.1-2'}}
+              ({{row.ratingCount}})
             </div>
           </td>
         </ng-container>
