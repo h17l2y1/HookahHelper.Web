@@ -17,5 +17,6 @@ export interface Tobacco {
   brand: Brand;
   tagsDescription: string[];
   rating: number;
+  ratingCount: number;
   comments: Comment[];
 }
