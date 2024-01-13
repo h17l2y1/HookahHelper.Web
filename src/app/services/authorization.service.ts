@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {User} from "../interfaces/entity/user";
 import {Token} from "../interfaces/models/token";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {jwtDecode, JwtPayload} from "jwt-decode";
 
 @Injectable()
 
@@ -12,7 +13,7 @@ export class AuthorizationService {
 
   readonly rootUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {
+  constructor(private http: HttpClient) {
   }
   public createUser(data: User): Observable<void> {
     return this.http.post<void>(this.rootUrl + 'Account/SignUp', data);
@@ -32,6 +33,8 @@ export class AuthorizationService {
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    return !this.jwtHelper.isTokenExpired(token);
+    if (token === null) return false
+    const decoded = jwtDecode<JwtPayload>(token);
+    return true;
   }
 }
