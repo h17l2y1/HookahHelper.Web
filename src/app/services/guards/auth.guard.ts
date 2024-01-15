@@ -6,9 +6,6 @@ import {AuthorizationService} from "../authorization.service";
 export class AuthGuard implements CanActivate {
   constructor(public auth: AuthorizationService, public router: Router) {}
   canActivate(): boolean {
-    if (!this.auth.isAuthenticated()) {
-      return false;
-    }
-    return true;
+    return this.auth.isAuthenticated();
   }
 }

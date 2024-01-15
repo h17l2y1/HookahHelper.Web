@@ -6,6 +6,7 @@ import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 import {LoginComponent} from "../authorization/login/login.component";
 import {ConfirmationPopupComponent} from "../shared/components/confirmation-popup/confirmation-popup.component";
 import {tap} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'sidenav',
@@ -18,7 +19,8 @@ export class SidenavComponent {
 
   constructor(
     public dialog: MatDialog,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private router: Router) {
   }
   public signUp(): void {
     const dialogRef = this.dialog.open(SignUpComponent, {
@@ -46,6 +48,9 @@ export class SidenavComponent {
       //   this.login();
       // }
       //   this.getTags()
+
+      // this.router.navigate([this.router.url]);
+      window.location.reload();
     });
   }
 
@@ -57,8 +62,9 @@ export class SidenavComponent {
       if (popupResponse) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('role');
+        // this.router.navigate(['']);
+        window.location.reload();
       }
     });
   }
-
 }

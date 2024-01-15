@@ -30,6 +30,7 @@ import {SharedModule} from "./shared/shared.module";
 import {AuthorizationModule} from "./authorization/authorization.module";
 import {AddTokenInterceptor} from "./services/add-token.interceptor";
 import {AuthGuard} from "./services/guards/auth.guard";
+import {TokenService} from "./services/token.service";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {AuthGuard} from "./services/guards/auth.guard";
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
     AuthGuard,
-    AuthorizationService
+    AuthorizationService,
+    TokenService
   ],
   exports: [],
   bootstrap: [AppComponent]

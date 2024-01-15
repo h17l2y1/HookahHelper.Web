@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -15,6 +15,7 @@ export class AuthorizationService {
 
   constructor(private http: HttpClient) {
   }
+
   public createUser(data: User): Observable<void> {
     return this.http.post<void>(this.rootUrl + 'Account/SignUp', data);
   }
@@ -26,15 +27,22 @@ export class AuthorizationService {
   saveToken(token: string): void {
     localStorage.setItem('access_token', token);
   }
+
   public getUserRole() {
-    const role:string|null  = localStorage.getItem('role');
+    const role: string | null = localStorage.getItem('role');
     return role;
   }
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    if (token === null) return false
+    const token = localStorage.getItem('access_token');
+    if (token === null) {
+      return false
+    }
     const decoded = jwtDecode<JwtPayload>(token);
-    return true;
+    if (decoded.exp === undefined) {
+      return false
+    }
+    const expDate = new Date(0).setUTCSeconds(decoded.exp);
+    return new Date().valueOf() < expDate.valueOf();
   }
 }
