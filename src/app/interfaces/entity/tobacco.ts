@@ -2,7 +2,7 @@ import {Image} from "./image";
 import {Tag} from "./tag";
 import {Brand} from "./brand";
 import {TobaccoTag} from "./tobacco-tag";
-import {Comment} from "./comment";
+import {Review} from "./review";
 
 export interface Tobacco {
   id: string;
@@ -17,5 +17,7 @@ export interface Tobacco {
   brand: Brand;
   tagsDescription: string[];
   rating: number;
-  comments: Comment[];
+  ratingCount: number;
+  commentsCount: number;
+  reviews: Review[];
 }

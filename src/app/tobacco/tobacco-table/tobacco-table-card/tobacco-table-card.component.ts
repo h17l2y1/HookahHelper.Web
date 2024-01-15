@@ -6,6 +6,7 @@ import {Brand} from "../../../interfaces/entity/brand";
 import {TobaccoEditorComponent} from "../../tobacco-editor/tobacco-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {TobaccoList} from "../tobacco-table-list/TobaccoList";
+import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
 
 @Component({
   selector: 'app-tobacco-table-card',
@@ -22,14 +23,14 @@ export class TobaccoTableCardComponent {
     private tobaccoService: TobaccoService
   ) {}
 
-  public onEdit(id: string): void {
+  public onView(id: string): void {
     this.tobaccoService.getById(id).pipe(
       tap(response => {
-        const dialogRef = this.dialog.open(TobaccoEditorComponent, {
+        const dialogRef = this.dialog.open(TobaccoViewComponent, {
           data: {
             tobacco: response
           },
-          maxWidth: '1000px',
+          maxWidth: '1200px',
           backdropClass: 'blurred',
           enterAnimationDuration: ENTER_ANIMATION_DURATION,
           exitAnimationDuration: EXIT_ANIMATION_DURATION

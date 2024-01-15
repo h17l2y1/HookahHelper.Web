@@ -31,6 +31,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {TagService} from "../tag/tag.service";
 import {StarRatingModule} from "angular-star-rating";
+import { TobaccoViewComponent } from './tobacco-view/tobacco-view.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {StarRatingModule} from "angular-star-rating";
     TobaccoTableCardComponent,
     TobaccoTableListComponent,
     TobaccoTableComponent,
+    TobaccoViewComponent,
   ],
     imports: [
         CommonModule,
