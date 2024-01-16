@@ -14,7 +14,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {BrandService} from "../brand/brand.service";
 import {CountryService} from "../services/country.service";
@@ -31,6 +30,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {TagService} from "../tag/tag.service";
 import {StarRatingModule} from "angular-star-rating";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -40,28 +40,28 @@ import {StarRatingModule} from "angular-star-rating";
     TobaccoTableListComponent,
     TobaccoTableComponent,
   ],
-    imports: [
-        CommonModule,
-        TobaccoRoutingModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatTableModule,
-        MatCardModule,
-        SharedModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatProgressSpinnerModule,
-        MatBadgeModule,
-        MatSlideToggleModule,
-        MatChipsModule,
-        MatAutocompleteModule,
-        MatButtonToggleModule,
-        StarRatingModule.forRoot(),
-    ],
+  imports: [
+    CommonModule,
+    TobaccoRoutingModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatTableModule,
+    MatCardModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatBadgeModule,
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    StarRatingModule.forRoot(),
+    MatProgressBarModule,
+  ],
   providers: [
     TobaccoService,
     BrandService,

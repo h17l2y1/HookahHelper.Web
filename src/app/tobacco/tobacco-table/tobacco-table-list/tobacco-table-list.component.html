@@ -1,8 +1,6 @@
 <div class="table-container">
   <div class="example-container mat-elevation-z8">
-    <div class="example-loading-shade" *ngIf="isLoadingResults">
-      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-    </div>
+    <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
     <div class="example-table-container">
       <table mat-table [dataSource]="tobaccos" matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
         <ng-container matColumnDef="image">
