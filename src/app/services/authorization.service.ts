@@ -3,7 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {User} from "../interfaces/entity/user";
-import {Token} from "../interfaces/models/token";
+import {Tokens} from "../interfaces/models/tokens";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {jwtDecode, JwtPayload} from "jwt-decode";
 
@@ -20,8 +20,8 @@ export class AuthorizationService {
     return this.http.post<void>(this.rootUrl + 'Account/SignUp', data);
   }
 
-  public authorization(data: User): Observable<Token> {
-    return this.http.post<Token>(this.rootUrl + 'Account/Login', data);
+  public authorization(data: User): Observable<Tokens> {
+    return this.http.post<Tokens>(this.rootUrl + 'Account/Login', data);
   }
 
   saveToken(token: string): void {
@@ -39,10 +39,18 @@ export class AuthorizationService {
       return false
     }
     const decoded = jwtDecode<JwtPayload>(token);
+
+
     if (decoded.exp === undefined) {
       return false
     }
     const expDate = new Date(0).setUTCSeconds(decoded.exp);
     return new Date().valueOf() < expDate.valueOf();
+  }
+
+  refreshToken(token: string) {
+    return this.http.post<any>(this.rootUrl + 'RefreshToken', {
+      refreshToken: token
+    })
   }
 }

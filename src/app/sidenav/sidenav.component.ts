@@ -60,9 +60,7 @@ export class SidenavComponent {
     });
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('role');
-        // this.router.navigate(['']);
+        localStorage.clear();
         window.location.reload();
       }
     });

@@ -9,29 +9,24 @@ export class TokenService {
   constructor() { }
 
   signOut(): void {
-    window.localStorage.clear();
+    localStorage.clear();
   }
 
   public saveToken(token: string): void {
-    window.localStorage.removeItem(TOKEN_KEY);
-    window.localStorage.setItem(TOKEN_KEY, token);
-
-    // const user = this.getUser();
-    // if (user.id) {
-    //   this.saveUser({ ...user, accessToken: token });
-    // }
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.setItem(TOKEN_KEY, token);
   }
 
   public getToken(): string | null {
-    return window.localStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(TOKEN_KEY);
   }
 
   public saveRefreshToken(token: string): void {
-    window.localStorage.removeItem(REFRESHTOKEN_KEY);
-    window.localStorage.setItem(REFRESHTOKEN_KEY, token);
+    localStorage.removeItem(REFRESHTOKEN_KEY);
+    localStorage.setItem(REFRESHTOKEN_KEY, token);
   }
 
   public getRefreshToken(): string | null {
-    return window.localStorage.getItem(REFRESHTOKEN_KEY);
+    return localStorage.getItem(REFRESHTOKEN_KEY);
   }
 }
