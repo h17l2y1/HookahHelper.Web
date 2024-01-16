@@ -14,10 +14,10 @@ import {SharedModule} from "../shared/shared.module";
 import {BrandService} from "./brand.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CountryService} from "../services/country.service";
 import {BrandCreateComponent} from './brand-create/brand-create.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import {NamePipe} from "../shared/pipes/name.pipe";
     SharedModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
   ],
   providers: [
     BrandService,
