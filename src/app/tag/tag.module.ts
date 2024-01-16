@@ -8,7 +8,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatOptionModule} from "@angular/material/core";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
@@ -21,6 +20,7 @@ import { TagEditorComponent } from './tag-editor/tag-editor.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -28,26 +28,26 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     TagCreateComponent,
     TagEditorComponent
   ],
-  imports: [
-    CommonModule,
-    TagRoutingModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatOptionModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatSortModule,
-    MatTableModule,
-    SharedModule,
-    MatDialogModule,
-    FormsModule,
-    MatSlideToggleModule,
-    MatCheckboxModule
-  ],
+    imports: [
+        CommonModule,
+        TagRoutingModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatOptionModule,
+        MatPaginatorModule,
+        MatSelectModule,
+        MatSortModule,
+        MatTableModule,
+        SharedModule,
+        MatDialogModule,
+        FormsModule,
+        MatSlideToggleModule,
+        MatCheckboxModule,
+        MatProgressBarModule
+    ],
   providers: [
     TagService,
     NamePipe

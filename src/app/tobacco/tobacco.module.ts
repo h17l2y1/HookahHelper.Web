@@ -33,6 +33,7 @@ import {TagService} from "../tag/tag.service";
 import {StarRatingModule} from "angular-star-rating";
 import {TobaccoViewComponent} from './tobacco-view/tobacco-view.component';
 import {ReviewService} from "../services/review.service";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -57,13 +58,13 @@ import {ReviewService} from "../services/review.service";
     SharedModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule,
     MatBadgeModule,
     MatSlideToggleModule,
     MatChipsModule,
     MatAutocompleteModule,
     MatButtonToggleModule,
     StarRatingModule.forRoot(),
+    MatProgressBarModule,
   ],
   providers: [
     TobaccoService,
