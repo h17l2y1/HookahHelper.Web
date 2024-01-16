@@ -31,7 +31,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {TagService} from "../tag/tag.service";
 import {StarRatingModule} from "angular-star-rating";
-import { TobaccoViewComponent } from './tobacco-view/tobacco-view.component';
+import {TobaccoViewComponent} from './tobacco-view/tobacco-view.component';
+import {ReviewService} from "../services/review.service";
 
 @NgModule({
   declarations: [
@@ -42,28 +43,28 @@ import { TobaccoViewComponent } from './tobacco-view/tobacco-view.component';
     TobaccoTableComponent,
     TobaccoViewComponent,
   ],
-    imports: [
-        CommonModule,
-        TobaccoRoutingModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatTableModule,
-        MatCardModule,
-        SharedModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatProgressSpinnerModule,
-        MatBadgeModule,
-        MatSlideToggleModule,
-        MatChipsModule,
-        MatAutocompleteModule,
-        MatButtonToggleModule,
-        StarRatingModule.forRoot(),
-    ],
+  imports: [
+    CommonModule,
+    TobaccoRoutingModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatTableModule,
+    MatCardModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatBadgeModule,
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    StarRatingModule.forRoot(),
+  ],
   providers: [
     TobaccoService,
     BrandService,
@@ -71,7 +72,8 @@ import { TobaccoViewComponent } from './tobacco-view/tobacco-view.component';
     LineService,
     HeavinessService,
     NamePipe,
-    TagService
+    TagService,
+    ReviewService
   ]
 })
 export class TobaccoModule {

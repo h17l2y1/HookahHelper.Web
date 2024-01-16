@@ -2,6 +2,8 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Review} from "../../interfaces/entity/review";
+import {ReviewService} from "../../services/review.service";
 
 @Component({
   selector: 'app-tobacco-view',
@@ -15,10 +17,9 @@ export class TobaccoViewComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { tobacco: Tobacco },
     public dialogRef: MatDialogRef<TobaccoViewComponent>,
-    private formBuilder: FormBuilder
-  ) {
-    // this. mapDateTime();
-  }
+    private formBuilder: FormBuilder,
+    private reviewService: ReviewService,
+  ) {}
 
   public initCreateTobaccoForm(): FormGroup {
     return this.formBuilder.group({
@@ -29,6 +30,24 @@ export class TobaccoViewComponent {
   }
 
   public onSend(): void {
-    console.log(this.createReviewForm.value)
+    if (this.createReviewForm.invalid) {
+      this.createReviewForm.markAllAsTouched();
+      return;
+    }
+    const request = this.mapRequestModel();
+    this.reviewService.createReview(request).subscribe(() => {
+      this.dialogRef.close(true);
+    });
+  }
+
+  private mapRequestModel(): Review {
+    return {
+      // isAnonymous: string,
+      // anonymousName: string,
+      comment: this.createReviewForm.value.text,
+      rating: this.createReviewForm.value.rating,
+      // tobaccoId: string,
+      // user: ReviewUser,
+    } as Review
   }
 }

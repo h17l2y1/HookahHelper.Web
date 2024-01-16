@@ -29,7 +29,7 @@ import {TobaccoList} from "./tobacco-table-list/TobaccoList";
 })
 export class TobaccoTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public checked = false;
+  public checked = true;
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [11, 25, 50, 100];
