@@ -1,0 +1,108 @@
+.view-popup {
+  padding: 50px;
+
+  .data-container {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: auto;
+    border: 1px solid red;
+    padding: 5px;
+
+    .image {
+      border: 1px solid #00ffff;
+
+      width: 300px;
+      height: 300px;
+    }
+
+    .characteristics {
+      border: 1px solid #0afd00;
+      max-width: 300px;
+      padding-left: 20px;
+      padding-right: 15px;
+
+      .rating-container {
+        display: flex;
+        padding-bottom: 20px;
+      }
+
+      .parameters {
+        .param {
+          display: flex;
+
+          .characteristic-name {
+            width: 130px;
+          }
+        }
+      }
+    }
+
+    .schema {
+      border: 1px solid white;
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  .review-container {
+    display: flex;
+    border: 1px solid red;
+    margin-top: 20px;
+
+    .comments-container {
+      border: 1px solid #00ff15;
+      width: 50%;
+      min-width: 525px;
+      margin-right: 10px;
+      overflow-y: auto;
+      max-height: 350px;
+
+      .comment {
+        margin: 15px;
+        border-bottom: 2px solid transparent;
+        border-image: linear-gradient(0.25turn, rgb(255, 255, 255), rgba(56,2,155,0));
+        border-image-slice: 1;
+
+        .comment-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          font-weight: 300;
+          font-size: 14px;
+          align-items: center;
+
+          .name-date-container {
+            display: flex;
+
+            .name {
+              padding-right: 10px;
+            }
+
+            .date-time {}
+          }
+        }
+
+        .text {
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+    .add-review-container {
+      width: 100%;
+      border: 1px solid yellow;
+      padding: 20px;
+
+      .add-review {
+        border: 1px solid #8fecd6;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .rating {
+        padding-bottom: 10px;
+      }
+    }
+
+  }
+}
