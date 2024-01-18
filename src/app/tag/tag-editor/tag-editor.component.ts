@@ -8,7 +8,7 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 @Component({
   selector: 'app-tag-editor',
   templateUrl: './tag-editor.component.html',
-  styleUrls: ['./tag-editor.component.css']
+  styleUrls: ['./tag-editor.component.scss']
 })
 export class TagEditorComponent {
   public editTagForm: FormGroup = this.initEditTagForm();

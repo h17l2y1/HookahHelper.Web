@@ -2,18 +2,14 @@ import {Component, Injectable} from '@angular/core';
 import {User} from "../../interfaces/entity/user";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {AuthorizationService} from "../../services/authorization.service";
+import {AuthorizationService} from "../authorization.service";
 import {TokenService} from "../../services/token.service";
-import {jwtDecode, JwtPayload} from "jwt-decode";
-
-@Injectable({
-  providedIn: 'root'
-})
+import {RoleService} from "../../services/role.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   public createLoginForm: FormGroup = this.initLoginUserForm();
@@ -22,28 +18,24 @@ export class LoginComponent {
     public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: FormBuilder,
     private authorizationService: AuthorizationService,
-    private tokenService: TokenService
-  ) {
-  }
+    private tokenService: TokenService,
+    private roleService: RoleService,
+  ) {}
 
   public onSave(): void {
     const request: User = this.createLoginForm.value;
-    this.authorizationService.authorization(request).subscribe((token) => {
-      // localStorage.setItem('access_token', token.token);
+    this.authorizationService.login(request).subscribe((token) => {
       this.tokenService.saveToken(token.accessToken);
       this.tokenService.saveRefreshToken(token.refreshToken);
-
-      const decoded = jwtDecode<JwtPayload>(token.accessToken) as {role:string};
-      localStorage.setItem('role', decoded.role);
-
-      // const tokenPayload = JSON.parse(atob(token.refreshToken.split('.')[1]));
-      // let role = tokenPayload.role;
-      // localStorage.setItem('role', role);
+      this.setRole();
       this.dialogRef.close(true);
     });
   }
 
-
+  private setRole(): void {
+    const isAdmin = this.tokenService.isAdmin();
+    this.roleService.setAdminRole(isAdmin);
+  }
 
   public onCancel(): void {
     this.dialogRef.close();
@@ -58,7 +50,4 @@ export class LoginComponent {
     })
   }
 
-  // saveToken(token: string): void {
-  //   localStorage.setItem('access_token', token);
-  // }
 }

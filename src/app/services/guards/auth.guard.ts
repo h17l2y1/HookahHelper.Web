@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
-import {Router, CanActivate} from '@angular/router';
-import {AuthorizationService} from "../authorization.service";
+import {CanActivate} from '@angular/router';
+import {jwtDecode, JwtPayload} from "jwt-decode";
+import {TokenService} from "../token.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(public auth: AuthorizationService, public router: Router) {}
-  canActivate(): boolean {
-    return this.auth.isAuthenticated();
+  constructor(public tokenService: TokenService) {}
+
+  public canActivate(): boolean {
+    const token = this.tokenService.getAccessToken();
+    if (token === null) {
+      return false;
+    }
+
+    const decoded = jwtDecode<JwtPayload>(token);
+    if (decoded.exp === undefined) {
+      return false
+    }
+
+    const expDate = new Date(0).setUTCSeconds(decoded.exp);
+    return new Date().valueOf() < expDate.valueOf();
   }
+
 }

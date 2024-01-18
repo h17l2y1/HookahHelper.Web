@@ -1,32 +1,44 @@
 import { Injectable } from '@angular/core';
+import {jwtDecode, JwtPayload} from "jwt-decode";
 
-const TOKEN_KEY = 'access_token';
-const REFRESHTOKEN_KEY = 'refresh_token';
+const ACCESS_TOKEN_KEY = 'access_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 
 @Injectable()
-
 export class TokenService {
   constructor() { }
 
   signOut(): void {
-    localStorage.clear();
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
 
   public saveToken(token: string): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.setItem(TOKEN_KEY, token);
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.setItem(ACCESS_TOKEN_KEY, token);
   }
 
-  public getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+  public getAccessToken(): string | null {
+    return localStorage.getItem(ACCESS_TOKEN_KEY);
   }
 
   public saveRefreshToken(token: string): void {
-    localStorage.removeItem(REFRESHTOKEN_KEY);
-    localStorage.setItem(REFRESHTOKEN_KEY, token);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    localStorage.setItem(REFRESH_TOKEN_KEY, token);
   }
 
   public getRefreshToken(): string | null {
-    return localStorage.getItem(REFRESHTOKEN_KEY);
+    return localStorage.getItem(REFRESH_TOKEN_KEY);
   }
+
+  public isAdmin(): boolean {
+    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (token === null) {
+      return false;
+    }
+
+    const decoded = jwtDecode<JwtPayload>(token) as { role: string };
+    return decoded.role === 'admin';
+  }
+
 }

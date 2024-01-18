@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthorizationService} from "../../services/authorization.service";
+import {AuthorizationService} from "../authorization.service";
 import {User} from "../../interfaces/entity/user";
 
 interface Role {
@@ -11,7 +11,7 @@ interface Role {
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
+  styleUrls: ['./sign-up.component.scss'],
 })
 
 
@@ -30,7 +30,7 @@ export class SignUpComponent {
   }
   public onSave(): void {
     const request: User = this.createSignUpForm.value;
-    this.authorizationService.createUser(request).subscribe(() => {
+    this.authorizationService.signUp(request).subscribe(() => {
       this.dialogRef.close(true);
     });
   }
@@ -46,7 +46,7 @@ export class SignUpComponent {
       email: ["test_mail@gmail.com", [Validators.required]],
       password: ["kHK4*v#f47", [Validators.required]],
       confirmPassword: ["kHK4*v#f47", [Validators.required]],
-      role: [null, [Validators.required]],
+      role: ['user', [Validators.required]],
     });
   };
 }

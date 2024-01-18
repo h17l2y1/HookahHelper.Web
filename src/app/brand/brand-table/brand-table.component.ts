@@ -15,6 +15,7 @@ import {CountryService} from "../../services/country.service";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Country} from "../../interfaces/entity/country";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
+import {RoleService} from "../../services/role.service";
 
 @Component({
   selector: 'app-brand-table',
@@ -24,8 +25,9 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants
 export class BrandTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  public readonly displayedColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
+  public isAdmin$ = this.roleService.isAdmin;
+  public allColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
+  public displayedColumns!: string[];
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [10, 25, 100];
@@ -42,11 +44,15 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
   public countryControl: FormControl = this.formBuilder.control('');
 
   constructor(
+    public roleService: RoleService,
     public dialog: MatDialog,
     private brandService: BrandService,
     private countryService: CountryService,
     private formBuilder: FormBuilder,
     private router: Router) {
+    this.isAdmin$.subscribe(isAdmin => {
+      this.displayedColumns = isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
+    })
   }
 
   ngOnInit(): void {

@@ -21,6 +21,7 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants
 import {Tag} from "../../interfaces/entity/tag";
 import {TagService} from "../../tag/tag.service";
 import {TobaccoList} from "./tobacco-table-list/TobaccoList";
+import {RoleService} from "../../services/role.service";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -29,7 +30,7 @@ import {TobaccoList} from "./tobacco-table-list/TobaccoList";
 })
 export class TobaccoTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public checked = true;
+  // public checked = false;
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [11, 25, 50, 100];
@@ -53,8 +54,10 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
   public tagControl: FormControl = this.formBuilder.control('');
   public isLoadingResults = true;
+  public isAdmin$ = this.roleService.isAdmin;
 
   constructor(
+    public roleService: RoleService,
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
     private brandService: BrandService,

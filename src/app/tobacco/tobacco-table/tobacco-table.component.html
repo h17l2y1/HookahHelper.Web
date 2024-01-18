@@ -51,27 +51,35 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="">
-        <mat-button-toggle-group #group="matButtonToggleGroup">
-          <mat-button-toggle (change)="checked = !checked">
-            <mat-icon>view_list</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle (change)="checked = !checked">
-            <mat-icon>view_module</mat-icon>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-      <div class="">
+<!--      <div class="" *ngIf="isAdmin$ | async">-->
+<!--        <mat-button-toggle-group #group="matButtonToggleGroup">-->
+<!--          <mat-button-toggle (change)="checked = !checked">-->
+<!--            <mat-icon>view_list</mat-icon>-->
+<!--          </mat-button-toggle>-->
+<!--          <mat-button-toggle (change)="checked = !checked">-->
+<!--            <mat-icon>view_module</mat-icon>-->
+<!--          </mat-button-toggle>-->
+<!--        </mat-button-toggle-group>-->
+<!--      </div>-->
+      <div class="" *ngIf="isAdmin$ | async">
         <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
   </div>
 
-  <app-tobacco-table-card *ngIf="!checked" [tobaccos]="tobaccosList"
-                          (getTobaccosEmit)="getTobaccos()"></app-tobacco-table-card>
-  <app-tobacco-table-list *ngIf="checked" [tobaccos]="tobaccos" (getTobaccosEmit)="getTobaccos()"
-                          [isLoadingResults]="isLoadingResults">
-  </app-tobacco-table-list>
+  <div *ngIf="(isAdmin$ | async) as isAdmin; else userPage">
+    <app-tobacco-table-list
+      [tobaccos]="tobaccos"
+      (getTobaccosEmit)="getTobaccos()"
+      [isLoadingResults]="isLoadingResults">
+    </app-tobacco-table-list>
+  </div>
+  <ng-template #userPage>
+    <app-tobacco-table-card
+      [tobaccos]="tobaccosList"
+      (getTobaccosEmit)="getTobaccos()">
+    </app-tobacco-table-card>
+  </ng-template>
 
   <mat-paginator
     (page)="handlePageEvent($event)"

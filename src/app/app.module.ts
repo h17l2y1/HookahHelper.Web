@@ -18,7 +18,7 @@ import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ErrorInterceptor} from "./services/error-interceptor";
 import {MatTabsModule} from "@angular/material/tabs";
-import {AuthorizationService} from "./services/authorization.service";
+import {AuthorizationService} from "./authorization/authorization.service";
 import {SignUpComponent} from "./authorization/sign-up/sign-up.component";
 import {LoginComponent} from "./authorization/login/login.component";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -28,9 +28,10 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {SharedModule} from "./shared/shared.module";
 import {AuthorizationModule} from "./authorization/authorization.module";
-import {AddTokenInterceptor} from "./services/add-token.interceptor";
+import {TokenInterceptor} from "./services/token-interceptor.service";
 import {AuthGuard} from "./services/guards/auth.guard";
 import {TokenService} from "./services/token.service";
+import {AdminGuard} from "./services/guards/admin.guard";
 
 @NgModule({
   declarations: [
@@ -65,9 +66,9 @@ import {TokenService} from "./services/token.service";
     AuthorizationModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuard,
-    AuthorizationService,
+    AdminGuard,
     TokenService
   ],
   exports: [],

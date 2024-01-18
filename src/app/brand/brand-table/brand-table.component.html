@@ -13,7 +13,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button class="button" mat-flat-button (click)="onCreate()">Створити новий</button>
+    <button *ngIf="isAdmin$ | async" class="button" mat-flat-button (click)="onCreate()">Створити новий</button>
   </div>
   <div class="example-container mat-elevation-z8">
     <div class="example-table-container">
