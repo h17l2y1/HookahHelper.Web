@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
-  HttpEvent,
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
+import {BehaviorSubject, catchError, filter, switchMap, take, throwError} from 'rxjs';
 import {AuthorizationService} from "../authorization/authorization.service";
 import {TokenService} from "./token.service";
 
