@@ -33,7 +33,7 @@ export class TokenService {
 
   public isAdmin(): boolean {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (token === null) {
+    if (token === null || token === 'undefined') {
       return false;
     }
 

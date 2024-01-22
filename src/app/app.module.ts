@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -14,7 +14,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {AppComponent} from './app.component';
 import {SidenavComponent} from "./sidenav/sidenav.component";
 import {AppRoutingModule} from "./app-routing.module";
-import {ToastrModule} from "ngx-toastr";
+import {provideToastr, ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ErrorInterceptor} from "./services/error-interceptor";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -69,7 +69,9 @@ import {AdminGuard} from "./services/guards/admin.guard";
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuard,
     AdminGuard,
-    TokenService
+    TokenService,
+    provideAnimations(),
+    provideToastr(),
   ],
   exports: [],
   bootstrap: [AppComponent]
