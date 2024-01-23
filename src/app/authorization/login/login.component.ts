@@ -1,8 +1,8 @@
-import {Component, Injectable} from '@angular/core';
+import {Component} from '@angular/core';
 import {User} from "../../interfaces/entity/user";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {AuthorizationService} from "../authorization.service";
+import {AuthService} from "../auth.service";
 import {TokenService} from "../../services/token.service";
 import {RoleService} from "../../services/role.service";
 
@@ -17,7 +17,7 @@ export class LoginComponent {
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: FormBuilder,
-    private authorizationService: AuthorizationService,
+    private authorizationService: AuthService,
     private tokenService: TokenService,
     private roleService: RoleService,
   ) {}

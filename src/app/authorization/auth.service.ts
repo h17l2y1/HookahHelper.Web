@@ -4,16 +4,15 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {User} from "../interfaces/entity/user";
 import {Tokens} from "../interfaces/models/tokens";
-import {JwtHelperService} from "@auth0/angular-jwt";
-import {jwtDecode, JwtPayload} from "jwt-decode";
+import {TokenService} from "../services/token.service";
 
 @Injectable()
 
-export class AuthorizationService {
+export class AuthService {
 
   readonly rootUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tokenService: TokenService) {
   }
 
   public signUp(data: User): Observable<void> {
@@ -24,9 +23,8 @@ export class AuthorizationService {
     return this.http.post<Tokens>(this.rootUrl + 'Account/Login', data);
   }
 
-  public refreshToken(token: string) {
-    return this.http.post<any>(this.rootUrl + 'RefreshToken', {
-      refreshToken: token
-    })
+  public refreshToken(): Observable<Tokens> {
+    const token = this.tokenService.getRefreshToken();
+    return this.http.post<Tokens>(this.rootUrl + 'Account/RefreshAuthToken', {refreshToken: token})
   }
 }

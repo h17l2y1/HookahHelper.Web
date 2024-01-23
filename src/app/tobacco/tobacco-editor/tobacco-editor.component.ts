@@ -185,6 +185,8 @@ export class TobaccoEditorComponent implements OnInit {
   public initEditTobaccoForm(): FormGroup {
     return this.formBuilder.group({
       id: [this.data.tobacco.id, [Validators.required]],
+      rating: [this.data.tobacco.rating, [Validators.required]],
+      ratingCount: [this.data.tobacco.ratingCount, [Validators.required]],
       name: [this.data.tobacco.name, [Validators.required]],
       description: this.data.tobacco.description,
       brandId: {value: this.data.tobacco.brandId, disabled: true},
@@ -194,6 +196,7 @@ export class TobaccoEditorComponent implements OnInit {
         id: this.data.tobacco.image.id,
         base64: this.data.tobacco.image.base64,
         link: this.data.tobacco.image.link,
+        type: this.data.tobacco.image.type,
       })
     });
   }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthorizationService} from "../authorization.service";
+import {AuthService} from "../auth.service";
 import {User} from "../../interfaces/entity/user";
 
 interface Role {
@@ -25,7 +25,7 @@ export class SignUpComponent {
   constructor(
     public dialogRef: MatDialogRef<SignUpComponent>,
     private formBuilder: FormBuilder,
-    private authorizationService: AuthorizationService
+    private authorizationService: AuthService
   ) {
   }
   public onSave(): void {

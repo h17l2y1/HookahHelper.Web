@@ -8,7 +8,7 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 export class TokenService {
   constructor() { }
 
-  signOut(): void {
+  logout(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }

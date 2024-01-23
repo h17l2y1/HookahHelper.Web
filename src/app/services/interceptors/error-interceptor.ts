@@ -4,7 +4,7 @@ import {
   HttpInterceptor, HttpErrorResponse, HttpResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {GlobalErrorHandler} from "./error-handler";
+import {GlobalErrorHandler} from "../error.handler";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
