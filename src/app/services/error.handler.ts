@@ -20,6 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
 
     switch(err.status) {
+      case 0: errorMessage = 'Server is down'; break;
       case 400: errorMessage = 'Bad Request'; break;
       case 401: errorMessage = 'Unauthorized'; break;
       case 403: errorMessage = 'Forbidden'; break;
