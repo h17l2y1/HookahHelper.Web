@@ -65,9 +65,8 @@ import {JwtRefreshInterceptor} from "./services/interceptors/jwt-refresh-interce
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     AuthGuard,
     AdminGuard,
     TokenService,

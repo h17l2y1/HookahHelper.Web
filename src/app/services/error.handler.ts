@@ -12,13 +12,26 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   public handleError(err: HttpErrorResponse) {
     let errorMessage: string;
+
     if (err.error instanceof ErrorEvent) {
-      // 40X error
-      errorMessage = `${err.status}: ${err}`;
-    } else {
-      // 50X error
-      errorMessage = err.error;
+      errorMessage = (err.error as any).title;
+      this.toastr.error(errorMessage);
+      return;
     }
+
+    switch(err.status) {
+      case 400: errorMessage = 'Bad Request'; break;
+      case 401: errorMessage = 'Unauthorized'; break;
+      case 403: errorMessage = 'Forbidden'; break;
+      case 404: errorMessage = 'Not Found'; break;
+      case 405: errorMessage = 'Method Not Allowed'; break;
+      case 500: errorMessage = 'Internal Server Error'; break;
+      case 502: errorMessage = 'Bad Gateway'; break;
+      case 503: errorMessage = 'Service Unavailable'; break;
+      default: errorMessage = 'Some Error'; break;
+    }
+
     this.toastr.error(errorMessage);
   }
+
 }
