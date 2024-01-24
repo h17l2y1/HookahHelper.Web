@@ -14,6 +14,7 @@ import {Tag} from "../../interfaces/entity/tag";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TagService} from "../../tag/tag.service";
 import {NamePipe} from "../../shared/pipes/name.pipe";
+import {ImageType} from "../../interfaces/enums/image-type";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -209,6 +210,7 @@ export class TobaccoCreateComponent implements OnInit {
         name: null,
         link: null,
         base64: null,
+        type: ImageType.Tobacco,
       }),
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: [null, Validators.maxLength(256)],

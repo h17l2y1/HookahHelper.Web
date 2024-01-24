@@ -8,6 +8,7 @@ import {CountryService} from "../../services/country.service";
 import {Observable} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {NamePipe} from "../../shared/pipes/name.pipe";
+import {ImageType} from "../../interfaces/enums/image-type";
 
 @Component({
   selector: 'app-brand-create',
@@ -51,6 +52,7 @@ export class BrandCreateComponent {
         name: null,
         link: null,
         base64: null,
+        type: ImageType.Tobacco,
       }),
       name: [null, [Validators.required]],
       description: null,
