@@ -13,6 +13,6 @@ export class ReviewService {
   }
 
   public createReview(request: Review): Observable<void> {
-    return this.http.post<void>(this.rootUrl + 'Review/CreateReview', request);
+    return this.http.post<void>(this.rootUrl + 'Review/Create', request);
   }
 }
