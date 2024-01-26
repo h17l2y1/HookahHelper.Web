@@ -20,12 +20,10 @@ interface UserData {
 
 export class TobaccoViewComponent {
 
-  public userData = this.getUser();
+  public userData: UserData = this.getUser();
   public isAnonymousControl: FormControl = this.formBuilder.control(this.userData.isAnonymous, [Validators.required]);
   public nameControl: FormControl = this.formBuilder.control(this.userData.userName, [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
-
   public createReviewForm: FormGroup = this.initCreateTobaccoForm();
-
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { tobacco: Tobacco },
@@ -79,6 +77,7 @@ export class TobaccoViewComponent {
       userName: '',
       userId: null
     }
+
     const token = this.tokenService.getAccessToken();
     if (token !== null) {
       const decoded = jwtDecode<JwtPayload>(token) as { name: string, userId: string };
