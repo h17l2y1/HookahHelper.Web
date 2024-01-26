@@ -99,7 +99,7 @@
       <div class="comment" *ngFor="let review of data.tobacco.reviews">
         <div class="comment-header">
           <div class="name-date-container">
-            <div class="name">{{ review.user.firstName }} {{ review.user.lastName }}</div>
+            <div class="name">{{ review.name }}</div>
             <div class="date-time">{{ review.creationDate | date : 'MMM d, y H:mm' }}</div>
           </div>
           <star-rating

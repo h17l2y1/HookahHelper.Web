@@ -1,14 +1,10 @@
 export interface Review {
-  anonymousName: string;
   comment: string;
   creationDate: Date;
   isAnonymous: string;
   rating: number;
   tobaccoId: string;
-  user: ReviewUser;
+  name: string;
+  userId: string;
 }
 
-interface ReviewUser {
-  firstName: string;
-  lastName: string;
-}
