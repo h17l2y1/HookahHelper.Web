@@ -3,7 +3,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {TobaccoService} from "../../tobacco.service";
 import {Observable, tap} from "rxjs";
 import {Brand} from "../../../interfaces/entity/brand";
-import {TobaccoEditorComponent} from "../../tobacco-editor/tobacco-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {TobaccoList} from "../tobacco-table-list/TobaccoList";
 import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
@@ -30,7 +29,9 @@ export class TobaccoTableCardComponent {
           data: {
             tobacco: response
           },
-          maxWidth: '1200px',
+          // width: '300',
+          // height: '300',
+          // maxWidth: '1200px',
           backdropClass: 'blurred',
           enterAnimationDuration: ENTER_ANIMATION_DURATION,
           exitAnimationDuration: EXIT_ANIMATION_DURATION

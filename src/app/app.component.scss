@@ -3,19 +3,13 @@ body {
   padding: 0
 }
 
-//mat-sidenav[style] {
-//  visibility: visible !important;
-//}
-//.mat-drawer {
-//  transform: none !important;
-//}
-
 .sidenav-container {
-  width: 95%;
-  max-width: 1600px;
-  margin-right: auto;
-  margin-left: auto;
-  box-shadow:inset 0px 0px 0px 3px red;
-  padding: 20px
+  @media (min-width: 480px) {
+    width: 95%;
+    max-width: 1600px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+  }
 }
 
