@@ -1,11 +1,21 @@
-mat-sidenav[style] {
-  visibility: visible !important;
-}
-.mat-drawer {
-  transform: none !important;
+body {
+  margin: 0;
+  padding: 0
 }
 
+//mat-sidenav[style] {
+//  visibility: visible !important;
+//}
+//.mat-drawer {
+//  transform: none !important;
+//}
+
 .sidenav-container {
-  //padding: 20px;
+  width: 95%;
+  max-width: 1600px;
+  margin-right: auto;
+  margin-left: auto;
+  box-shadow:inset 0px 0px 0px 3px red;
+  padding: 20px
 }
 

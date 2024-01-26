@@ -34,6 +34,7 @@ import {StarRatingModule} from "angular-star-rating";
 import {TobaccoViewComponent} from './tobacco-view/tobacco-view.component';
 import {ReviewService} from "../services/review.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {CdkFixedSizeVirtualScroll} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [

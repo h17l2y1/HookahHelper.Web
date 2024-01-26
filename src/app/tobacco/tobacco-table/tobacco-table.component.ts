@@ -33,7 +33,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   // public checked = false;
   public totalRows = 0;
   public currentPage = 0;
-  public pageSizeOptions = [11, 25, 50, 100];
+  public pageSizeOptions = [20, 40, 60, 100];
   public pageSize = this.pageSizeOptions[0];
   public filters!: Filter;
   public tobaccos!: Tobacco[];

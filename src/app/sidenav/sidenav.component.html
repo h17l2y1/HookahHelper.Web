@@ -1,5 +1,5 @@
-<div class=flex>
-  <div class=header>
+<div class="main-container">
+  <div class=header-container>
     <mat-toolbar color="primary" class="mat-toolbar">
       <span>HookahHub</span>
       <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="tabs">
@@ -36,22 +36,21 @@
           <mat-icon>help</mat-icon>
           <span>Help</span>
         </button>
-<!--        <div *ngIf="(isAdmin$ | async) == null">-->
-          <mat-divider></mat-divider>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon>
-            Logout
-          </button>
-<!--        </div>-->
+        <!--        <div *ngIf="(isAdmin$ | async) == null">-->
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          Logout
+        </button>
+        <!--        </div>-->
       </mat-menu>
     </mat-toolbar>
   </div>
-  <div class=h100>
-    <div class="main-container">
+  <div class=body-container>
       <mat-tab-nav-panel #tabPanel>
         <router-outlet></router-outlet>
       </mat-tab-nav-panel>
-    </div>
   </div>
-  <div class=footer></div>
+  <div class=footer-container></div>
 </div>
+

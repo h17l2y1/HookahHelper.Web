@@ -1,14 +1,25 @@
-.tobacco-top-panel {
+.tobacco-container {
 
-  .button {
-    width: 210px;
-    height: 56px;
-    margin-bottom: 20px;
-  }
+  .tobacco-top-panel {
+    box-shadow:inset 0px 0px 0px 1px #0afd00;
+    //margin-bottom: -1.25em !important;
 
-  .example-full-width {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
+    .filter {
+
+    }
+
+    .button {
+      width: 210px;
+      height: 56px;
+      margin-bottom: 20px;
+    }
+
+    .example-full-width {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
   }
 }
+
+
