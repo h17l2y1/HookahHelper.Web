@@ -159,7 +159,8 @@ export class ConstructorComponent implements OnInit {
 
   private setAvgPercentToControls(): void {
     const count = this.getTobaccoMix.value.length;
-    const res = 100 / count;
+    let res : number = 100 / count;
+    res = Math.round(res);
     this.getTobaccoMix.controls.forEach(control => {
       control.patchValue({percent: res}, {emitEvent: false});
     })
