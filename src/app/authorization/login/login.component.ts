@@ -27,14 +27,16 @@ export class LoginComponent {
     this.authorizationService.login(request).subscribe((token) => {
       this.tokenService.saveToken(token.accessToken);
       this.tokenService.saveRefreshToken(token.refreshToken);
-      this.setRole();
+      this.setUserData();
       this.dialogRef.close(true);
     });
   }
 
-  private setRole(): void {
-    const isAdmin = this.tokenService.isAdmin();
-    this.roleService.setAdminRole(isAdmin);
+  private setUserData(): void {
+    const userData = this.tokenService.getUserData();
+    if (userData){
+      this.roleService.setUserData(userData);
+    }
   }
 
   public onCancel(): void {

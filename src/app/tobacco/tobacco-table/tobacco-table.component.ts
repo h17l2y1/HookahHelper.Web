@@ -54,7 +54,7 @@ export class TobaccoTableComponent implements OnInit, AfterViewInit {
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
   public tagControl: FormControl = this.formBuilder.control('');
   public isLoadingResults = true;
-  public isAdmin$ = this.roleService.isAdmin;
+  public userData$ = this.roleService.getUserData;
 
   constructor(
     public roleService: RoleService,

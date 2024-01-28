@@ -25,7 +25,7 @@ import {RoleService} from "../../services/role.service";
 export class BrandTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  public isAdmin$ = this.roleService.isAdmin;
+  public userData$ = this.roleService.getUserData;
   public allColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
   public displayedColumns!: string[];
   public totalRows = 0;
@@ -50,8 +50,8 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
     private countryService: CountryService,
     private formBuilder: FormBuilder,
     private router: Router) {
-    this.isAdmin$.subscribe(isAdmin => {
-      this.displayedColumns = isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
+    this.userData$.subscribe(userData => {
+      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
     })
   }
 

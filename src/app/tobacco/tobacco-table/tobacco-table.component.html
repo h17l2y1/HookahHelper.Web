@@ -61,13 +61,13 @@
 <!--          </mat-button-toggle>-->
 <!--        </mat-button-toggle-group>-->
 <!--      </div>-->
-      <div class="" *ngIf="isAdmin$ | async">
+      <div class="" *ngIf="(userData$ | async)?.isAdmin">
         <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
   </div>
 
-  <div *ngIf="(isAdmin$ | async) as isAdmin; else userPage">
+  <div *ngIf="(userData$ | async)?.isAdmin as isAdmin; else userPage">
     <app-tobacco-table-list
       [tobaccos]="tobaccos"
       (getTobaccosEmit)="getTobaccos()"

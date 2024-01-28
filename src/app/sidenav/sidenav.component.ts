@@ -5,6 +5,7 @@ import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 import {LoginComponent} from "../authorization/login/login.component";
 import {ConfirmationPopupComponent} from "../shared/components/confirmation-popup/confirmation-popup.component";
 import {RoleService} from "../services/role.service";
+import {UserData} from "../interfaces/models/user-data";
 
 @Component({
   selector: 'sidenav',
@@ -12,7 +13,11 @@ import {RoleService} from "../services/role.service";
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
-  public isAdmin$ = this.roleService.isAdmin;
+  public user!: UserData;
+
+  public userData$ = this.roleService.getUserData.subscribe(userData => {
+    this.user = userData;
+  });
 
   constructor(public dialog: MatDialog, private roleService: RoleService) {}
 
@@ -48,7 +53,7 @@ export class SidenavComponent {
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
         localStorage.clear();
-        this.roleService.setAdminRole(false);
+        this.roleService.setUserData({isAdmin: false} as UserData);
       }
     });
   }

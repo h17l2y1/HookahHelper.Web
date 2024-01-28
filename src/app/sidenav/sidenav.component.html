@@ -1,99 +1,80 @@
 <div class="main-container">
   <div class=header-container>
     <div class="header-desktop">
-      <mat-toolbar color="primary" class="mat-toolbar">
-        <span>HookahHub</span>
-        <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="tabs">
-          <a class="tab" mat-tab-link routerLink="/brand" routerLinkActive="active-link">Бренди</a>
-          <a class="tab" mat-tab-link routerLink="/tobacco" routerLinkActive="active-link">Табаки</a>
-          <a class="tab" mat-tab-link routerLink="/tag" routerLinkActive="active-link" *ngIf="isAdmin$ | async">Теги</a>
-          <a class="tab" mat-tab-link routerLink="/constructor" routerLinkActive="active-link">Конструктор</a>
-          <a class="tab" mat-tab-link routerLink="/mixes" routerLinkActive="active-link">Топ мiкси</a>
-        </nav>
-        <span class="toolbar-item-spacer"></span>
-        <button mat-icon-button matTooltip="Like">
-          <mat-icon>favorite</mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Notifications">
-          <mat-icon>notifications</mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-        <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-          <button mat-menu-item (click)="signUp()">
-            <mat-icon>person</mat-icon>
-            <span>Sign In</span>
-          </button>
-          <button mat-menu-item (click)="login()">
-            <mat-icon>person</mat-icon>
-            <span>Login</span>
-          </button>
-          <button mat-menu-item routerLink="#">
-            <mat-icon>settings</mat-icon>
-            <span>Settings</span>
-          </button>
-          <button mat-menu-item routerLink="#">
-            <mat-icon>help</mat-icon>
-            <span>Help</span>
-          </button>
-          <!--        <div *ngIf="(isAdmin$ | async) == null">-->
-          <mat-divider></mat-divider>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon>
-            Logout
-          </button>
-          <!--        </div>-->
-        </mat-menu>
-      </mat-toolbar>
+      <div class="tool-bar">
+        <div class="header-left">
+          <span class="logo">HookahHub</span>
+          <div class="tabs-container">
+            <div class="tab" routerLink="/brand" routerLinkActive="active-link">
+              <span class="tab-text">BRANDS</span>
+            </div>
+            <div class="tab" routerLink="/tobacco" routerLinkActive="active-link">
+              <span class="tab-text">TOBACCOS</span>
+            </div>
+            <div class="tab" routerLink="/tag" routerLinkActive="active-link" *ngIf="user.isAdmin">
+              <span class="tab-text">TAGS</span>
+            </div>
+            <div class="tab" routerLink="/constructor" routerLinkActive="active-link">
+              <span class="tab-text">CONSTRUCTOR</span>
+            </div>
+            <div class="tab" routerLink="/mixes" routerLinkActive="active-link">
+              <span class="tab-text">TOP MIXES</span>
+            </div>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="tabs-container">
+            <div class="tab">
+              <mat-icon>favorite</mat-icon>
+            </div>
+            <div class="tab">
+              <mat-icon>notifications</mat-icon>
+            </div>
+            <div *ngIf="user.role; else unLogged" class="tab tab-user" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+              <div class="user-data">
+                <div class="user-pictures"></div>
+                <span class="user-name">{{user.name}}</span>
+              </div>
+            </div>
+            <ng-template #unLogged>
+              <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+            </ng-template>
+            <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
+              <button *ngIf="!user.role" mat-menu-item (click)="signUp()">
+                <mat-icon>person</mat-icon>
+                <span>Sign In</span>
+              </button>
+              <button *ngIf="!user.role" mat-menu-item (click)="login()">
+                <mat-icon>person</mat-icon>
+                <span>Login</span>
+              </button>
+              <button mat-menu-item routerLink="#">
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
+              </button>
+              <button mat-menu-item routerLink="#">
+                <mat-icon>help</mat-icon>
+                <span>Help</span>
+              </button>
+              <div *ngIf="user.role">
+                <mat-divider></mat-divider>
+                <button  mat-menu-item (click)="logout()">
+                  <mat-icon>exit_to_app</mat-icon>
+                  Logout
+                </button>
+              </div>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
     </div>
-<!--    <div class="header-mobile">-->
-<!--        <div class="icon-name" routerLink="/brand"><mat-icon>person</mat-icon>Brands</div>-->
-<!--        <div class="icon-name" routerLink="/tobacco"><mat-icon>person</mat-icon>Tobaccos</div>-->
-<!--        <div class="icon-name" routerLink="/tag" *ngIf="isAdmin$ | async"><mat-icon>person</mat-icon>Tags</div>-->
-<!--        <div class="icon-name" routerLink="/mixes"><mat-icon>person</mat-icon>Mixes</div>-->
-<!--      <mat-toolbar color="primary" class="mat-toolbar">-->
-<!--        <button mat-icon-button matTooltip="Like">-->
-<!--          <mat-icon>favorite</mat-icon>-->
-<!--        </button>-->
-<!--        <button mat-icon-button matTooltip="Notifications">-->
-<!--          <mat-icon>notifications</mat-icon>-->
-<!--        </button>-->
-<!--        <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">-->
-<!--          <mat-icon>account_circle</mat-icon>-->
-<!--        </button>-->
-<!--        <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">-->
-<!--          <button mat-menu-item (click)="signUp()">-->
-<!--            <mat-icon>person</mat-icon>-->
-<!--            <span>Sign In</span>-->
-<!--          </button>-->
-<!--          <button mat-menu-item (click)="login()">-->
-<!--            <mat-icon>person</mat-icon>-->
-<!--            <span>Login</span>-->
-<!--          </button>-->
-<!--          <button mat-menu-item routerLink="#">-->
-<!--            <mat-icon>settings</mat-icon>-->
-<!--            <span>Settings</span>-->
-<!--          </button>-->
-<!--          <button mat-menu-item routerLink="#">-->
-<!--            <mat-icon>help</mat-icon>-->
-<!--            <span>Help</span>-->
-<!--          </button>-->
-<!--          &lt;!&ndash;        <div *ngIf="(isAdmin$ | async) == null">&ndash;&gt;-->
-<!--          <mat-divider></mat-divider>-->
-<!--          <button mat-menu-item (click)="logout()">-->
-<!--            <mat-icon>exit_to_app</mat-icon>-->
-<!--            Logout-->
-<!--          </button>-->
-<!--          &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--        </mat-menu>-->
-<!--      </mat-toolbar>-->
-<!--    </div>-->
   </div>
   <div class=body-container>
-      <mat-tab-nav-panel #tabPanel>
-        <router-outlet></router-outlet>
-      </mat-tab-nav-panel>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
   </div>
   <div class=footer-container></div>
 </div>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {jwtDecode, JwtPayload} from "jwt-decode";
+import {UserData} from "../interfaces/models/user-data";
 
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
@@ -39,6 +40,22 @@ export class TokenService {
 
     const decoded = jwtDecode<JwtPayload>(token) as { role: string };
     return decoded.role === 'admin';
+  }
+
+  public getUserData(): UserData | null {
+    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (token === null || token === 'undefined') {
+      return null;
+    }
+
+    const decoded = jwtDecode<JwtPayload>(token) as UserData;
+    return {
+      name: decoded.name,
+      isAdmin: decoded.role === 'admin',
+      email: decoded.email,
+      avatar: decoded.avatar,
+      role: decoded.role,
+    };
   }
 
 }

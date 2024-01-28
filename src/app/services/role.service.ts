@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {UserData} from "../interfaces/models/user-data";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleService {
 
-  private role = new BehaviorSubject(false);
-  public isAdmin = this.role.asObservable();
+  private userData = new BehaviorSubject<UserData>({} as UserData);
+  public getUserData = this.userData.asObservable();
 
   constructor() { }
 
-  public setAdminRole(isAdmin: boolean){
-    this.role.next(isAdmin)
+  public setUserData(userData: UserData){
+    this.userData.next(userData)
   }
 
 }

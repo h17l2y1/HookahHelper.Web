@@ -10,7 +10,9 @@ import {TokenService} from "./services/token.service";
 export class AppComponent {
 
   constructor(private roleService: RoleService, private tokenService: TokenService) {
-    const isAdmin = this.tokenService.isAdmin();
-    this.roleService.setAdminRole(isAdmin);
+    const userData = this.tokenService.getUserData();
+    if (userData){
+      this.roleService.setUserData(userData);
+    }
   }
 }
