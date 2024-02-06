@@ -1,16 +1,18 @@
+@import '../../../../scss/variables-dark';
+
 .card-container {
-  //padding: 20px;
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   @apply grid;
 
   .tobacco-card {
-    border-radius: 30px;
+    border-radius: 15px;
     box-shadow: none;
     cursor: pointer;
     transition: transform .5s;
     color: #d3d3d3;
+    background-color: $card-background-color;
 
     .title {
       font-size: 1.1em;

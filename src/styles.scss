@@ -1,6 +1,7 @@
 @import 'ngx-toastr/toastr';
-@import 'scss/variables';
-@import 'scss/material-colors-override';
+//@import 'scss/variables-purple';
+@import 'scss/variables-dark';
+//@import 'scss/material-colors-override';
 
 $color-negative-rating: #ae4a4a !default;
 $color-ok-rating: #ff8000 !default;
@@ -18,6 +19,8 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: $background-color;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .button {
