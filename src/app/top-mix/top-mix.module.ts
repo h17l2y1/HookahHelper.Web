@@ -13,25 +13,27 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {StarRatingModule} from "angular-star-rating";
 
 @NgModule({
   declarations: [
     TopMixComponent
   ],
-    imports: [
-        CommonModule,
-        TopMixRoutingModule,
-        HttpClientModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        MatProgressBarModule
-    ],
+  imports: [
+    CommonModule,
+    TopMixRoutingModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    MatProgressBarModule,
+    StarRatingModule.forRoot(),
+  ],
   providers: [
     TopMixService
   ]

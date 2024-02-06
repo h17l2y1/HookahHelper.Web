@@ -7,6 +7,8 @@ import {Mix} from "../interfaces/entity/mix";
 import {TopMixService} from "./top-mix.service";
 import {map, merge, startWith, switchMap} from "rxjs";
 import {Tag} from "../interfaces/entity/tag";
+import {RoleService} from "../services/role.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-top-mix',
@@ -17,7 +19,9 @@ export class TopMixComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  public readonly displayedColumns: string[] = ['name', 'rating', 'action'];
+  public userData$ = this.roleService.getUserData;
+  public readonly allColumns: string[] = ['name', 'rating', 'action'];
+  public displayedColumns!: string[];
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [10, 25, 100];
@@ -30,7 +34,11 @@ export class TopMixComponent implements AfterViewInit {
 
   constructor(
     private mixService: TopMixService,
-  ) {
+    public roleService: RoleService,
+    private router: Router) {
+    this.userData$.subscribe(userData => {
+      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
+    })
   }
 
   ngAfterViewInit(): void {
