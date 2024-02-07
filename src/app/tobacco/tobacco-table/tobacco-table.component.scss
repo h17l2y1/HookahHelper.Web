@@ -1,10 +1,14 @@
 .tobacco-container {
-
   .tobacco-top-panel {
-    //margin-bottom: -1.25em !important;
+    margin-bottom: -1.25em !important;
 
     .filter {
+    }
 
+    ::ng-deep {
+      .mat-button-toggle-button{
+        height: 56px !important;
+      }
     }
 
     .button {

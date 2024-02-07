@@ -5,6 +5,7 @@
   gap: 24px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   @apply grid;
+  padding: 20px 0 20px 0;
 
   .tobacco-card {
     border-radius: 15px;
@@ -32,8 +33,9 @@
   .tobacco-card:hover {
     transform: scale(1.1);
   }
+
 }
 
-
-
-
+.mat-mdc-paginator {
+  border-radius: 15px;
+}

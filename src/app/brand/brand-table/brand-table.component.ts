@@ -50,12 +50,13 @@ export class BrandTableComponent implements OnInit, AfterViewInit {
     private countryService: CountryService,
     private formBuilder: FormBuilder,
     private router: Router) {
-    this.userData$.subscribe(userData => {
-      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
-    })
   }
 
   ngOnInit(): void {
+    this.userData$.subscribe(userData => {
+      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
+    })
+
     this.countryControl.valueChanges.pipe(
       tap(countryId => {
         this.filters.countryId = countryId
