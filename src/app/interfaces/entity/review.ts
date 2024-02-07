@@ -3,7 +3,8 @@ export interface Review {
   creationDate: Date;
   isAnonymous: string;
   rating: number;
-  tobaccoId: string;
+  tobaccoId?: string;
+  mixId?: string;
   name: string;
   userId: string;
 }

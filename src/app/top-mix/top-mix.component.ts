@@ -5,10 +5,12 @@ import {Filter} from "../interfaces/models/filter";
 import {MatTableDataSource} from "@angular/material/table";
 import {Mix} from "../interfaces/entity/mix";
 import {TopMixService} from "./top-mix.service";
-import {map, merge, startWith, switchMap} from "rxjs";
-import {Tag} from "../interfaces/entity/tag";
+import {map, merge, startWith, switchMap, tap} from "rxjs";
 import {RoleService} from "../services/role.service";
 import {Router} from "@angular/router";
+import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
+import {MatDialog} from "@angular/material/dialog";
+import {MixViewComponent} from "./mix-view/mix-view.component";
 
 @Component({
   selector: 'app-top-mix',
@@ -35,6 +37,7 @@ export class TopMixComponent implements AfterViewInit {
   constructor(
     private mixService: TopMixService,
     public roleService: RoleService,
+    public dialog: MatDialog,
     private router: Router) {
     this.userData$.subscribe(userData => {
       this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
@@ -77,5 +80,29 @@ export class TopMixComponent implements AfterViewInit {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
     this.getMixes();
+  }
+
+  public onView(id: string): void {
+    this.mixService.getById(id).pipe(
+      tap(response => {
+        const dialogRef = this.dialog.open(MixViewComponent, {
+          data: {
+            mix: response
+          },
+          // width: '300',
+          // height: '300',
+          // maxWidth: '1200px',
+          backdropClass: 'blurred',
+          enterAnimationDuration: ENTER_ANIMATION_DURATION,
+          exitAnimationDuration: EXIT_ANIMATION_DURATION
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          // if (result){
+          //   this.mixService.emit();
+          // }
+        });
+      }))
+      .subscribe();
   }
 }

@@ -14,10 +14,14 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {StarRatingModule} from "angular-star-rating";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MixViewComponent} from "./mix-view/mix-view.component";
+import {ReviewService} from "../services/review.service";
 
 @NgModule({
   declarations: [
-    TopMixComponent
+    TopMixComponent,
+    MixViewComponent
   ],
   imports: [
     CommonModule,
@@ -33,9 +37,11 @@ import {StarRatingModule} from "angular-star-rating";
     MatTableModule,
     MatProgressBarModule,
     StarRatingModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [
-    TopMixService
+    TopMixService,
+    ReviewService
   ]
 })
 export class TopMixModule {

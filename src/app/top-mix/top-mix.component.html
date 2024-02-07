@@ -12,11 +12,11 @@
       <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Назва</th>
-          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+          <td mat-cell *matCellDef="let row"(click)="onView(row.id)"> {{row.name}} </td>
         </ng-container>
         <ng-container matColumnDef="rating">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Рейтинг</th>
-          <td mat-cell *matCellDef="let row">
+          <td mat-cell *matCellDef="let row" (click)="onView(row.id)">
             <div class="rating-container">
               <star-rating
                 [showHalfStars]="true"
