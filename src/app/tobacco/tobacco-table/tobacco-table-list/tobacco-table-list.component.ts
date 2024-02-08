@@ -12,6 +12,7 @@ import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {TobaccoList} from "./TobaccoList";
 import {Filter} from "../../../interfaces/models/filter";
 import {RoleService} from "../../../services/role.service";
+import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
 
 @Component({
   selector: 'app-tobacco-table-list',
@@ -88,6 +89,30 @@ export class TobaccoTableListComponent implements OnInit, AfterViewInit {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
     this.getTobaccos();
+  }
+
+  public onView(id: string): void {
+    this.tobaccoService.getById(id).pipe(
+      tap(response => {
+        const dialogRef = this.dialog.open(TobaccoViewComponent, {
+          data: {
+            tobacco: response
+          },
+          // width: '300',
+          // height: '300',
+          // maxWidth: '1200px',
+          backdropClass: 'blurred',
+          enterAnimationDuration: ENTER_ANIMATION_DURATION,
+          exitAnimationDuration: EXIT_ANIMATION_DURATION
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.getTobaccos();
+          }
+        });
+      }))
+      .subscribe();
   }
 
   public onEdit(id: string): void {

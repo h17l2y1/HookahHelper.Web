@@ -1,0 +1,140 @@
+<div class="view-popup">
+  <div class="data-container">
+    <div class="image">
+      <img class="image" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="asdasd"/>
+    </div>
+    <div class="characteristics">
+      <div>{{ data.mix.name }}</div>
+      <div class="rating-container">
+        <star-rating
+          [showHalfStars]="true"
+          [starType]="'svg'"
+          [rating]="data.mix.rating"
+          [readOnly]="true">
+        </star-rating>
+        {{ data.mix.rating }} ({{ data.mix.ratingCount }})
+      </div>
+<!--      <div class="parameters">-->
+<!--        <div>Characteristics</div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Сладкость</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="5"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Кислость</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="5"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Пряность</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="0"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Свежесть</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="1"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Вкус</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="2"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Крепкость</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="4"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Жаростойкость</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="4"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--        <div class="param">-->
+<!--          <div class="characteristic-name">Дымность</div>-->
+<!--          <star-rating-->
+<!--            [showHalfStars]="true"-->
+<!--            [starType]="'svg'"-->
+<!--            [rating]="5"-->
+<!--            [readOnly]="true">-->
+<!--          </star-rating>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+    <div class="schema">
+      schema
+    </div>
+  </div>
+  <div class="review-container">
+    <div class="comments-container">
+      <div class="comment" *ngFor="let review of data.mix.reviews">
+        <div class="comment-header">
+          <div class="name-date-container">
+            <div class="name">{{ review.name }}</div>
+            <div class="date-time">{{ review.creationDate | date : 'MMM d, y H:mm' }}</div>
+          </div>
+          <star-rating
+            [showHalfStars]="true"
+            [starType]="'svg'"
+            [rating]="review.rating"
+            [readOnly]="true">
+          </star-rating>
+        </div>
+        <div class="text">{{ review.comment }}</div>
+      </div>
+    </div>
+    <div class="add-review-container">
+      <form class="example-form add-review" [formGroup]="createReviewForm">
+        <div>Write review</div>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Review</mat-label>
+          <textarea matInput placeholder="Your review" formControlName="text"></textarea>
+        </mat-form-field>
+        <div class="rating">
+          <star-rating-control
+            [showHalfStars]="true"
+            [starType]="'svg'"
+            [readOnly]="false"
+            labelPosition="top"
+            labelText="Rating"
+            formControlName="rating">
+          </star-rating-control>
+        </div>
+        <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSend()">Send</button>
+      </form>
+    </div>
+  </div>
+</div>

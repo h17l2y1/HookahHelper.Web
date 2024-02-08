@@ -22,6 +22,7 @@ export class TopMixComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   public userData$ = this.roleService.getUserData;
+  public isAdmin: boolean = false;
   public readonly allColumns: string[] = ['name', 'rating', 'action'];
   public displayedColumns!: string[];
   public totalRows = 0;
@@ -40,6 +41,7 @@ export class TopMixComponent implements AfterViewInit {
     public dialog: MatDialog,
     private router: Router) {
     this.userData$.subscribe(userData => {
+      this.isAdmin = userData.isAdmin;
       this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
     })
   }
@@ -104,5 +106,10 @@ export class TopMixComponent implements AfterViewInit {
         });
       }))
       .subscribe();
+  }
+
+  public notAdminView(id: string): void {
+    if (!this.isAdmin)
+      this.onView(id);
   }
 }
