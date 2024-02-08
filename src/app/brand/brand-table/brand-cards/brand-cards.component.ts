@@ -16,7 +16,7 @@ export class BrandCardsComponent implements AfterViewInit {
   @Input() filter$!: Observable<Filter>;
   public totalRows = 0;
   public currentPage = 0;
-  public pageSizeOptions = [16, 25, 100];
+  public pageSizeOptions = [30, 60, 120];
   public pageSize = this.pageSizeOptions[0];
   public isLoadingResults: boolean = false;
   public filter!: Filter;

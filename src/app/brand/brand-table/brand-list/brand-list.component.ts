@@ -28,7 +28,7 @@ export class BrandListComponent implements OnInit, AfterViewInit {
   public displayedColumns!: string[];
   public totalRows = 0;
   public currentPage = 0;
-  public pageSizeOptions = [10, 25, 100];
+  public pageSizeOptions = [30, 60, 120];
   public pageSize = this.pageSizeOptions[0];
   public isLoadingResults: boolean = false;
   public filter!: Filter;
