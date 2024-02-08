@@ -6,7 +6,9 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {BrandTableComponent} from "./brand-table/brand-table.component";
 
 const routes: Routes = [
-  {path: '', component: BrandTableComponent},
+  {
+    path: '', component: BrandTableComponent
+  },
 ];
 
 @NgModule({

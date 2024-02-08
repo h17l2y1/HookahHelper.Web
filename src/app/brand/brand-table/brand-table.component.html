@@ -1,68 +1,31 @@
 <div class="table-container">
   <div class="table-top-panel">
-    <form class="example-form test">
+    <form [formGroup]="brandFilterForm" class="example-form test">
       <mat-form-field class="example-full-width">
         <mat-label>Filter by Name</mat-label>
-        <input matInput (keyup)="applyFilter($event)" #input>
+        <input matInput formControlName="name">
       </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Країна</mat-label>
-        <mat-select [formControl]="countryControl">
-          <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
-            {{ item.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <app-country-select [control]="countryControl"></app-country-select>
+      <div>
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+          <mat-button-toggle (change)="checked = !checked" disabled="{{checked}}">
+            <mat-icon>view_module</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle (change)="checked = !checked" disabled="{{!checked}}">
+            <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </form>
-    <button *ngIf="(userData$ | async)?.isAdmin" class="button" mat-flat-button (click)="onCreate()">Створити новий
-    </button>
+    <button *ngIf="isAdmin" class="button" mat-flat-button (click)="onCreate()">Створити новий</button>
   </div>
-  <div class="example-container mat-elevation-z8">
-    <div class="example-table-container">
-      <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
-      <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDisableClear
-             matSortDirection="asc">
-        <ng-container matColumnDef="image">
-          <th mat-header-cell *matHeaderCellDef>Лого</th>
-          <td mat-cell *matCellDef="let row" (click)="onBrand(row.id)">
-            <img class="image" src="{{row.image?.link}}" alt="image"></td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Назва</th>
-          <td mat-cell *matCellDef="let row" (click)="onBrand(row.id)"> {{ row.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Опис</th>
-          <td mat-cell *matCellDef="let row" (click)="onBrand(row.id)"> {{ row.description }}</td>
-        </ng-container>
-        <ng-container matColumnDef="country">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Країна</th>
-          <td mat-cell *matCellDef="let row" (click)="onBrand(row.id)"> {{ row.country.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Дія</th>
-          <td mat-cell *matCellDef="let row">
-            <mat-icon class="icon edit" aria-hidden="false" fontIcon="settings" (click)="onUpdate(row.id)"></mat-icon>
-            <mat-icon class="icon delete" fontIcon="delete" (click)="onDelete(row.id)"></mat-icon>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
-        </tr>
-      </table>
-    </div>
-    <mat-paginator
-      (page)="handlePageEvent($event)"
-      [length]="totalRows"
-      [pageIndex]="currentPage"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      aria-label="Select page">
-    </mat-paginator>
+
+  <div *ngIf="checked; else listPage">
+    <app-brand-cards [filter$]="filter$"></app-brand-cards>
   </div>
+  <ng-template #listPage>
+    <app-brand-list [filter$]="filter$"></app-brand-list>
+  </ng-template>
 </div>
 
 

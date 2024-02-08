@@ -53,10 +53,10 @@
       </mat-form-field>
       <div class="">
         <mat-button-toggle-group #group="matButtonToggleGroup">
-          <mat-button-toggle (change)="checked = !checked" disabled="{{!checked}}">
+          <mat-button-toggle (change)="checked = !checked" disabled="{{checked}}">
             <mat-icon>view_module</mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle (change)="checked = !checked" disabled="{{checked}}">
+          <mat-button-toggle (change)="checked = !checked" disabled="{{!checked}}">
             <mat-icon>view_list</mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
@@ -67,11 +67,11 @@
     </form>
   </div>
 
-  <div *ngIf="checked; else cardsPage">
-    <app-tobacco-table-list [filter$]="filters$" [filter]="filters"></app-tobacco-table-list>
-  </div>
-  <ng-template #cardsPage>
+  <div *ngIf="checked; else listPage">
     <app-tobacco-table-card [filter$]="filters$" [filter]="filters"></app-tobacco-table-card>
+  </div>
+  <ng-template #listPage>
+    <app-tobacco-table-list [filter$]="filters$" [filter]="filters"></app-tobacco-table-list>
   </ng-template>
 
 </div>

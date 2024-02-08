@@ -18,12 +18,21 @@ import {CountryService} from "../services/country.service";
 import {BrandCreateComponent} from './brand-create/brand-create.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {BrandCardsComponent} from './brand-table/brand-cards/brand-cards.component';
+import {BrandListComponent} from './brand-table/brand-list/brand-list.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
+import {MatCardModule} from "@angular/material/card";
+import {StarRatingModule} from "angular-star-rating";
 
 @NgModule({
   declarations: [
     BrandTableComponent,
     BrandEditorComponent,
     BrandCreateComponent,
+    BrandCardsComponent,
+    BrandListComponent,
   ],
   imports: [
     CommonModule,
@@ -39,11 +48,16 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatPaginatorModule,
     MatSortModule,
     MatProgressBarModule,
+    MatButtonToggleModule,
+    MatAutocompleteModule,
+    CountrySelectModule,
+    MatCardModule,
+    StarRatingModule
   ],
   providers: [
     BrandService,
     CountryService,
-    NamePipe
+    NamePipe,
   ]
 })
 export class BrandModule {

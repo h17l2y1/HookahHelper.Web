@@ -1,0 +1,10 @@
+<mat-form-field>
+  <mat-label>Країна</mat-label>
+  <input type="text" matInput [formControl]="countryAutocompleteControl" [matAutocomplete]="autoCountry">
+  <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
+    <mat-option>Усi</mat-option>
+    <mat-option *ngFor="let option of filteredCountriesOptions" [value]="option">
+      {{option.name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

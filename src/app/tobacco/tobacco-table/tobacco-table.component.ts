@@ -27,7 +27,7 @@ import {UserData} from "../../interfaces/models/user-data";
 export class TobaccoTableComponent implements OnInit {
   public brandId: string | null = this.route.snapshot.data['brandId'];
   public userData$: Observable<UserData> = this.roleService.getUserData;
-  public checked: boolean = false;
+  public checked: boolean = true;
   public filters$!: Observable<Filter>;
   public allBrandsOption!: Brand[];
   public filteredBrandsOptions!: Brand[];

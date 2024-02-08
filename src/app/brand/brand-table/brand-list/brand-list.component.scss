@@ -1,0 +1,32 @@
+.example-container {
+  position: relative;
+
+  .example-table-container {
+    position: relative;
+    min-height: 140px;
+    max-height: 90%;
+    overflow: auto;
+
+    @media (max-width: 480px) {
+      .image {
+        //background-color: red;
+        width: 50px;
+      }
+    }
+
+    @media (min-width: 480px) {
+      .image {
+        width: 100px;
+      }
+    }
+
+
+    .edit {
+      margin-right: 15px;
+    }
+  }
+}
+
+tr.mat-mdc-row:hover {
+  cursor: pointer;
+}

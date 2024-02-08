@@ -7,7 +7,7 @@
   @apply grid;
   padding: 20px 0 20px 0;
 
-  .tobacco-card {
+  .brand-card {
     border-radius: 15px;
     box-shadow: none;
     cursor: pointer;
@@ -30,7 +30,7 @@
     }
   }
 
-  .tobacco-card:hover {
+  .brand-card:hover {
     transform: scale(1.1);
   }
 
