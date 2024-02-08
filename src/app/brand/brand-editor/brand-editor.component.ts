@@ -9,6 +9,7 @@ import {Observable, tap} from "rxjs";
 import {CountryService} from "../../services/country.service";
 import {Country} from "../../interfaces/entity/country";
 import {NamePipe} from "../../shared/pipes/name.pipe";
+import {ImageType} from "../../interfaces/enums/image-type";
 
 @Component({
   selector: 'app-brand-editor',
@@ -64,6 +65,7 @@ export class BrandEditorComponent implements OnInit {
         name: brand.image.name,
         link: brand.image.link,
         base64: null,
+        type: ImageType.Brand,
       }),
       name: [brand.name, [Validators.required]],
       description: brand.description,
