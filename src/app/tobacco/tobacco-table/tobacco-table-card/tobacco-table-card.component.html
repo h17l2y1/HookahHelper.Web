@@ -1,4 +1,5 @@
 <div class="tobacco-container">
+  <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
   <div class="card-container">
     <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos" (click)="onView(tobacco.id)">
       <img mat-card-image class="image" src="{{tobacco.image.link}}" alt="image error">
@@ -21,6 +22,14 @@
       </mat-card-content>
     </mat-card>
   </div>
+  <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="totalRows"
+    [pageIndex]="currentPage"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    aria-label="Select page">
+  </mat-paginator>
 </div>
 
 

@@ -1,10 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from "./services/guards/auth.guard";
 import {AdminGuard} from "./services/guards/admin.guard";
+import {UrlIdResolver} from "./services/resolvers/url-id.resolver";
 
 const routes: Routes = [
-  {path: 'tobacco/:id', loadChildren: () => import('./tobacco/tobacco.module').then(m => m.TobaccoModule)},
+  {
+    path: 'tobacco/:id',
+    loadChildren: () => import('./tobacco/tobacco.module').then(m => m.TobaccoModule),
+    resolve: {
+      brandId: UrlIdResolver
+    }
+  },
   {path: 'tobacco', loadChildren: () => import('./tobacco/tobacco.module').then(m => m.TobaccoModule)},
   {path: 'brand', loadChildren: () => import('./brand/brand.module').then(m => m.BrandModule)},
   {

@@ -15,7 +15,7 @@ export class BrandService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Brand>> {
+  public getAll(page: number, take: number, sortBy: string, type: string, filters?: Filter): Observable<GetAllResponse<Brand>> {
     let req = `Brand/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
     req = filters?.countryId ? req + `&countryId=${filters.countryId}` : req;

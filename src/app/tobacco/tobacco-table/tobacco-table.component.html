@@ -51,42 +51,27 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-<!--      <div class="" *ngIf="isAdmin$ | async">-->
-<!--        <mat-button-toggle-group #group="matButtonToggleGroup">-->
-<!--          <mat-button-toggle (change)="checked = !checked">-->
-<!--            <mat-icon>view_list</mat-icon>-->
-<!--          </mat-button-toggle>-->
-<!--          <mat-button-toggle (change)="checked = !checked">-->
-<!--            <mat-icon>view_module</mat-icon>-->
-<!--          </mat-button-toggle>-->
-<!--        </mat-button-toggle-group>-->
-<!--      </div>-->
+      <div class="">
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+          <mat-button-toggle (change)="checked = !checked" disabled="{{checked}}">
+            <mat-icon>view_module</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle (change)="checked = !checked" disabled="{{!checked}}">
+            <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
       <div class="" *ngIf="(userData$ | async)?.isAdmin">
         <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
   </div>
 
-  <div *ngIf="(userData$ | async)?.isAdmin as isAdmin; else userPage">
-    <app-tobacco-table-list
-      [tobaccos]="tobaccos"
-      (getTobaccosEmit)="getTobaccos()"
-      [isLoadingResults]="isLoadingResults">
-    </app-tobacco-table-list>
+  <div *ngIf="checked; else listPage">
+    <app-tobacco-table-card [filter$]="filters$" [filter]="filters"></app-tobacco-table-card>
   </div>
-  <ng-template #userPage>
-    <app-tobacco-table-card
-      [tobaccos]="tobaccosList"
-      (getTobaccosEmit)="getTobaccos()">
-    </app-tobacco-table-card>
+  <ng-template #listPage>
+    <app-tobacco-table-list [filter$]="filters$" [filter]="filters"></app-tobacco-table-list>
   </ng-template>
 
-  <mat-paginator
-    (page)="handlePageEvent($event)"
-    [length]="totalRows"
-    [pageIndex]="currentPage"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    aria-label="Select page">
-  </mat-paginator>
 </div>

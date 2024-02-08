@@ -1,0 +1,23 @@
+<div class="brand-container" *ngIf="brands">
+  <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
+  <div class="card-container">
+    <mat-card class="brand-card" *ngFor="let brand of brands">
+      <div class="cover">
+        <img mat-card-image class="image" src="{{brand.image.link}}" alt="image error">
+      </div>
+      <div class="info">
+        <span>{{ brand.name }}</span><br>
+        <span>{{ brand.description }}</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="totalRows"
+    [pageIndex]="currentPage"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    aria-label="Select page">
+  </mat-paginator>
+</div>

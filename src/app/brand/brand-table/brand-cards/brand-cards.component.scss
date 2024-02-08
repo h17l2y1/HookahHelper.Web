@@ -1,0 +1,58 @@
+@import '../../../../scss/variables-dark';
+
+.card-container {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  @apply grid;
+  padding: 20px 0 20px 0;
+
+  .brand-card {
+    border-radius: 15px;
+    box-shadow: none;
+    cursor: pointer;
+    transition: transform .5s;
+    color: #d3d3d3;
+    background-color: $card-background-color;
+    //align-items: center;
+    border: 1px solid #2e2e2e;
+
+    .cover {
+      height: 9rem;
+      width: 100%;
+
+      .image {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .info {
+      //height: 68px;
+      max-height: 68px;
+      padding: 16px 16px;
+      transition: max-height .2s ease 0s;
+    }
+
+    .mat-mdc-card-content {
+      padding-bottom: 0;
+    }
+
+    //.title {
+    //  font-size: 1.1em;
+    //  text-align: center;
+    //}
+
+  }
+
+  .brand-card:hover {
+    transform: scale(1.1);
+  }
+
+}
+
+.mat-mdc-paginator {
+  border-radius: 15px;
+}

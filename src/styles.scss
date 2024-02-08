@@ -1,9 +1,14 @@
 @import 'ngx-toastr/toastr';
+//@import 'scss/variables-purple';
+@import 'scss/variables-dark';
+//@import 'scss/material-colors-override';
 
 $color-negative-rating: #ae4a4a !default;
 $color-ok-rating: #ff8000 !default;
 $color-positive-rating: #ffa900 !default;
 $color-default-rating: #c8c851 !default;
+
+
 
 @import 'css-star-rating/scss/star-rating';
 html, body {
@@ -13,7 +18,9 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #303030;
+  background-color: $background-color;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .button {
@@ -21,32 +28,6 @@ body {
   width: 200px !important;
   height: 50px;
 }
-
-.mat-elevation-z8 {
-  box-shadow: none;
-}
-
-.mat-mdc-dialog-surface {
-  border-radius: 20px !important;
-}
-
-.mat-mdc-text-field-wrapper {
-  border-radius: 16px !important;
-}
-
-//.mat-warn {
-//  background-color: rgb(255 0 0 / 55%) !important;
-//}
-
-.mat-mdc-dialog-actions {
-  justify-content: center !important;
-}
-
-//.e-toast-container .e-toast .e-toast-message .e-toast-content {
-//  color: aqua;
-//  font-size: 13px;
-//  font-weight: normal;
-//}
 
 .icon {
   cursor: pointer;
@@ -74,8 +55,4 @@ body {
 
 .blurred {
   backdrop-filter: blur(15px);
-}
-
-.mat-mdc-paginator {
-  border-top: 1px solid #616161;
 }
