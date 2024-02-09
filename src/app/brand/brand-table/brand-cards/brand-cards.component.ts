@@ -5,6 +5,7 @@ import {Filter} from "../../../interfaces/models/filter";
 import {Brand} from "../../../interfaces/entity/brand";
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../../brand.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-brand-cards',
@@ -25,7 +26,8 @@ export class BrandCardsComponent implements AfterViewInit {
   constructor(
     public dialog: MatDialog,
     private brandService: BrandService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private router: Router) {
   }
 
   ngAfterViewInit(): void {
@@ -68,6 +70,10 @@ export class BrandCardsComponent implements AfterViewInit {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
     this.brandService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filter);
+  }
+
+  public onBrand(id: string): void {
+    this.router.navigateByUrl(`/tobacco/${id}`).then(() => {});
   }
 
 }
