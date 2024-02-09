@@ -8,10 +8,10 @@
       <app-country-select [control]="countryControl"></app-country-select>
       <div>
         <mat-button-toggle-group #group="matButtonToggleGroup">
-          <mat-button-toggle (change)="checked = !checked" disabled="{{checked}}">
+          <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
             <mat-icon>view_module</mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle (change)="checked = !checked" disabled="{{!checked}}">
+          <mat-button-toggle (change)="switchTableView(TableTypes.List)">
             <mat-icon>view_list</mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
@@ -20,7 +20,7 @@
     <button *ngIf="isAdmin" class="button" mat-flat-button (click)="onCreate()">Створити новий</button>
   </div>
 
-  <div *ngIf="checked; else listPage">
+  <div *ngIf="isTableViewCard; else listPage">
     <app-brand-cards [filter$]="filter$"></app-brand-cards>
   </div>
   <ng-template #listPage>
