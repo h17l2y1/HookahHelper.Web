@@ -24,8 +24,10 @@ import {ImageType} from "../../interfaces/enums/image-type";
 export class TobaccoCreateComponent implements OnInit {
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
   @ViewChild('tagTasteInput') tagTasteInput!: ElementRef<HTMLInputElement>;
+  public readonly aspectRatio: number = 1;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
+  public nameControl: FormControl = this.formBuilder.control(null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   public brandControl: FormControl = this.formBuilder.control('', Validators.required);
   public tagControl = new FormControl('', Validators.required);
   public tagTasteControl = new FormControl('', Validators.required);
@@ -133,6 +135,10 @@ export class TobaccoCreateComponent implements OnInit {
     ).subscribe();
   }
 
+  public setName(name: string): void {
+    this.nameControl.setValue(name);
+  }
+
   public displayFn(brand: Brand): string {
     return brand && brand.name ? brand.name : '';
   }
@@ -212,7 +218,7 @@ export class TobaccoCreateComponent implements OnInit {
         base64: null,
         type: ImageType.Tobacco,
       }),
-      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      name: this.nameControl,
       description: [null, Validators.maxLength(256)],
       brandId: this.brandControl,
       lineId: [

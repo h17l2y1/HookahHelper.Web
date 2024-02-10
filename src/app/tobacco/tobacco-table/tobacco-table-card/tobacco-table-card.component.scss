@@ -1,33 +1,69 @@
 @import '../../../../scss/variables-dark';
 
 .card-container {
-  display: grid;
   gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
   @apply grid;
   padding: 20px 0 20px 0;
 
   .brand-card {
-    border-radius: 15px;
+    border-radius: 8px;
     box-shadow: none;
     cursor: pointer;
     transition: transform .5s;
     color: #d3d3d3;
     background-color: $card-background-color;
+    border: 1px solid #2e2e2e;
+    overflow: hidden;
 
-    .title {
-      font-size: 1.1em;
-      text-align: center;
+    .cover {
+      width: 100%;
+
+      .image {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        height: 100%;
+        width: 100%;
+      }
     }
 
-    .rating-container {
-      display: flex;
+    .info {
+      padding: 8px 16px;
+      transition: max-height .2s ease 0s;
+    }
+
+    .mat-mdc-card-content {
+      padding-bottom: 0;
     }
 
     .description {
-      font-size: 14px;
-      line-height: 18px;
+      padding-top: 8px;
+      color: #8e8e8e;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      letter-spacing: 0.04rem;
     }
+
+    .title {
+      color: white;
+      font-size: 1.1em;
+      letter-spacing: 0.04rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rating-container {
+      padding-top: 8px;
+      display: flex;
+      align-items: center;
+      //margin-top: 5px;
+    }
+
   }
 
   .brand-card:hover {
@@ -39,3 +75,10 @@
 .mat-mdc-paginator {
   border-radius: 15px;
 }
+
+::ng-deep {
+  .star-container {
+    margin-left: 0;
+  }
+}
+

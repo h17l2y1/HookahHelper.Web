@@ -2,6 +2,7 @@
   .table-top-panel {
     display: flex;
     justify-content: space-between;
+    margin-bottom: -1.25em !important;
 
     ::ng-deep {
       .mat-button-toggle-button{
@@ -26,7 +27,7 @@
 
     .button {
       width: 200px !important;
-      height: 50px;
+      height: 58px;
     }
   }
 

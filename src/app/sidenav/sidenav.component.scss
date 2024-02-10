@@ -1,4 +1,4 @@
-@import '../../scss/variables-purple';
+@import '../../scss/variables-dark';
 
 .main-container {
   display: flex;
@@ -7,11 +7,10 @@
 
   .header-container {
     .header-desktop {
-      background-color: $main-element-color;
-
       .tool-bar {
         border-radius: 15px;
-        background-color: #7B1FA2;
+        border: 1px solid $border-color;
+        background-color: #232323;
         padding: 1.2rem;
         display: flex;
         justify-content: space-between;
@@ -39,6 +38,8 @@
               align-items: center;
               cursor: pointer;
               padding: 0.6875rem 1.125rem;
+              text-decoration: none;
+              color: white;
 
               .tab-text {
                 font-size: .875rem;
@@ -50,7 +51,7 @@
 
             }
             .tab:hover {
-              background-color: rgba(255,255,255,0.5);
+              background-color: #3d3d3d;
             }
           }
         }

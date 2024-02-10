@@ -1,4 +1,4 @@
-@import 'variables-purple';
+@import 'variables-dark';
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: $main-element-color;
@@ -9,7 +9,7 @@
 }
 
 .mat-mdc-unelevated-button:not(:disabled) {
-  background-image: $button-create-color !important;
+  background-image: $button-default-color !important;
 }
 
 .mat-mdc-table {
@@ -32,14 +32,26 @@
   color: white;
 }
 
+.mat-button-toggle.mat-button-toggle-appearance-standard{
+  background-color: $main-element-color;
+}
 
+.mat-mdc-text-field-wrapper {
+  border: 1px solid $border-color;
+}
+
+mat-paginator {
+  .mat-mdc-text-field-wrapper {
+    border: none;
+  }
+}
 
 .ng-trigger {
   background-color: $main-element-color;
 }
 
 .mat-mdc-paginator-page-size-select {
-  background-color: $purple;
+  background-color: $button-default-color2;
 }
 
 .mat-elevation-z8 {
@@ -48,10 +60,12 @@
 
 .mat-mdc-dialog-surface {
   border-radius: 20px !important;
+  //background-color: red;
 }
 
+// buttons
 .mat-mdc-text-field-wrapper {
-  border-radius: 16px !important;
+  border-radius: 8px !important;
 }
 
 //.mat-warn {

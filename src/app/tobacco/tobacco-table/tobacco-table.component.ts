@@ -18,6 +18,7 @@ import {Tag} from "../../interfaces/entity/tag";
 import {TagService} from "../../tag/tag.service";
 import {RoleService} from "../../services/role.service";
 import {UserData} from "../../interfaces/models/user-data";
+import {TableTypes} from "../../interfaces/enums/table-type";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -25,9 +26,10 @@ import {UserData} from "../../interfaces/models/user-data";
   styleUrls: ['./tobacco-table.component.scss']
 })
 export class TobaccoTableComponent implements OnInit {
+  public readonly tobaccoTableKey: string = 'tobacco_table_state';
   public brandId: string | null = this.route.snapshot.data['brandId'];
   public userData$: Observable<UserData> = this.roleService.getUserData;
-  public checked: boolean = true;
+  public isTableViewCard: boolean = true;
   public filters$!: Observable<Filter>;
   public allBrandsOption!: Brand[];
   public filteredBrandsOptions!: Brand[];
@@ -59,6 +61,9 @@ export class TobaccoTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const tableType: TableTypes = this.getTableState();
+    this.isTableViewCard = tableType === TableTypes.Card;
+
     this.brandService.getOptions().pipe(
       tap(brands => {
         this.allBrandsOption = brands;
@@ -121,6 +126,21 @@ export class TobaccoTableComponent implements OnInit {
     return brand && brand.name ? brand.name : '';
   }
 
+  public switchTableView(type: TableTypes): boolean {
+    localStorage.setItem(this.tobaccoTableKey, type);
+    this.isTableViewCard = type === TableTypes.Card
+    return this.isTableViewCard;
+  }
+
+  private getTableState(): TableTypes {
+    const type = localStorage.getItem(this.tobaccoTableKey);
+    if (!type){
+      localStorage.setItem(this.tobaccoTableKey, TableTypes.Card);
+      return TableTypes.Card
+    }
+    return type as TableTypes;
+  }
+
   public onCreate(): void {
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
       maxWidth: '1000px',
@@ -137,7 +157,7 @@ export class TobaccoTableComponent implements OnInit {
   }
 
   private initFilterForm(): FormGroup {
-    return this.filterForm = this.formBuilder.group({
+    return this.formBuilder.group({
       name: null,
       tagId: this.tagControl,
       brandId: this.brandControl,
@@ -152,4 +172,5 @@ export class TobaccoTableComponent implements OnInit {
     return array.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
+  protected readonly TableTypes = TableTypes;
 }

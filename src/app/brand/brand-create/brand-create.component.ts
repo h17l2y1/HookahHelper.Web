@@ -16,6 +16,7 @@ import {ImageType} from "../../interfaces/enums/image-type";
   styleUrls: ['./brand-create.component.scss']
 })
 export class BrandCreateComponent {
+  public readonly aspectRatio: number = 127/51;
   public createBrandForm: FormGroup = this.initCreateBrandForm();
   private tempId: number = 0;
   public countries$: Observable<Country[]> = this.countryService.getOptions();
