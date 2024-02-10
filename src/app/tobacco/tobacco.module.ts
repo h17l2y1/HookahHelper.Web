@@ -14,7 +14,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {BrandService} from "../brand/brand.service";
 import {CountryService} from "../services/country.service";
@@ -34,7 +33,7 @@ import {StarRatingModule} from "angular-star-rating";
 import {TobaccoViewComponent} from './tobacco-view/tobacco-view.component';
 import {ReviewService} from "../services/review.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {CdkFixedSizeVirtualScroll} from "@angular/cdk/scrolling";
+import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
 
 @NgModule({
   declarations: [
@@ -66,6 +65,7 @@ import {CdkFixedSizeVirtualScroll} from "@angular/cdk/scrolling";
     MatButtonToggleModule,
     StarRatingModule.forRoot(),
     MatProgressBarModule,
+    ImageUploadModule
   ],
   providers: [
     TobaccoService,

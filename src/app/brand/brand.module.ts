@@ -25,6 +25,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
 import {MatCardModule} from "@angular/material/card";
 import {StarRatingModule} from "angular-star-rating";
+import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {StarRatingModule} from "angular-star-rating";
     MatAutocompleteModule,
     CountrySelectModule,
     MatCardModule,
-    StarRatingModule
+    StarRatingModule,
+    ImageUploadModule
   ],
   providers: [
     BrandService,
