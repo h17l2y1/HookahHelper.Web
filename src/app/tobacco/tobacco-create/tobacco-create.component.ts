@@ -24,6 +24,7 @@ import {ImageType} from "../../interfaces/enums/image-type";
 export class TobaccoCreateComponent implements OnInit {
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
   @ViewChild('tagTasteInput') tagTasteInput!: ElementRef<HTMLInputElement>;
+  public readonly aspectRatio: number = 1;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
   public brandControl: FormControl = this.formBuilder.control('', Validators.required);

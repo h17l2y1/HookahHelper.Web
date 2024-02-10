@@ -17,6 +17,7 @@ import {ImageType} from "../../interfaces/enums/image-type";
   styleUrls: ['./brand-editor.component.scss']
 })
 export class BrandEditorComponent implements OnInit {
+  public readonly aspectRatio: number = 127/51;
   public updateBrandForm!: FormGroup;
   private tempId: number = 0;
   public countyControl: FormControl = this.formBuilder.control('', [Validators.required]);

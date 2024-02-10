@@ -20,6 +20,7 @@ import {TagService} from "../../tag/tag.service";
   styleUrls: ['./tobacco-editor.component.scss']
 })
 export class TobaccoEditorComponent implements OnInit {
+  public readonly aspectRatio: number = 1;
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
   public linesOption$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.data.tobacco.brandId);
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();

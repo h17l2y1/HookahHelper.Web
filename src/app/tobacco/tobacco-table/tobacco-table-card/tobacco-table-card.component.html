@@ -1,10 +1,13 @@
 <div class="tobacco-container">
   <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
   <div class="card-container">
-    <mat-card class="tobacco-card" *ngFor="let tobacco of tobaccos" (click)="onView(tobacco.id)">
-      <img mat-card-image class="image" src="{{tobacco.image.link}}" alt="image error">
-      <mat-card-content>
-        <mat-card-title class="title">{{tobacco.name}}</mat-card-title>
+    <mat-card class="brand-card" *ngFor="let tobacco of tobaccos" (click)="onView(tobacco.id)">
+      <div class="cover">
+        <img mat-card-image class="image" src="{{tobacco.image.link}}" alt="image error">
+      </div>
+      <div class="info">
+        <div class="title">{{tobacco.name}}</div>
+        <div class="description">{{tobacco.description}}</div>
         <div class="rating-container">
           <star-rating
             [showHalfStars]="true"
@@ -12,14 +15,9 @@
             [rating]="tobacco.rating"
             [readOnly]="true">
           </star-rating>
-          {{tobacco.rating | number:'1.1-2'}}
+          {{ tobacco.rating | number:'1.1-2' }}
         </div>
-        <div class="description">
-          <p>
-            {{tobacco.description}}
-          </p>
-        </div>
-      </mat-card-content>
+      </div>
     </mat-card>
   </div>
   <mat-paginator

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective} from "@angular/forms";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {ImageCroppedEvent} from "ngx-image-cropper";
@@ -10,6 +10,7 @@ import {ImageCroppedEvent} from "ngx-image-cropper";
 })
 
 export class ImageUploadComponent implements OnInit {
+  @Input() aspectRatio!: number;
   public imageControlLink!: FormControl;
   public imageControlBase64!: FormControl;
   public imageChangedEvent!: any;
