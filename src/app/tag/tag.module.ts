@@ -14,13 +14,14 @@ import {MatTableModule} from "@angular/material/table";
 import {TagService} from "./tag.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
-import { TagCreateComponent } from './tag-create/tag-create.component';
+import {TagCreateComponent} from './tag-create/tag-create.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { TagEditorComponent } from './tag-editor/tag-editor.component';
+import {TagEditorComponent} from './tag-editor/tag-editor.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {ColorPickerModule} from "ngx-color-picker";
 
 @NgModule({
   declarations: [
@@ -28,26 +29,27 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     TagCreateComponent,
     TagEditorComponent
   ],
-    imports: [
-        CommonModule,
-        TagRoutingModule,
-        MatButtonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatOptionModule,
-        MatPaginatorModule,
-        MatSelectModule,
-        MatSortModule,
-        MatTableModule,
-        SharedModule,
-        MatDialogModule,
-        FormsModule,
-        MatSlideToggleModule,
-        MatCheckboxModule,
-        MatProgressBarModule
-    ],
+  imports: [
+    CommonModule,
+    TagRoutingModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatOptionModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatSortModule,
+    MatTableModule,
+    SharedModule,
+    MatDialogModule,
+    FormsModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatProgressBarModule,
+    ColorPickerModule
+  ],
   providers: [
     TagService,
     NamePipe

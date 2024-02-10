@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
@@ -12,6 +12,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 })
 export class TagCreateComponent {
 
+  public toggle: boolean = false;
+  public color: string = '#ffffff';
+
+  public nameControl: FormControl = this.formBuilder.control('Tag', [Validators.required, Validators.minLength(3),Validators.maxLength(50)]);
   public createTagForm: FormGroup = this.initCreateTagForm();
 
   constructor(
@@ -23,8 +27,9 @@ export class TagCreateComponent {
 
   private initCreateTagForm(): FormGroup {
     return this.formBuilder.group({
-      name: [null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]],
-      isGlobal: false
+      name: this.nameControl,
+      isGlobal: false,
+      color: this.color
     });
   };
 
