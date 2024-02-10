@@ -22,6 +22,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ColorPickerModule} from "ngx-color-picker";
+import {TagComponentModule} from "../shared/components/tag-component/tag-component.module";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {ColorPickerModule} from "ngx-color-picker";
     MatSlideToggleModule,
     MatCheckboxModule,
     MatProgressBarModule,
-    ColorPickerModule
+    ColorPickerModule,
+    TagComponentModule
   ],
   providers: [
     TagService,

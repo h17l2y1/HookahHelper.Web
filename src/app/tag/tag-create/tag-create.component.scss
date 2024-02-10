@@ -1,0 +1,19 @@
+.popup-container {
+  .create-tag-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 20px;
+
+    .tag-view-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+.button {
+  border: solid white 1px;
+}

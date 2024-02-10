@@ -1,0 +1,10 @@
+<div *ngIf="isBordered; else filled">
+  <div class="tag" [ngStyle]="{'color': getColor(), 'border': getBorder(color)}">
+    {{ name }}
+  </div>
+</div>
+<ng-template #filled>
+  <div class="tag" [ngStyle]="{'background-color': getColor(),'border': 'none',}">
+    {{ name }}
+  </div>
+</ng-template>

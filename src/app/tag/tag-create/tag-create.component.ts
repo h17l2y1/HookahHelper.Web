@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
@@ -8,13 +8,12 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 @Component({
   selector: 'app-tag-create',
   templateUrl: './tag-create.component.html',
-  styleUrls: ['./tag-create.component.css']
+  styleUrls: ['./tag-create.component.scss']
 })
 export class TagCreateComponent {
-
   public toggle: boolean = false;
-  public color: string = '#ffffff';
-
+  public color: string = '#595959';
+  public selectedColor!: string;
   public nameControl: FormControl = this.formBuilder.control('Tag', [Validators.required, Validators.minLength(3),Validators.maxLength(50)]);
   public createTagForm: FormGroup = this.initCreateTagForm();
 
@@ -24,6 +23,10 @@ export class TagCreateComponent {
     private tagService: TagService,
     private namePipe: NamePipe,
   ) {}
+
+  public onEventLog(event: string, data: any): void {
+    this.selectedColor = data.color;
+  }
 
   private initCreateTagForm(): FormGroup {
     return this.formBuilder.group({
