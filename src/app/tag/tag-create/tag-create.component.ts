@@ -13,7 +13,6 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 export class TagCreateComponent {
   public toggle: boolean = false;
   public color: string = '#595959';
-  public selectedColor!: string;
   public nameControl: FormControl = this.formBuilder.control('Tag', [Validators.required, Validators.minLength(3),Validators.maxLength(50)]);
   public createTagForm: FormGroup = this.initCreateTagForm();
 
@@ -23,10 +22,6 @@ export class TagCreateComponent {
     private tagService: TagService,
     private namePipe: NamePipe,
   ) {}
-
-  public onEventLog(event: string, data: any): void {
-    this.selectedColor = data.color;
-  }
 
   private initCreateTagForm(): FormGroup {
     return this.formBuilder.group({
@@ -42,6 +37,7 @@ export class TagCreateComponent {
       return;
     }
     const request: Tag = this.createTagForm.value;
+    request.color = this.color;
     this.tagService.create(request).subscribe(() => {
       this.dialogRef.close(oneMore);
     });

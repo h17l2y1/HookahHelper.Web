@@ -21,9 +21,10 @@
           <th mat-header-cell *matHeaderCellDef>Теги</th>
           <td mat-cell *matCellDef="let row">
             <div class="tag-container">
-              <mat-chip class="example-box" *ngFor="let tag of row.tagsDefault">
-                {{tag.name}}
-              </mat-chip>
+              <app-tag class="example-box" *ngFor="let tag of row.tagsDefault"
+                [name]="tag.name"
+                [color]="tag.color">
+              </app-tag>
             </div>
           </td>
         </ng-container>
@@ -31,9 +32,11 @@
           <th mat-header-cell *matHeaderCellDef>Глобальні теги</th>
           <td mat-cell *matCellDef="let row">
             <div class="tag-container">
-              <mat-chip class="example-box" *ngFor="let tag of row.tagsGlobal">
-                {{tag.name}}
-              </mat-chip>
+              <app-tag class="example-box" *ngFor="let tag of row.tagsGlobal"
+                [name]="tag.name"
+                [color]="tag.color"
+                [isBordered]="false">
+              </app-tag>
             </div>
           </td>
         </ng-container>

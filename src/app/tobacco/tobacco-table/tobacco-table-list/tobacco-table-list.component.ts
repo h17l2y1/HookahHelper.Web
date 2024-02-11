@@ -9,10 +9,15 @@ import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
-import {TobaccoList} from "./TobaccoList";
 import {Filter} from "../../../interfaces/models/filter";
 import {RoleService} from "../../../services/role.service";
 import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
+import {Tag} from "../../../interfaces/entity/tag";
+
+export interface TobaccoList extends Tobacco {
+  tagsDefault: Tag[];
+  tagsGlobal: Tag[];
+}
 
 @Component({
   selector: 'app-tobacco-table-list',

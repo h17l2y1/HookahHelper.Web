@@ -20,4 +20,5 @@ export class TagComponentComponent {
   public getColor(): string {
     return this.color;
   }
+
 }

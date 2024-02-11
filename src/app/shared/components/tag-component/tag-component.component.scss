@@ -1,16 +1,19 @@
 .tag {
   border: solid white 2px;
+  border-radius: 20px;
   color: white;
-  background-color: #424242;
+  //background-color: #262626;
+  background: #262626;
   margin-bottom: 3px;
-  padding: 7px 13px;
-  border-radius: 16px;
+  padding: 6px 12px;
   font-size: 14px;
   font-family: Roboto, serif;
+  transition: transform .3s;
 
   &:hover {
     //background-color: #606060 !important;
-    //transition: transform .3s;
-    //transform: scale(1.1);
+    transition: transform .3s;
+    transform: scale(1.1);
+    cursor: default;
   }
 }

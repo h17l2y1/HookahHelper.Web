@@ -34,6 +34,7 @@ import {TobaccoViewComponent} from './tobacco-view/tobacco-view.component';
 import {ReviewService} from "../services/review.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
+import {TagComponentModule} from "../shared/components/tag-component/tag-component.module";
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {ImageUploadModule} from "../shared/components/image-upload/image-upload.
     MatButtonToggleModule,
     StarRatingModule.forRoot(),
     MatProgressBarModule,
-    ImageUploadModule
+    ImageUploadModule,
+    TagComponentModule
   ],
   providers: [
     TobaccoService,
