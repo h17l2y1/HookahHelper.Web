@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
 export class TagComponentComponent {
   @Input({required: true}) color!: string;
   @Input({required: true}) name!: string;
-  @Input() isBordered?: boolean = true;
+  @Input() isDark?: boolean = true;
 
   constructor() {
   }

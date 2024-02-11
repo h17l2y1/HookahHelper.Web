@@ -1,4 +1,4 @@
-<div *ngIf="isBordered; else filled">
+<div *ngIf="isDark; else filled">
   <div class="tag" [ngStyle]="{'color': getColor(), 'border': getBorder(color)}">
     {{ name }}
   </div>

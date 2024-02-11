@@ -8,7 +8,8 @@
       </mat-form-field>
       <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
       <div class="tag-view-container">
-        <app-tag [color]="color" [name]="nameControl.value" [isBordered]="false"></app-tag>
+        <app-tag [color]="color" [name]="nameControl.value"></app-tag>
+        <app-tag [color]="color" [name]="nameControl.value" [isDark]="false"></app-tag>
         <button mat-flat-button
                 class="button colors"
                 [(colorPicker)]="color"

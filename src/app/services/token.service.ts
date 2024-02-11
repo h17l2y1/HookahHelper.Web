@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {jwtDecode, JwtPayload} from "jwt-decode";
 import {UserData} from "../interfaces/models/user-data";
 
@@ -9,7 +9,7 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 export class TokenService {
   constructor() { }
 
-  logout(): void {
+  public logout(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
@@ -33,8 +33,13 @@ export class TokenService {
   }
 
   public isAdmin(): boolean {
-    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (token === null || token === 'undefined') {
+    const token = this.isTokenExist();
+    if (!token) {
+      return false;
+    }
+
+    const isTokenValid = this.isTokenValid(token)
+    if (!isTokenValid) {
       return false;
     }
 
@@ -42,9 +47,39 @@ export class TokenService {
     return decoded.role === 'admin';
   }
 
-  public getUserData(): UserData | null {
+  public isLoggedIn(): boolean {
+    const token = this.isTokenExist();
+    if (!token) {
+      return false;
+    }
+
+    return this.isTokenValid(token);
+  }
+
+  public isTokenValid(token: string): boolean {
+    const now = Date.now();
+    const decoded = jwtDecode<JwtPayload>(token);
+    if (decoded.exp){
+      if (now > decoded.exp){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private isTokenExist(): string | null {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (token === null || token === 'undefined') {
+      return null;
+    }
+
+    return token;
+  }
+
+  public getUserData(): UserData | null {
+    const token = this.isTokenExist();
+    if (!token) {
       return null;
     }
 

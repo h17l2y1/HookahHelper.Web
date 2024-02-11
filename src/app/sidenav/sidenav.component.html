@@ -11,7 +11,7 @@
             <a class="tab" routerLink="/tobacco" routerLinkActive="active-link">
               <span class="tab-text">TOBACCOS</span>
             </a>
-            <a class="tab" routerLink="/tag" routerLinkActive="active-link" *ngIf="user.isAdmin">
+            <a class="tab" routerLink="/tag" routerLinkActive="active-link" *ngIf="user?.isAdmin">
               <span class="tab-text">TAGS</span>
             </a>
             <a class="tab" routerLink="/constructor" routerLinkActive="active-link">
@@ -30,10 +30,10 @@
             <div class="tab">
               <mat-icon>notifications</mat-icon>
             </div>
-            <div *ngIf="user.role; else unLogged" class="tab tab-user" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+            <div *ngIf="user?.role; else unLogged" class="tab tab-user" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
               <div class="user-data">
                 <div class="user-pictures"></div>
-                <span class="user-name">{{user.name}}</span>
+                <span class="user-name">{{user?.name}}</span>
               </div>
             </div>
             <ng-template #unLogged>
@@ -42,11 +42,11 @@
               </div>
             </ng-template>
             <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-              <button *ngIf="!user.role" mat-menu-item (click)="signUp()">
+              <button *ngIf="!user?.role" mat-menu-item (click)="signUp()">
                 <mat-icon>person</mat-icon>
                 <span>Sign In</span>
               </button>
-              <button *ngIf="!user.role" mat-menu-item (click)="login()">
+              <button *ngIf="!user?.role" mat-menu-item (click)="login()">
                 <mat-icon>person</mat-icon>
                 <span>Login</span>
               </button>
@@ -58,7 +58,7 @@
                 <mat-icon>help</mat-icon>
                 <span>Help</span>
               </button>
-              <div *ngIf="user.role">
+              <div *ngIf="user?.role">
                 <mat-divider></mat-divider>
                 <button  mat-menu-item (click)="logout()">
                   <mat-icon>exit_to_app</mat-icon>

@@ -13,7 +13,7 @@ import {UserData} from "../interfaces/models/user-data";
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
-  public user!: UserData;
+  public user?: UserData;
 
   public userData$ = this.roleService.getUserData.subscribe(userData => {
     this.user = userData;
@@ -52,7 +52,6 @@ export class SidenavComponent {
 
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
-        localStorage.clear();
         this.roleService.setUserData({isAdmin: false} as UserData);
       }
     });
