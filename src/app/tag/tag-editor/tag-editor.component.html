@@ -2,12 +2,19 @@
   <h1 mat-dialog-title>Редагувати Тег</h1>
   <form [formGroup]="editTagForm" class="example-form">
     <div class="edit-tag-container">
-      <div class="side">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Назва тегу</mat-label>
-          <input matInput formControlName="name" (keyup)="onChange()">
-        </mat-form-field>
-        <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Назва тегу</mat-label>
+        <input matInput formControlName="name" (keyup)="onChange()">
+      </mat-form-field>
+      <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
+      <div class="tag-view-container">
+        <app-tag [color]="color" [name]="nameControl.value" [isBordered]="false"></app-tag>
+        <button mat-flat-button
+                class="button colors"
+                [(colorPicker)]="color"
+                (click)="toggle=!toggle;">
+          Choose color
+        </button>
       </div>
     </div>
   </form>

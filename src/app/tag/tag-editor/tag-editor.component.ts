@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
@@ -11,6 +11,9 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
   styleUrls: ['./tag-editor.component.scss']
 })
 export class TagEditorComponent {
+  public toggle: boolean = false;
+  public color: string = this.data.tag.color;
+  public nameControl: FormControl = this.formBuilder.control(this.data.tag.name, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]);
   public editTagForm: FormGroup = this.initEditTagForm();
 
   constructor(
@@ -32,8 +35,9 @@ export class TagEditorComponent {
   public initEditTagForm(): FormGroup {
     return this.formBuilder.group({
       id: this.data.tag.id,
-      name: [this.data.tag.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      isGlobal: this.data.tag.isGlobal
+      name: this.nameControl,
+      isGlobal: this.data.tag.isGlobal,
+      color: this.color
     });
   }
 
