@@ -5,11 +5,22 @@
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email">
+          <input matInput
+                 type="email"
+                 (change)="fixAutoFill($event, pwd.value)"
+                 placeholder="Ex. pat@example.com"
+                 formControlName="email"
+                 name="username"
+                 required>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Пароль</mat-label>
-          <input matInput formControlName="password">
+          <input matInput #pwd
+                 placeholder="Password"
+                 formControlName="password"
+                 type="password"
+                 name="password"
+                 required>
         </mat-form-field>
       </div>
     </div>

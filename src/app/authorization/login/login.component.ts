@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {User} from "../../interfaces/entity/user";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "../auth.service";
 import {TokenService} from "../../services/token.service";
@@ -21,6 +21,11 @@ export class LoginComponent {
     private tokenService: TokenService,
     private roleService: RoleService,
   ) {}
+
+  public fixAutoFill(usr: Event, pwd: string): void {
+    if (usr) { this.createLoginForm.get('email')?.setValue((usr.target as HTMLInputElement).value) }
+    if (pwd) { this.createLoginForm.get('password')?.setValue(pwd) }
+  }
 
   public onSave(): void {
     const request: User = this.createLoginForm.value;
@@ -45,10 +50,8 @@ export class LoginComponent {
 
   private initLoginUserForm(): FormGroup {
     return this.formBuilder.group({
-      email: this.formBuilder.control("test_mail@gmail.com"),
-      password: this.formBuilder.control("kHK4*v#f47")
-      // email: [null, [Validators.required]],
-      // password: [null, [Validators.required]]
+      email: [null, [Validators.required]],
+      password: [null, [Validators.required]]
     })
   }
 
