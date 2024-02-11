@@ -30,8 +30,7 @@ import {TokenService} from "./services/token.service";
 import {AdminGuard} from "./services/guards/admin.guard";
 import {AuthInterceptor} from "./services/interceptors/auth-interceptor";
 import {JwtRefreshInterceptor} from "./services/interceptors/jwt-refresh-interceptor";
-import {LoggingInterceptor} from "./services/interceptors/logging-interceptor";
-import {ConfirmInterceptor} from "./services/interceptors/confirm-interceptor";
+import {ConfirmNotificationInterceptor} from "./services/interceptors/confirm-notification-interceptor";
 
 @NgModule({
   declarations: [
@@ -69,8 +68,7 @@ import {ConfirmInterceptor} from "./services/interceptors/confirm-interceptor";
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ConfirmInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ConfirmNotificationInterceptor, multi: true},
     AuthGuard,
     AdminGuard,
     TokenService,

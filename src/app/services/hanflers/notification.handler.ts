@@ -5,27 +5,26 @@ import {ToastrService} from "ngx-toastr";
 @Injectable({
   providedIn: "root",
 })
-export class ConfirmHandler {
+export class NotificationHandler {
 
   constructor(private toastr: ToastrService) {
   }
 
   public handleConfirm(req: HttpRequest<any>) {
-    let message: string = "";
+    if(req.url.includes('Account')){
+      return;
+    }
 
-    // if (req.method) {
-    //   message = (req.method as any).title;
-    //   this.toastr.success(message);
-    //   return;
-    // }
 
     switch(req.method) {
-      case 'POST': message = 'Creation successful'; break;
-      case 'PUT': message = 'Update successful'; break;
-      case 'DELETE': message = 'Delete successful'; break;
+      case 'POST': this.sendNotification('Creation successful'); break;
+      case 'PUT': this.sendNotification('Update successful'); break;
+      case 'DELETE': this.sendNotification('Delete successful'); break;
       default: break;
     }
-    if (req.method !== 'GET')
+  }
+
+  private sendNotification(message: string): void{
     this.toastr.success(message);
   }
 
