@@ -21,7 +21,7 @@ export class TagTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  public readonly displayedColumns: string[] = ['name', 'isGlobal', 'action'];
+  public readonly displayedColumns: string[] = ['name', 'tag', 'isGlobal', 'action'];
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [10, 25, 100];
