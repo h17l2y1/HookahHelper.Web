@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {Filter} from "../interfaces/models/filter";
@@ -6,22 +6,21 @@ import {MatTableDataSource} from "@angular/material/table";
 import {Mix} from "../interfaces/entity/mix";
 import {TopMixService} from "./top-mix.service";
 import {map, merge, startWith, switchMap, tap} from "rxjs";
-import {RoleService} from "../services/role.service";
-import {Router} from "@angular/router";
+import {UserDataService} from "../services/user-data.service";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {MatDialog} from "@angular/material/dialog";
 import {MixViewComponent} from "./mix-view/mix-view.component";
+import {UserPermission} from "../shared/user-permission";
 
 @Component({
   selector: 'app-top-mix',
   templateUrl: './top-mix.component.html',
   styleUrls: ['./top-mix.component.scss']
 })
-export class TopMixComponent implements AfterViewInit {
+export class TopMixComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  public userData$ = this.roleService.getUserData;
   public isAdmin: boolean = false;
   public readonly allColumns: string[] = ['name', 'rating', 'action'];
   public displayedColumns!: string[];
@@ -36,14 +35,14 @@ export class TopMixComponent implements AfterViewInit {
   public dataSource!: MatTableDataSource<Mix>;
 
   constructor(
+    userDataService: UserDataService,
     private mixService: TopMixService,
-    public roleService: RoleService,
-    public dialog: MatDialog,
-    private router: Router) {
-    this.userData$.subscribe(userData => {
-      this.isAdmin = userData.isAdmin;
-      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
-    })
+    public dialog: MatDialog) {
+    super(userDataService)
+  }
+
+  ngOnInit(): void {
+    this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
   }
 
   ngAfterViewInit(): void {
@@ -99,7 +98,7 @@ export class TopMixComponent implements AfterViewInit {
           exitAnimationDuration: EXIT_ANIMATION_DURATION
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(() => {
           // if (result){
           //   this.mixService.emit();
           // }

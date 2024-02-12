@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot} from "@angular/router";
 
 @Injectable({providedIn: 'root'})
-export class UrlIdResolver implements Resolve<string | null> {
+export class UrlIdResolver {
   constructor() {
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): string | null {
+  resolve(route: ActivatedRouteSnapshot): string | null {
     return route.paramMap.get('id');
   }
 }

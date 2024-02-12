@@ -66,8 +66,8 @@ import {ConfirmNotificationInterceptor} from "./services/interceptors/confirm-no
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ConfirmNotificationInterceptor, multi: true},
     AuthGuard,
     AdminGuard,

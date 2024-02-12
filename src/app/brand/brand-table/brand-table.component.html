@@ -17,7 +17,7 @@
         </mat-button-toggle-group>
       </div>
     </form>
-    <button *ngIf="isAdmin" class="button" mat-flat-button (click)="onCreate()">Створити новий</button>
+    <button *ngIf="user?.isAdmin" class="button" mat-flat-button (click)="onCreate()">Створити новий</button>
   </div>
 
   <div *ngIf="isTableViewCard; else listPage">

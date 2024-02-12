@@ -61,7 +61,7 @@
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
-      <div class="" *ngIf="(userData$ | async)?.isAdmin">
+      <div class="" *ngIf="user?.isAdmin">
         <button class="button" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>

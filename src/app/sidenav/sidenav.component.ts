@@ -4,33 +4,19 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 import {LoginComponent} from "../authorization/login/login.component";
 import {ConfirmationPopupComponent} from "../shared/components/confirmation-popup/confirmation-popup.component";
-import {RoleService} from "../services/role.service";
-import {UserData} from "../interfaces/models/user-data";
+import {UserDataService} from "../services/user-data.service";
+import {TokenService} from "../services/token.service";
+import {UserPermission} from "../shared/user-permission";
 
 @Component({
   selector: 'sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent {
-  public user!: UserData;
+export class SidenavComponent extends UserPermission {
 
-  public userData$ = this.roleService.getUserData.subscribe(userData => {
-    this.user = userData;
-  });
-
-  constructor(public dialog: MatDialog, private roleService: RoleService) {}
-
-  public signUp(): void {
-    const dialogRef = this.dialog.open(SignUpComponent, {
-      data: null,
-      minWidth: '380px',
-      backdropClass: 'blurred',
-      enterAnimationDuration: ENTER_ANIMATION_DURATION,
-      exitAnimationDuration: EXIT_ANIMATION_DURATION
-    });
-
-    dialogRef.afterClosed().subscribe();
+  constructor(userDataService: UserDataService, private dialog: MatDialog, private tokenService: TokenService) {
+    super(userDataService)
   }
 
   public login(): void {
@@ -42,7 +28,12 @@ export class SidenavComponent {
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(() => {
+      const userData = this.tokenService.getUserData();
+      if (userData) {
+        this.userDataService.setUser(userData);
+      }
+    });
   }
 
   public logout(): void {
@@ -52,10 +43,22 @@ export class SidenavComponent {
 
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
-        localStorage.clear();
-        this.roleService.setUserData({isAdmin: false} as UserData);
+        this.tokenService.logout();
+        this.userDataService.setUser(null);
       }
     });
+  }
+
+  public signUp(): void {
+    const dialogRef = this.dialog.open(SignUpComponent, {
+      data: null,
+      minWidth: '380px',
+      backdropClass: 'blurred',
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
+    });
+
+    dialogRef.afterClosed().subscribe();
   }
 
 }

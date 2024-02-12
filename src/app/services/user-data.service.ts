@@ -5,14 +5,14 @@ import {UserData} from "../interfaces/models/user-data";
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService {
+export class UserDataService {
 
-  private userData = new BehaviorSubject<UserData>({} as UserData);
-  public getUserData = this.userData.asObservable();
+  private userData = new BehaviorSubject<UserData | null>(null);
+  public getUser = this.userData.asObservable();
 
   constructor() { }
 
-  public setUserData(userData: UserData){
+  public setUser(userData: UserData | null){
     this.userData.next(userData)
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {jwtDecode, JwtPayload} from "jwt-decode";
 import {UserData} from "../interfaces/models/user-data";
+import {Tokens} from "../interfaces/models/tokens";
 
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
@@ -9,23 +10,18 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 export class TokenService {
   constructor() { }
 
-  logout(): void {
+  public logout(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
 
-  public saveToken(token: string): void {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.setItem(ACCESS_TOKEN_KEY, token);
+  public saveTokens(tokens: Tokens): void {
+    localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken);
+    localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken);
   }
 
   public getAccessToken(): string | null {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
-  }
-
-  public saveRefreshToken(token: string): void {
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
-    localStorage.setItem(REFRESH_TOKEN_KEY, token);
   }
 
   public getRefreshToken(): string | null {
@@ -44,7 +40,7 @@ export class TokenService {
 
   public getUserData(): UserData | null {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (token === null || token === 'undefined') {
+    if (!token || token === 'undefined') {
       return null;
     }
 
