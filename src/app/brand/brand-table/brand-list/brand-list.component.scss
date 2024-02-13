@@ -9,20 +9,18 @@
     overflow: auto;
 
     @media (max-width: 480px) {
-      .image {
-        //background-color: red;
+      .brand-card-image {
         width: 50px;
       }
     }
 
     @media (min-width: 480px) {
-      .image {
+      .brand-card-image {
         width: 100px;
       }
     }
 
-
-    .edit {
+    .blue-color {
       margin-right: 15px;
     }
   }

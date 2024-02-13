@@ -6,16 +6,12 @@
   gap: 20px;
 
   .header-container {
-    .header-desktop {
       .tool-bar {
         border-radius: 15px;
-        //border: 1px solid $border-color;
-        //background-color: #232323;
         padding: 1.2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        //color: white;
         max-height: 76px;
 
         .header-left {
@@ -91,7 +87,6 @@
         }
       }
     }
-  }
 
   .body-container {
 

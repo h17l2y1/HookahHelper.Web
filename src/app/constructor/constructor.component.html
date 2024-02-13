@@ -20,7 +20,7 @@
         <div class="card-wrapper" *ngFor="let tobacco of getTobaccoMix.controls; let i=index">
           <div matBadge="delete" matBadgeColor="warn" class="demo-section badge" (click)="onRemove(tobacco.value, i)"></div>
           <mat-card class="tobacco-card">
-            <img mat-card-image class="image" src="{{tobacco.value.imageLink}}" alt="image error">
+            <img mat-card-image class="brand-card-image" src="{{tobacco.value.imageLink}}" alt="image error">
             <mat-card-content [formGroupName]="i">
               <mat-card-title class="title">{{tobacco.value.tobaccoName}}</mat-card-title>
               <mat-form-field class="example-full-width2">

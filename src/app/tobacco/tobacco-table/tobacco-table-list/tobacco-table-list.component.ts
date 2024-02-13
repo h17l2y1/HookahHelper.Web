@@ -13,6 +13,7 @@ import {Filter} from "../../../interfaces/models/filter";
 import {RoleService} from "../../../services/role.service";
 import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
 import {Tag} from "../../../interfaces/entity/tag";
+import {TagType} from "../../../interfaces/enums/tag-type";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -40,6 +41,7 @@ export class TobaccoTableListComponent implements OnInit, AfterViewInit {
   public pageSize = this.pageSizeOptions[0];
   public tobaccosList!: TobaccoList[];
   public isLoadingResults!: boolean;
+  public readonly TagType = TagType;
 
   constructor(
     public dialog: MatDialog,

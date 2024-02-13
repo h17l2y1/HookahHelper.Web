@@ -16,10 +16,6 @@ export class ThemeService {
   }
 
   setTheme(themeToSet: any) {
-    this.styleManager.setStyle(
-      "theme",
-      // `node_modules/@angular/material/prebuilt-themes/${themeToSet}.css`
-      `../../../assets/styles/${themeToSet}.css`
-    );
+    this.styleManager.setStyle("theme", `../../../assets/styles/${themeToSet}.css`);
   }
 }

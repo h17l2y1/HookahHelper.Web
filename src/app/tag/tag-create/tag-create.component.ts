@@ -4,6 +4,7 @@ import {MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
+import {TagType} from "../../interfaces/enums/tag-type";
 
 @Component({
   selector: 'app-tag-create',
@@ -52,4 +53,6 @@ export class TagCreateComponent {
       name: this.namePipe.transform(this.createTagForm.value.name)
     }, {emitEvent: false})
   }
+
+  protected readonly TagType = TagType;
 }

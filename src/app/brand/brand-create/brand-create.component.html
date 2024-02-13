@@ -24,7 +24,7 @@
         </mat-form-field>
       </div>
       <div class="side">
-        <button class="button add-line-btn example-full-width cancel-color" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>
+        <button class="button add-line-btn example-full-width purple-background-color" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>
         <div formArrayName="lines">
           <div *ngFor="let line of getLines.controls; let i=index" class="brand-line-container">
             <div [formGroupName]="i" class="inp-brand-line">
@@ -43,7 +43,7 @@
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button create-color" mat-flat-button (click)="onSave()">Створити</button>
+    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Створити</button>
     <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
   </div>
 </div>

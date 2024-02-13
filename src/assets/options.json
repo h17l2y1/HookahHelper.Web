@@ -26,5 +26,9 @@
     "headingColor": "#9c27b0",
     "label": "Purple & Green",
     "value": "purple-green"
+  },
+  {
+    "label": "Dark",
+    "value": "dark"
   }
 ]

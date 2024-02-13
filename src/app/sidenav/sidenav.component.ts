@@ -24,7 +24,7 @@ export class SidenavComponent {
   });
 
   constructor(public dialog: MatDialog, private roleService: RoleService, private readonly themeService: ThemeService) {
-    this.themeService.setTheme("deeppurple-amber");
+    this.themeService.setTheme("dark");
   }
 
   themeChangeHandler(themeToSet: any) {

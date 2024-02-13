@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {TagType} from "../../../interfaces/enums/tag-type";
 
 @Component({
   selector: 'app-tag',
@@ -8,17 +9,20 @@ import {Component, Input} from '@angular/core';
 export class TagComponentComponent {
   @Input({required: true}) color!: string;
   @Input({required: true}) name!: string;
-  @Input() isBordered?: boolean = true;
+  @Input({required: true}) type!: TagType;
 
-  constructor() {
-  }
-
-  public getBorder(color: string): string {
-    return `2px solid ${color}`;
-  }
-
-  public getColor(): string {
-    return this.color;
+  public getStyle(): any {
+    if (this.type === TagType.Bordered){
+      return {
+        'border': `2px solid ${this.color}`,
+        'color': `${this.color}`,
+      }
+    }
+    return {
+      'border': `none`,
+      'color': `white`,
+      'background-color': `${this.color}`,
+    }
   }
 
 }

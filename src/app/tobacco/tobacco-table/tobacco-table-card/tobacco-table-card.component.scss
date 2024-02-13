@@ -10,23 +10,13 @@
 
   .brand-card {
     border-radius: 8px;
-    //box-shadow: none;
     cursor: pointer;
     transition: transform .5s;
-    //color: #d3d3d3;
-    //background-color: $card-background-color;
-    //border: 1px solid #2e2e2e;
     overflow: hidden;
 
-    .cover {
-      width: 100%;
-
-      .image {
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-        height: 100%;
-        width: 100%;
-      }
+    .brand-card-image {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
 
     .info {
@@ -40,7 +30,6 @@
 
     .description {
       padding-top: 8px;
-      color: #8e8e8e;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -49,7 +38,6 @@
     }
 
     .title {
-      //color: white;
       font-size: 1.1em;
       letter-spacing: 0.04rem;
       white-space: nowrap;
@@ -64,12 +52,11 @@
       //margin-top: 5px;
     }
 
-  }
+    &:hover {
+      transform: scale(1.1);
+    }
 
-  .brand-card:hover {
-    transform: scale(1.1);
   }
-
 }
 
 .mat-mdc-paginator {

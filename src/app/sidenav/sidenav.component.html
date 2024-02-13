@@ -1,76 +1,75 @@
 <div class="main-container">
-  <div class=header-container>
-    <div class="header-desktop">
-      <div class="tool-bar">
-        <div class="header-left">
-          <span class="logo">HookahHub</span>
-          <div class="tabs-container">
-            <a class="tab" routerLink="/brand" routerLinkActive="active-link">
-              <span class="tab-text">BRANDS</span>
-            </a>
-            <a class="tab" routerLink="/tobacco" routerLinkActive="active-link">
-              <span class="tab-text">TOBACCOS</span>
-            </a>
-            <a class="tab" routerLink="/tag" routerLinkActive="active-link" *ngIf="user.isAdmin">
-              <span class="tab-text">TAGS</span>
-            </a>
-            <a class="tab" routerLink="/constructor" routerLinkActive="active-link">
-              <span class="tab-text">CONSTRUCTOR</span>
-            </a>
-            <a class="tab" routerLink="/mixes" routerLinkActive="active-link">
-              <span class="tab-text">TOP MIXES</span>
-            </a>
-          </div>
+  <div class="header-container">
+    <div class="tool-bar">
+      <div class="header-left">
+        <span class="logo">HookahHub</span>
+        <div class="tabs-container">
+          <a class="tab" routerLink="/brand" routerLinkActive="active-link">
+            <span class="tab-text">BRANDS</span>
+          </a>
+          <a class="tab" routerLink="/tobacco" routerLinkActive="active-link">
+            <span class="tab-text">TOBACCOS</span>
+          </a>
+          <a class="tab" routerLink="/tag" routerLinkActive="active-link" *ngIf="user.isAdmin">
+            <span class="tab-text">TAGS</span>
+          </a>
+          <a class="tab" routerLink="/constructor" routerLinkActive="active-link">
+            <span class="tab-text">CONSTRUCTOR</span>
+          </a>
+          <a class="tab" routerLink="/mixes" routerLinkActive="active-link">
+            <span class="tab-text">TOP MIXES</span>
+          </a>
         </div>
-        <div class="header-right">
-          <div class="tabs-container">
-            <div class="tab">
-              <mat-icon>favorite</mat-icon>
-            </div>
-            <div class="tab">
-              <mat-icon>notifications</mat-icon>
-            </div>
-            <div class="app-container">
-              <app-them-picker [options]="options$ | async"
-                               (themeChange)="themeChangeHandler($event)"></app-them-picker>
-            </div>
-            <div *ngIf="user.role; else unLogged" class="tab tab-user" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-              <div class="user-data">
-                <div class="user-pictures"></div>
-                <span class="user-name">{{user.name}}</span>
-              </div>
-            </div>
-            <ng-template #unLogged>
-              <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-                <mat-icon>account_circle</mat-icon>
-              </div>
-            </ng-template>
-            <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-              <button *ngIf="!user.role" mat-menu-item (click)="signUp()">
-                <mat-icon>person</mat-icon>
-                <span>Sign In</span>
-              </button>
-              <button *ngIf="!user.role" mat-menu-item (click)="login()">
-                <mat-icon>person</mat-icon>
-                <span>Login</span>
-              </button>
-              <button mat-menu-item routerLink="#">
-                <mat-icon>settings</mat-icon>
-                <span>Settings</span>
-              </button>
-              <button mat-menu-item routerLink="#">
-                <mat-icon>help</mat-icon>
-                <span>Help</span>
-              </button>
-              <div *ngIf="user.role">
-                <mat-divider></mat-divider>
-                <button  mat-menu-item (click)="logout()">
-                  <mat-icon>exit_to_app</mat-icon>
-                  Logout
-                </button>
-              </div>
-            </mat-menu>
+      </div>
+      <div class="header-right">
+        <div class="tabs-container">
+          <div class="tab">
+            <mat-icon>favorite</mat-icon>
           </div>
+          <div class="tab">
+            <mat-icon>notifications</mat-icon>
+          </div>
+          <div class="app-container">
+            <app-them-picker [options]="options$ | async"
+                             (themeChange)="themeChangeHandler($event)"></app-them-picker>
+          </div>
+          <div *ngIf="user.role; else unLogged" class="tab tab-user" matTooltip="My Account"
+               [matMenuTriggerFor]="userAccountMenu">
+            <div class="user-data">
+              <div class="user-pictures"></div>
+              <span class="user-name">{{ user.name }}</span>
+            </div>
+          </div>
+          <ng-template #unLogged>
+            <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+          </ng-template>
+          <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
+            <button *ngIf="!user.role" mat-menu-item (click)="signUp()">
+              <mat-icon>person</mat-icon>
+              <span>Sign In</span>
+            </button>
+            <button *ngIf="!user.role" mat-menu-item (click)="login()">
+              <mat-icon>person</mat-icon>
+              <span>Login</span>
+            </button>
+            <button mat-menu-item routerLink="#">
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
+            </button>
+            <button mat-menu-item routerLink="#">
+              <mat-icon>help</mat-icon>
+              <span>Help</span>
+            </button>
+            <div *ngIf="user.role">
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Logout
+              </button>
+            </div>
+          </mat-menu>
         </div>
       </div>
     </div>

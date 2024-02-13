@@ -8,7 +8,10 @@
       </mat-form-field>
       <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
       <div class="tag-view-container">
-        <app-tag [color]="color" [name]="nameControl.value" [isBordered]="false"></app-tag>
+        <div class="tags-container">
+          <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Bordered"></app-tag>
+          <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Filled"></app-tag>
+        </div>
         <button mat-flat-button
                 class="button colors"
                 [(colorPicker)]="color"
@@ -19,7 +22,7 @@
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button edit-color" mat-flat-button (click)="onSave()">Змінити</button>
-    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
+    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Змінити</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onCancel()">Cкасувати</button>
   </div>
 </div>

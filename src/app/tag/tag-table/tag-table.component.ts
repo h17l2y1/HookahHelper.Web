@@ -11,6 +11,7 @@ import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {TagCreateComponent} from "../tag-create/tag-create.component";
 import {TagEditorComponent} from "../tag-editor/tag-editor.component";
+import {TagType} from "../../interfaces/enums/tag-type";
 
 @Component({
   selector: 'app-tag-table',
@@ -125,4 +126,6 @@ export class TagTableComponent implements AfterViewInit {
       }
     });
   }
+
+  protected readonly TagType = TagType;
 }
