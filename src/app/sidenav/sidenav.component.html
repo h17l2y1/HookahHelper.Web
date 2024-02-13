@@ -30,6 +30,10 @@
             <div class="tab">
               <mat-icon>notifications</mat-icon>
             </div>
+            <div class="app-container">
+              <app-them-picker [options]="options$ | async"
+                               (themeChange)="themeChangeHandler($event)"></app-them-picker>
+            </div>
             <div *ngIf="user.role; else unLogged" class="tab tab-user" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
               <div class="user-data">
                 <div class="user-pictures"></div>

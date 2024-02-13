@@ -9,13 +9,13 @@
     .header-desktop {
       .tool-bar {
         border-radius: 15px;
-        border: 1px solid $border-color;
-        background-color: #232323;
+        //border: 1px solid $border-color;
+        //background-color: #232323;
         padding: 1.2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: white;
+        //color: white;
         max-height: 76px;
 
         .header-left {
@@ -39,7 +39,7 @@
               cursor: pointer;
               padding: 0.6875rem 1.125rem;
               text-decoration: none;
-              color: white;
+              //color: white;
 
               .tab-text {
                 font-size: .875rem;
@@ -51,7 +51,7 @@
 
             }
             .tab:hover {
-              background-color: #3d3d3d;
+              //background-color: #3d3d3d;
             }
           }
         }

@@ -1,6 +1,6 @@
 //@import 'scss/variables-purple';
-@import 'scss/variables-dark';
-@import 'scss/material-colors-override';
+//@import 'scss/variables-dark';
+//@import 'scss/material-colors-override';
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
 @import 'ngx-toastr/toastr';
 
@@ -10,6 +10,7 @@ $color-positive-rating: #ffa900 !default;
 $color-default-rating: #c8c851 !default;
 
 @import 'css-star-rating/scss/star-rating';
+
 html, body {
   height: 100%;
 }
@@ -17,7 +18,7 @@ html, body {
 body {
   margin: 0;
   font-family: 'SF Pro Display', "sans-serif";
-  background-color: $background-color;
+  //background-color: $background-color;
   padding-left: 36px;
   padding-right: 36px;
 }
@@ -32,30 +33,30 @@ body {
   cursor: pointer;
 }
 
-.delete {
-  color: #ae4a4a;
-}
-
-.edit {
-  color: #4a57ae;
-}
-
-.view{
-  color: #126b6b;
-}
-
-.edit-color {
-  background-color: #abddff !important;
-}
-
-.create-color {
-  background-color: #abffbc !important;
-}
-
-.cancel-color {
-  background-color: #545454 !important;
-}
-
-.blurred {
-  backdrop-filter: blur(15px);
-}
+//.delete {
+//  color: #ae4a4a;
+//}
+//
+//.edit {
+//  color: #4a57ae;
+//}
+//
+//.view{
+//  color: #126b6b;
+//}
+//
+//.edit-color {
+//  background-color: #abddff !important;
+//}
+//
+//.create-color {
+//  background-color: #abffbc !important;
+//}
+//
+//.cancel-color {
+//  background-color: #545454 !important;
+//}
+//
+//.blurred {
+//  backdrop-filter: blur(15px);
+//}

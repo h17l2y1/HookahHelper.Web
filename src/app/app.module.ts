@@ -31,11 +31,15 @@ import {AdminGuard} from "./services/guards/admin.guard";
 import {AuthInterceptor} from "./services/interceptors/auth-interceptor";
 import {JwtRefreshInterceptor} from "./services/interceptors/jwt-refresh-interceptor";
 import {ConfirmNotificationInterceptor} from "./services/interceptors/confirm-notification-interceptor";
+import { ThemePickerComponent } from './sidenav/them-picker/theme-picker.component';
+import {StyleManagerService} from "./sidenav/them-picker/style-manager.service";
+import {ThemeService} from "./sidenav/them-picker/theme.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavComponent,
+    ThemePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,8 @@ import {ConfirmNotificationInterceptor} from "./services/interceptors/confirm-no
     TokenService,
     provideAnimations(),
     provideToastr(),
+    StyleManagerService,
+    ThemeService
   ],
   exports: [],
   bootstrap: [AppComponent]
