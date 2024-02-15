@@ -7,11 +7,9 @@ import {ConfirmationPopupComponent} from "../shared/components/confirmation-popu
 import {UserDataService} from "../services/user-data.service";
 import {TokenService} from "../services/token.service";
 import {UserPermission} from "../shared/user-permission";
-import {RoleService} from "../services/role.service";
 import {UserData} from "../interfaces/models/user-data";
 import {ThemeService} from "./them-picker/theme.service";
 import {Observable, tap} from "rxjs";
-import {Option} from "./them-picker/option.model";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 
 @Component({
@@ -20,8 +18,6 @@ import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent extends UserPermission {
-
-  public user!: UserData;
   public options$: Observable<any> = this.themeService.getThemeOptions();
   public isMobileHeader!: boolean;
 
