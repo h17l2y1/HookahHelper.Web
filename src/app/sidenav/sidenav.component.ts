@@ -4,6 +4,9 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 import {LoginComponent} from "../authorization/login/login.component";
 import {ConfirmationPopupComponent} from "../shared/components/confirmation-popup/confirmation-popup.component";
+import {UserDataService} from "../services/user-data.service";
+import {TokenService} from "../services/token.service";
+import {UserPermission} from "../shared/user-permission";
 import {RoleService} from "../services/role.service";
 import {UserData} from "../interfaces/models/user-data";
 import {ThemeService} from "./them-picker/theme.service";
@@ -16,19 +19,19 @@ import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent {
+export class SidenavComponent extends UserPermission {
+
   public user!: UserData;
   public options$: Observable<any> = this.themeService.getThemeOptions();
   public isMobileHeader!: boolean;
 
-  public userData$ = this.roleService.getUserData.subscribe(userData => {
-    this.user = userData;
-  });
-
-  constructor(public dialog: MatDialog,
-              private roleService: RoleService,
-              private themeService: ThemeService,
-              private breakpointObserver: BreakpointObserver) {
+  constructor(
+    userDataService: UserDataService,
+    private dialog: MatDialog,
+    private themeService: ThemeService,
+    private breakpointObserver: BreakpointObserver,
+    private tokenService: TokenService) {
+    super(userDataService)
     this.themeService.setTheme("dark");
     this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
       tap((result: BreakpointState) => {
@@ -69,7 +72,12 @@ export class SidenavComponent {
       exitAnimationDuration: EXIT_ANIMATION_DURATION
     });
 
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(() => {
+      const userData = this.tokenService.getUserData();
+      if (userData) {
+        this.userDataService.setUser(userData);
+      }
+    });
   }
 
   public logout(): void {
@@ -79,8 +87,8 @@ export class SidenavComponent {
 
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
-        localStorage.clear();
-        this.roleService.setUserData({isAdmin: false} as UserData);
+        this.tokenService.logout();
+        this.userDataService.setUser(null);
       }
     });
   }

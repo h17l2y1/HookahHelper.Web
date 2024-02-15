@@ -10,9 +10,10 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Filter} from "../../../interfaces/models/filter";
-import {RoleService} from "../../../services/role.service";
+import {UserDataService} from "../../../services/user-data.service";
 import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
 import {Tag} from "../../../interfaces/entity/tag";
+import {UserPermission} from "../../../shared/user-permission";
 import {TagType} from "../../../interfaces/enums/tag-type";
 
 export interface TobaccoList extends Tobacco {
@@ -25,13 +26,13 @@ export interface TobaccoList extends Tobacco {
   templateUrl: './tobacco-table-list.component.html',
   styleUrls: ['./tobacco-table-list.component.scss']
 })
-export class TobaccoTableListComponent implements OnInit, AfterViewInit {
+export class TobaccoTableListComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() filter$!: Observable<Filter>;
   @Input() filter!: Filter;
 
-  public userData$ = this.roleService.getUserData;
+  public userData$ = this.userDataService.getUser;
   public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
   public displayedColumns!: string[];
   public tobaccos!: Tobacco[];
@@ -44,15 +45,14 @@ export class TobaccoTableListComponent implements OnInit, AfterViewInit {
   public readonly TagType = TagType;
 
   constructor(
+    userDataService: UserDataService,
     public dialog: MatDialog,
-    private tobaccoService: TobaccoService,
-    public roleService: RoleService) {
+    private tobaccoService: TobaccoService) {
+    super(userDataService)
   }
 
   ngOnInit(): void {
-    this.userData$.subscribe(userData => {
-      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
-    });
+    this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
 
     this.filter$.pipe(
       tap(filter => {
@@ -105,7 +105,7 @@ export class TobaccoTableListComponent implements OnInit, AfterViewInit {
           data: {
             tobacco: response
           },
-          width: '75%',
+          // width: '300',
           // height: '300',
           // maxWidth: '1200px',
           backdropClass: 'blurred',

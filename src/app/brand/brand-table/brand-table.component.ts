@@ -3,8 +3,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
-import {RoleService} from "../../services/role.service";
+import {UserDataService} from "../../services/user-data.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
+import {UserPermission} from "../../shared/user-permission";
 
 
 @Component({
@@ -12,9 +13,8 @@ import {TableTypes} from "../../interfaces/enums/table-type";
   templateUrl: './brand-table.component.html',
   styleUrls: ['./brand-table.component.scss']
 })
-export class BrandTableComponent implements OnInit {
+export class BrandTableComponent extends UserPermission implements OnInit {
   public readonly brandTableKey: string = 'brand_table_state';
-  public isAdmin: boolean = false;
   public countryControl: FormControl = this.formBuilder.control('');
   public brandFilterForm: FormGroup = this.initBrandFilterForm();
   public filter$ = this.brandFilterForm.valueChanges;
@@ -22,17 +22,15 @@ export class BrandTableComponent implements OnInit {
   protected readonly TableTypes = TableTypes;
 
   constructor(
-    public roleService: RoleService,
+    userDataService: UserDataService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder) {
+    super(userDataService)
   }
 
   ngOnInit(): void {
     const tableType: TableTypes = this.getTableState();
     this.isTableViewCard = tableType === TableTypes.Card;
-    this.roleService.getUserData.subscribe(userData => {
-      this.isAdmin = userData.isAdmin;
-    })
   }
 
   public switchTableView(type: TableTypes): boolean {

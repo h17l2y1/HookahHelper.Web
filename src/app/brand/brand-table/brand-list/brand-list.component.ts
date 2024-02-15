@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {RoleService} from "../../../services/role.service";
+import {UserDataService} from "../../../services/user-data.service";
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../../brand.service";
 import {Router} from "@angular/router";
@@ -11,7 +11,7 @@ import {map, merge, Observable, startWith, switchMap, tap} from "rxjs";
 import {Brand} from "../../../interfaces/entity/brand";
 import {Filter} from "../../../interfaces/models/filter";
 import {MatSort} from "@angular/material/sort";
-import {UserData} from "../../../interfaces/models/user-data";
+import {UserPermission} from "../../../shared/user-permission";
 
 @Component({
   selector: 'app-brand-list',
@@ -19,11 +19,10 @@ import {UserData} from "../../../interfaces/models/user-data";
   styleUrls: ['./brand-list.component.scss']
 })
 
-export class BrandListComponent implements OnInit, AfterViewInit {
+export class BrandListComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() filter$!: Observable<Filter>;
-  public userData$: Observable<UserData> = this.roleService.getUserData;
   public allColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
   public displayedColumns!: string[];
   public totalRows = 0;
@@ -35,17 +34,16 @@ export class BrandListComponent implements OnInit, AfterViewInit {
   public brands: Brand[] = [];
 
   constructor(
-    public roleService: RoleService,
+    userDataService: UserDataService,
     public dialog: MatDialog,
     private brandService: BrandService,
     private router: Router,
     private cdr: ChangeDetectorRef) {
+    super(userDataService)
   }
 
   ngOnInit(): void {
-    this.userData$.subscribe(userData => {
-      this.displayedColumns = userData.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
-    })
+    this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
   }
 
   ngAfterViewInit(): void {

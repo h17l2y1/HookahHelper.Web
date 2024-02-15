@@ -16,19 +16,18 @@ import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 import {Tag} from "../../interfaces/entity/tag";
 import {TagService} from "../../tag/tag.service";
-import {RoleService} from "../../services/role.service";
-import {UserData} from "../../interfaces/models/user-data";
+import {UserDataService} from "../../services/user-data.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
+import {UserPermission} from "../../shared/user-permission";
 
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent implements OnInit {
+export class TobaccoTableComponent extends UserPermission implements OnInit {
   public readonly tobaccoTableKey: string = 'tobacco_table_state';
   public brandId: string | null = this.route.snapshot.data['brandId'];
-  public userData$: Observable<UserData> = this.roleService.getUserData;
   public isTableViewCard: boolean = true;
   public filters$!: Observable<Filter>;
   public allBrandsOption!: Brand[];
@@ -49,7 +48,7 @@ export class TobaccoTableComponent implements OnInit {
   protected readonly TableTypes = TableTypes;
 
   constructor(
-    public roleService: RoleService,
+    userDataService: UserDataService,
     public dialog: MatDialog,
     private brandService: BrandService,
     private countryService: CountryService,
@@ -59,6 +58,7 @@ export class TobaccoTableComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
+    super(userDataService)
   }
 
   ngOnInit(): void {
@@ -83,7 +83,8 @@ export class TobaccoTableComponent implements OnInit {
           return;
         }
         this.brandControl.setValue(value?.id)
-        this.filteredBrandsOptions = value?.name ? this._filter(this.allBrandsOption, value.name) : this.allBrandsOption.slice();
+        this.filteredBrandsOptions = value?.name ? this._filter(this.allBrandsOption, value.name)
+          : this.allBrandsOption.slice();
       }),
     ).subscribe();
 
@@ -116,7 +117,8 @@ export class TobaccoTableComponent implements OnInit {
           return;
         }
         this.countyControl.setValue(value?.id)
-        this.filteredCountriesOptions = value?.name ? this._filter(this.allCountriesOption, value.name) : this.allCountriesOption.slice();
+        this.filteredCountriesOptions = value?.name ? this._filter(this.allCountriesOption, value.name)
+          : this.allCountriesOption.slice();
       }),
     ).subscribe();
 
