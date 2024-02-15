@@ -35,7 +35,6 @@ export class TobaccoViewComponent {
   }
 
   public initCreateTobaccoForm(): FormGroup {
-
     const form = this.formBuilder.group({
       isAnonymous: this.isAnonymousControl,
       name: this.nameControl,

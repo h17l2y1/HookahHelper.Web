@@ -1,21 +1,23 @@
 <div class="view-popup">
+  <div class="view-popup-header">
+    {{data.tobacco.name}}
+  </div>
   <div class="data-container">
-    <div class="image">
-      <img class="image" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="asdasd"/>
+    <div class="brand-card-image">
+      <img class="image" src="{{data.tobacco.image.link}}" alt="image error"/>
     </div>
     <div class="characteristics">
-      <div>{{ data.tobacco.name }}</div>
       <div class="rating-container">
         <star-rating
           [showHalfStars]="true"
           [starType]="'svg'"
           [rating]="data.tobacco.rating"
-          [readOnly]="true">
+          [readOnly]="true"
+          [size]="'large'">
         </star-rating>
         {{ data.tobacco.rating }} ({{ data.tobacco.ratingCount }})
       </div>
       <div class="parameters">
-        <div>Characteristics</div>
         <div class="param">
           <div class="characteristic-name">Сладкость</div>
           <star-rating
@@ -90,9 +92,9 @@
         </div>
       </div>
     </div>
-    <div class="schema">
-      schema
-    </div>
+<!--    <div class="schema">-->
+<!--      schema-->
+<!--    </div>-->
   </div>
   <div class="review-container">
     <div class="comments-container">

@@ -46,6 +46,7 @@ export class TobaccoTableComponent implements OnInit {
   public tagControl: FormControl = this.formBuilder.control('');
   public filterForm: FormGroup = this.initFilterForm();
   public filters = this.filterForm.value;
+  protected readonly TableTypes = TableTypes;
 
   constructor(
     public roleService: RoleService,
@@ -172,5 +173,4 @@ export class TobaccoTableComponent implements OnInit {
     return array.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
-  protected readonly TableTypes = TableTypes;
 }

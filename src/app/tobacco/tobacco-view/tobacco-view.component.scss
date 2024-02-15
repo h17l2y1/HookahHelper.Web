@@ -2,34 +2,41 @@
   padding: 50px;
   color: whitesmoke;
 
+  .view-popup-header {
+
+  }
+
   .data-container {
-    display: flex;
-    justify-content: space-between;
-    flex-basis: auto;
-    border: 1px solid red;
     padding: 5px;
 
-    .brand-card-image {
-      border: 1px solid #126b6b;
+    //display: grid;
+    //grid-template-columns: repeat(2,1fr) !important;
+    //grid-template-rows: auto;
+    display: flex;
+    gap: 20px;
+    @apply grid;
 
-      max-width: 150px;
-      max-height: 150px;
+    .brand-card-image {
+      .image {
+        width: 100%;
+      }
     }
 
     .characteristics {
-      border: 1px solid #0afd00;
-      max-width: 150px;
-      padding-left: 20px;
-      padding-right: 15px;
-
       .rating-container {
         display: flex;
-        padding-bottom: 20px;
+        align-items: center;
+        margin-bottom: 20px;
       }
 
       .parameters {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
         .param {
           display: flex;
+          align-items: center;
 
           .characteristic-name {
             width: 130px;
@@ -40,8 +47,8 @@
 
     .schema {
       border: 1px solid white;
-      width: 150px;
-      height: 150px;
+      //width: 150px;
+      //height: 150px;
     }
   }
 

@@ -105,7 +105,7 @@ export class TobaccoTableListComponent implements OnInit, AfterViewInit {
           data: {
             tobacco: response
           },
-          // width: '300',
+          width: '75%',
           // height: '300',
           // maxWidth: '1200px',
           backdropClass: 'blurred',

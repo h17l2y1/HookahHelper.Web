@@ -8,6 +8,10 @@
   @apply grid;
   padding: 20px 0 20px 0;
 
+  @media screen and (min-width: 100px) and (max-width: 767px){
+    grid-template-columns: repeat(2,1fr)!important;
+  }
+
   .brand-card {
     border-radius: 8px;
     cursor: pointer;

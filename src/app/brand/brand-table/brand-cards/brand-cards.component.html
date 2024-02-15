@@ -1,7 +1,7 @@
 <div class="brand-container" *ngIf="brands">
   <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
   <div class="card-container">
-    <mat-card class="brand-card" *ngFor="let brand of brands">
+    <mat-card class="brand-card" *ngFor="let brand of brands" (click)="onBrand(brand.id)">
       <img mat-card-image class="brand-card-image" src="{{brand.image.link}}" alt="image error">
       <div class="info">
         <span class="title">{{ brand.name }}</span><br>

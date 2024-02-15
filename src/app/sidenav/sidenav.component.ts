@@ -7,8 +7,9 @@ import {ConfirmationPopupComponent} from "../shared/components/confirmation-popu
 import {RoleService} from "../services/role.service";
 import {UserData} from "../interfaces/models/user-data";
 import {ThemeService} from "./them-picker/theme.service";
-import {Observable} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {Option} from "./them-picker/option.model";
+import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 
 @Component({
   selector: 'sidenav',
@@ -18,13 +19,29 @@ import {Option} from "./them-picker/option.model";
 export class SidenavComponent {
   public user!: UserData;
   public options$: Observable<any> = this.themeService.getThemeOptions();
+  public isMobileHeader!: boolean;
 
   public userData$ = this.roleService.getUserData.subscribe(userData => {
     this.user = userData;
   });
 
-  constructor(public dialog: MatDialog, private roleService: RoleService, private readonly themeService: ThemeService) {
+  constructor(public dialog: MatDialog,
+              private roleService: RoleService,
+              private themeService: ThemeService,
+              private breakpointObserver: BreakpointObserver) {
     this.themeService.setTheme("dark");
+    this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
+      tap((result: BreakpointState) => {
+
+        if (result.matches) {
+          // hide stuff
+          this.isMobileHeader = result.matches;
+        } else {
+          this.isMobileHeader = result.matches;
+          // show stuff
+        }
+      })
+    ).subscribe();
   }
 
   themeChangeHandler(themeToSet: any) {

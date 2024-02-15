@@ -8,11 +8,25 @@
   @apply grid;
   padding: 20px 0 20px 0;
 
+  @media screen and (min-width: 767px) and (max-width: 1000px){
+    grid-template-columns: repeat(4,1fr) !important;
+  }
+
+  @media screen and (min-width: 100px) and (max-width: 767px){
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+
+
+
   .brand-card {
     border-radius: 8px;
     cursor: pointer;
     transition: transform .5s;
     overflow: hidden;
+
+    &:hover {
+      transform: scale(1.1);
+    }
 
     .brand-card-image {
       border-top-left-radius: 8px;
@@ -50,10 +64,6 @@
       display: flex;
       align-items: center;
       //margin-top: 5px;
-    }
-
-    &:hover {
-      transform: scale(1.1);
     }
 
   }
