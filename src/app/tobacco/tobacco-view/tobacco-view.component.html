@@ -3,7 +3,7 @@
     {{data.tobacco.name}}
   </div>
   <div class="data-container">
-    <div class="brand-card-image">
+    <div class="view-card-image">
       <img class="image" src="{{data.tobacco.image.link}}" alt="image error"/>
     </div>
     <div class="characteristics">
@@ -102,7 +102,7 @@
         <div class="comment-header">
           <div class="name-date-container">
             <div class="name">{{ review.name }}</div>
-            <div class="date-time">{{ review.creationDate | date : 'MMM d, y H:mm' }}</div>
+            <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
           </div>
           <star-rating
             [showHalfStars]="true"

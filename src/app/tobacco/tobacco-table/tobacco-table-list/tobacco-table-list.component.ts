@@ -105,7 +105,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
           data: {
             tobacco: response
           },
-          // width: '300',
+          // width: '1000px',
           // height: '300',
           // maxWidth: '1200px',
           backdropClass: 'blurred',
