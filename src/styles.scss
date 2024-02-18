@@ -4,10 +4,10 @@
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
 @import 'ngx-toastr/toastr';
 
-$color-negative-rating: #ae4a4a !default;
-$color-ok-rating: #ff8000 !default;
-$color-positive-rating: #ffa900 !default;
-$color-default-rating: #c8c851 !default;
+$color-negative-rating: #FF6861 !default;
+$color-ok-rating: #FF9500 !default;
+$color-positive-rating: #FFD426 !default;
+$color-default-rating: #969696 !default;
 
 @import 'css-star-rating/scss/star-rating';
 
@@ -20,6 +20,29 @@ body {
   font-family: 'SF Pro Display', "sans-serif";
   padding-left: 36px;
   padding-right: 36px;
+
+  @media screen and (min-width: 100px) and (max-width: 730px){
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #282828;
+}
+
+::-webkit-scrollbar-track {
+  //box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  margin: 2px;
+  //background: #565656;
+  background: #7A1E8A;
+  border-radius: 10px;
 }
 
 //.button {
@@ -32,6 +55,6 @@ body {
   cursor: pointer;
 }
 
-//.blurred {
-//  backdrop-filter: blur(15px);
-//}
+.blurred {
+  backdrop-filter: blur(15px);
+}

@@ -30,11 +30,12 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {TagService} from "../tag/tag.service";
 import {StarRatingModule} from "angular-star-rating";
-import {TobaccoViewComponent} from './tobacco-view/tobacco-view.component';
 import {ReviewService} from "../services/review.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
 import {TagComponentModule} from "../shared/components/tag-component/tag-component.module";
+import { TobaccoViewPageComponent } from './tobacco-table/tobacco-view-page/tobacco-view-page.component';
+import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import {TagComponentModule} from "../shared/components/tag-component/tag-compone
     TobaccoTableCardComponent,
     TobaccoTableListComponent,
     TobaccoTableComponent,
-    TobaccoViewComponent,
+    TobaccoViewPageComponent,
   ],
   imports: [
     CommonModule,
@@ -77,7 +78,8 @@ import {TagComponentModule} from "../shared/components/tag-component/tag-compone
     HeavinessService,
     NamePipe,
     TagService,
-    ReviewService
+    ReviewService,
+    TobaccoResolver
   ]
 })
 export class TobaccoModule {

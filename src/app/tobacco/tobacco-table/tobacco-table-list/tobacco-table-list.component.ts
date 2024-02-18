@@ -11,10 +11,10 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Filter} from "../../../interfaces/models/filter";
 import {UserDataService} from "../../../services/user-data.service";
-import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
 import {Tag} from "../../../interfaces/entity/tag";
 import {UserPermission} from "../../../shared/user-permission";
 import {TagType} from "../../../interfaces/enums/tag-type";
+import {Router} from "@angular/router";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -47,7 +47,9 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   constructor(
     userDataService: UserDataService,
     public dialog: MatDialog,
-    private tobaccoService: TobaccoService) {
+    private tobaccoService: TobaccoService,
+    private router: Router,
+    ) {
     super(userDataService)
   }
 
@@ -99,27 +101,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   }
 
   public onView(id: string): void {
-    this.tobaccoService.getById(id).pipe(
-      tap(response => {
-        const dialogRef = this.dialog.open(TobaccoViewComponent, {
-          data: {
-            tobacco: response
-          },
-          // width: '1000px',
-          // height: '300',
-          // maxWidth: '1200px',
-          backdropClass: 'blurred',
-          enterAnimationDuration: ENTER_ANIMATION_DURATION,
-          exitAnimationDuration: EXIT_ANIMATION_DURATION
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.getTobaccos();
-          }
-        });
-      }))
-      .subscribe();
+    this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
   }
 
   public onEdit(id: string): void {

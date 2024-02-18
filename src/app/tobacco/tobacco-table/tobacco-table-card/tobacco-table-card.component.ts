@@ -2,12 +2,11 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoService} from "../../tobacco.service";
 import {Observable, tap} from "rxjs";
-import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
-import {TobaccoViewComponent} from "../../tobacco-view/tobacco-view.component";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {Filter} from "../../../interfaces/models/filter";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tobacco-table-card',
@@ -28,7 +27,8 @@ export class TobaccoTableCardComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private tobaccoService: TobaccoService
+    private tobaccoService: TobaccoService,
+    private router: Router
   ) {
   }
 
@@ -44,27 +44,7 @@ export class TobaccoTableCardComponent implements OnInit {
   }
 
   public onView(id: string): void {
-    this.tobaccoService.getById(id).pipe(
-      tap(response => {
-        const dialogRef = this.dialog.open(TobaccoViewComponent, {
-          data: {
-            tobacco: response
-          },
-          // width: '300',
-          // height: '300',
-          // maxWidth: '1200px',
-          backdropClass: 'blurred',
-          enterAnimationDuration: ENTER_ANIMATION_DURATION,
-          exitAnimationDuration: EXIT_ANIMATION_DURATION
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.getTobaccos();
-          }
-        });
-      }))
-      .subscribe();
+    this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
   }
 
   public handlePageEvent(e: PageEvent): void {

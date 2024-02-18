@@ -73,7 +73,7 @@ export class BrandCardsComponent implements AfterViewInit {
   }
 
   public onBrand(id: string): void {
-    this.router.navigateByUrl(`/tobacco/${id}`).then(() => {});
+    // this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
   }
 
 }

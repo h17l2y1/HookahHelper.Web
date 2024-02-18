@@ -9,6 +9,9 @@
   --cyan: #5DE6FF;
   /*--purple: #DA8FFF;*/
   --purple: #7a1e8a;
+  --gray-1: #DCE6EB;
+  --gray-2: #747C81;
+  --gray-3: #262A2C;
 }
 
 .purple-background-color {
@@ -98,6 +101,50 @@ body {
   }
 }
 
+.view-popup {
+  background-color: var(--background-color);
+  color: whitesmoke;
+
+  .data-container {
+    .characteristics {
+      .tobacco-name {
+        color: var(--gray-1);
+      }
+
+      .parameters {
+        .param {
+          color: var(--gray-2);
+        }
+      }
+    }
+
+    .schema {
+      background-color: var(--background-main);
+    }
+  }
+
+  .review-container {
+    .comments-container {
+      background-color: var(--background-main);
+
+      .comment {
+        /*  white */
+        /*border-image: linear-gradient(0.25turn, rgb(255, 255, 255), rgba(56,2,155,0));*/
+        border-image: linear-gradient(0.25turn, rgb(122, 30, 138), rgba(56,2,155,0));
+
+
+        .comment-header {
+          color: var(--card-description-color);
+        }
+
+      }
+    }
+
+    .add-review-container {
+      background-color: var(--background-main);
+    }
+  }
+}
 
 
 

@@ -79,7 +79,7 @@ import {ThemeService} from "./sidenav/them-picker/theme.service";
     provideAnimations(),
     provideToastr(),
     StyleManagerService,
-    ThemeService
+    ThemeService,
   ],
   exports: [],
   bootstrap: [AppComponent]
