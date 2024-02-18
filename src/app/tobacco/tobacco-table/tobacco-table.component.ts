@@ -19,6 +19,7 @@ import {TagService} from "../../tag/tag.service";
 import {UserDataService} from "../../services/user-data.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
+import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -46,6 +47,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   public filterForm: FormGroup = this.initFilterForm();
   public filters = this.filterForm.value;
   protected readonly TableTypes = TableTypes;
+  public isMobileMode!: boolean;
 
   constructor(
     userDataService: UserDataService,
@@ -56,9 +58,19 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
     private heavinessService: HeavinessService,
     private tagService: TagService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private breakpointObserver: BreakpointObserver
   ) {
-    super(userDataService)
+    super(userDataService);
+    this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
+      tap((result: BreakpointState) => {
+        if (result.matches) {
+          this.isMobileMode = result.matches;
+        } else {
+          this.isMobileMode = result.matches;
+        }
+      })
+    ).subscribe();
   }
 
   ngOnInit(): void {
@@ -137,7 +149,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
 
   private getTableState(): TableTypes {
     const type = localStorage.getItem(this.tobaccoTableKey);
-    if (!type){
+    if (!type) {
       localStorage.setItem(this.tobaccoTableKey, TableTypes.Card);
       return TableTypes.Card
     }

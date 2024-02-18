@@ -1,11 +1,11 @@
 <div class="table-container">
   <div class="table-top-panel">
-    <form [formGroup]="brandFilterForm" class="example-form test">
-      <mat-form-field class="example-full-width">
+    <form *ngIf="!isMobileMode; else desktopPanel" [formGroup]="brandFilterForm" class="example-form form-container">
+      <mat-form-field class="example-full-width xxx">
         <mat-label>Filter by Name</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
-      <app-country-select [control]="countryControl"></app-country-select>
+      <app-country-select class="xxx" [control]="countryControl"></app-country-select>
       <div>
         <mat-button-toggle-group #group="matButtonToggleGroup">
           <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
@@ -17,15 +17,49 @@
         </mat-button-toggle-group>
       </div>
     </form>
-    <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Створити новий</button>
+    <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+    <ng-template #desktopPanel>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description>
+              This is a summary of the content
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <form [formGroup]="brandFilterForm" class="example-form mobile-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Filter by Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+            <app-country-select class="" [control]="countryControl"></app-country-select>
+            <div>
+              <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
+                  <mat-icon>view_module</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (change)="switchTableView(TableTypes.List)">
+                  <mat-icon>view_list</mat-icon>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Створити
+              новий
+            </button>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-template>
   </div>
 
-  <div *ngIf="isTableViewCard; else listPage">
-    <app-brand-cards [filter$]="filter$"></app-brand-cards>
-  </div>
-  <ng-template #listPage>
-    <app-brand-list [filter$]="filter$"></app-brand-list>
-  </ng-template>
+    <div *ngIf="isTableViewCard; else listPage">
+      <app-brand-cards [filter$]="filter$"></app-brand-cards>
+    </div>
+    <ng-template #listPage>
+      <app-brand-list [filter$]="filter$"></app-brand-list>
+    </ng-template>
 </div>
 
 

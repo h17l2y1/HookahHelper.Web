@@ -2,7 +2,8 @@
   .tobacco-top-panel {
     margin-bottom: -1.25em !important;
 
-    .filter {
+    @media screen and (min-width: 1px) and (max-width: 768px){
+      margin-bottom: 1px !important;
     }
 
     ::ng-deep {
@@ -21,6 +22,10 @@
       display: flex;
       justify-content: space-between;
       gap: 0.5rem;
+
+      @media screen and (min-width: 1px) and (max-width: 768px){
+        flex-direction: column;
+      }
     }
   }
 }

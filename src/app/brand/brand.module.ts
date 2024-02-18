@@ -26,6 +26,7 @@ import {CountrySelectModule} from "../shared/components/country-select/country-s
 import {MatCardModule} from "@angular/material/card";
 import {StarRatingModule} from "angular-star-rating";
 import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {ImageUploadModule} from "../shared/components/image-upload/image-upload.
     CountrySelectModule,
     MatCardModule,
     StarRatingModule,
-    ImageUploadModule
+    ImageUploadModule,
+    MatExpansionModule
   ],
   providers: [
     BrandService,

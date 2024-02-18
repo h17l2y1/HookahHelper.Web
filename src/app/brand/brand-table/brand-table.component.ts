@@ -6,6 +6,8 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants
 import {UserDataService} from "../../services/user-data.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
+import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
+import {tap} from "rxjs";
 
 
 @Component({
@@ -20,12 +22,23 @@ export class BrandTableComponent extends UserPermission implements OnInit {
   public filter$ = this.brandFilterForm.valueChanges;
   public isTableViewCard: boolean = true;
   protected readonly TableTypes = TableTypes;
+  public isMobileMode!: boolean;
 
   constructor(
     userDataService: UserDataService,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder) {
-    super(userDataService)
+    private formBuilder: FormBuilder,
+    private breakpointObserver: BreakpointObserver) {
+    super(userDataService);
+    this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
+      tap((result: BreakpointState) => {
+        if (result.matches) {
+          this.isMobileMode = result.matches;
+        } else {
+          this.isMobileMode = result.matches;
+        }
+      })
+    ).subscribe();
   }
 
   ngOnInit(): void {

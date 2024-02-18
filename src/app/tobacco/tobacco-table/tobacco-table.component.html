@@ -1,6 +1,6 @@
 <div class="tobacco-container">
   <div class="tobacco-top-panel">
-    <form [formGroup]="filterForm" class="example-full-width">
+    <form *ngIf="!isMobileMode; else desktopPanel" [formGroup]="filterForm" class="example-full-width">
       <mat-form-field class="filter">
         <mat-label>Filter by Name</mat-label>
         <input matInput formControlName="name">
@@ -65,6 +65,86 @@
         <button class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
+
+    <ng-template #desktopPanel>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description>
+              This is a summary of the content
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <form [formGroup]="filterForm" class="example-full-width">
+            <mat-form-field class="filter">
+              <mat-label>Filter by Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field class="filter">
+              <mat-label>Смаки</mat-label>
+              <mat-select formControlName="tagId">
+                <mat-option>Усi</mat-option>
+                <mat-option *ngFor="let option of tagsGlobal$ | async" [value]="option.id">
+                  {{option.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="filter">
+              <mat-label>Бренд</mat-label>
+              <input type="text" matInput [formControl]="brandAutocompleteControl" [matAutocomplete]="autoBrands">
+              <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
+                <mat-option>Усi</mat-option>
+                <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="filter">
+              <mat-label>Країна</mat-label>
+              <input type="text" matInput [formControl]="countryAutocompleteControl" [matAutocomplete]="autoCountry">
+              <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
+                <mat-option>Усi</mat-option>
+                <mat-option *ngFor="let option of filteredCountriesOptions" [value]="option">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="filter">
+              <mat-label>Лінійка</mat-label>
+              <mat-select formControlName="lineId">
+                <mat-option *ngFor="let option of linesOption" [value]="option.id">
+                  {{option.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="filter">
+              <mat-label>Важкість</mat-label>
+              <mat-select formControlName="heavinessId">
+                <mat-option>Усi</mat-option>
+                <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
+                  {{option.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="">
+              <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
+                  <mat-icon>view_module</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (change)="switchTableView(TableTypes.List)">
+                  <mat-icon>view_list</mat-icon>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <div class="" *ngIf="user?.isAdmin">
+              <button class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+            </div>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-template>
   </div>
 
   <div *ngIf="isTableViewCard; else listPage">

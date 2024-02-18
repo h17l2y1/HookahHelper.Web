@@ -36,6 +36,8 @@ import {ImageUploadModule} from "../shared/components/image-upload/image-upload.
 import {TagComponentModule} from "../shared/components/tag-component/tag-component.module";
 import { TobaccoViewPageComponent } from './tobacco-table/tobacco-view-page/tobacco-view-page.component';
 import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
+import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -46,30 +48,32 @@ import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
     TobaccoTableComponent,
     TobaccoViewPageComponent,
   ],
-  imports: [
-    CommonModule,
-    TobaccoRoutingModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatTableModule,
-    MatCardModule,
-    SharedModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatBadgeModule,
-    MatSlideToggleModule,
-    MatChipsModule,
-    MatAutocompleteModule,
-    MatButtonToggleModule,
-    StarRatingModule.forRoot(),
-    MatProgressBarModule,
-    ImageUploadModule,
-    TagComponentModule
-  ],
+    imports: [
+        CommonModule,
+        TobaccoRoutingModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatTableModule,
+        MatCardModule,
+        SharedModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatBadgeModule,
+        MatSlideToggleModule,
+        MatChipsModule,
+        MatAutocompleteModule,
+        MatButtonToggleModule,
+        StarRatingModule.forRoot(),
+        MatProgressBarModule,
+        ImageUploadModule,
+        TagComponentModule,
+        CountrySelectModule,
+        MatExpansionModule
+    ],
   providers: [
     TobaccoService,
     BrandService,
