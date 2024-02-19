@@ -15,7 +15,7 @@ export class TobaccoService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Tobacco>> {
+  public getAll(page: number, take: number, sortBy: string, type: string, filters?: Filter | null): Observable<GetAllResponse<Tobacco>> {
     let req = `Tobacco/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
     req = filters?.tagId ? req + `&tagId=${filters.tagId}` : req;

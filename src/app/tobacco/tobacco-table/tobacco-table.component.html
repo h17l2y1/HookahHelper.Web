@@ -65,7 +65,6 @@
         <button class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
       </div>
     </form>
-
     <ng-template #desktopPanel>
       <mat-accordion>
         <mat-expansion-panel>
@@ -148,10 +147,10 @@
   </div>
 
   <div *ngIf="isTableViewCard; else listPage">
-    <app-tobacco-table-card [filter$]="filters$" [filter]="filters"></app-tobacco-table-card>
+    <app-tobacco-table-card></app-tobacco-table-card>
   </div>
   <ng-template #listPage>
-    <app-tobacco-table-list [filter$]="filters$" [filter]="filters"></app-tobacco-table-list>
+    <app-tobacco-table-list></app-tobacco-table-list>
   </ng-template>
 
 </div>

@@ -7,6 +7,7 @@ import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {Filter} from "../../../interfaces/models/filter";
 import {Router} from "@angular/router";
+import {FilterSharedService} from "../../filter-shared.service";
 
 @Component({
   selector: 'app-tobacco-table-card',
@@ -15,9 +16,7 @@ import {Router} from "@angular/router";
 })
 export class TobaccoTableCardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @Input() filter$!: Observable<Filter>;
-  @Input() filter!: Filter;
-
+  public filter?: Filter | null;
   public tobaccos!: Tobacco[];
   public totalRows = 0;
   public currentPage = 0;
@@ -28,19 +27,18 @@ export class TobaccoTableCardComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
-    private router: Router
+    private router: Router,
+    private filterSharedService: FilterSharedService
   ) {
   }
 
   ngOnInit(): void {
-    this.filter$.pipe(
-      tap(filter => {
-        this.filter = filter;
+    this.filterSharedService.getFilters.pipe(
+      tap(value => {
+        this.filter = value;
         this.getTobaccos();
       })
     ).subscribe()
-
-    this.getTobaccos();
   }
 
   public onView(id: string): void {

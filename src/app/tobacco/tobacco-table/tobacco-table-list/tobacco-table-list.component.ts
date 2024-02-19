@@ -15,6 +15,7 @@ import {Tag} from "../../../interfaces/entity/tag";
 import {UserPermission} from "../../../shared/user-permission";
 import {TagType} from "../../../interfaces/enums/tag-type";
 import {Router} from "@angular/router";
+import {FilterSharedService} from "../../filter-shared.service";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -29,9 +30,7 @@ export interface TobaccoList extends Tobacco {
 export class TobaccoTableListComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() filter$!: Observable<Filter>;
-  @Input() filter!: Filter;
-
+  public filter?: Filter | null;
   public userData$ = this.userDataService.getUser;
   public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
   public displayedColumns!: string[];
@@ -49,6 +48,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
     private router: Router,
+    private filterSharedService: FilterSharedService,
     ) {
     super(userDataService);
   }
@@ -56,14 +56,12 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   ngOnInit(): void {
     this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
 
-    this.filter$.pipe(
-      tap(filter => {
-        this.filter = filter;
+    this.filterSharedService.getFilters.pipe(
+      tap(value => {
+        this.filter = value;
         this.getTobaccos();
       })
-    ).subscribe();
-
-    this.getTobaccos();
+    ).subscribe()
   }
 
   ngAfterViewInit(): void {

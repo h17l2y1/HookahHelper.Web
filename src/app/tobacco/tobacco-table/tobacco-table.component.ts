@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Filter} from "../../interfaces/models/filter";
 import {Brand} from "../../interfaces/entity/brand";
 import {Heaviness} from "../../interfaces/entity/heaviness";
@@ -20,6 +20,7 @@ import {UserDataService} from "../../services/user-data.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
+import {FilterSharedService} from "../filter-shared.service";
 
 @Component({
   selector: 'app-tobacco-table',
@@ -28,9 +29,9 @@ import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 })
 export class TobaccoTableComponent extends UserPermission implements OnInit {
   public readonly tobaccoTableKey: string = 'tobacco_table_state';
+  public readonly TableTypes = TableTypes;
   public brandId: string | null = this.route.snapshot.data['brandId'];
   public isTableViewCard: boolean = true;
-  public filters$!: Observable<Filter>;
   public allBrandsOption!: Brand[];
   public filteredBrandsOptions!: Brand[];
   public allCountriesOption!: Country[];
@@ -44,10 +45,9 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   public countyControl: FormControl = this.formBuilder.control('');
   public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
   public tagControl: FormControl = this.formBuilder.control('');
-  public filterForm: FormGroup = this.initFilterForm();
-  public filters = this.filterForm.value;
-  protected readonly TableTypes = TableTypes;
   public isMobileMode!: boolean;
+  public filterForm: FormGroup = this.initFilterForm();
+  // public filterForm!: FormGroup;
 
   constructor(
     userDataService: UserDataService,
@@ -59,7 +59,9 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
     private tagService: TagService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private filterSharedService: FilterSharedService,
+    private cdr: ChangeDetectorRef,
   ) {
     super(userDataService);
     this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
@@ -134,7 +136,34 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
       }),
     ).subscribe();
 
-    this.filters$ = this.filterForm.valueChanges;
+    this.filterForm.valueChanges.pipe(
+      tap((value: Filter) => {
+        this.filterSharedService.setFilters(value);
+      })
+    ).subscribe();
+
+    this.filterSharedService.getFilters.pipe(
+      tap(value => {
+        // console.log(value)
+        // this.initFilterForm1(value)
+        if (value){
+          // this.filterForm.patchValue({brandId: value?.brandId}, {emitEvent: false});
+          console.log('GetFilters - filter', value)
+          console.log('FilterForm before setValue', this.filterForm.value)
+          // this.brandControl.patchValue(value?.brandId, {emitEvent: false});
+          this.brandControl.patchValue(value?.brandId);
+          console.log('FilterForm after setValue', this.filterForm.value)
+          this.cdr.detectChanges();
+        }
+        // console.log('GetFilters', this.filterForm.value)
+        // this.filterForm.patchValue({brandId: value?.brandId}, {emitEvent: false})
+        // console.log(this.filterForm.value);
+        // this.cdr.detectChanges();
+        // this.filterForm.patchValue({brandId: value?.brandId});
+      })
+    ).subscribe();
+
+    console.log('Form after init', this.filterForm.value)
   }
 
   public displayFn(brand: { name: string }): string {
