@@ -7,7 +7,7 @@
   grid-template-rows: auto;
   padding: 20px 0 20px 0;
 
-  @media screen and (min-width: 767px) and (max-width: 1000px){
+  @media screen and (min-width: 768px) and (max-width: 1000px){
     grid-template-columns: repeat(4,1fr) !important;
   }
 
@@ -18,17 +18,22 @@
 
   .brand-card {
     border-radius: 8px;
-    cursor: pointer;
     transition: transform .5s;
     overflow: hidden;
 
-    &:hover {
-      transform: scale(1.1);
+    @media (min-width: 768px) {
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
-    .brand-card-image {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+    .image-link {
+      max-height: 300px;
+      max-width: 300px;
+
+      .image {
+        width: 100%;
+      }
     }
 
     .info {
@@ -55,13 +60,17 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      .title-link {
+        text-decoration: none !important;
+      }
+
     }
 
     .rating-container {
       padding-top: 8px;
       display: flex;
       align-items: center;
-      //margin-top: 5px;
     }
 
   }

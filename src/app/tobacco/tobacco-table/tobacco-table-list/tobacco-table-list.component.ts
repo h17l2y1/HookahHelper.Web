@@ -50,7 +50,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
     private tobaccoService: TobaccoService,
     private router: Router,
     ) {
-    super(userDataService)
+    super(userDataService);
   }
 
   ngOnInit(): void {

@@ -34,7 +34,7 @@ import {ReviewService} from "../services/review.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
 import {TagComponentModule} from "../shared/components/tag-component/tag-component.module";
-import { TobaccoViewPageComponent } from './tobacco-table/tobacco-view-page/tobacco-view-page.component';
+import {TobaccoViewPageComponent} from './tobacco-table/tobacco-view-page/tobacco-view-page.component';
 import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
 import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -48,32 +48,32 @@ import {MatExpansionModule} from "@angular/material/expansion";
     TobaccoTableComponent,
     TobaccoViewPageComponent,
   ],
-    imports: [
-        CommonModule,
-        TobaccoRoutingModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatTableModule,
-        MatCardModule,
-        SharedModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatBadgeModule,
-        MatSlideToggleModule,
-        MatChipsModule,
-        MatAutocompleteModule,
-        MatButtonToggleModule,
-        StarRatingModule.forRoot(),
-        MatProgressBarModule,
-        ImageUploadModule,
-        TagComponentModule,
-        CountrySelectModule,
-        MatExpansionModule
-    ],
+  imports: [
+    CommonModule,
+    TobaccoRoutingModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatTableModule,
+    MatCardModule,
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatBadgeModule,
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    StarRatingModule.forRoot(),
+    MatProgressBarModule,
+    ImageUploadModule,
+    TagComponentModule,
+    CountrySelectModule,
+    MatExpansionModule,
+  ],
   providers: [
     TobaccoService,
     BrandService,
@@ -83,7 +83,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     NamePipe,
     TagService,
     ReviewService,
-    TobaccoResolver
+    TobaccoResolver,
   ]
 })
 export class TobaccoModule {

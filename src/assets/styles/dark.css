@@ -81,6 +81,10 @@ body {
 
   .title {
     color: white;
+
+    .title-link {
+      color: white !important;
+    }
   }
 
   .description {
