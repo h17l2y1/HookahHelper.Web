@@ -150,8 +150,8 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
           // this.filterForm.patchValue({brandId: value?.brandId}, {emitEvent: false});
           console.log('GetFilters - filter', value)
           console.log('FilterForm before setValue', this.filterForm.value)
-          // this.brandControl.patchValue(value?.brandId, {emitEvent: false});
-          this.brandControl.patchValue(value?.brandId);
+          this.brandControl.patchValue(value?.brandId, {emitEvent: false});
+          // this.brandControl.patchValue(value?.brandId);
           console.log('FilterForm after setValue', this.filterForm.value)
           this.cdr.detectChanges();
         }
