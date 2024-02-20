@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Brand} from "../../interfaces/entity/brand";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CreateBrand} from "../../interfaces/other/create-brand";
 import {BrandService} from "../brand.service";
 import {CountryService} from "../../services/country.service";
@@ -17,6 +17,8 @@ import {ImageType} from "../../interfaces/enums/image-type";
 })
 export class BrandCreateComponent {
   public readonly aspectRatio: number = 127/51;
+  public nameControl: FormControl = this.formBuilder.control(null, [Validators.required]);
+  public countryIdControl: FormControl = this.formBuilder.control(null, [Validators.required]);
   public createBrandForm: FormGroup = this.initCreateBrandForm();
   private tempId: number = 0;
   public countries$: Observable<Country[]> = this.countryService.getOptions();
@@ -55,9 +57,9 @@ export class BrandCreateComponent {
         base64: null,
         type: ImageType.Tobacco,
       }),
-      name: [null, [Validators.required]],
+      name: this.nameControl,
       description: null,
-      countryId: [null, [Validators.required]],
+      countryId: this.countryIdControl,
       lines: this.formBuilder.array([
         this.formBuilder.group({
           tempId: this.formBuilder.control(this.getNextId()),

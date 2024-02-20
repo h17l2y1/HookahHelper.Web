@@ -21,6 +21,7 @@ import {TagService} from "../../tag/tag.service";
 })
 export class TobaccoEditorComponent implements OnInit {
   public readonly aspectRatio: number = 1;
+  public nameControl: FormControl = this.formBuilder.control(this.data.tobacco.name, [Validators.required]);
   public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
   public linesOption$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.data.tobacco.brandId);
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
@@ -188,7 +189,7 @@ export class TobaccoEditorComponent implements OnInit {
       id: [this.data.tobacco.id, [Validators.required]],
       rating: [this.data.tobacco.rating, [Validators.required]],
       ratingCount: [this.data.tobacco.ratingCount, [Validators.required]],
-      name: [this.data.tobacco.name, [Validators.required]],
+      name: this.nameControl,
       description: this.data.tobacco.description,
       brandId: {value: this.data.tobacco.brandId, disabled: true},
       lineId: [this.data.tobacco.lineId, [Validators.required]],

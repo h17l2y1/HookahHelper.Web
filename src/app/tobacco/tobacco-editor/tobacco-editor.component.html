@@ -9,6 +9,9 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Назва тютюну</mat-label>
           <input matInput formControlName="name" (keyup)="onChange()">
+          <mat-error *ngIf="nameControl.hasError('required')">
+            Name is required
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Бренд</mat-label>

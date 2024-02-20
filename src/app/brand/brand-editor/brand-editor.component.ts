@@ -18,11 +18,13 @@ import {ImageType} from "../../interfaces/enums/image-type";
 })
 export class BrandEditorComponent implements OnInit {
   public readonly aspectRatio: number = 127/51;
+  public nameControl: FormControl = this.formBuilder.control(null, [Validators.required]);
   public updateBrandForm!: FormGroup;
   private tempId: number = 0;
   public countyControl: FormControl = this.formBuilder.control('', [Validators.required]);
   public brand$: Observable<Brand> = this.brandService.getById(this.data.id).pipe(
     tap(response => {
+      this.nameControl.setValue(response.name);
       this.countyControl.setValue(response.country.id)
       this.updateBrandForm = this.initBrandUpdateForm(response);
     })
@@ -68,7 +70,7 @@ export class BrandEditorComponent implements OnInit {
         base64: null,
         type: ImageType.Brand,
       }),
-      name: [brand.name, [Validators.required]],
+      name: this.nameControl,
       description: brand.description,
       countryId: this.countyControl,
       lines: brand.lines ? this.setLines(brand.lines) : [],

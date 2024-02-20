@@ -31,6 +31,8 @@ export class TobaccoCreateComponent implements OnInit {
   public brandControl: FormControl = this.formBuilder.control('', Validators.required);
   public tagControl = new FormControl('', Validators.required);
   public tagTasteControl = new FormControl('', Validators.required);
+  public heavinessControl: FormControl = this.formBuilder.control(null, [Validators.required]);
+
   public createTobaccoForm: FormGroup = this.initCreateTobaccoForm();
   public linesOption!: Line[];
   public allBrandsOption!: Brand[];
@@ -225,7 +227,7 @@ export class TobaccoCreateComponent implements OnInit {
         {value: null, disabled: true},
         {validators: [Validators.required]}
       ],
-      heavinessId: [null, [Validators.required]],
+      heavinessId: this.heavinessControl,
     });
   };
 

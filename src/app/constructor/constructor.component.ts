@@ -24,6 +24,7 @@ import {ChartValue} from "./chart-value";
 })
 export class ConstructorComponent implements OnInit {
   public brandControl: FormControl = this.formBuilder.control('');
+  public nameControl: FormControl = this.formBuilder.control(null, [Validators.required]);
   public brandAutocompleteControl: FormControl = this.formBuilder.control('');
   public filteredBrandsOptions!: Brand[];
   public allBrandsOption!: Brand[];
@@ -196,7 +197,7 @@ export class ConstructorComponent implements OnInit {
 
   private initFormArray(): FormGroup {
     return this.formBuilder.group({
-      name: [null, [Validators.required]],
+      name: this.nameControl,
       tobaccoMixes: this.formBuilder.array([], this.MyCustomValidator),
     })
   }

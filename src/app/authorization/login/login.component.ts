@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {User} from "../../interfaces/entity/user";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "../auth.service";
 import {TokenService} from "../../services/token.service";
@@ -11,6 +11,8 @@ import {TokenService} from "../../services/token.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  public emailControl: FormControl = this.formBuilder.control(null, [Validators.required, Validators.email]);
+  public passwordControl: FormControl = this.formBuilder.control(null, [Validators.required, Validators.minLength(8)]);
   public createLoginForm: FormGroup = this.initLoginUserForm();
 
   constructor(
@@ -40,8 +42,8 @@ export class LoginComponent {
 
   private initLoginUserForm(): FormGroup {
     return this.formBuilder.group({
-      email: [null, [Validators.required]],
-      password: [null, [Validators.required]]
+      email: this.emailControl,
+      password: this.passwordControl
     })
   }
 

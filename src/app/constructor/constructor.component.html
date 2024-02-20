@@ -5,6 +5,9 @@
         <mat-form-field>
           <mat-label>Назва</mat-label>
           <input matInput formControlName="name" placeholder="Назва мiксу">
+          <mat-error *ngIf="nameControl.hasError('required')">
+            Name is required
+          </mat-error>
         </mat-form-field>
         <button class="button" mat-flat-button (click)="onSave()">Створити</button>
         <button class="button push" mat-flat-button (click)="onReset()">Reset</button>

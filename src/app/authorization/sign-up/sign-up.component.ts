@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {User} from "../../interfaces/entity/user";
 
@@ -16,6 +16,8 @@ interface Role {
 
 
 export class SignUpComponent {
+  public passwordControl: FormControl = this.formBuilder.control('', [Validators.required, Validators.minLength(8)]);
+  public confirmPasswordControl: FormControl = this.formBuilder.control('', [Validators.required]);
   public createSignUpForm: FormGroup = this.initCreateUserForm();
   roles: Role[] = [
     {value: 'admin', viewValue: 'Admin'},
@@ -43,10 +45,29 @@ export class SignUpComponent {
     return this.formBuilder.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
-      email: ["test_mail@gmail.com", [Validators.required]],
-      password: ["kHK4*v#f47", [Validators.required]],
-      confirmPassword: ["kHK4*v#f47", [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      password: this.passwordControl,
+      confirmPassword: this.confirmPasswordControl,
       role: ['user', [Validators.required]],
-    });
+    },
+      { validator: this.passwordMatchValidator });
   };
+
+  passwordMatchValidator(control: AbstractControl) {
+    const passwordControl = control.get('password');
+    const confirmPasswordControl = control.get('confirmPassword');
+
+    if (!passwordControl || !confirmPasswordControl) {
+      return null;
+    }
+
+    const password = passwordControl.value;
+    const confirmPassword = confirmPasswordControl.value;
+
+    if (!password || !confirmPassword) {
+      return null;
+    }
+
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
 }

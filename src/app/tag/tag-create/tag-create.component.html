@@ -5,6 +5,9 @@
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Назва тегу</mat-label>
         <input matInput formControlName="name" (keyup)="onChange()">
+        <mat-error *ngIf="nameControl.hasError('required')">
+          Name is required
+        </mat-error>
       </mat-form-field>
       <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
       <div class="tag-view-container">

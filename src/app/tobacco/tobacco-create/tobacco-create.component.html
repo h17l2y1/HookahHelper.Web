@@ -9,10 +9,16 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Назва тютюну</mat-label>
           <input matInput formControlName="name" (keyup)="onChange()">
+          <mat-error *ngIf="nameControl.hasError('required')">
+            Name is required
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Бренд</mat-label>
           <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="autoBrands">
+          <mat-error *ngIf="brandControl.hasError('required')">
+            Brand is required
+          </mat-error>
           <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
               {{option.name}}
@@ -26,6 +32,9 @@
               {{option.name}}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="heavinessControl.hasError('required')">
+            Heaviness is required
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Лiнiйка</mat-label>
