@@ -4,15 +4,8 @@ import {AdminGuard} from "./services/guards/admin.guard";
 import {UrlIdResolver} from "./services/resolvers/url-id.resolver";
 
 const routes: Routes = [
-  // {
-  //   path: 'tobaccos/:id',
-  //   loadChildren: () => import('./tobacco/tobacco.module').then(m => m.TobaccoModule),
-  //   resolve: {
-  //     brandId: UrlIdResolver
-  //   }
-  // },
-  {path: 'tobaccos', loadChildren: () => import('./tobacco/tobacco.module').then(m => m.TobaccoModule)},
   {path: 'brands', loadChildren: () => import('./brand/brand.module').then(m => m.BrandModule)},
+  {path: 'tobaccos', loadChildren: () => import('./tobacco/tobacco.module').then(m => m.TobaccoModule)},
   {
     path: 'tags',
     loadChildren: () => import('./tag/tag.module').then(m => m.TagModule),
@@ -20,7 +13,7 @@ const routes: Routes = [
   },
   {path: 'constructor', loadChildren: () => import('./constructor/constructor.module').then(m => m.ConstructorModule)},
   {path: 'mixes', loadChildren: () => import('./top-mix/top-mix.module').then(m => m.TopMixModule)},
-  {path: '', redirectTo: 'tobaccos', pathMatch: 'full'},
+  {path: '', redirectTo: '/tobaccos', pathMatch: 'full'},
 ];
 
 @NgModule({

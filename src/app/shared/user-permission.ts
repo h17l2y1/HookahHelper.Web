@@ -1,10 +1,10 @@
 import {UserData} from "../interfaces/models/user-data";
-import {UserDataService} from "../services/user-data.service";
+import {UserDataSharedService} from "../services/shared/user-data-shared.service";
 
 export class UserPermission {
   public user?: UserData | null;
 
-  constructor(protected userDataService: UserDataService) {
+  constructor(protected userDataService: UserDataSharedService) {
     this.userDataService.getUser.subscribe(userData => {
       this.user = userData;
     });

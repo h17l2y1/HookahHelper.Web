@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {UserData} from "../interfaces/models/user-data";
+import {UserData} from "../../interfaces/models/user-data";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserDataService {
+export class UserDataSharedService {
 
   private userData = new BehaviorSubject<UserData | null>(null);
   public getUser = this.userData.asObservable();

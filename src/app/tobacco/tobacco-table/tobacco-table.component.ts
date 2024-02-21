@@ -16,7 +16,7 @@ import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 import {Tag} from "../../interfaces/entity/tag";
 import {TagService} from "../../tag/tag.service";
-import {UserDataService} from "../../services/user-data.service";
+import {UserDataSharedService} from "../../services/shared/user-data-shared.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
@@ -31,7 +31,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   public readonly tobaccoTableKey: string = 'tobacco_table_state';
   public readonly TableTypes = TableTypes;
   public brandId: string | null = this.route.snapshot.data['brandId'];
-  public isTableViewCard: boolean = true;
+  public isTableViewCard: boolean = this.getTableState() === TableTypes.Card;
   public allBrandsOption!: Brand[];
   public filteredBrandsOptions!: Brand[];
   public allCountriesOption!: Country[];
@@ -50,7 +50,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   // public filterForm!: FormGroup;
 
   constructor(
-    userDataService: UserDataService,
+    userDataService: UserDataSharedService,
     public dialog: MatDialog,
     private brandService: BrandService,
     private countryService: CountryService,
@@ -76,9 +76,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   }
 
   ngOnInit(): void {
-    const tableType: TableTypes = this.getTableState();
-    this.isTableViewCard = tableType === TableTypes.Card;
-
     this.brandService.getOptions().pipe(
       tap(brands => {
         this.allBrandsOption = brands;
@@ -138,6 +135,8 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
 
     this.filterForm.valueChanges.pipe(
       tap((value: Filter) => {
+        value.brandId = this.brandId;
+        console.log('filterForm.valueChanges', value);
         this.filterSharedService.setFilters(value);
       })
     ).subscribe();
@@ -147,13 +146,15 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
         // console.log(value)
         // this.initFilterForm1(value)
         if (value){
+          // this.filterForm.patchValue(value, {emitEvent: false});
+          console.log('SharedService.getFilters', value)
           // this.filterForm.patchValue({brandId: value?.brandId}, {emitEvent: false});
-          console.log('GetFilters - filter', value)
-          console.log('FilterForm before setValue', this.filterForm.value)
-          this.brandControl.patchValue(value?.brandId, {emitEvent: false});
+          // console.log('GetFilters - filter', value)
+          // console.log('FilterForm before setValue', this.filterForm.value)
+          // this.brandControl.patchValue(value?.brandId, {emitEvent: false});
           // this.brandControl.patchValue(value?.brandId);
-          console.log('FilterForm after setValue', this.filterForm.value)
-          this.cdr.detectChanges();
+          // console.log('FilterForm after setValue', this.filterForm.value)
+          // this.cdr.detectChanges();
         }
         // console.log('GetFilters', this.filterForm.value)
         // this.filterForm.patchValue({brandId: value?.brandId}, {emitEvent: false})
@@ -163,7 +164,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
       })
     ).subscribe();
 
-    console.log('Form after init', this.filterForm.value)
+    // console.log('Form after init', this.filterForm.value)
   }
 
   public displayFn(brand: { name: string }): string {

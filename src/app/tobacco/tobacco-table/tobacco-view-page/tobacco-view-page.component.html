@@ -93,48 +93,48 @@
       schema
     </div>
   </div>
-    <div class="review-container">
-      <div class="comments-container">
-        <div class="comment" *ngFor="let review of tobacco.reviews">
-          <div class="comment-header">
-            <div class="name-date-container">
-              <div class="name">{{ review.name }}</div>
-              <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
-            </div>
-            <star-rating
-              [showHalfStars]="true"
-              [starType]="'svg'"
-              [rating]="review.rating"
-              [readOnly]="true">
-            </star-rating>
+  <div class="review-container">
+    <div class="comments-container">
+      <div class="comment" *ngFor="let review of tobacco.reviews">
+        <div class="comment-header">
+          <div class="name-date-container">
+            <div class="name">{{ review.name }}</div>
+            <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
           </div>
-          <div class="text">{{ review.comment }}</div>
+          <star-rating
+            [showHalfStars]="true"
+            [starType]="'svg'"
+            [rating]="review.rating"
+            [readOnly]="true">
+          </star-rating>
         </div>
-      </div>
-      <div class="add-review-container">
-        <form class="example-form add-review" [formGroup]="createReviewForm">
-          <div>Write review</div>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name">
-          </mat-form-field>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Review</mat-label>
-            <textarea matInput placeholder="Your review" formControlName="text"></textarea>
-          </mat-form-field>
-          <div class="rating">
-            <star-rating-control
-              [showHalfStars]="true"
-              [starType]="'svg'"
-              [readOnly]="false"
-              labelPosition="top"
-              labelText="Rating"
-              formControlName="rating"
-              [hoverEnabled]="true">
-            </star-rating-control>
-          </div>
-          <button class="button popup-actions-button blue-color" mat-flat-button (click)="onSend()">Send</button>
-        </form>
+        <div class="text">{{ review.comment }}</div>
       </div>
     </div>
+    <div class="add-review-container">
+      <form class="example-form add-review" [formGroup]="createReviewForm">
+        <div>Write review</div>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Review</mat-label>
+          <textarea matInput placeholder="Your review" formControlName="text"></textarea>
+        </mat-form-field>
+        <div class="rating">
+          <star-rating-control
+            [showHalfStars]="true"
+            [starType]="'svg'"
+            [readOnly]="false"
+            labelPosition="top"
+            labelText="Rating"
+            formControlName="rating"
+            [hoverEnabled]="true">
+          </star-rating-control>
+        </div>
+        <button class="button popup-actions-button blue-color" mat-flat-button (click)="onSend()">Send</button>
+      </form>
+    </div>
+  </div>
 </div>

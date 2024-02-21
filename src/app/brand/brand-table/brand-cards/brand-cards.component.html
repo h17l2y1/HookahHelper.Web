@@ -1,9 +1,8 @@
 <div class="brand-container" *ngIf="brands">
   <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
   <div class="card-container">
-    <mat-card class="brand-card" *ngFor="let brand of brands" (click)="onBrand(brand.id)">
-<!--      <a class="image-link" [routerLink]="['/tobaccos/', brand.id]">-->
-      <a class="image-link" [routerLink]="['/tobaccos/']">
+    <mat-card class="brand-card" *ngFor="let brand of brands">
+      <a class="image-link" [routerLink]="['/tobaccos/', brand.id]">
         <img mat-card-image class="brand-card-image" src="{{brand.image.link}}" alt="image error">
       </a>
       <div class="info">

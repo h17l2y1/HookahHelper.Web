@@ -68,6 +68,11 @@ body {
   }
 }
 
+.table-secondary-columns {
+  /*TODO: сделать цвет всех второстепенных колонок темнее*/
+  color: var(--card-description-color) !important;
+}
+
 .mat-mdc-card {
   box-shadow: none;
   color: #d3d3d3;

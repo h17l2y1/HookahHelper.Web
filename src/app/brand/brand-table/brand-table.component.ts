@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
-import {UserDataService} from "../../services/user-data.service";
+import {UserDataSharedService} from "../../services/shared/user-data-shared.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
@@ -25,7 +25,7 @@ export class BrandTableComponent extends UserPermission implements OnInit {
   public isMobileMode!: boolean;
 
   constructor(
-    userDataService: UserDataService,
+    userDataService: UserDataSharedService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver) {

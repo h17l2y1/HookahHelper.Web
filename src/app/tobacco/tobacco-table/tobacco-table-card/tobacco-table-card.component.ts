@@ -6,7 +6,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {Filter} from "../../../interfaces/models/filter";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FilterSharedService} from "../../filter-shared.service";
 
 @Component({
@@ -16,6 +16,7 @@ import {FilterSharedService} from "../../filter-shared.service";
 })
 export class TobaccoTableCardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  public brandId: string | null = this.route.snapshot.data['brandId'];
   public filter?: Filter | null;
   public tobaccos!: Tobacco[];
   public totalRows = 0;
@@ -28,21 +29,20 @@ export class TobaccoTableCardComponent implements OnInit {
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
     private router: Router,
-    private filterSharedService: FilterSharedService
-  ) {
+    private route: ActivatedRoute,
+    private filterSharedService: FilterSharedService) {
   }
 
   ngOnInit(): void {
     this.filterSharedService.getFilters.pipe(
       tap(value => {
         this.filter = value;
+        if (this.filter){
+          this.filter.brandId = this.brandId;
+        }
         this.getTobaccos();
       })
     ).subscribe()
-  }
-
-  public onView(id: string): void {
-    this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
   }
 
   public handlePageEvent(e: PageEvent): void {

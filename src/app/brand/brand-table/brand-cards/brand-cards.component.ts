@@ -27,7 +27,8 @@ export class BrandCardsComponent implements AfterViewInit {
     public dialog: MatDialog,
     private brandService: BrandService,
     private cdr: ChangeDetectorRef,
-    private router: Router) {
+    private router: Router,
+    ) {
   }
 
   ngAfterViewInit(): void {
@@ -70,10 +71,6 @@ export class BrandCardsComponent implements AfterViewInit {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
     this.brandService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filter);
-  }
-
-  public onBrand(id: string): void {
-    // this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
   }
 
 }

@@ -6,11 +6,11 @@ import {tap, throwError} from 'rxjs';
 import {TokenService} from "../token.service";
 import {Tokens} from "../../interfaces/models/tokens";
 import {UserData} from "../../interfaces/models/user-data";
-import {UserDataService} from "../user-data.service";
+import {UserDataSharedService} from "../shared/user-data-shared.service";
 
 @Injectable()
 export class JwtRefreshInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, private tokenService: TokenService, private userDataService: UserDataService) {
+  constructor(private authService: AuthService, private tokenService: TokenService, private userDataService: UserDataSharedService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {

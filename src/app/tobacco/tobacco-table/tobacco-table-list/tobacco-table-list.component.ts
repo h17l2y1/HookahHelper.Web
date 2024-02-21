@@ -10,7 +10,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Filter} from "../../../interfaces/models/filter";
-import {UserDataService} from "../../../services/user-data.service";
+import {UserDataSharedService} from "../../../services/shared/user-data-shared.service";
 import {Tag} from "../../../interfaces/entity/tag";
 import {UserPermission} from "../../../shared/user-permission";
 import {TagType} from "../../../interfaces/enums/tag-type";
@@ -44,7 +44,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   public readonly TagType = TagType;
 
   constructor(
-    userDataService: UserDataService,
+    userDataService: UserDataSharedService,
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
     private router: Router,
@@ -99,7 +99,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   }
 
   public onView(id: string): void {
-    this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
+    this.router.navigateByUrl(`/tobacco/${id}`).then(() => {});
   }
 
   public onEdit(id: string): void {

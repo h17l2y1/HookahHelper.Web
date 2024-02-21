@@ -17,7 +17,8 @@
         </mat-button-toggle-group>
       </div>
     </form>
-    <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+    <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Create
+    </button>
     <ng-template #desktopPanel>
       <mat-accordion>
         <mat-expansion-panel>
@@ -45,7 +46,8 @@
                 </mat-button-toggle>
               </mat-button-toggle-group>
             </div>
-            <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Створити
+            <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">
+              Створити
               новий
             </button>
           </form>
@@ -54,12 +56,12 @@
     </ng-template>
   </div>
 
-    <div *ngIf="isTableViewCard; else listPage">
-      <app-brand-cards [filter$]="filter$"></app-brand-cards>
-    </div>
-    <ng-template #listPage>
-      <app-brand-list [filter$]="filter$"></app-brand-list>
-    </ng-template>
+  <div *ngIf="isTableViewCard; else listPage">
+    <app-brand-cards [filter$]="filter$"></app-brand-cards>
+  </div>
+  <ng-template #listPage>
+    <app-brand-list [filter$]="filter$"></app-brand-list>
+  </ng-template>
 </div>
 
 

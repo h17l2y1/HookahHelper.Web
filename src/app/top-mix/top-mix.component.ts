@@ -6,7 +6,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {Mix} from "../interfaces/entity/mix";
 import {TopMixService} from "./top-mix.service";
 import {map, merge, startWith, switchMap, tap} from "rxjs";
-import {UserDataService} from "../services/user-data.service";
+import {UserDataSharedService} from "../services/shared/user-data-shared.service";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {MatDialog} from "@angular/material/dialog";
 import {MixViewComponent} from "./mix-view/mix-view.component";
@@ -35,10 +35,10 @@ export class TopMixComponent extends UserPermission implements OnInit, AfterView
   public dataSource!: MatTableDataSource<Mix>;
 
   constructor(
-    userDataService: UserDataService,
+    userDataService: UserDataSharedService,
     private mixService: TopMixService,
     public dialog: MatDialog) {
-    super(userDataService)
+    super(userDataService);
   }
 
   ngOnInit(): void {

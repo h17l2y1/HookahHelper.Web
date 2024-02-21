@@ -22,7 +22,7 @@ export class TobaccoViewPageComponent {
   public userData: UserData = this.getUser();
   public isAnonymousControl: FormControl = this.formBuilder.control(this.userData.isAnonymous, [Validators.required]);
   public nameControl: FormControl = this.formBuilder.control(this.userData.userName, [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
-  public createReviewForm: FormGroup = this.initCreateTobaccoForm();
+  public createReviewForm: FormGroup = this.initReviewTobaccoForm();
   public tobacco: Tobacco | null = this.route.snapshot.data['tobacco'];
 
   constructor(
@@ -33,7 +33,7 @@ export class TobaccoViewPageComponent {
   ) {
   }
 
-  public initCreateTobaccoForm(): FormGroup {
+  public initReviewTobaccoForm(): FormGroup {
     const form = this.formBuilder.group({
       isAnonymous: this.isAnonymousControl,
       name: this.nameControl,
@@ -52,21 +52,18 @@ export class TobaccoViewPageComponent {
       return;
     }
     const request = this.mapRequestModel();
-    this.reviewService.createReview(request).subscribe(() => {
-      // this.dialogRef.close(true);
-    });
+    this.reviewService.createReview(request).subscribe();
   }
 
   private mapRequestModel(): Review {
-    let form: Review = {
+    return {
       isAnonymous: this.createReviewForm.value.isAnonymous,
       comment: this.createReviewForm.value.text,
       rating: this.createReviewForm.value.rating,
       tobaccoId: this.tobacco?.id,
       name: this.createReviewForm.value.name,
       userId: this.userData.userId
-    } as Review
-    return form;
+    } as Review;
   }
 
   private getUser(): UserData {

@@ -1,9 +1,8 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {UserDataService} from "../../../services/user-data.service";
+import {UserDataSharedService} from "../../../services/shared/user-data-shared.service";
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../../brand.service";
-import {Router} from "@angular/router";
 import {BrandEditorComponent} from "../../brand-editor/brand-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {ConfirmationPopupComponent} from "../../../shared/components/confirmation-popup/confirmation-popup.component";
@@ -12,6 +11,7 @@ import {Brand} from "../../../interfaces/entity/brand";
 import {Filter} from "../../../interfaces/models/filter";
 import {MatSort} from "@angular/material/sort";
 import {UserPermission} from "../../../shared/user-permission";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-brand-list',
@@ -34,12 +34,12 @@ export class BrandListComponent extends UserPermission implements OnInit, AfterV
   public brands: Brand[] = [];
 
   constructor(
-    userDataService: UserDataService,
+    userDataService: UserDataSharedService,
     public dialog: MatDialog,
     private brandService: BrandService,
     private router: Router,
     private cdr: ChangeDetectorRef) {
-    super(userDataService)
+    super(userDataService);
   }
 
   ngOnInit(): void {
@@ -118,8 +118,8 @@ export class BrandListComponent extends UserPermission implements OnInit, AfterV
     });
   }
 
-  public onBrand(id: string): void {
-    // this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
+  public onBrandList(id: string): void {
+    this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
   }
 
 }

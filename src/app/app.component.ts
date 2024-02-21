@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UserDataService} from "./services/user-data.service";
+import {UserDataSharedService} from "./services/shared/user-data-shared.service";
 import {TokenService} from "./services/token.service";
 
 @Component({
@@ -9,7 +9,7 @@ import {TokenService} from "./services/token.service";
 })
 export class AppComponent {
 
-  constructor(private userDataService: UserDataService, private tokenService: TokenService) {
+  constructor(private userDataService: UserDataSharedService, private tokenService: TokenService) {
     const userData = this.tokenService.getUserData();
     if (userData){
       this.userDataService.setUser(userData);

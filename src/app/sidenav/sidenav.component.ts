@@ -4,7 +4,7 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 import {LoginComponent} from "../authorization/login/login.component";
 import {ConfirmationPopupComponent} from "../shared/components/confirmation-popup/confirmation-popup.component";
-import {UserDataService} from "../services/user-data.service";
+import {UserDataSharedService} from "../services/shared/user-data-shared.service";
 import {TokenService} from "../services/token.service";
 import {UserPermission} from "../shared/user-permission";
 import {UserData} from "../interfaces/models/user-data";
@@ -22,12 +22,12 @@ export class SidenavComponent extends UserPermission {
   public isMobileHeader!: boolean;
 
   constructor(
-    userDataService: UserDataService,
+    userDataService: UserDataSharedService,
     private dialog: MatDialog,
     private themeService: ThemeService,
     private breakpointObserver: BreakpointObserver,
     private tokenService: TokenService) {
-    super(userDataService)
+    super(userDataService);
     this.themeService.setTheme("dark");
     this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
       tap((result: BreakpointState) => {
