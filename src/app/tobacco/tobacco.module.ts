@@ -39,6 +39,7 @@ import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
 import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {FilterSharedService} from "./filter-shared.service";
+import {TobaccoFilterOptionsResolver} from "./tobacco-table/tobacco-filter-options.resolver";
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {FilterSharedService} from "./filter-shared.service";
     TagService,
     ReviewService,
     TobaccoResolver,
+    TobaccoFilterOptionsResolver,
     FilterSharedService,
   ]
 })

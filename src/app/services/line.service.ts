@@ -12,7 +12,7 @@ export class LineService {
   constructor(private http: HttpClient) {
   }
 
-  public getLinesByBrandId(id: string): Observable<Line[]> {
+  public getLinesByBrandId(id?: string | null): Observable<Line[]> {
     return this.http.get<Line[]>(this.rootUrl + `Line/GetLinesByBrandId/${id}`);
   }
 

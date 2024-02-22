@@ -37,9 +37,9 @@ export class TobaccoTableCardComponent implements OnInit {
     this.filterSharedService.getFilters.pipe(
       tap(value => {
         this.filter = value;
-        if (this.filter){
-          this.filter.brandId = this.brandId;
-        }
+        // if (this.filter){
+        //   this.filter.brandId = this.brandId;
+        // }
         this.getTobaccos();
       })
     ).subscribe()

@@ -12,10 +12,10 @@ export class FilterSharedService {
     lineId: null,
     heavinessId: null
   }
-  private filters = new BehaviorSubject<Filter | null>(this.filter);
+  private filters = new BehaviorSubject<Filter>(this.filter);
   public getFilters = this.filters.asObservable();
 
-  public setFilters(filter: Filter | null) {
+  public setFilters(filter: Filter) {
     this.filters.next(filter)
   }
 }

@@ -7,13 +7,22 @@ import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {UrlIdResolver} from "../services/resolvers/url-id.resolver";
 import {TobaccoViewPageComponent} from "./tobacco-table/tobacco-view-page/tobacco-view-page.component";
 import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
+import {TobaccoFilterOptionsResolver} from "./tobacco-table/tobacco-filter-options.resolver";
 
 const routes: Routes = [
   {
-    path: '', component: TobaccoTableComponent
+    path: '', component: TobaccoTableComponent,
+    resolve: {
+      options: TobaccoFilterOptionsResolver,
+    }
   },
   {
-    path: ':id', component: TobaccoTableComponent, resolve: {brandId: UrlIdResolver}
+    path: ':id',
+    component: TobaccoTableComponent,
+    resolve: {
+      brandId: UrlIdResolver,
+      options: TobaccoFilterOptionsResolver,
+    }
   },
   {
     path: 'tobacco/:id', component: TobaccoViewPageComponent, resolve: {tobacco: TobaccoResolver}

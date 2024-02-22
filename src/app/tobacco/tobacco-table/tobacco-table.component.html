@@ -1,4 +1,4 @@
-<div class="tobacco-container">
+<div class="tobacco-container" *ngIf="options">
   <div class="tobacco-top-panel">
     <form *ngIf="!isMobileMode; else desktopPanel" [formGroup]="filterForm" class="example-full-width">
       <mat-form-field class="filter">
@@ -9,8 +9,8 @@
         <mat-label>Смаки</mat-label>
         <mat-select formControlName="tagId">
           <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let option of tagsGlobal$ | async" [value]="option.id">
-            {{option.name}}
+          <mat-option *ngFor="let option of options.tags" [value]="option.id">
+            {{ option.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -20,9 +20,12 @@
         <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
           <mat-option>Усi</mat-option>
           <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
-            {{option.name}}
+            {{ option.name }}
           </mat-option>
         </mat-autocomplete>
+        <button *ngIf="brandControl.value" matSuffix mat-icon-button (click)="clearBrands()">
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
       <mat-form-field class="filter">
         <mat-label>Країна</mat-label>
@@ -30,7 +33,7 @@
         <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
           <mat-option>Усi</mat-option>
           <mat-option *ngFor="let option of filteredCountriesOptions" [value]="option">
-            {{option.name}}
+            {{ option.name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -38,7 +41,7 @@
         <mat-label>Лінійка</mat-label>
         <mat-select formControlName="lineId">
           <mat-option *ngFor="let option of linesOption" [value]="option.id">
-            {{option.name}}
+            {{ option.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -46,8 +49,8 @@
         <mat-label>Важкість</mat-label>
         <mat-select formControlName="heavinessId">
           <mat-option>Усi</mat-option>
-          <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
-            {{option.name}}
+          <mat-option *ngFor="let option of options.heaviness" [value]="option.id">
+            {{ option.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -85,8 +88,8 @@
               <mat-label>Смаки</mat-label>
               <mat-select formControlName="tagId">
                 <mat-option>Усi</mat-option>
-                <mat-option *ngFor="let option of tagsGlobal$ | async" [value]="option.id">
-                  {{option.name}}
+                <mat-option *ngFor="let option of options.tags" [value]="option.id">
+                  {{ option.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -96,7 +99,7 @@
               <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
                 <mat-option>Усi</mat-option>
                 <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
-                  {{option.name}}
+                  {{ option.name }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -106,7 +109,7 @@
               <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
                 <mat-option>Усi</mat-option>
                 <mat-option *ngFor="let option of filteredCountriesOptions" [value]="option">
-                  {{option.name}}
+                  {{ option.name }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -114,7 +117,7 @@
               <mat-label>Лінійка</mat-label>
               <mat-select formControlName="lineId">
                 <mat-option *ngFor="let option of linesOption" [value]="option.id">
-                  {{option.name}}
+                  {{ option.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -122,8 +125,8 @@
               <mat-label>Важкість</mat-label>
               <mat-select formControlName="heavinessId">
                 <mat-option>Усi</mat-option>
-                <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
-                  {{option.name}}
+                <mat-option *ngFor="let option of options.heaviness" [value]="option.id">
+                  {{ option.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
