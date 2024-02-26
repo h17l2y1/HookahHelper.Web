@@ -6,11 +6,11 @@ import {Filter} from "../interfaces/models/filter";
 export class FilterSharedService {
   private filter: Filter = {
     name: null,
-    tagId: null,
-    brandId: null,
-    countryId: null,
-    lineId: null,
-    heavinessId: null
+    tag: null,
+    brand: null,
+    country: null,
+    line: null,
+    heaviness: null
   }
   private filters = new BehaviorSubject<Filter>(this.filter);
   public getFilters = this.filters.asObservable();

@@ -18,11 +18,11 @@ export class TobaccoService {
   public getAll(page: number, take: number, sortBy: string, type: string, filters?: Filter | null): Observable<GetAllResponse<Tobacco>> {
     let req = `Tobacco/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
-    req = filters?.tagId ? req + `&tagId=${filters.tagId}` : req;
-    req = filters?.brandId ? req + `&brandId=${filters.brandId}` : req;
-    req = filters?.countryId ? req + `&countryId=${filters.countryId}` : req;
-    req = filters?.lineId ? req + `&lineId=${filters.lineId}` : req;
-    req = filters?.heavinessId ? req + `&heavinessId=${filters.heavinessId}` : req;
+    req = filters?.tag?.id ? req + `&tagId=${filters.tag.id}` : req;
+    req = filters?.brand?.id ? req + `&brandId=${filters.brand.id}` : req;
+    req = filters?.country?.id ? req + `&countryId=${filters.country.id}` : req;
+    req = filters?.line?.id ? req + `&lineId=${filters.line.id}` : req;
+    req = filters?.heaviness?.id ? req + `&heavinessId=${filters.heaviness.id}` : req;
 
     return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
   }

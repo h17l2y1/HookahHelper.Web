@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Filter} from "../../interfaces/models/filter";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
-import {filter, Observable, startWith, switchMap, tap} from "rxjs";
+import {filter, map, Observable, startWith, switchMap, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
@@ -16,34 +16,40 @@ import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 import {FilterSharedService} from "../filter-shared.service";
 import {TobaccoOptions} from "../../interfaces/models/tobacco-options";
-export interface OptionValue {
-  value: number;
-  description: string;
+import {Tag} from "../../interfaces/entity/tag";
+import {Heaviness} from "../../interfaces/entity/heaviness";
+
+interface FilterData {
+  id: string;
+  name: string;
 }
+
 @Component({
   selector: 'app-tobacco-table',
   templateUrl: './tobacco-table.component.html',
   styleUrls: ['./tobacco-table.component.scss']
 })
-export class TobaccoTableComponent extends UserPermission implements OnInit {
+export class TobaccoTableComponent extends UserPermission implements OnInit, AfterViewInit {
   public readonly tobaccoTableKey: string = 'tobacco_table_state';
   public readonly TableTypes = TableTypes;
   public brandId: string | null = this.route.snapshot.data['brandId'];
-  public options: TobaccoOptions = this.route.snapshot.data['options'];
+  public filterOptions: TobaccoOptions = this.route.snapshot.data['options'];
   public isTableViewCard: boolean = this.getTableState() === TableTypes.Card;
-  public allBrandsOption: Brand[] = this.options.brands;
-  public filteredBrandsOptions: Brand[] = this.options.brands;
-  public allCountriesOption: Country[] = this.options.countries;
-  public filteredCountriesOptions: Country[] = this.options.countries;
+  public brandsOptionsFiltered: Brand[] = this.filterOptions.brands.slice();
+  public countriesOptionsFiltered: Country[] = this.filterOptions.countries.slice();
+  public tagsOptionsFiltered: Tag[] = this.filterOptions.tags.slice();
   public linesOption: Line[] = [];
-  public brandControl: FormControl = this.formBuilder.control(this.brandId);
-  public brandAutocompleteControl: FormControl = this.formBuilder.control('');
-  public countryAutocompleteControl: FormControl = this.formBuilder.control('');
-  public countyControl: FormControl = this.formBuilder.control('');
-  public lineControl: FormControl = this.formBuilder.control({value: '', disabled: true});
-  public tagControl: FormControl = this.formBuilder.control('');
+  public tagControl: FormControl = this.formBuilder.control<string | Tag>('');
+  public brandControl: FormControl = this.formBuilder.control<string | Brand>('');
+  public countryControl: FormControl = this.formBuilder.control<string | Country>('');
+  public heavinessControl: FormControl = this.formBuilder.control<string | Heaviness>('');
+  public lineControl: FormControl = this.formBuilder.control<string | Line>({value: '', disabled: true});
   public isMobileMode!: boolean;
   public filterForm: FormGroup = this.initFilterForm();
+
+  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('brandInput') brandInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('countryInput') countryInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     userDataService: UserDataSharedService,
@@ -66,74 +72,112 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
     ).subscribe();
   }
 
-  ngOnInit(): void {
-    // if (this.brandId) {
-    //   const brand = this.allBrandsOption.find(x => x.id === this.brandId);
-    //   this.brandAutocompleteControl.setValue(brand, {emitEvent: false});
-    // }
-
-    this.brandAutocompleteControl.valueChanges.pipe(
-      tap((value: string | Brand) => {
-        if (typeof value === 'string') {
-          this.filteredBrandsOptions = this._filter(this.allBrandsOption, value);
-          return;
-        }
-        this.brandControl.setValue(value?.id)
-        this.filteredBrandsOptions = this.allBrandsOption.slice();
-      }),
-    ).subscribe();
-
-    this.brandControl.valueChanges.pipe(
-      tap(value => {
-        if (!value) {
-          this.lineControl.setValue(null, {emitEvent: false});
-          this.lineControl.disable({emitEvent: false});
-        }
-      }),
-      filter(Boolean),
-      switchMap(value => this.lineService.getLinesByBrandId(value)),
+  public onBrandSelect(clear?: boolean): void {
+    const filterValue: FilterData | null = this.brandControl.value;
+    if (!filterValue) {
+      return;
+    }
+    this.brandsOptionsFiltered = this.filterOptions.brands.slice();
+    if (!filterValue.id || clear){
+      this.brandControl.reset();
+      this.lineControl.reset();
+      this.lineControl.disable();
+      this.filterSharedService.setFilters(this.filterForm.value);
+      return;
+    }
+    this.filterSharedService.setFilters(this.filterForm.value);
+    this.lineService.getLinesByBrandId(filterValue.id).pipe(
       tap(lines => {
         this.linesOption = lines;
         this.lineControl.enable({emitEvent: false});
-      })
-    ).subscribe()
-
-    this.countryAutocompleteControl.valueChanges.pipe(
-      tap(value => {
-        if (typeof value === 'string') {
-          this.filteredCountriesOptions = this._filter(this.allCountriesOption, value);
-          return;
-        }
-        this.countyControl.setValue(value?.id);
-        this.filteredCountriesOptions = this.allCountriesOption.slice();
-      }),
-    ).subscribe();
-
-    this.filterForm.valueChanges.pipe(
-      tap((value: Filter) => {
-        this.filterSharedService.setFilters(value);
+        this.lineControl.setValue('', {emitEvent: false});
       })
     ).subscribe();
+  }
 
+  public onBrandFilter(): void {
+    const filterValue: string = this.brandInput.nativeElement.value.toLowerCase();
+    this.brandsOptionsFiltered = this.filterOptions.brands.filter(brand => brand.name.toLowerCase().includes(filterValue));
+  }
+
+  public onTagFilter(): void {
+    const filterValue: string = this.tagInput.nativeElement.value.toLowerCase();
+    this.tagsOptionsFiltered = this.filterOptions.tags.filter(tag => tag.name.toLowerCase().includes(filterValue));
+  }
+
+  public onTagSelect(clear?: boolean): void {
+    const filterValue: FilterData | null = this.tagControl.value;
+    if (!filterValue) {
+      return;
+    }
+    this.tagsOptionsFiltered = this.filterOptions.tags.slice();
+    if (!filterValue.id || clear){
+      this.tagControl.reset();
+      this.filterSharedService.setFilters(this.filterForm.value);
+      return;
+    }
+    this.filterSharedService.setFilters(this.filterForm.value);
+  }
+
+  public onCountryFilter(): void {
+    const filterValue: string = this.countryInput.nativeElement.value.toLowerCase();
+    this.countriesOptionsFiltered = this.filterOptions.countries.filter(tag => tag.name.toLowerCase().includes(filterValue));
+  }
+
+  public onCountrySelect(clear?: boolean): void {
+    const filterValue: FilterData | null = this.countryControl.value;
+    if (!filterValue) {
+      return;
+    }
+    this.countriesOptionsFiltered = this.filterOptions.countries.slice();
+    if (!filterValue.id || clear){
+      this.countryControl.reset();
+      this.filterSharedService.setFilters(this.filterForm.value);
+      return;
+    }
+    this.filterSharedService.setFilters(this.filterForm.value);
+  }
+
+  ngAfterViewInit(): void {
     this.filterSharedService.getFilters.pipe(
       tap(value => {
-        if (value.lineId){
+        console.log('getFilters', value)
+        if (value.brand && value.line){
           this.lineControl.enable({emitEvent: false});
+          this.lineControl.setValue(value,{emitEvent: false});
         }
         this.filterForm.patchValue(value, {emitEvent: false});
-        const country = this.allCountriesOption.find(x => x.id === value.countryId);
-        this.countryAutocompleteControl.patchValue(country, {emitEvent: false});
-        const brand = this.allBrandsOption.find(x => x.id === value.brandId);
-        this.brandAutocompleteControl.patchValue(brand, {emitEvent: false});
+        this.heavinessControl.setValue(value.heaviness, {emitEvent: false});
       }),
-      filter(value => value?.brandId !== null && value?.brandId !== undefined),
-      switchMap(value => this.lineService.getLinesByBrandId(value.brandId)),
+      filter(value => value?.brand?.id !== null && value?.brand?.id !== undefined),
+      switchMap(value => this.lineService.getLinesByBrandId(value?.brand?.id)),
       tap(lines => this.linesOption = lines)
     ).subscribe();
   }
 
-  public displayFn(brand: { name: string }): string {
-    return brand && brand.name ? brand.name : '';
+  ngOnInit(): void {
+    this.lineControl.valueChanges.pipe(
+      tap(value => {
+        this.lineControl.setValue(value,{emitEvent: false});
+        this.filterSharedService.setFilters(this.filterForm.value);
+      })
+    ).subscribe()
+
+    this.heavinessControl.valueChanges.pipe(
+      tap(value => {
+        this.heavinessControl.setValue(value,{emitEvent: false});
+        this.filterSharedService.setFilters(this.filterForm.value);
+      })
+    ).subscribe()
+
+    // if (this.brandId) {
+    //   const brand = this.allBrandsOption.find(x => x.id === this.brandId);
+    //   this.brandAutocompleteControl.setValue(brand, {emitEvent: false});
+    // }
+  }
+
+  public displayFn(item: { name: string }): string {
+    return item && item.name ? item.name : '';
   }
 
   public switchTableView(type: TableTypes): boolean {
@@ -166,20 +210,14 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
     });
   }
 
-  public clearBrands(): void {
-    // TODO: switch mat-options class from selected to ... after reset
-    // https://stackoverflow.com/questions/64994842/how-to-highlight-option-value-in-angular-mat-autocomplete-after-setvalue
-    this.brandAutocompleteControl.patchValue(null);
-  }
-
   private initFilterForm(): FormGroup {
     return this.formBuilder.group({
-      name: null,
-      tagId: this.tagControl,
-      brandId: this.brandControl,
-      countryId: this.countyControl,
-      lineId: this.lineControl,
-      heavinessId: null
+      name: '',
+      tag: this.tagControl,
+      brand: this.brandControl,
+      country: this.countryControl,
+      line: this.lineControl,
+      heaviness: this.heavinessControl
     });
   }
 
