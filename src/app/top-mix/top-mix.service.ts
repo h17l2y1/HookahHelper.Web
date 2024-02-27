@@ -16,11 +16,11 @@ export class TopMixService {
   public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Mix>> {
     let req = `Mix/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
-    req = filters?.tag ? req + `&tagId=${filters.tag.id}` : req;
-    req = filters?.brand ? req + `&brandId=${filters.brand}` : req;
-    req = filters?.country ? req + `&countryId=${filters.country.id}` : req;
-    req = filters?.line ? req + `&lineId=${filters.line.id}` : req;
-    req = filters?.heaviness ? req + `&heavinessId=${filters.heaviness.id}` : req;
+    req = filters?.tagId ? req + `&tagId=${filters.tagId}` : req;
+    req = filters?.brandId ? req + `&brandId=${filters.brandId}` : req;
+    req = filters?.countryId ? req + `&countryId=${filters.countryId}` : req;
+    req = filters?.lineId ? req + `&lineId=${filters.lineId}` : req;
+    req = filters?.heavinessId ? req + `&heavinessId=${filters.heavinessId}` : req;
 
     return this.http.get<GetAllResponse<Mix>>(this.rootUrl + req);
   }

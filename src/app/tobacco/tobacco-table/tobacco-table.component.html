@@ -12,13 +12,7 @@
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Смаки</mat-label>
-          <input #tagInput
-                 type="text"
-                 matInput
-                 [formControl]="tagControl"
-                 [matAutocomplete]="autoTags"
-                 (input)="onTagFilter()"
-                 (focus)="onTagSelect()">
+          <input type="text" matInput [formControl]="tagControl" [matAutocomplete]="autoTags">
           <mat-autocomplete requireSelection #autoTags="matAutocomplete" [displayWith]="displayFn">
             <mat-option [value]='{id: null}'>Усi</mat-option>
             @for (option of tagsOptionsFiltered; track option) {
@@ -26,20 +20,14 @@
             }
           </mat-autocomplete>
           @if (tagControl.value) {
-            <button matSuffix mat-icon-button (click)="onTagSelect(true)">
+            <button matSuffix mat-icon-button (click)="tagControl.reset()">
               <mat-icon>close</mat-icon>
             </button>
           }
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Бренд</mat-label>
-          <input #brandInput
-                 type="text"
-                 matInput
-                 [formControl]="brandControl"
-                 [matAutocomplete]="auto"
-                 (input)="onBrandFilter()"
-                 (focus)="onBrandSelect()">
+          <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="auto">
           <mat-autocomplete requireSelection #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option [value]='{id: null}'>Усi</mat-option>
             @for (option of brandsOptionsFiltered; track option) {
@@ -47,27 +35,7 @@
             }
           </mat-autocomplete>
           @if (brandControl.value) {
-            <button matSuffix mat-icon-button (click)="onBrandSelect(true)">
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Країна</mat-label>
-          <input #countryInput
-                 type="text" matInput
-                 [formControl]="countryControl"
-                 [matAutocomplete]="autoCountry"
-                 (input)="onCountryFilter()"
-                 (focus)="onCountrySelect()">
-          <mat-autocomplete requireSelection #autoCountry="matAutocomplete" [displayWith]="displayFn">
-            <mat-option [value]='{id: null}'>Усi</mat-option>
-            @for (option of countriesOptionsFiltered; track option) {
-              <mat-option [value]="option">{{ option.name }}</mat-option>
-            }
-          </mat-autocomplete>
-          @if (countryControl.value) {
-            <button matSuffix mat-icon-button (click)="onCountrySelect(true)">
+            <button matSuffix mat-icon-button (click)="brandControl.reset()">
               <mat-icon>close</mat-icon>
             </button>
           }
@@ -81,6 +49,21 @@
           </mat-select>
           @if (lineControl.value) {
             <button matSuffix mat-icon-button (click)="lineControl.reset()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Країна</mat-label>
+          <input type="text" matInput [formControl]="countryControl" [matAutocomplete]="autoCountry">
+          <mat-autocomplete requireSelection #autoCountry="matAutocomplete" [displayWith]="displayFn">
+            <mat-option [value]='{id: null}'>Усi</mat-option>
+            @for (option of countriesOptionsFiltered; track option) {
+              <mat-option [value]="option">{{ option.name }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (countryControl.value) {
+            <button matSuffix mat-icon-button (click)="countryControl.reset()">
               <mat-icon>close</mat-icon>
             </button>
           }

@@ -1,13 +1,12 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {TobaccoService} from "../../tobacco.service";
-import {Observable, tap} from "rxjs";
+import {tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {Filter} from "../../../interfaces/models/filter";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FilterSharedService} from "../../filter-shared.service";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
   selector: 'app-tobacco-table-card',
@@ -28,21 +27,22 @@ export class TobaccoTableCardComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
-    private router: Router,
     private route: ActivatedRoute,
-    private filterSharedService: FilterSharedService) {
+  ) {
   }
 
   ngOnInit(): void {
-    this.filterSharedService.getFilters.pipe(
-      tap(value => {
-        this.filter = value;
-        // if (this.filter){
-        //   this.filter.brandId = this.brandId;
-        // }
-        this.getTobaccos();
-      })
-    ).subscribe()
+    this.route.queryParamMap.subscribe((params: ParamMap) => {
+      this.filter = {
+        name: params.get('name'),
+        tagId: params.get('tagId'),
+        brandId: params.get('brandId'),
+        countryId: params.get('countryId'),
+        lineId: params.get('lineId'),
+        heavinessId: params.get('heavinessId'),
+      }
+      this.getTobaccos();
+    });
   }
 
   public handlePageEvent(e: PageEvent): void {

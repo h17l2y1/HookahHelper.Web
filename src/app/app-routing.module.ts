@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AdminGuard} from "./services/guards/admin.guard";
-import {UrlIdResolver} from "./services/resolvers/url-id.resolver";
 
 const routes: Routes = [
   {path: 'brands', loadChildren: () => import('./brand/brand.module').then(m => m.BrandModule)},

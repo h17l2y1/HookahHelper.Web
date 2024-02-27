@@ -119,7 +119,7 @@ export class BrandListComponent extends UserPermission implements OnInit, AfterV
   }
 
   public onBrandList(id: string): void {
-    this.router.navigateByUrl(`/tobaccos/${id}`).then(() => {});
+    this.router.navigate(['/tobaccos/'], { queryParams: { brandId: id } });
   }
 
 }

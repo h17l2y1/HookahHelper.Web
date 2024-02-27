@@ -40,6 +40,8 @@ import {CountrySelectModule} from "../shared/components/country-select/country-s
 import {MatExpansionModule} from "@angular/material/expansion";
 import {FilterSharedService} from "./filter-shared.service";
 import {TobaccoFilterOptionsResolver} from "./tobacco-table/tobacco-filter-options.resolver";
+import {TobaccoQueryParamResolver} from "./tobacco-table/tobacco-query-param.resolver";
+import {TobaccoLinesResolver} from "./tobacco-table/tobacco-lines.resolver";
 
 @NgModule({
   declarations: [
@@ -87,6 +89,8 @@ import {TobaccoFilterOptionsResolver} from "./tobacco-table/tobacco-filter-optio
     ReviewService,
     TobaccoResolver,
     TobaccoFilterOptionsResolver,
+    TobaccoQueryParamResolver,
+    TobaccoLinesResolver,
     FilterSharedService,
   ]
 })

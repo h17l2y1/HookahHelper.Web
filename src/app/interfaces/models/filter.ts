@@ -6,9 +6,9 @@ import {Tag} from "../entity/tag";
 
 export interface Filter {
   name?: string | null;
-  brand?: Brand | null;
-  country?: Country | null;
-  line?: Line | null;
-  heaviness?: Heaviness | null;
-  tag?: Tag | null;
+  tagId?: string | null;
+  brandId?: string | null;
+  countryId?: string | null;
+  lineId?: string | null;
+  heavinessId?: string | null;
 }

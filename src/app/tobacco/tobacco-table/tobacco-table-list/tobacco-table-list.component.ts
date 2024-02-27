@@ -14,7 +14,7 @@ import {UserDataSharedService} from "../../../services/shared/user-data-shared.s
 import {Tag} from "../../../interfaces/entity/tag";
 import {UserPermission} from "../../../shared/user-permission";
 import {TagType} from "../../../interfaces/enums/tag-type";
-import {Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {FilterSharedService} from "../../filter-shared.service";
 
 export interface TobaccoList extends Tobacco {
@@ -48,20 +48,25 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
     public dialog: MatDialog,
     private tobaccoService: TobaccoService,
     private router: Router,
-    private filterSharedService: FilterSharedService,
-    ) {
+    private route: ActivatedRoute
+  ) {
     super(userDataService);
   }
 
   ngOnInit(): void {
     this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
 
-    this.filterSharedService.getFilters.pipe(
-      tap(value => {
-        this.filter = value;
-        this.getTobaccos();
-      })
-    ).subscribe()
+    this.route.queryParamMap.subscribe((params: ParamMap) => {
+      this.filter = {
+        name: params.get('name'),
+        tagId: params.get('tagId'),
+        brandId: params.get('brandId'),
+        countryId: params.get('countryId'),
+        lineId: params.get('lineId'),
+        heavinessId: params.get('heavinessId'),
+      }
+      this.getTobaccos();
+    });
   }
 
   ngAfterViewInit(): void {
