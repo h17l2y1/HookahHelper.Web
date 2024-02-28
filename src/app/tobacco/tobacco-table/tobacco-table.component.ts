@@ -1,8 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Filter} from "../../interfaces/models/filter";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
-import {filter, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
@@ -48,8 +48,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
-    private router: Router
-  ) {
+    private router: Router) {
     super(userDataService);
     this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
       tap((result: BreakpointState) => {
@@ -63,7 +62,11 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tagControl.valueChanges.subscribe(() => this.redirect());
+    this.nameControl.valueChanges.pipe(
+        debounceTime(2000),
+        distinctUntilChanged()
+      ).subscribe(() => this.redirect());
+
     this.tagControl.valueChanges.subscribe(() => this.redirect());
     this.brandControl.valueChanges.pipe(
       tap(value => {
@@ -93,6 +96,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   private redirect(): void {
     this.router.navigate(['/tobaccos/'], {
       queryParams: {
+        name: this.nameControl.value,
         tagId: this.tagControl.value?.id,
         brandId: this.brandControl.value?.id,
         countryId: this.countryControl.value?.id,
@@ -142,7 +146,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.getTobaccos();
+        this.redirect();
       }
     });
   }
