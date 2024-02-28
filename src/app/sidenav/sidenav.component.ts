@@ -7,7 +7,6 @@ import {ConfirmationPopupComponent} from "../shared/components/confirmation-popu
 import {UserDataSharedService} from "../services/shared/user-data-shared.service";
 import {TokenService} from "../services/token.service";
 import {UserPermission} from "../shared/user-permission";
-import {UserData} from "../interfaces/models/user-data";
 import {ThemeService} from "./them-picker/theme.service";
 import {Observable, tap} from "rxjs";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
@@ -31,7 +30,6 @@ export class SidenavComponent extends UserPermission {
     this.themeService.setTheme("dark");
     this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
       tap((result: BreakpointState) => {
-
         if (result.matches) {
           // hide stuff
           this.isMobileHeader = result.matches;
@@ -78,7 +76,8 @@ export class SidenavComponent extends UserPermission {
 
   public logout(): void {
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      width: "300px"
+      width: "300px",
+      backdropClass: 'blurred'
     });
 
     dialogRef.afterClosed().subscribe(popupResponse => {

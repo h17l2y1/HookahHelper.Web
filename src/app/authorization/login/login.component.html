@@ -1,10 +1,13 @@
 <div class="popup-container">
-  <h1 mat-dialog-title>Авторизація</h1>
+  <div class="user-data">
+    <div class="user-pictures"></div>
+  </div>
   <form [formGroup]="createLoginForm" class="example-form" *ngIf="createLoginForm">
     <div class="create-account-container">
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Email</mat-label>
+          <mat-icon matTextPrefix class="input-icon">mail</mat-icon>
           <input matInput
                  type="email"
                  (change)="fixAutoFill($event, pwd.value)"
@@ -15,6 +18,7 @@
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Пароль</mat-label>
+          <mat-icon matTextPrefix class="input-icon">lock</mat-icon>
           <input matInput #pwd
                  placeholder="Password"
                  formControlName="password"
@@ -25,8 +29,5 @@
       </div>
     </div>
   </form>
-  <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Увiйти</button>
-    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
-  </div>
+  <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Login</button>
 </div>

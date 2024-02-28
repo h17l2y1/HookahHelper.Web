@@ -217,9 +217,13 @@ mat-paginator {
   box-shadow: none;
 }
 
+/*для все попапов*/
+.cdk-overlay-pane {
+  border-radius: 20px !important;
+}
+
 .mat-mdc-dialog-surface {
   border-radius: 20px !important;
-  /*background-color: red;*/
 }
 
 /*buttons*/
