@@ -19,6 +19,7 @@ import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 export class SidenavComponent extends UserPermission {
   public options$: Observable<any> = this.themeService.getThemeOptions();
   public isMobileHeader!: boolean;
+  public inDevelop = true;
 
   constructor(
     userDataService: UserDataSharedService,

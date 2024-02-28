@@ -1,5 +1,5 @@
 <div class="popup-container">
-  <h1 mat-dialog-title>Створити новий Табак</h1>
+  <h1 mat-dialog-title>Create Tobacco</h1>
   <form [formGroup]="createTobaccoForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
@@ -7,11 +7,11 @@
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Назва тютюну</mat-label>
+          <mat-label>Tobacco Name</mat-label>
           <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Бренд</mat-label>
+          <mat-label>Brand</mat-label>
           <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="autoBrands">
           <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
@@ -20,7 +20,7 @@
           </mat-autocomplete>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Важкість</mat-label>
+          <mat-label>Heaviness</mat-label>
           <mat-select formControlName="heavinessId">
             <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
               {{option.name}}
@@ -28,7 +28,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Лiнiйка</mat-label>
+          <mat-label>Line</mat-label>
           <mat-select formControlName="lineId">
             <mat-option *ngFor="let option of linesOption" [value]="option.id">
               {{option.name}}
@@ -38,7 +38,7 @@
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Опис</mat-label>
+          <mat-label>Description</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
         <mat-form-field class="example-full-width">
@@ -87,8 +87,8 @@
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Створити</button>
-    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave(true)">Створити ще</button>
-    <button class="button popup-actions-button" mat-flat-button (click)="onCancel()">Cкасувати</button>
+    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Create</button>
+    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave(true)">Create more</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onCancel()">Cancel</button>
   </div>
 </div>

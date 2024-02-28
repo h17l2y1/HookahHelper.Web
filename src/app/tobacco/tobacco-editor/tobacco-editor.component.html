@@ -1,5 +1,5 @@
 <div class="popup-container">
-  <h1 mat-dialog-title>Редакувати Табак</h1>
+  <h1 mat-dialog-title>Update Tobacco</h1>
   <form *ngIf="editTobaccoForm" [formGroup]="editTobaccoForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
@@ -7,15 +7,15 @@
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Назва тютюну</mat-label>
+          <mat-label>Tobacco Name</mat-label>
           <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Бренд</mat-label>
+          <mat-label>Brand</mat-label>
           <input matInput disabled [value]="data.tobacco.brand.name">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Важкість</mat-label>
+          <mat-label>Heaviness</mat-label>
           <mat-select formControlName="heavinessId">
             <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
               {{option.name}}
@@ -23,7 +23,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Лінійки</mat-label>
+          <mat-label>Lines</mat-label>
           <mat-select formControlName="lineId">
             <mat-option *ngFor="let item of linesOption$ | async" [value]="item.id">
               {{item.name}}
@@ -33,7 +33,7 @@
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Опис</mat-label>
+          <mat-label>Description</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
         <mat-form-field class="example-full-width">
@@ -83,6 +83,6 @@
   </form>
   <div mat-dialog-actions class="popup-action-container">
     <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Змінити</button>
-    <button class="button popup-actions-button" mat-flat-button (click)="onCancel()">Cкасувати</button>
+    <button class="button popup-actions-button" mat-flat-button (click)="onCancel()">Cancel</button>
   </div>
 </div>

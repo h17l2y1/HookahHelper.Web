@@ -1,5 +1,5 @@
 <div class="popup-container">
-  <h1 mat-dialog-title>Створити новий Бренд</h1>
+  <h1 mat-dialog-title>Create Brand</h1>
   <form [formGroup]="createBrandForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
@@ -7,11 +7,11 @@
       </div>
       <div class="side">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Назва бренду</mat-label>
+          <mat-label>Brand Name</mat-label>
           <input matInput formControlName="name" (keyup)="onChange()">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Країна</mat-label>
+          <mat-label>Country</mat-label>
           <mat-select formControlName="countryId">
             <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
               {{item.name}}
@@ -19,17 +19,17 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Опис</mat-label>
+          <mat-label>Description</mat-label>
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
       </div>
       <div class="side">
-        <button class="button add-line-btn example-full-width purple-background-color" mat-flat-button (click)="addLine()">Добавити лiнiйку</button>
+        <button class="button add-line-btn example-full-width purple-background-color" mat-flat-button (click)="addLine()">Add line</button>
         <div formArrayName="lines">
           <div *ngFor="let line of getLines.controls; let i=index" class="brand-line-container">
             <div [formGroupName]="i" class="inp-brand-line">
               <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Назва лiнiйки</mat-label>
+                <mat-label>Line Name</mat-label>
                 <input formControlName="name" matInput (keyup)="onChange()">
               </mat-form-field>
               <br>
@@ -43,7 +43,7 @@
     </div>
   </form>
   <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Створити</button>
-    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cкасувати</button>
+    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Create</button>
+    <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cancel</button>
   </div>
 </div>
