@@ -1,8 +1,4 @@
 <div class="tobacco-container" *ngIf="filterOptions">
-  <pre style="color: white">
-    {{ filterForm.value | json }}
-  </pre>
-
   <div class="tobacco-top-panel">
     @if (!isMobileMode) {
       <form [formGroup]="filterForm" class="example-full-width">
