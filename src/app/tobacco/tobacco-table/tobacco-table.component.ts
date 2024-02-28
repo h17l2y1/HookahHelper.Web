@@ -66,10 +66,22 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
         debounceTime(2000),
         distinctUntilChanged()
       ).subscribe(() => this.redirect());
+    this.tagControl.valueChanges.pipe(
+      tap(value => {
+        if (typeof value === 'string') {
+          this.tagsOptionsFiltered = this._filter(this.filterOptions.tags, value);
+          return;
+        }
+        this.redirect()
+      })
+    ).subscribe();
 
-    this.tagControl.valueChanges.subscribe(() => this.redirect());
     this.brandControl.valueChanges.pipe(
       tap(value => {
+        if (typeof value === 'string') {
+          this.brandsOptionsFiltered = this._filter(this.filterOptions.brands, value);
+          return;
+        }
         if (!value) {
           this.lineControl.reset();
           this.lineControl.disable();
@@ -89,8 +101,21 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
       this.redirect();
     });
     this.lineControl.valueChanges.subscribe(() => this.redirect());
-    this.countryControl.valueChanges.subscribe(() => this.redirect());
+    this.countryControl.valueChanges.pipe(
+      tap(value => {
+        if (typeof value === 'string') {
+          this.countriesOptionsFiltered = this._filter(this.filterOptions.countries, value);
+          return;
+        }
+        this.redirect()
+      })
+    ).subscribe();
     this.heavinessControl.valueChanges.subscribe(() => this.redirect());
+  }
+
+  private _filter(array: { name: string }[], name: string): any {
+    const filterValue = name.toLowerCase();
+    return array.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   private redirect(): void {
