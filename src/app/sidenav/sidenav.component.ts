@@ -8,7 +8,7 @@ import {UserDataSharedService} from "../services/shared/user-data-shared.service
 import {TokenService} from "../services/token.service";
 import {UserPermission} from "../shared/user-permission";
 import {ThemeService} from "./them-picker/theme.service";
-import {Subject, takeUntil, tap} from "rxjs";
+import {Observable, Subject, takeUntil, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 enum Screen {
@@ -25,6 +25,7 @@ enum Screen {
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent extends UserPermission implements OnDestroy {
+  public options$: Observable<any> = this.themeService.getThemeOptions();
   public isMobile!: boolean;
   public inDevelop: boolean = true;
   public currentScreenSize!: string;

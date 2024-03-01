@@ -4,10 +4,17 @@ import {RouterModule, Routes} from "@angular/router";
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
 import {BrandTableComponent} from "./brand-table/brand-table.component";
+import {BrandFilterOptionsResolver} from "./brand-table/brand-filter-options.resolver";
+import {BrandQueryParamResolver} from "./brand-table/brand-query-param.resolver";
 
 const routes: Routes = [
   {
-    path: '', component: BrandTableComponent
+    path: '',
+    component: BrandTableComponent,
+    resolve: {
+      countries: BrandFilterOptionsResolver,
+      queryParam: BrandQueryParamResolver,
+    }
   },
 ];
 

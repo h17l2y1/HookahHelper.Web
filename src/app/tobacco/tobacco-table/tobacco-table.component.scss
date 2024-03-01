@@ -1,14 +1,27 @@
 .tobacco-container {
   .tobacco-top-panel {
+
+    .mat-button-toggle-group {
+      top: -10px;
+
+      @media screen and (max-width: 767px){
+        top: 0;
+      }
+    }
+
     margin-bottom: -1.25em !important;
 
-    @media screen and (min-width: 1px) and (max-width: 767px){
+    @media screen and (max-width: 767px){
       margin-bottom: 1px !important;
     }
 
     ::ng-deep {
       .mat-button-toggle-button{
         height: 56px !important;
+
+        @media screen and (max-width: 767px){
+          height: 45px !important;
+        }
       }
     }
 
@@ -27,7 +40,17 @@
         flex-direction: column;
       }
     }
+
+    .mat-mdc-form-field {
+      //max-width: 169px;
+    }
   }
 }
 
+.aaa {
+  display: flex;
+  gap: 15px;
+
+
+}
 

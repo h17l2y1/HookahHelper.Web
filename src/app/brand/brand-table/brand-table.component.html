@@ -1,34 +1,50 @@
 <div class="table-container">
   <div class="table-top-panel">
-    <form *ngIf="!isMobileMode; else desktopPanel" [formGroup]="brandFilterForm" class="example-form form-container">
-      <mat-form-field class="example-full-width xxx">
-        <mat-label>Filter by Name</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
-      <app-country-select class="xxx" [control]="countryControl"></app-country-select>
-      <div>
-        <mat-button-toggle-group #group="matButtonToggleGroup">
-          <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
-            <mat-icon>view_module</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle (change)="switchTableView(TableTypes.List)">
-            <mat-icon>view_list</mat-icon>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-    </form>
-    <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Create
-    </button>
-    <ng-template #desktopPanel>
+    @if (!isMobileMode) {
+      <form [formGroup]="brandFilterForm" class="example-full-width">
+        <mat-form-field class="example-full-width" >
+          <mat-label>Filter by Name</mat-label>
+          <input matInput formControlName="name">
+          @if (nameControl.value) {
+            <button matSuffix mat-icon-button (click)="nameControl.reset()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Country</mat-label>
+          <input type="text" matInput [formControl]="countryControl" [matAutocomplete]="autoCountry">
+          <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
+            <mat-option [value]='{id: null}'>Усi</mat-option>
+            @for (option of countriesOptionsFiltered; track option) {
+              <mat-option [value]="option">{{ option.name }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (countryControl.value) {
+            <button matSuffix mat-icon-button (click)="countryControl.reset()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <div class="">
+          <mat-button-toggle-group #group="matButtonToggleGroup">
+            <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
+              <mat-icon>view_module</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle (change)="switchTableView(TableTypes.List)">
+              <mat-icon>view_list</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </form>
+    }
+    @else {
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              This is the expansion title
+              Select filters
             </mat-panel-title>
-            <mat-panel-description>
-              This is a summary of the content
-            </mat-panel-description>
           </mat-expansion-panel-header>
           <form [formGroup]="brandFilterForm" class="example-form mobile-form">
             <mat-form-field class="example-full-width">
@@ -50,15 +66,21 @@
           </form>
         </mat-expansion-panel>
       </mat-accordion>
-    </ng-template>
+    }
+
+    @if (user?.isAdmin) {
+      <button class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+    }
   </div>
 
-  <div *ngIf="isTableViewCard; else listPage">
-    <app-brand-cards [filter$]="filter$"></app-brand-cards>
-  </div>
-  <ng-template #listPage>
-    <app-brand-list [filter$]="filter$"></app-brand-list>
-  </ng-template>
+  @if (isTableViewCard) {
+    <div class="xxx">
+      <app-brand-cards></app-brand-cards>
+    </div>
+  }
+  @else {
+    <app-brand-list></app-brand-list>
+  }
 </div>
 
 

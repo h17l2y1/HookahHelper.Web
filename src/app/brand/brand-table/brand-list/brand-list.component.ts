@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {UserDataSharedService} from "../../../services/shared/user-data-shared.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -6,12 +6,13 @@ import {BrandService} from "../../brand.service";
 import {BrandEditorComponent} from "../../brand-editor/brand-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {ConfirmationPopupComponent} from "../../../shared/components/confirmation-popup/confirmation-popup.component";
-import {map, merge, Observable, startWith, switchMap, tap} from "rxjs";
+import {tap} from "rxjs";
 import {Brand} from "../../../interfaces/entity/brand";
 import {Filter} from "../../../interfaces/models/filter";
 import {MatSort} from "@angular/material/sort";
 import {UserPermission} from "../../../shared/user-permission";
-import {Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 
 @Component({
   selector: 'app-brand-list',
@@ -19,10 +20,10 @@ import {Router} from "@angular/router";
   styleUrls: ['./brand-list.component.scss']
 })
 
-export class BrandListComponent extends UserPermission implements OnInit, AfterViewInit {
+export class BrandListComponent extends UserPermission implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() filter$!: Observable<Filter>;
+
   public allColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
   public displayedColumns!: string[];
   public totalRows = 0;
@@ -38,56 +39,39 @@ export class BrandListComponent extends UserPermission implements OnInit, AfterV
     public dialog: MatDialog,
     private brandService: BrandService,
     private router: Router,
-    private cdr: ChangeDetectorRef) {
+    private route: ActivatedRoute) {
     super(userDataService);
   }
 
   ngOnInit(): void {
-    this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
+    this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
+
+    this.route.queryParamMap.subscribe((params: ParamMap) => {
+      this.filter = {
+        name: params.get('name'),
+        countryId: params.get('countryId')
+      }
+      this.getBrands();
+    });
   }
 
-  ngAfterViewInit(): void {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    this.filter$
+  private getBrands(): void {
+    const pag = this.paginator ? this.paginator.pageIndex : 0;
+    this.isLoadingResults = true;
+    this.brandService.getAll(pag, this.pageSize, 'asc', 'name', this.filter)
       .pipe(
-        tap(filter => {
-          this.filter = filter;
-        }),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filter);
+        tap((response: GetAllResponse<Brand>) => {
+          this.brands = response.list;
+          this.totalRows = response.total;
         })
       )
-      .subscribe(data => {
-        this.isLoadingResults = false;
-        this.brands = data.list;
-        this.totalRows = data.total;
-      });
-
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          this.cdr.detectChanges();
-          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filter)
-        }),
-        map(response => {
-          this.isLoadingResults = false;
-          this.totalRows = response.total;
-          return response.list;
-        }),
-      )
-      .subscribe(brands => {
-        this.brands = brands;
-      });
+      .subscribe(() => this.isLoadingResults = false);
   }
 
   public handlePageEvent(e: PageEvent): void {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
-    this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filter);
+    this.getBrands();
   }
 
   public onUpdate(id: string): void {
@@ -101,7 +85,7 @@ export class BrandListComponent extends UserPermission implements OnInit, AfterV
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filter);
+        this.getBrands();
       }
     });
   }
@@ -113,8 +97,8 @@ export class BrandListComponent extends UserPermission implements OnInit, AfterV
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
         this.brandService.remove(id).subscribe(() =>
-          this.brandService.getAll(this.paginator.pageIndex, this.pageSize, this.sort.direction, this.sort.active, this.filter))
-      }
+          this.getBrands()
+        )}
     });
   }
 

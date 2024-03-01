@@ -4,8 +4,18 @@
     justify-content: space-between;
     margin-bottom: -1.25em !important;
 
-    @media screen and (min-width: 1px) and (max-width: 767px){
+    @media screen and (max-width: 767px){
       margin-bottom: 1px !important;
+    }
+
+    .example-full-width {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+
+      @media screen and (max-width: 767px){
+        flex-direction: column;
+      }
     }
 
     ::ng-deep {
@@ -20,12 +30,8 @@
     }
 
     .button {
-      max-width: 200px !important;
+      width: 214px !important;
       height: 58px;
     }
   }
-
 }
-
-
-

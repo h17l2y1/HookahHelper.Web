@@ -7,8 +7,10 @@ import {UserDataSharedService} from "../../services/shared/user-data-shared.serv
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
-import {tap} from "rxjs";
-
+import {debounceTime, distinctUntilChanged, tap} from "rxjs";
+import {Country} from "../../interfaces/entity/country";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Filter} from "../../interfaces/models/filter";
 
 @Component({
   selector: 'app-brand-table',
@@ -17,16 +19,21 @@ import {tap} from "rxjs";
 })
 export class BrandTableComponent extends UserPermission implements OnInit {
   public readonly brandTableKey: string = 'brand_table_state';
-  public countryControl: FormControl = this.formBuilder.control('');
+  public countries: Country[] = this.route.snapshot.data['countries'];
+  public filter: Filter = this.route.snapshot.data['queryParam'];
+  public countriesOptionsFiltered: Country[] = this.countries.slice();
+  public nameControl: FormControl = this.formBuilder.control(this.filter.name);
+  public countryControl: FormControl = this.formBuilder.control(this.countries.find(x => x.id === this.filter.countryId));
   public brandFilterForm: FormGroup = this.initBrandFilterForm();
-  public filter$ = this.brandFilterForm.valueChanges;
-  public isTableViewCard: boolean = true;
   protected readonly TableTypes = TableTypes;
+  public isTableViewCard: boolean = true;
   public isMobileMode!: boolean;
 
   constructor(
     userDataService: UserDataSharedService,
     public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver) {
     super(userDataService);
@@ -44,6 +51,39 @@ export class BrandTableComponent extends UserPermission implements OnInit {
   ngOnInit(): void {
     const tableType: TableTypes = this.getTableState();
     this.isTableViewCard = tableType === TableTypes.Card;
+
+    this.nameControl.valueChanges.pipe(
+      debounceTime(2000),
+      distinctUntilChanged()
+    ).subscribe(() => this.redirect());
+
+    this.countryControl.valueChanges.pipe(
+      tap(value => {
+        if (typeof value === 'string') {
+          this.countriesOptionsFiltered = this._filter(this.countries, value);
+          return;
+        }
+        this.redirect()
+      })
+    ).subscribe();
+  }
+
+  private redirect(): void {
+    this.router.navigate(['/brands/'], {
+      queryParams: {
+        name: this.nameControl.value,
+        countryId: this.countryControl.value?.id,
+      }
+    });
+  }
+
+  private _filter(array: { name: string }[], name: string): any {
+    const filterValue = name.toLowerCase();
+    return array.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  public displayFn(country: { name: string }): string {
+    return country && country.name ? country.name : '';
   }
 
   public switchTableView(type: TableTypes): boolean {
@@ -74,14 +114,14 @@ export class BrandTableComponent extends UserPermission implements OnInit {
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
         this.brandFilterForm.reset();
+        this.redirect();
       }
     });
   }
 
   private initBrandFilterForm(): FormGroup {
     return this.formBuilder.group({
-      name: null,
-      brandId: null,
+      name: this.nameControl,
       countryId: this.countryControl
     });
   }

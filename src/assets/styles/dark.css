@@ -69,7 +69,14 @@ body {
 }
 
 .table-secondary-columns {
-  /*TODO: сделать цвет всех второстепенных колонок темнее*/
+  /*color: white !important;*/
+}
+
+.cdk-column-description {
+  color: var(--card-description-color) !important;
+}
+
+.cdk-column-country {
   color: var(--card-description-color) !important;
 }
 
@@ -104,10 +111,10 @@ body {
     background-color: var(--purple); !important;
     color: black !important;
   }
+}
 
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-    background-color: #262626;
-  }
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--background-color) !important;
 }
 
 .view-popup {
@@ -159,12 +166,20 @@ body {
 
 /*    MATERIAL OVERRIDE    */
 
+.mat-expansion-panel {
+  background-color: var(--background-color) !important;
+}
+
+.mat-expansion-panel-header:hover {
+  background-color: var(--background-color) !important;
+}
+
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .mdc-text-field--disabled.mdc-text-field--filled {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .mat-mdc-unelevated-button:not(:disabled) {
@@ -172,19 +187,19 @@ body {
 }
 
 .mat-mdc-table {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .mat-mdc-paginator-container {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .cdk-overlay-pane {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .mat-mdc-select-panel-above {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .mdc-list-item__primary-text {
@@ -192,7 +207,7 @@ body {
 }
 
 .mat-button-toggle.mat-button-toggle-appearance-standard {
-  background-color: #262626;
+  background-color: var(--background-color) !important;
 }
 
 .mat-mdc-text-field-wrapper {

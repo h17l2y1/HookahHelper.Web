@@ -59,12 +59,6 @@ export class TobaccoTableCardComponent implements OnInit {
         tap((response: GetAllResponse<Tobacco>) => {
           this.tobaccos = response.list;
           this.totalRows = response.total;
-          // this.tobaccosList = this.tobaccos?.map(tobacco => {
-          //   const tobaccoList = tobacco as TobaccoList;
-          //   tobaccoList.tagsDefault = tobacco.tags.filter(tag => !tag.isGlobal);
-          //   tobaccoList.tagsGlobal = tobacco.tags.filter(tag => tag.isGlobal);
-          //   return tobaccoList;
-          // })
         })
       )
       .subscribe(() => this.isLoadingResults = false);

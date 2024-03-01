@@ -1,20 +1,20 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {map, merge, Observable, startWith, switchMap, tap} from "rxjs";
+import {tap} from "rxjs";
 import {Filter} from "../../../interfaces/models/filter";
 import {Brand} from "../../../interfaces/entity/brand";
 import {MatDialog} from "@angular/material/dialog";
 import {BrandService} from "../../brand.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 
 @Component({
   selector: 'app-brand-cards',
   templateUrl: './brand-cards.component.html',
   styleUrls: ['./brand-cards.component.scss']
 })
-export class BrandCardsComponent implements AfterViewInit {
+export class BrandCardsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @Input() filter$!: Observable<Filter>;
   public totalRows = 0;
   public currentPage = 0;
   public pageSizeOptions = [30, 60, 120];
@@ -26,51 +26,37 @@ export class BrandCardsComponent implements AfterViewInit {
   constructor(
     public dialog: MatDialog,
     private brandService: BrandService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    ) {
+    private route: ActivatedRoute,
+  ) {
   }
 
-  ngAfterViewInit(): void {
-    this.filter$
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params: ParamMap) => {
+      this.filter = {
+        name: params.get('name'),
+        countryId: params.get('countryId')
+      }
+      this.getBrands();
+    });
+  }
+
+  private getBrands(): void {
+    const pag = this.paginator ? this.paginator.pageIndex : 0;
+    this.isLoadingResults = true;
+    this.brandService.getAll(pag, this.pageSize, 'asc', 'name', this.filter)
       .pipe(
-        tap(filter => {
-          this.filter = filter;
-        }),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filter);
+        tap((response: GetAllResponse<Brand>) => {
+          this.brands = response.list;
+          this.totalRows = response.total;
         })
       )
-      .subscribe(data => {
-        this.isLoadingResults = false;
-        this.brands = data.list;
-        this.totalRows = data.total;
-      });
-
-    merge(this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          this.cdr.detectChanges();
-          return this.brandService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filter)
-        }),
-        map(response => {
-          this.isLoadingResults = false;
-          this.totalRows = response.total;
-          return response.list;
-        }),
-      )
-      .subscribe(brands => {
-        this.brands = brands;
-      });
+      .subscribe(() => this.isLoadingResults = false);
   }
 
   public handlePageEvent(e: PageEvent): void {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
-    this.brandService.getAll(this.paginator.pageIndex, this.pageSize, 'asc', 'name', this.filter);
+    this.getBrands();
   }
 
 }
