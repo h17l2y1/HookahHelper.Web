@@ -35,6 +35,11 @@
             max-height: 40px;
 
             .tab {
+              align-items: center;
+              cursor: pointer;
+              padding: 0.6875rem 1.125rem;
+              text-decoration: none;
+
               @media screen and (min-width: 1px) and (max-width: 767px){
                 text-decoration: none;
                 padding: 0;
@@ -44,11 +49,6 @@
                 font-size: 11px;
                 min-width: 100px;
               }
-
-              align-items: center;
-              cursor: pointer;
-              padding: 0.6875rem 1.125rem;
-              text-decoration: none;
 
               .tab-text {
                 font-size: .875rem;
@@ -135,6 +135,8 @@
               position: relative;
               transition: all .2s ease 0s;
               display: flex;
+              text-decoration: none;
+              -webkit-text-decoration-line: none;
 
               &:hover {
                 background-color: #262626;
