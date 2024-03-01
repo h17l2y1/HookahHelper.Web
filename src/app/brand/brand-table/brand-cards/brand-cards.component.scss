@@ -1,7 +1,7 @@
 @import '../../../../scss/variables-dark';
 
 .card-container {
-  gap: 36px;
+  gap: 32px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
@@ -10,6 +10,14 @@
   @media screen and (min-width: 1px) and (max-width: 767px){
     grid-template-columns: repeat(2,1fr);
     gap: 10px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1279px){
+    grid-template-columns: repeat(3,1fr);
+  }
+
+  @media screen and (min-width: 1280px) and (max-width: 1600px){
+    grid-template-columns: repeat(4,1fr);
   }
 
   .brand-card {
@@ -51,6 +59,10 @@
     transform: scale(1.1);
   }
 
+}
+
+.paginator-container {
+  width: 100%;
 }
 
 .mat-mdc-paginator {

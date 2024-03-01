@@ -1,102 +1,173 @@
 @import '../../scss/variables-dark';
 
 .main-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  //display: flex;
+  //flex-direction: column;
+  //gap: 20px;
 
-  .header-container {
-    .tool-bar {
-      border-radius: 15px;
-      padding: 1.2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-height: 76px;
+  //.header-container {
+  //  .tool-bar {
+  //    border-radius: 15px;
+  //    padding: 1.2rem;
+  //    display: flex;
+  //    justify-content: space-between;
+  //    align-items: center;
+  //    max-height: 76px;
+  //
+  //    @media screen and (min-width: 1px) and (max-width: 767px){
+  //      padding: 10px;
+  //      margin-top: 10px;
+  //    }
+  //
+  //    .header-left {
+  //      display: flex;
+  //      align-items: center;
+  //
+  //
+  //
+  //      .logo {
+  //        width: 110px;
+  //        font-size: 20px;
+  //        font-weight: 500;
+  //        padding-right: 10px;
+  //      }
+  //
+  //      .tabs-container {
+  //        display: flex;
+  //        gap: 10px;
+  //        max-height: 40px;
+  //
+  //        .tab {
+  //          @media screen and (min-width: 1px) and (max-width: 767px){
+  //            text-decoration: none;
+  //            padding: 0;
+  //            align-items: center;
+  //            display: flex;
+  //            flex-direction: column;
+  //            font-size: 11px;
+  //            min-width: 100px;
+  //          }
+  //
+  //          align-items: center;
+  //          cursor: pointer;
+  //          padding: 0.6875rem 1.125rem;
+  //          text-decoration: none;
+  //
+  //          .tab-text {
+  //            font-size: .875rem;
+  //            line-height: 1rem;
+  //            font-weight: 700;
+  //            letter-spacing: .1rem;
+  //
+  //            @media screen and (min-width: 1px) and (max-width: 767px){
+  //              font-size: 10px;
+  //            }
+  //          }
+  //        }
+  //      }
+  //    }
+  //
+  //    .header-right {
+  //      .tabs-container {
+  //        display: flex;
+  //        gap: 10px;
+  //        max-height: 40px;
+  //        align-items: center;
+  //
+  //        .tab {
+  //          align-items: center;
+  //          cursor: pointer;
+  //          padding: 0.6875rem;
+  //
+  //          .user-data {
+  //            display: flex;
+  //            align-items: center;
+  //
+  //            .user-pictures {
+  //              border-radius: 50%;
+  //              align-items: center;
+  //              background-size: cover;
+  //              background-repeat: no-repeat;
+  //              width: 40px;
+  //              height: 40px;
+  //              background-image: url(../../assets/images/avatar.png);
+  //            }
+  //
+  //            .user-name {
+  //              margin-left: 0.5rem
+  //            }
+  //          }
+  //        }
+  //      }
+  //    }
+  //  }
+  //}
 
-      @media screen and (min-width: 1px) and (max-width: 767px){
-        padding: 10px;
-        margin-top: 10px;
-      }
+  .main {
+    float: left;
+    height: 100%;
+    position: sticky;
+    top: 0;
+    width: 280px;
+    z-index: 9999;
 
-      .header-left {
-        display: flex;
-        align-items: center;
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: auto;
+    }
 
+    .container {
+      border-right: 1px solid #2e2e2e;
+      height: 100vh;
+      margin: 0 32px;
+      position: relative;
+      width: auto;
 
+      .logo-container {
+        padding-bottom: 32px;
+        padding-top: 10px;
 
         .logo {
-          width: 110px;
-          font-size: 20px;
-          font-weight: 500;
-          padding-right: 10px;
-        }
-
-        .tabs-container {
-          display: flex;
-          gap: 10px;
-          max-height: 40px;
-
-          .tab {
-            @media screen and (min-width: 1px) and (max-width: 767px){
-              text-decoration: none;
-              padding: 0;
-              align-items: center;
-              display: flex;
-              flex-direction: column;
-              font-size: 11px;
-              min-width: 100px;
-            }
-
-            align-items: center;
-            cursor: pointer;
-            padding: 0.6875rem 1.125rem;
-            text-decoration: none;
-
-            .tab-text {
-              font-size: .875rem;
-              line-height: 1rem;
-              font-weight: 700;
-              letter-spacing: .1rem;
-
-              @media screen and (min-width: 1px) and (max-width: 767px){
-                font-size: 10px;
-              }
-            }
-          }
+          font-size: 26pt;
+          color: white;
         }
       }
 
-      .header-right {
-        .tabs-container {
-          display: flex;
-          gap: 10px;
-          max-height: 40px;
+
+
+      nav {
+        display: flex;
+        flex-direction: column;
+        padding-right: 32px;
+        white-space: nowrap;
+
+        a {
+          -webkit-box-align: center;
           align-items: center;
+          border-radius: 8px;
+          height: 48px;
+          padding-left: 12px;
+          position: relative;
+          transition: all .2s ease 0s;
+          display: flex;
 
-          .tab {
-            align-items: center;
-            cursor: pointer;
-            padding: 0.6875rem;
+          &:hover {
+            background-color: #262626;
+          }
 
-            .user-data {
-              display: flex;
-              align-items: center;
+          .icon {
+            display: inline-flex;
+            margin-right: 12px;
+            opacity: .5;
+            color: #fff;
+          }
 
-              .user-pictures {
-                border-radius: 50%;
-                align-items: center;
-                background-size: cover;
-                background-repeat: no-repeat;
-                width: 40px;
-                height: 40px;
-                background-image: url(../../assets/images/avatar.png);
-              }
-
-              .user-name {
-                margin-left: 0.5rem
-              }
-            }
+          .tab-text {
+            opacity: .5;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: .04em;
+            line-height: 24px;
           }
         }
       }

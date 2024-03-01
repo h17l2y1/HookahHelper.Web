@@ -50,7 +50,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private router: Router) {
     super(userDataService);
-    this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
+    this.breakpointObserver.observe(["(max-width: 767px)"]).pipe(
       tap((result: BreakpointState) => {
         if (result.matches) {
           this.isMobileMode = result.matches;

@@ -18,10 +18,10 @@ html, body {
 body {
   margin: 0;
   font-family: 'SF Pro Display', "sans-serif";
-  padding-left: 36px;
-  padding-right: 36px;
+  //padding-left: 32px;
+  padding-right: 32px;
 
-  @media screen and (min-width: 1px) and (max-width: 768px){
+  @media screen and (min-width: 1px) and (max-width: 767px){
     padding-left: 10px;
     padding-right: 10px;
   }

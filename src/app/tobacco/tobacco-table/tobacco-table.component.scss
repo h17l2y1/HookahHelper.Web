@@ -2,7 +2,7 @@
   .tobacco-top-panel {
     margin-bottom: -1.25em !important;
 
-    @media screen and (min-width: 1px) and (max-width: 768px){
+    @media screen and (min-width: 1px) and (max-width: 767px){
       margin-bottom: 1px !important;
     }
 
@@ -23,7 +23,7 @@
       justify-content: space-between;
       gap: 0.5rem;
 
-      @media screen and (min-width: 1px) and (max-width: 768px){
+      @media screen and (min-width: 1px) and (max-width: 767px){
         flex-direction: column;
       }
     }

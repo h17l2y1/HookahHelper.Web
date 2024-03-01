@@ -30,7 +30,7 @@ export class BrandTableComponent extends UserPermission implements OnInit {
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver) {
     super(userDataService);
-    this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
+    this.breakpointObserver.observe(["(max-width: 767px)"]).pipe(
       tap((result: BreakpointState) => {
         if (result.matches) {
           this.isMobileMode = result.matches;

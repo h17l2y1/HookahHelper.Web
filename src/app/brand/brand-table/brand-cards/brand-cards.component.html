@@ -12,12 +12,15 @@
     </mat-card>
   </div>
 
-  <mat-paginator
-    (page)="handlePageEvent($event)"
-    [length]="totalRows"
-    [pageIndex]="currentPage"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    aria-label="Select page">
-  </mat-paginator>
+  <div class="paginator-container">
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="totalRows"
+      [pageIndex]="currentPage"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+
 </div>

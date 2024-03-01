@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
@@ -8,18 +8,27 @@ import {UserDataSharedService} from "../services/shared/user-data-shared.service
 import {TokenService} from "../services/token.service";
 import {UserPermission} from "../shared/user-permission";
 import {ThemeService} from "./them-picker/theme.service";
-import {Observable, tap} from "rxjs";
-import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
+import {Subject, takeUntil, tap} from "rxjs";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+
+enum Screen {
+  XSmall = 'XSmall',
+  Small = 'Small',
+  Medium = 'Medium',
+  Large = 'Large',
+  XLarge = 'XLarge',
+}
 
 @Component({
   selector: 'sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent extends UserPermission {
-  public options$: Observable<any> = this.themeService.getThemeOptions();
-  public isMobileHeader!: boolean;
-  public inDevelop = true;
+export class SidenavComponent extends UserPermission implements OnDestroy {
+  public isMobile!: boolean;
+  public inDevelop: boolean = true;
+  public currentScreenSize!: string;
+  private destroyed: Subject<void> = new Subject<void>();
 
   constructor(
     userDataService: UserDataSharedService,
@@ -29,17 +38,45 @@ export class SidenavComponent extends UserPermission {
     private tokenService: TokenService) {
     super(userDataService);
     this.themeService.setTheme("dark");
-    this.breakpointObserver.observe(["(max-width: 768px)"]).pipe(
-      tap((result: BreakpointState) => {
-        if (result.matches) {
-          // hide stuff
-          this.isMobileHeader = result.matches;
-        } else {
-          this.isMobileHeader = result.matches;
-          // show stuff
-        }
-      })
-    ).subscribe();
+
+    this.breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        '(max-width: 767px)',
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(
+        takeUntil(this.destroyed),
+        tap(() => {
+          if (this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+            this.currentScreenSize = 'XSmall';
+            this.isMobile = true;
+          }
+          if (this.breakpointObserver.isMatched('(max-width: 767px)')) {
+            this.isMobile = true;
+            return;
+          }
+          if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
+            this.currentScreenSize = 'Small';
+            this.isMobile = false;
+          }
+          if (this.breakpointObserver.isMatched(Breakpoints.Medium)) {
+            this.currentScreenSize = 'Medium';
+            this.isMobile = false;
+          }
+          if (this.breakpointObserver.isMatched(Breakpoints.Large)) {
+            this.currentScreenSize = 'Large';
+            this.isMobile = false;
+          }
+          if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
+            this.currentScreenSize = 'XLarge';
+            this.isMobile = false;
+          }
+        })
+      ).subscribe();
   }
 
   themeChangeHandler(themeToSet: any) {
@@ -89,4 +126,10 @@ export class SidenavComponent extends UserPermission {
     });
   }
 
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  protected readonly Screen = Screen;
 }
