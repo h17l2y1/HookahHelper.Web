@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, tap} from "rxjs";
 import {Filter} from "../../../interfaces/models/filter";
 import {Brand} from "../../../interfaces/entity/brand";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,13 +15,28 @@ import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 })
 export class BrandCardsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public totalRows = 0;
-  public currentPage = 0;
-  public pageSizeOptions = [30, 60, 120];
-  public pageSize = this.pageSizeOptions[0];
+  public totalRows: number = 0;
+  public currentPage: number = 0;
+  public pageSizeOptions: number[] = [30, 60, 120];
+  public pageSize: number = this.pageSizeOptions[0];
   public isLoadingResults: boolean = false;
   public filter!: Filter;
   public brands: Brand[] = [];
+  public animation: string = 'progress-dark';
+  // @ts-ignore
+  public skeletonCount = Array(30).fill().map((x,i)=>i)
+  public skeletonLineStyle = {
+    'background-color': '#262626',
+    'animation-duration': '2s',
+    'margin': '0'
+  }
+  public skeletonImageStyle = {
+    'background-color': '#262626',
+    'animation-duration': '2s',
+    'margin': '0',
+    'height': '100px',
+    'width': '230px'
+  }
 
   constructor(
     public dialog: MatDialog,
@@ -45,6 +60,8 @@ export class BrandCardsComponent implements OnInit {
     this.isLoadingResults = true;
     this.brandService.getAll(pag, this.pageSize, 'asc', 'name', this.filter)
       .pipe(
+        debounceTime(4000),
+        distinctUntilChanged(),
         tap((response: GetAllResponse<Brand>) => {
           this.brands = response.list;
           this.totalRows = response.total;

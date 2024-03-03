@@ -13,7 +13,7 @@ const routes: Routes = [
     component: BrandTableComponent,
     resolve: {
       countries: BrandFilterOptionsResolver,
-      queryParam: BrandQueryParamResolver,
+      queryParam: BrandQueryParamResolver
     }
   },
 ];

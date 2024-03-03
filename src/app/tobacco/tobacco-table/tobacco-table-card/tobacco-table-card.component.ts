@@ -23,6 +23,21 @@ export class TobaccoTableCardComponent implements OnInit {
   public pageSizeOptions = [23, 40, 60, 100];
   public pageSize = this.pageSizeOptions[0];
   public isLoadingResults!: boolean;
+  public animation: string = 'progress-dark';
+  // @ts-ignore
+  public skeletonCount = Array(30).fill().map((x,i)=>i)
+  public skeletonLineStyle = {
+    'background-color': '#262626',
+    'animation-duration': '2s',
+    'margin': '0'
+  }
+  public skeletonImageStyle = {
+    'background-color': '#262626',
+    'animation-duration': '2s',
+    'margin': '0',
+    'height': '100px',
+    'width': '230px'
+  }
 
   constructor(
     public dialog: MatDialog,

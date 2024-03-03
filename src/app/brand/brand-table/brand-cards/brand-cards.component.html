@@ -1,16 +1,34 @@
 <div class="brand-container">
-  <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
-  <div class="card-container">
-    <mat-card class="brand-card" *ngFor="let brand of brands">
-      <a class="image-link" [routerLink]="['/tobaccos/']" [queryParams]="{brandId: brand.id}">
-        <img mat-card-image class="brand-card-image" src="{{brand.image.link}}" alt="image error">
-      </a>
-      <div class="info">
-        <span class="title">{{ brand.name }}</span><br>
-        <span class="description">{{ brand.description }}</span>
-      </div>
-    </mat-card>
-  </div>
+  @if(isLoadingResults){
+    <mat-progress-bar mode="query"></mat-progress-bar>
+    <div class="card-container">
+      @for (skeleton of skeletonCount; track skeleton) {
+        <mat-card class="brand-card">
+          <a class="image-link" [routerLink]="['/tobaccos/']">
+            <ngx-skeleton-loader class="brand-card-image" count="1" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
+          </a>
+          <div class="info">
+            <span class="title"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span><br>
+            <span class="description"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
+          </div>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="card-container">
+      @for (brand of brands; track brand) {
+        <mat-card class="brand-card">
+          <a class="image-link" [routerLink]="['/tobaccos/']" [queryParams]="{brandId: brand.id}">
+            <img mat-card-image class="brand-card-image" src="{{brand.image.link}}" alt="image error">
+          </a>
+          <div class="info">
+            <span class="title">{{ brand.name }}</span><br>
+            <span class="description">{{ brand.description }}</span>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
 
   <div class="paginator-container">
     <mat-paginator

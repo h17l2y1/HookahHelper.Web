@@ -29,6 +29,7 @@ import {ImageUploadModule} from "../shared/components/image-upload/image-upload.
 import {MatExpansionModule} from "@angular/material/expansion";
 import {BrandFilterOptionsResolver} from "./brand-table/brand-filter-options.resolver";
 import {BrandQueryParamResolver} from "./brand-table/brand-query-param.resolver";
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 @NgModule({
   declarations: [
@@ -58,14 +59,15 @@ import {BrandQueryParamResolver} from "./brand-table/brand-query-param.resolver"
     MatCardModule,
     StarRatingModule,
     ImageUploadModule,
-    MatExpansionModule
+    MatExpansionModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     BrandService,
     CountryService,
     NamePipe,
     BrandFilterOptionsResolver,
-    BrandQueryParamResolver,
+    BrandQueryParamResolver
   ]
 })
 export class BrandModule {

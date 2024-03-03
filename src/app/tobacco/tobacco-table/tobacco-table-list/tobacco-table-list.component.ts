@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable, tap} from "rxjs";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {tap} from "rxjs";
 import {TobaccoEditorComponent} from "../../tobacco-editor/tobacco-editor.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../../constants";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,7 +15,7 @@ import {Tag} from "../../../interfaces/entity/tag";
 import {UserPermission} from "../../../shared/user-permission";
 import {TagType} from "../../../interfaces/enums/tag-type";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {FilterSharedService} from "../../filter-shared.service";
+import {MatTableDataSource} from "@angular/material/table";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -31,17 +31,26 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   public filter?: Filter | null;
-  public userData$ = this.userDataService.getUser;
   public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
   public displayedColumns!: string[];
-  public tobaccos!: Tobacco[];
-  public totalRows = 0;
-  public currentPage = 0;
-  public pageSizeOptions = [23, 40, 60, 100];
-  public pageSize = this.pageSizeOptions[0];
+  // public tobaccos!: Tobacco[];
+  public tobaccos!: MatTableDataSource<Tobacco>;
+  public totalRows: number = 0;
+  public currentPage: number = 0;
+  public pageSizeOptions: number[] = [23, 40, 60, 100];
+  public pageSize: number = this.pageSizeOptions[0];
   public tobaccosList!: TobaccoList[];
   public isLoadingResults!: boolean;
   public readonly TagType = TagType;
+  public animation: string = 'progress-dark';
+  public skeletonStyle = {
+    'border-radius': '5px',
+    'height': '50px',
+    'background-color': '#262626',
+    'border': '1px solid #323232',
+    'animation-duration': '2s',
+    'margin': '0'
+  }
 
   constructor(
     userDataService: UserDataSharedService,
@@ -55,7 +64,6 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
 
   ngOnInit(): void {
     this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
-
     this.route.queryParamMap.subscribe((params: ParamMap) => {
       this.filter = {
         name: params.get('name'),
@@ -70,6 +78,7 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
   }
 
   ngAfterViewInit(): void {
+    this.tobaccos.sort = this.sort;
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
       this.getTobaccos();
@@ -84,9 +93,10 @@ export class TobaccoTableListComponent extends UserPermission implements OnInit,
     this.tobaccoService.getAll(paginator, this.pageSize, sortDirection, sortActive, this.filter)
       .pipe(
         tap((response: GetAllResponse<Tobacco>) => {
-          this.tobaccos = response.list;
+          // this.tobaccos = response.list;
+          this.tobaccos = new MatTableDataSource(response.list);
           this.totalRows = response.total
-          this.tobaccosList = this.tobaccos?.map(tobacco => {
+          this.tobaccosList = response.list?.map(tobacco => {
             const tobaccoList = tobacco as TobaccoList;
             tobaccoList.tagsDefault = tobacco.tags.filter(tag => !tag.isGlobal);
             tobaccoList.tagsGlobal = tobacco.tags.filter(tag => tag.isGlobal);

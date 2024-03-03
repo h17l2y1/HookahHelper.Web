@@ -23,6 +23,21 @@ export class BrandService {
     return this.http.get<GetAllResponse<Brand>>(this.rootUrl + req);
   }
 
+  public getAll2(queryParams?: Filter): Observable<GetAllResponse<Brand>> {
+    let req = `Brand/GetAll`
+    if (queryParams){
+      req = req + '?';
+      req = queryParams?.page ? req + `&page=${queryParams.page}` : req;
+      req = queryParams?.take ? req + `&take=${queryParams.take}` : req;
+      req = queryParams?.sortBy ? req + `&sortBy=${queryParams.sortBy}` : req;
+      req = queryParams?.type ? req + `&column=${queryParams.type}` : req;
+      req = queryParams?.name ? req + `&name=${queryParams.name}` : req;
+      req = queryParams?.countryId ? req + `&countryId=${queryParams.countryId}` : req;
+    }
+
+    return this.http.get<GetAllResponse<Brand>>(this.rootUrl + req);
+  }
+
   public getOptions(): Observable<Brand[]> {
     return this.http.get<Brand[]>(this.rootUrl + 'Brand/GetOptions');
   }
