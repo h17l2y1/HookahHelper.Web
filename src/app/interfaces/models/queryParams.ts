@@ -1,6 +1,6 @@
 import {BaseQueryParams} from "./base-query-params";
 
-export interface Filter extends BaseQueryParams{
+export interface QueryParams extends BaseQueryParams{
   name?: string | null;
   tagId?: string | null;
   brandId?: string | null;

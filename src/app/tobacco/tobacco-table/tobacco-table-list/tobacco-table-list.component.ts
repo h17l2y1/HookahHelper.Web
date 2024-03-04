@@ -9,7 +9,7 @@ import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
-import {Filter} from "../../../interfaces/models/filter";
+import {QueryParams} from "../../../interfaces/models/queryParams";
 import {UserDataSharedService} from "../../../services/shared/user-data-shared.service";
 import {Tag} from "../../../interfaces/entity/tag";
 import {UserPermission} from "../../../shared/user-permission";
@@ -30,7 +30,7 @@ export interface TobaccoList extends Tobacco {
 export class TobaccoTableListComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  public filter?: Filter | null;
+  public filter?: QueryParams | null;
   public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
   public displayedColumns!: string[];
   // public tobaccos!: Tobacco[];

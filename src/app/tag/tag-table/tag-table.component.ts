@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {Filter} from "../../interfaces/models/filter";
+import {QueryParams} from "../../interfaces/models/queryParams";
 import {MatTableDataSource} from "@angular/material/table";
 import {map, merge, startWith, switchMap, tap} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
@@ -27,7 +27,7 @@ export class TagTableComponent implements AfterViewInit {
   public currentPage = 0;
   public pageSizeOptions = [10, 25, 100];
   public pageSize = this.pageSizeOptions[0];
-  public filters: Filter = {
+  public filters: QueryParams = {
     name: null,
   };
   public isLoadingResults = true;

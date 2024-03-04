@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {Filter} from "../interfaces/models/filter";
+import {QueryParams} from "../interfaces/models/queryParams";
 import {MatTableDataSource} from "@angular/material/table";
 import {Mix} from "../interfaces/entity/mix";
 import {TopMixService} from "./top-mix.service";
@@ -28,7 +28,7 @@ export class TopMixComponent extends UserPermission implements OnInit, AfterView
   public currentPage = 0;
   public pageSizeOptions = [10, 25, 100];
   public pageSize = this.pageSizeOptions[0];
-  public filters: Filter = {
+  public filters: QueryParams = {
     name: null,
   };
   public isLoadingResults = true;

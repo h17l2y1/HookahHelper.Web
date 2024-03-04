@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Filter} from "../interfaces/models/filter";
+import {QueryParams} from "../interfaces/models/queryParams";
 import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Mix} from "../interfaces/entity/mix";
@@ -13,7 +13,7 @@ export class TopMixService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Mix>> {
+  public getAll(page: number, take: number, sortBy: string, type: string, filters: QueryParams): Observable<GetAllResponse<Mix>> {
     let req = `Mix/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
     req = filters?.tagId ? req + `&tagId=${filters.tagId}` : req;

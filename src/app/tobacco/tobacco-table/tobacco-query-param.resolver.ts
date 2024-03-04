@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot} from "@angular/router";
-import {Filter} from "../../interfaces/models/filter";
+import {QueryParams} from "../../interfaces/models/queryParams";
 
 @Injectable()
 export class TobaccoQueryParamResolver {
 
-  resolve(route: ActivatedRouteSnapshot): Filter {
+  resolve(route: ActivatedRouteSnapshot): QueryParams {
     return {
       name: route.queryParams['name'],
       tagId: route.queryParams['tagId'],

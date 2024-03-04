@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {Filter} from "../interfaces/models/filter";
+import {QueryParams} from "../interfaces/models/queryParams";
 
 @Injectable()
 export class FilterSharedService {
-  private filter: Filter = {
+  private filter: QueryParams = {
     name: null,
     tagId: null,
     brandId: null,
@@ -12,10 +12,10 @@ export class FilterSharedService {
     lineId: null,
     heavinessId: null
   }
-  private filters = new BehaviorSubject<Filter>(this.filter);
+  private filters = new BehaviorSubject<QueryParams>(this.filter);
   public getFilters = this.filters.asObservable();
 
-  public setFilters(filter: Filter) {
+  public setFilters(filter: QueryParams) {
     this.filters.next(filter)
   }
 }

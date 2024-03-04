@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Filter} from "../../interfaces/models/filter";
+import {QueryParams} from "../../interfaces/models/queryParams";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from "rxjs";
@@ -29,7 +29,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit {
   public isMobileMode!: boolean;
   public filterOptions: TobaccoOptions = this.route.snapshot.data['filterOptions'];
   public linesOption: Line[] = this.route.snapshot.data['lines'];
-  public filter: Filter = this.route.snapshot.data['queryParam'];
+  public filter: QueryParams = this.route.snapshot.data['queryParam'];
   public brandsOptionsFiltered: Brand[] = this.filterOptions.brands.slice();
   public countriesOptionsFiltered: Country[] = this.filterOptions.countries.slice();
   public tagsOptionsFiltered: Tag[] = this.filterOptions.tags.slice();

@@ -5,7 +5,7 @@ import {tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {GetAllResponse} from "../../../interfaces/models/get-all-response";
 import {Tobacco} from "../../../interfaces/entity/tobacco";
-import {Filter} from "../../../interfaces/models/filter";
+import {QueryParams} from "../../../interfaces/models/queryParams";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
@@ -16,7 +16,7 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 export class TobaccoTableCardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public brandId: string | null = this.route.snapshot.data['brandId'];
-  public filter?: Filter | null;
+  public filter?: QueryParams | null;
   public tobaccos!: Tobacco[];
   public totalRows = 0;
   public currentPage = 0;

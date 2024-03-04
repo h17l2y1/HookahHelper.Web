@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {Filter} from "../interfaces/models/filter";
+import {QueryParams} from "../interfaces/models/queryParams";
 import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Tag} from "../interfaces/entity/tag";
@@ -14,7 +14,7 @@ export class TagService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filters: Filter): Observable<GetAllResponse<Tag>> {
+  public getAll(page: number, take: number, sortBy: string, type: string, filters: QueryParams): Observable<GetAllResponse<Tag>> {
     let req = `Tag/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
     req = filters?.name ? req + `&name=${filters.name}` : req;
 
