@@ -25,8 +25,8 @@ import {MatCardModule} from "@angular/material/card";
 import {StarRatingModule} from "angular-star-rating";
 import {ImageUploadModule} from "../shared/components/image-upload/image-upload.module";
 import {MatExpansionModule} from "@angular/material/expansion";
-import {BrandFilterOptionsResolver} from "./brand-table/brand-filter-options.resolver";
-import {BrandQueryParamResolver} from "./brand-table/brand-query-param.resolver";
+import {BrandFilterOptionsResolver} from "./brand-filter-options.resolver";
+import {BrandQueryParamResolver} from "./brand-query-param.resolver";
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 @NgModule({
