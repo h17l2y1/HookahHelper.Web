@@ -18,8 +18,6 @@ import {CountryService} from "../services/country.service";
 import {BrandCreateComponent} from './brand-create/brand-create.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {BrandCardsComponent} from './brand-table/brand-cards/brand-cards.component';
-import {BrandListComponent} from './brand-table/brand-list/brand-list.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
@@ -36,8 +34,6 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     BrandTableComponent,
     BrandEditorComponent,
     BrandCreateComponent,
-    BrandCardsComponent,
-    BrandListComponent,
   ],
   imports: [
     CommonModule,

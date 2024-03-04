@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
@@ -7,27 +7,67 @@ import {UserDataSharedService} from "../../services/shared/user-data-shared.serv
 import {TableTypes} from "../../interfaces/enums/table-type";
 import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
-import {debounceTime, distinctUntilChanged, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Filter} from "../../interfaces/models/filter";
+import {QueryParams} from "../../interfaces/models/queryParams";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {Brand} from "../../interfaces/entity/brand";
+import {GetAllResponse} from "../../interfaces/models/get-all-response";
+import {BrandService} from "../brand.service";
+import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
+import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-brand-table',
   templateUrl: './brand-table.component.html',
   styleUrls: ['./brand-table.component.scss']
 })
-export class BrandTableComponent extends UserPermission implements OnInit {
+export class BrandTableComponent extends UserPermission implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  public animation: string = 'progress-dark';
+  public allColumns: string[] = ['image', 'name', 'description', 'country', 'action'];
+  public displayedColumns: string[] = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
   public readonly brandTableKey: string = 'brand_table_state';
   public countries: Country[] = this.route.snapshot.data['countries'];
-  public filter: Filter = this.route.snapshot.data['queryParam'];
+  public queryParams: QueryParams = this.route.snapshot.data['queryParam'];
   public countriesOptionsFiltered: Country[] = this.countries.slice();
-  public nameControl: FormControl = this.formBuilder.control(this.filter.name);
-  public countryControl: FormControl = this.formBuilder.control(this.countries.find(x => x.id === this.filter.countryId));
+  public nameControl: FormControl = this.formBuilder.control(this.queryParams.name);
+  public countryControl: FormControl = this.formBuilder.control(this.countries.find(x => x.id === this.queryParams.countryId));
   public brandFilterForm: FormGroup = this.initBrandFilterForm();
   protected readonly TableTypes = TableTypes;
-  public isTableViewCard: boolean = true;
+  public isCardView: boolean = true;
   public isMobileMode!: boolean;
+  public totalRows: number = 0;
+  public currentPage: number = 0;
+  public pageSizeOptions: number[] = [30, 60, 120];
+  public pageSize: number = this.pageSizeOptions[0];
+  public isLoadingResults: boolean = false;
+  public brands: Brand[] = [];
+  // @ts-ignore
+  public skeletonCount = Array(30).fill().map((x, i) => i)
+  public skeletonLineStyle = {
+    'background-color': '#262626',
+    'animation-duration': '2s',
+    'margin': '0'
+  }
+  public skeletonImageStyle = {
+    'background-color': '#262626',
+    'animation-duration': '2s',
+    'margin': '0',
+    'height': '100px',
+    'width': '230px'
+  }
+  public skeletonStyle = {
+    'border-radius': '5px',
+    'height': '50px',
+    'background-color': '#262626',
+    'border': '1px solid #323232',
+    'animation-duration': '2s',
+    'margin': '0'
+  }
 
   constructor(
     userDataService: UserDataSharedService,
@@ -35,6 +75,7 @@ export class BrandTableComponent extends UserPermission implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
+    private brandService: BrandService,
     private breakpointObserver: BreakpointObserver) {
     super(userDataService);
     this.breakpointObserver.observe(["(max-width: 767px)"]).pipe(
@@ -50,12 +91,17 @@ export class BrandTableComponent extends UserPermission implements OnInit {
 
   ngOnInit(): void {
     const tableType: TableTypes = this.getTableState();
-    this.isTableViewCard = tableType === TableTypes.Card;
+    this.isCardView = tableType === TableTypes.Card;
+    this.queryParams.take = this.queryParams.take ? this.queryParams.take : this.pageSize;
 
     this.nameControl.valueChanges.pipe(
-      debounceTime(2000),
-      distinctUntilChanged()
-    ).subscribe(() => this.redirect());
+      debounceTime(1500),
+      distinctUntilChanged(),
+      tap(value => {
+        this.queryParams.name = value;
+        this.redirect();
+      })
+    ).subscribe();
 
     this.countryControl.valueChanges.pipe(
       tap(value => {
@@ -63,18 +109,47 @@ export class BrandTableComponent extends UserPermission implements OnInit {
           this.countriesOptionsFiltered = this._filter(this.countries, value);
           return;
         }
-        this.redirect()
+        this.queryParams.countryId = value?.id;
+        this.redirect();
+      })
+    ).subscribe();
+
+    this.getBrands().subscribe();
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.isCardView) {
+      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+      this.sort.sortChange.pipe(
+        tap(value => {
+          this.queryParams.sortBy = value.direction;
+          this.queryParams.type = value.active;
+          this.redirect();
+        })
+      ).subscribe();
+    }
+
+    this.paginator.page.pipe(
+      tap(value => {
+        this.queryParams.page = value.pageIndex;
+        this.queryParams.take = value.pageSize;
+        this.redirect();
       })
     ).subscribe();
   }
 
   private redirect(): void {
-    this.router.navigate(['/brands/'], {
+    this.router.navigate(['../brands/'], {
       queryParams: {
+        page: this.queryParams.page,
+        take: this.queryParams.take,
+        sortBy: this.queryParams.sortBy,
+        type: this.queryParams.type,
         name: this.nameControl.value,
         countryId: this.countryControl.value?.id,
       }
-    });
+    }).then(() => this.getBrands().subscribe());
   }
 
   private _filter(array: { name: string }[], name: string): any {
@@ -88,14 +163,13 @@ export class BrandTableComponent extends UserPermission implements OnInit {
 
   public switchTableView(type: TableTypes): boolean {
     localStorage.setItem(this.brandTableKey, type);
-
-    this.isTableViewCard = type === TableTypes.Card
-    return this.isTableViewCard;
+    this.isCardView = type === TableTypes.Card
+    return this.isCardView;
   }
 
   private getTableState(): TableTypes {
     const type = localStorage.getItem(this.brandTableKey);
-    if (!type){
+    if (!type) {
       localStorage.setItem(this.brandTableKey, TableTypes.Card);
       return TableTypes.Card
     }
@@ -126,4 +200,59 @@ export class BrandTableComponent extends UserPermission implements OnInit {
     });
   }
 
+  public handlePageEvent(e: PageEvent): void {
+    this.pageSize = e.pageSize;
+    this.currentPage = e.pageIndex;
+    this.queryParams.page = e.pageIndex
+    this.queryParams.take = e.pageSize
+
+    this.redirect();
+  }
+
+  private getBrands(): Observable<GetAllResponse<Brand>> {
+    this.isLoadingResults = true;
+    return this.brandService.getAll(this.queryParams)
+      .pipe(
+        tap(data => {
+          this.isLoadingResults = false;
+          if (data === null) {
+            return [];
+          }
+          this.totalRows = data.total;
+          this.brands = data.list
+          return;
+        }),
+      )
+  }
+
+  public onUpdate(id: string): void {
+    const dialogRef = this.dialog.open(BrandEditorComponent, {
+      data: {id: id},
+      maxWidth: '1000px',
+      backdropClass: 'blurred',
+      enterAnimationDuration: ENTER_ANIMATION_DURATION,
+      exitAnimationDuration: EXIT_ANIMATION_DURATION
+    });
+
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.redirect();
+      }
+    });
+  }
+
+  public onDelete(id: string): void {
+    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+      width: "300px"
+    });
+    dialogRef.afterClosed().subscribe(popupResponse => {
+      if (popupResponse) {
+        this.brandService.remove(id).subscribe(() => this.redirect())
+      }
+    });
+  }
+
+  public onBrandList(id: string): void {
+    this.router.navigate(['/tobaccos/'], {queryParams: {brandId: id}});
+  }
 }
