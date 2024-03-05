@@ -46,8 +46,7 @@ export class BrandTableComponent extends UserPermission implements OnInit, After
   public pageSize: number = this.pageSizeOptions[0];
   public isLoadingResults: boolean = false;
   public brands: Brand[] = [];
-  // @ts-ignore
-  public skeletonCount = Array(30).fill().map((x, i) => i)
+  public skeletonCount = new Array<number>(20).fill(0);
   public skeletonLineStyle = {
     'background-color': '#262626',
     'animation-duration': '2s',
@@ -140,15 +139,8 @@ export class BrandTableComponent extends UserPermission implements OnInit, After
   }
 
   private redirect(): void {
-    this.router.navigate(['../brands/'], {
-      queryParams: {
-        page: this.queryParams.page,
-        take: this.queryParams.take,
-        sortBy: this.queryParams.sortBy,
-        type: this.queryParams.type,
-        name: this.nameControl.value,
-        countryId: this.countryControl.value?.id,
-      }
+    this.router.navigate(['/brands/'], {
+      queryParams: {...this.queryParams}
     }).then(() => this.getBrands().subscribe());
   }
 

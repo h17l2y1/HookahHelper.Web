@@ -26,6 +26,25 @@ export class TobaccoService {
     return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
   }
 
+  public getAll2(queryParams?: QueryParams | null): Observable<GetAllResponse<Tobacco>> {
+    let req = 'Tobacco/GetAll';
+    if (queryParams){
+      req = req + '?';
+      req = queryParams?.page ? req + `&page=${queryParams.page}` : req;
+      req = queryParams?.take ? req + `&take=${queryParams.take}` : req;
+      req = queryParams?.sortBy ? req + `&sortBy=${queryParams.sortBy}` : req;
+      req = queryParams?.type ? req + `&column=${queryParams.type}` : req;
+      req = queryParams?.name ? req + `&name=${queryParams.name}` : req;
+      req = queryParams?.tagId ? req + `&tagId=${queryParams.tagId}` : req;
+      req = queryParams?.brandId ? req + `&brandId=${queryParams.brandId}` : req;
+      req = queryParams?.countryId ? req + `&countryId=${queryParams.countryId}` : req;
+      req = queryParams?.lineId ? req + `&lineId=${queryParams.lineId}` : req;
+      req = queryParams?.heavinessId ? req + `&heavinessId=${queryParams.heavinessId}` : req;
+    }
+
+    return this.http.get<GetAllResponse<Tobacco>>(this.rootUrl + req);
+  }
+
   public getById(id: string): Observable<Tobacco> {
     return this.http.get<Tobacco>(this.rootUrl + `Tobacco/GetById/${id}`);
   }

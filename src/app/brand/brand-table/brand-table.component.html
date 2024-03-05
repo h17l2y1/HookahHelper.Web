@@ -102,7 +102,6 @@
           }
         </div>
       }
-
     </div>
   }
   @else {
@@ -132,7 +131,7 @@
             <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.country.name }}</td>
           </ng-container>
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>Дія</th>
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let row">
               <mat-icon class="icon blue-color" aria-hidden="false" fontIcon="settings"
                         (click)="onUpdate(row.id)"></mat-icon>

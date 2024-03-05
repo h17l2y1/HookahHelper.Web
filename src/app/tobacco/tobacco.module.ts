@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TobaccoCreateComponent} from './tobacco-create/tobacco-create.component';
 import {TobaccoRoutingModule} from "./tobacco-routing.module";
-import {TobaccoTableCardComponent} from './tobacco-table/tobacco-table-card/tobacco-table-card.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -21,7 +20,6 @@ import {TobaccoEditorComponent} from './tobacco-editor/tobacco-editor.component'
 import {LineService} from "../services/line.service";
 import {HeavinessService} from "../services/heaviness.service";
 import {MatBadgeModule} from "@angular/material/badge";
-import {TobaccoTableListComponent} from './tobacco-table/tobacco-table-list/tobacco-table-list.component';
 import {TobaccoTableComponent} from "./tobacco-table/tobacco-table.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatChipsModule} from "@angular/material/chips";
@@ -49,8 +47,6 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
   declarations: [
     TobaccoCreateComponent,
     TobaccoEditorComponent,
-    TobaccoTableCardComponent,
-    TobaccoTableListComponent,
     TobaccoTableComponent,
     TobaccoViewPageComponent,
   ],
