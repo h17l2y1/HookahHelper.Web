@@ -93,15 +93,17 @@ body {
 
   .title {
     color: white;
-
-    .title-link {
-      color: white !important;
-    }
   }
+
 
   .description {
     color: var(--card-description-color);
   }
+}
+
+.mat-mdc-card .title a.title-link,
+.mat-mdc-card .title a.title-link:visited {
+  color: white !important;
 }
 
 .popup-container {
