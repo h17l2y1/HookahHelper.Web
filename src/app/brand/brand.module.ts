@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {BrandRoutingModule} from "./brand-routing.module";
 import {BrandTableComponent} from './brand-table/brand-table.component';
 import {MatInputModule} from "@angular/material/input";
@@ -56,7 +56,8 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     StarRatingModule,
     ImageUploadModule,
     MatExpansionModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    NgOptimizedImage
   ],
   providers: [
     BrandService,

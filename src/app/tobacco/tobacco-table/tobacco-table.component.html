@@ -241,10 +241,23 @@
         </div>
       } @else {
         <div class="card-container">
-          @for (tobacco of tobaccos; track tobacco) {
+          @for (tobacco of tobaccos; track tobacco; let i = $index) {
             <mat-card class="brand-card">
               <a class="image-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]">
-                <img mat-card-image class="image" src="{{tobacco.image.link}}" alt="image error">
+                @if (i < 25){
+                  <img mat-card-image class="image"
+                       ngSrc="{{tobacco.image.link}}"
+                       priority=""
+                       width="auto"
+                       height="auto"
+                       alt="image error">
+                } @else {
+                  <img mat-card-image class="image"
+                       ngSrc="{{tobacco.image.link}}"
+                       width="auto"
+                       height="auto"
+                       alt="image error">
+                }
               </a>
               <div class="info">
                 <div class="title">

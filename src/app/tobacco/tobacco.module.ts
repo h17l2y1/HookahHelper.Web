@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {TobaccoCreateComponent} from './tobacco-create/tobacco-create.component';
 import {TobaccoRoutingModule} from "./tobacco-routing.module";
 import {MatTableModule} from "@angular/material/table";
@@ -77,6 +77,7 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     MatExpansionModule,
     MatGridListModule,
     NgxSkeletonLoaderModule,
+    NgOptimizedImage
   ],
   providers: [
     TobaccoService,

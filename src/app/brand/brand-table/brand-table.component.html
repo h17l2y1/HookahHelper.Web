@@ -78,21 +78,33 @@
           @for (skeleton of skeletonCount; track skeleton) {
             <mat-card class="brand-card">
               <a class="image-link" [routerLink]="['/tobaccos/']">
-                <ngx-skeleton-loader class="brand-card-image" count="1" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
+                <ngx-skeleton-loader class="brand-card-image" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
               </a>
               <div class="info">
-                <span class="title"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span><br>
-                <span class="description"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
+                <span class="title"><ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
               </div>
             </mat-card>
           }
         </div>
       } @else {
         <div class="card-container">
-          @for (brand of brands; track brand) {
+          @for (brand of brands; track brand; let i = $index) {
             <mat-card class="brand-card">
               <a class="image-link" [routerLink]="['/tobaccos/']" [queryParams]="{brandId: brand.id}">
-                <img mat-card-image class="brand-card-image" src="{{brand.image.link}}" alt="image error">
+                @if(i < 25){
+                  <img mat-card-image class="brand-card-image"
+                       ngSrc="{{brand.image.link}}"
+                       width="auto"
+                       height="auto"
+                       priority=""
+                       alt="image error">
+                } @else {
+                  <img mat-card-image class="brand-card-image"
+                       ngSrc="{{brand.image.link}}"
+                       width="auto"
+                       height="auto"
+                       alt="image error">
+                }
               </a>
               <div class="info">
                 <span class="title">{{ brand.name }}</span><br>
