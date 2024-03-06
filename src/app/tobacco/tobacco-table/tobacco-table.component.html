@@ -227,14 +227,13 @@
           @for (skeletonCards of skeletonCount; track skeletonCards) {
             <mat-card class="brand-card">
               <a class="image-link">
-                <ngx-skeleton-loader class="brand-card-image" count="1" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
+                <ngx-skeleton-loader class="brand-card-image" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
               </a>
               <div class="info">
                 <div class="title">
-                  <a class="title-link"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></a>
+                  <a class="title-link"><ngx-skeleton-loader [theme]="skeletonLineStyle"></ngx-skeleton-loader></a>
                 </div>
-                <div class="description"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></div>
-                <div class="description"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></div>
+                <div class="description"><ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader></div>
               </div>
             </mat-card>
           }
