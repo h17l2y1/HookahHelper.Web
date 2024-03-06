@@ -5,6 +5,7 @@ import {QueryParams} from "../interfaces/models/queryParams";
 import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Mix} from "../interfaces/entity/mix";
+import {Brand} from "../interfaces/entity/brand";
 
 @Injectable()
 export class TopMixService {
@@ -13,14 +14,16 @@ export class TopMixService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(page: number, take: number, sortBy: string, type: string, filters: QueryParams): Observable<GetAllResponse<Mix>> {
-    let req = `Mix/GetAll?Page=${page}&Take=${take}&SortBy=${sortBy}&Column=${type}`
-    req = filters?.name ? req + `&name=${filters.name}` : req;
-    req = filters?.tagId ? req + `&tagId=${filters.tagId}` : req;
-    req = filters?.brandId ? req + `&brandId=${filters.brandId}` : req;
-    req = filters?.countryId ? req + `&countryId=${filters.countryId}` : req;
-    req = filters?.lineId ? req + `&lineId=${filters.lineId}` : req;
-    req = filters?.heavinessId ? req + `&heavinessId=${filters.heavinessId}` : req;
+  public getAll(queryParams?: QueryParams): Observable<GetAllResponse<Mix>> {
+    let req = `Mix/GetAll`
+    if (queryParams){
+      req = req + '?';
+      req = queryParams?.page ? req + `&page=${queryParams.page}` : req;
+      req = queryParams?.take ? req + `&take=${queryParams.take}` : req;
+      req = queryParams?.sortBy ? req + `&sortBy=${queryParams.sortBy}` : req;
+      req = queryParams?.type ? req + `&column=${queryParams.type}` : req;
+      req = queryParams?.name ? req + `&name=${queryParams.name}` : req;
+    }
 
     return this.http.get<GetAllResponse<Mix>>(this.rootUrl + req);
   }

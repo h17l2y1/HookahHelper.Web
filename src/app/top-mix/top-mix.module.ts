@@ -17,6 +17,7 @@ import {StarRatingModule} from "angular-star-rating";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MixViewComponent} from "./mix-view/mix-view.component";
 import {ReviewService} from "../services/review.service";
+import {TopMixQueryParamResolver} from "./top-mix-query-param.resolver";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {ReviewService} from "../services/review.service";
   ],
   providers: [
     TopMixService,
-    ReviewService
+    ReviewService,
+    TopMixQueryParamResolver
   ]
 })
 export class TopMixModule {

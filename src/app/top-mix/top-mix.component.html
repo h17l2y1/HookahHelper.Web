@@ -2,7 +2,7 @@
   <div class="table-top-panel">
     <mat-form-field>
       <mat-label>Filter by Name</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
+      <input matInput [formControl]="nameControl">
     </mat-form-field>
 <!--    <button class="button" mat-flat-button (click)="onCreate()">Create</button>-->
   </div>
@@ -37,9 +37,9 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-        </tr>
+<!--        <tr class="mat-row" *matNoDataRow>-->
+<!--          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>-->
+<!--        </tr>-->
       </table>
     </div>
     <mat-paginator
