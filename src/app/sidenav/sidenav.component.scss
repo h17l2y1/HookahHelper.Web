@@ -1,184 +1,187 @@
 @import '../../scss/variables-dark';
 
-.main-container {
-  .sidebar-header-container {
-    position: sticky;
-    top: 0;
-    z-index: 5;
+.header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
 
-    .header-container {
-      .tool-bar {
-        padding: 1.2rem;
+  .tool-bar {
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 76px;
+
+    @media screen and (max-width: 767px) {
+      padding: 10px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+
+      .logo {
+        width: 110px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-right: 10px;
+      }
+
+      .tabs-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-height: 76px;
+        gap: 10px;
+        max-height: 40px;
 
-        @media screen and (max-width: 767px){
-          padding: 10px;
-        }
-
-        .header-left {
-          display: flex;
+        .tab {
           align-items: center;
+          cursor: pointer;
+          padding: 0.6875rem 1.125rem;
+          text-decoration: none;
 
-          .logo {
-            width: 110px;
-            font-size: 20px;
-            font-weight: 500;
-            padding-right: 10px;
-          }
-
-          .tabs-container {
-            display: flex;
-            gap: 10px;
-            max-height: 40px;
-
-            .tab {
-              align-items: center;
-              cursor: pointer;
-              padding: 0.6875rem 1.125rem;
-              text-decoration: none;
-
-              @media screen and (min-width: 1px) and (max-width: 767px){
-                text-decoration: none;
-                padding: 0;
-                align-items: center;
-                display: flex;
-                flex-direction: column;
-                font-size: 11px;
-                min-width: 100px;
-              }
-
-              .tab-text {
-                font-size: .875rem;
-                line-height: 1rem;
-                font-weight: 700;
-                letter-spacing: .1rem;
-
-                @media screen and (min-width: 1px) and (max-width: 767px){
-                  font-size: 10px;
-                }
-              }
-            }
-          }
-        }
-
-        .header-right {
-          .tabs-container {
-            display: flex;
-            gap: 10px;
-            max-height: 40px;
+          @media screen and (min-width: 1px) and (max-width: 767px) {
+            text-decoration: none;
+            padding: 0;
             align-items: center;
+            display: flex;
+            flex-direction: column;
+            font-size: 11px;
+            min-width: 100px;
+          }
 
-            .tab {
-              align-items: center;
-              cursor: pointer;
-              padding: 0.6875rem;
+          .tab-text {
+            font-size: .875rem;
+            line-height: 1rem;
+            font-weight: 700;
+            letter-spacing: .1rem;
 
-              .user-data {
-                display: flex;
-                align-items: center;
-
-                .user-pictures {
-                  border-radius: 50%;
-                  align-items: center;
-                  background-size: cover;
-                  background-repeat: no-repeat;
-                  width: 40px;
-                  height: 40px;
-                  background-image: url(../../assets/images/avatar.png);
-                }
-
-                .user-name {
-                  margin-left: 0.5rem
-                }
-              }
+            @media screen and (min-width: 1px) and (max-width: 767px) {
+              font-size: 10px;
             }
           }
         }
       }
     }
 
-    .main-data-container {
-      display: flex;
+    .header-right {
+      .tabs-container {
+        display: flex;
+        gap: 10px;
+        max-height: 40px;
+        align-items: center;
 
-      .sidebar-container {
-        height: 100%;
-        width: 280px;
-        z-index: 5;
+        .tab {
+          align-items: center;
+          cursor: pointer;
+          padding: 0.6875rem;
 
-        @media screen and (min-width: 768px) and (max-width: 1279px) {
-          width: auto;
-        }
-
-        .container {
-          border-right: 1px solid #2e2e2e;
-          height: 100vh;
-          margin: 0 32px;
-          position: relative;
-          width: auto;
-          padding-top: 32px;
-
-          nav {
+          .user-data {
             display: flex;
-            flex-direction: column;
-            padding-right: 32px;
-            white-space: nowrap;
+            align-items: center;
 
-            a {
-              -webkit-box-align: center;
+            .user-pictures {
+              border-radius: 50%;
               align-items: center;
-              border-radius: 8px;
-              height: 48px;
-              padding-left: 12px;
-              position: relative;
-              transition: all .2s ease 0s;
-              display: flex;
-              text-decoration: none;
-              -webkit-text-decoration-line: none;
+              background-size: cover;
+              background-repeat: no-repeat;
+              width: 40px;
+              height: 40px;
+              background-image: url(../../assets/images/avatar.png);
+            }
 
-              &:hover {
-                background-color: #262626;
-              }
-
-              .icon {
-                display: inline-flex;
-                margin-right: 12px;
-                opacity: .5;
-                color: #fff;
-              }
-
-              .tab-text {
-                opacity: .5;
-                color: #fff;
-                font-size: 14px;
-                font-weight: 400;
-                letter-spacing: .04em;
-                line-height: 24px;
-              }
+            .user-name {
+              margin-left: 0.5rem
             }
           }
         }
       }
+    }
+  }
+}
 
-      .component-container {
-        width: 100%;
+.main-data-container {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 76px auto 20px auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 
-        @media screen and (min-width: 768px){
-          padding-top: 32px;
-          padding-right: 32px;
-        }
+  .sidebar-container {
+    position: sticky;
+    top: 76px;
+    height: 500px;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 280px;
 
-        @media screen and (max-width: 767px){
-          padding: 10px;
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: auto;
+    }
+
+    .container {
+      border-right: 1px solid #2e2e2e;
+      height: 100vh;
+      margin: 0 32px;
+      position: relative;
+      width: auto;
+      padding-top: 32px;
+
+      nav {
+        display: flex;
+        flex-direction: column;
+        padding-right: 32px;
+        white-space: nowrap;
+
+        a {
+          -webkit-box-align: center;
+          align-items: center;
+          border-radius: 8px;
+          height: 48px;
+          padding-left: 12px;
+          position: relative;
+          transition: all .2s ease 0s;
+          display: flex;
+          text-decoration: none;
+          -webkit-text-decoration-line: none;
+
+          &:hover {
+            background-color: #262626;
+          }
+
+          .icon {
+            display: inline-flex;
+            margin-right: 12px;
+            opacity: .5;
+            color: #fff;
+          }
+
+          .tab-text {
+            opacity: .5;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: .04em;
+            line-height: 24px;
+          }
         }
       }
     }
   }
 
-  //.footer-container {
-  //  box-shadow:inset 0px 0px 0px 1px yellow;
-  //  height: 50px;
-  //}
+  .component-container {
+    width: 100%;
+
+    @media screen and (min-width: 768px) {
+      padding-top: 32px;
+      padding-right: 32px;
+    }
+
+    @media screen and (max-width: 767px) {
+      padding: 10px;
+    }
+  }
 }
+

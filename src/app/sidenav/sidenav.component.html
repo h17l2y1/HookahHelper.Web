@@ -1,154 +1,148 @@
-<div class="main-container">
-  <div class="sidebar-header-container">
-    <div class="header-container">
-      @if (isMobile){
-        <div class="tool-bar">
-          <div class="header-left">
-            <div class="tabs-container">
-              <a class="tab" routerLink="/brands">
-                <mat-icon>person</mat-icon>
-                <span class="tab-text">BRANDS</span>
-              </a>
-              <a class="tab" routerLink="/tobaccos">
-                <mat-icon>person</mat-icon>
-                <span class="tab-text">TOBACCOS</span>
-              </a>
-            </div>
-          </div>
-          <div class="header-right">
-            <div class="tabs-container">
-              <div class="app-container">
-                <app-them-picker [options]="options$ | async"
-                                 (themeChange)="themeChangeHandler($event)"></app-them-picker>
-              </div>
-              <div *ngIf="user; else unLogged" class="tab tab-user" matTooltip="My Account"
-                   [matMenuTriggerFor]="userAccountMenu">
-                <div class="user-data">
-                  <div class="user-pictures"></div>
-                </div>
-              </div>
-              <ng-template #unLogged>
-                <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-                  <mat-icon>account_circle</mat-icon>
-                </div>
-              </ng-template>
-              <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-                <button *ngIf="!user" mat-menu-item (click)="signUp()">
-                  <mat-icon>person</mat-icon>
-                  <span>Sign In</span>
-                </button>
-                <button *ngIf="!user" mat-menu-item (click)="login()">
-                  <mat-icon>person</mat-icon>
-                  <span>Login</span>
-                </button>
-                <div *ngIf="user">
-                  <button mat-menu-item (click)="logout()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    Logout
-                  </button>
-                </div>
-              </mat-menu>
-            </div>
-          </div>
+<div class="header">
+  @if (isMobile){
+    <div class="tool-bar">
+      <div class="header-left">
+        <div class="tabs-container">
+          <a class="tab" routerLink="/brands">
+            <mat-icon>person</mat-icon>
+            <span class="tab-text">BRANDS</span>
+          </a>
+          <a class="tab" routerLink="/tobaccos">
+            <mat-icon>person</mat-icon>
+            <span class="tab-text">TOBACCOS</span>
+          </a>
         </div>
-      }
-      @else {
-        <div class="tool-bar">
-          <div class="header-left">
-            <span class="logo">HookahHub</span>
+      </div>
+      <div class="header-right">
+        <div class="tabs-container">
+          <div class="app-container">
+            <app-them-picker [options]="options$ | async"
+                             (themeChange)="themeChangeHandler($event)"></app-them-picker>
           </div>
-          <div class="header-right">
-            <div class="tabs-container">
-              <div class="app-container">
-                <app-them-picker [options]="options$ | async"
-                                 (themeChange)="themeChangeHandler($event)"></app-them-picker>
-              </div>
-              <div *ngIf="user; else unLogged" class="tab tab-user" matTooltip="My Account"
-                   [matMenuTriggerFor]="userAccountMenu">
-                <div class="user-data">
-                  <div class="user-pictures"></div>
-                  <span class="user-name">{{ user.name }}</span>
-                </div>
-              </div>
-              <ng-template #unLogged>
-                <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-                  <mat-icon>account_circle</mat-icon>
-                </div>
-              </ng-template>
-              <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-                <button *ngIf="!user" mat-menu-item (click)="signUp()">
-                  <mat-icon>person</mat-icon>
-                  <span>Sign In</span>
-                </button>
-                <button *ngIf="!user" mat-menu-item (click)="login()">
-                  <mat-icon>person</mat-icon>
-                  <span>Login</span>
-                </button>
-                <button mat-menu-item routerLink="#">
-                  <mat-icon>settings</mat-icon>
-                  <span>Settings</span>
-                </button>
-                <button mat-menu-item routerLink="#">
-                  <mat-icon>help</mat-icon>
-                  <span>Help</span>
-                </button>
-                <div *ngIf="user">
-                  <mat-divider></mat-divider>
-                  <button mat-menu-item (click)="logout()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    Logout
-                  </button>
-                </div>
-              </mat-menu>
+          <div *ngIf="user; else unLogged" class="tab tab-user" matTooltip="My Account"
+               [matMenuTriggerFor]="userAccountMenu">
+            <div class="user-data">
+              <div class="user-pictures"></div>
             </div>
           </div>
+          <ng-template #unLogged>
+            <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+          </ng-template>
+          <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
+            <button *ngIf="!user" mat-menu-item (click)="signUp()">
+              <mat-icon>person</mat-icon>
+              <span>Sign In</span>
+            </button>
+            <button *ngIf="!user" mat-menu-item (click)="login()">
+              <mat-icon>person</mat-icon>
+              <span>Login</span>
+            </button>
+            <div *ngIf="user">
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Logout
+              </button>
+            </div>
+          </mat-menu>
         </div>
-      }
-    </div>
-    <div class="main-data-container">
-      @if (!isMobile) {
-        <aside class="sidebar-container">
-          <div class="container">
-            <nav>
-              <a class="tab" routerLink="/brands">
-                <mat-icon class="icon material-icons-outlined">storefront</mat-icon>
-                @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-                  <span class="tab-text">Brands</span>
-                }
-              </a>
-              <a class="tab" routerLink="/tobaccos">
-                <mat-icon class="icon material-icons-outlined">eco</mat-icon>
-                @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-                  <span class="tab-text">Tobaccos</span>
-                }
-              </a>
-              <a class="tab" routerLink="/tags" *ngIf="user?.isAdmin">
-                <mat-icon class="icon material-icons-outlined">label</mat-icon>
-                @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-                  <span class="tab-text">Tags</span>
-                }
-              </a>
-              <a class="tab" routerLink="/constructor" *ngIf="user?.isAdmin || !inDevelop">
-                <mat-icon class="icon material-icons-outlined">construction</mat-icon>
-                @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-                  <span class="tab-text">Constructor</span>
-                }
-              </a>
-              <a class="tab" routerLink="/mixes" *ngIf="user?.isAdmin || !inDevelop">
-                <mat-icon class="icon material-icons-outlined">trending_up</mat-icon>
-                @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-                  <span class="tab-text">Top mixes</span>
-                }
-              </a>
-            </nav>
-          </div>
-        </aside>
-      }
-      <div class="component-container">
-        <router-outlet></router-outlet>
       </div>
     </div>
-  </div>
-  <!--  <div class=footer-container></div>-->
+  }
+  @else {
+    <div class="tool-bar">
+      <div class="header-left">
+        <span class="logo">HookahHub</span>
+      </div>
+      <div class="header-right">
+        <div class="tabs-container">
+          <div class="app-container">
+            <app-them-picker [options]="options$ | async"
+                             (themeChange)="themeChangeHandler($event)"></app-them-picker>
+          </div>
+          <div *ngIf="user; else unLogged" class="tab tab-user" matTooltip="My Account"
+               [matMenuTriggerFor]="userAccountMenu">
+            <div class="user-data">
+              <div class="user-pictures"></div>
+              <span class="user-name">{{ user.name }}</span>
+            </div>
+          </div>
+          <ng-template #unLogged>
+            <div class="tab" matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+          </ng-template>
+          <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
+            <button *ngIf="!user" mat-menu-item (click)="signUp()">
+              <mat-icon>person</mat-icon>
+              <span>Sign In</span>
+            </button>
+            <button *ngIf="!user" mat-menu-item (click)="login()">
+              <mat-icon>person</mat-icon>
+              <span>Login</span>
+            </button>
+            <button mat-menu-item routerLink="#">
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
+            </button>
+            <button mat-menu-item routerLink="#">
+              <mat-icon>help</mat-icon>
+              <span>Help</span>
+            </button>
+            <div *ngIf="user">
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Logout
+              </button>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  }
 </div>
-
+<div class="main-data-container">
+  @if (!isMobile) {
+    <aside class="sidebar-container">
+      <div class="container">
+        <nav>
+          <a class="tab" routerLink="/brands">
+            <mat-icon class="icon material-icons-outlined">storefront</mat-icon>
+            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
+              <span class="tab-text">Brands</span>
+            }
+          </a>
+          <a class="tab" routerLink="/tobaccos">
+            <mat-icon class="icon material-icons-outlined">eco</mat-icon>
+            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
+              <span class="tab-text">Tobaccos</span>
+            }
+          </a>
+          <a class="tab" routerLink="/tags" *ngIf="user?.isAdmin">
+            <mat-icon class="icon material-icons-outlined">label</mat-icon>
+            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
+              <span class="tab-text">Tags</span>
+            }
+          </a>
+          <a class="tab" routerLink="/constructor" *ngIf="user?.isAdmin || !inDevelop">
+            <mat-icon class="icon material-icons-outlined">construction</mat-icon>
+            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
+              <span class="tab-text">Constructor</span>
+            }
+          </a>
+          <a class="tab" routerLink="/mixes" *ngIf="user?.isAdmin || !inDevelop">
+            <mat-icon class="icon material-icons-outlined">trending_up</mat-icon>
+            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
+              <span class="tab-text">Top mixes</span>
+            }
+          </a>
+        </nav>
+      </div>
+    </aside>
+  }
+  <div class="component-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
