@@ -26,7 +26,7 @@ export class TopMixComponent extends UserPermission implements OnInit, AfterView
   public displayedColumns!: string[];
   public totalRows = 0;
   public currentPage = 0;
-  public pageSizeOptions = [10, 25, 100];
+  public pageSizeOptions = [30, 60, 120];
   public pageSize = this.pageSizeOptions[0];
   public filters: QueryParams = {
     name: null,

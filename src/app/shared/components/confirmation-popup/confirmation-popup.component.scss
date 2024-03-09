@@ -1,13 +1,32 @@
 .remove-container {
   padding: 0 20px 20px 20px;
+
+  .data-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .text-container {
+    width: 80%;
+    letter-spacing: 0.04rem;
+
+    .title {
+      font-size: 20pt;
+      display: flex;
+      justify-content: center;
+      font-weight: 600;
+      padding: 20px 0;
+    }
+
+    .description {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      padding-bottom: 20px;
+    }
+  }
 }
 
 .mat-mdc-dialog-title {
-  background-color: #ffabab !important;
   padding-bottom: 18px;
-  color: black;
-}
-
-.remove-color {
-  background-color: #ffabab !important;
 }

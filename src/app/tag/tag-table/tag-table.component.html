@@ -1,10 +1,10 @@
 <div class="table-container">
   <div class="table-top-panel">
-    <mat-form-field>
+    <mat-form-field class="filter-input">
       <mat-label>Filter by Name</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
-    <button class="button" mat-flat-button (click)="onCreate()">Create</button>
+    <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
   </div>
   <div class="example-container mat-elevation-z8">
     <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>

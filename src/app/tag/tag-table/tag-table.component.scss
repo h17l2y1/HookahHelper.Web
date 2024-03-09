@@ -16,14 +16,17 @@
 }
 
 .button {
-  width: 210px;
-  height: 56px;
-  margin-bottom: 20px;
+  width: 214px;
+  height: 58px;
 }
 
 .table-top-panel {
   display: flex;
-  justify-content: space-between;
+
+  .filter-input {
+    width: 82%;
+    padding-right: 20px;
+  }
 }
 
 .tag-container {

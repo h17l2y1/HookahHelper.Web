@@ -10,15 +10,19 @@
       margin-bottom: 1px !important;
     }
 
-    .example-full-width {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5rem;
+    .form-container {
+      .example-full-width {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
 
-      @media screen and (max-width: 767px){
-        flex-direction: column;
+        @media screen and (max-width: 767px){
+          flex-direction: column;
+        }
       }
     }
+
+
 
     ::ng-deep {
       .mat-button-toggle-button{

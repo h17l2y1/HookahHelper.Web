@@ -23,13 +23,9 @@
       </div>
     </form>
     <div mat-dialog-actions class="popup-action-container">
-      <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Create
-      </button>
-      <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave(true)">
-        Create
-        ще
-      </button>
-      <button class="button popup-actions-button cancel-color" mat-flat-button (click)="onCancel()">Cancel</button>
+      <button class="popup-btn create-btn-color" (click)="onSave()">Create</button>
+      <button class="popup-btn create-btn-color" (click)="onSave(true)">Create More</button>
+      <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
     </div>
   </div>
 </div>

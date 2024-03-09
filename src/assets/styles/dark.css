@@ -3,7 +3,8 @@
   --border-color: #2e2e2e;
   --background-color: #262626;
   --card-description-color: #8e8e8e;
-  --red: #FF453A;
+  /*--red: #da8982;*/
+  --red: #f44336;
   --green: #30D158;
   --blue: #0A84FF;
   --cyan: #5DE6FF;
@@ -30,8 +31,63 @@
   color: var(--red);
 }
 
+.red-bck-color {
+  background-color: var(--red) !important;
+}
+
 body {
   background-color: var(--background-main);
+}
+
+.remove-popup {
+  .remove-container {
+    .title {
+      color: white;
+    }
+
+    .description {
+      color: var(--card-description-color)
+    }
+
+    .cancel-btn-color {
+      border: 1px solid !important;
+      border-color: var(--card-description-color) !important;
+    }
+  }
+
+  .mat-mdc-dialog-title {
+    background-color: var(--red) !important;
+    color: black;
+  }
+}
+
+.popup-container {
+  background-color: var(--background-main);
+
+  .mat-mdc-dialog-title {
+    background-color: #64366C !important;
+    color: white !important;
+  }
+}
+
+.create-btn-color {
+  background-color: #64366C !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #704678 !important;
+    transition: 0.3s;
+  }
+}
+
+.cancel-btn-color {
+  background-color: #505050 !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #626262 !important;
+    transition: 0.3s;
+  }
 }
 
 .tool-bar {
@@ -104,15 +160,6 @@ body {
   }
 }
 
-.popup-container {
-  background-color: var(--background-main);
-
-  .mat-mdc-dialog-title {
-    background-color: var(--purple); !important;
-    color: black !important;
-  }
-}
-
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: var(--background-color) !important;
 }
@@ -146,7 +193,7 @@ body {
       .comment {
         /*  white */
         /*border-image: linear-gradient(0.25turn, rgb(255, 255, 255), rgba(56,2,155,0));*/
-        border-image: linear-gradient(0.25turn, rgb(122, 30, 138), rgba(56,2,155,0));
+        border-image: linear-gradient(0.25turn, rgb(122, 30, 138), rgba(56, 2, 155, 0));
 
 
         .comment-header {
@@ -161,7 +208,6 @@ body {
     }
   }
 }
-
 
 
 /*    MATERIAL OVERRIDE    */

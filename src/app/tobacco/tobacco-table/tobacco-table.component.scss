@@ -17,7 +17,7 @@
 
     ::ng-deep {
       .mat-button-toggle-button{
-        height: 56px !important;
+        height: 58px !important;
 
         @media screen and (max-width: 767px){
           height: 45px !important;
@@ -26,9 +26,9 @@
     }
 
     .button {
-      width: 210px;
-      height: 56px;
-      margin-bottom: 20px;
+      margin-bottom: 20px; // костыль
+      width: 214px !important;
+      height: 58px;
     }
 
     .example-full-width {

@@ -1,8 +1,8 @@
 <div class="table-container">
   <div class="table-top-panel">
     @if (!isMobileMode) {
-      <form [formGroup]="brandFilterForm" class="example-full-width">
-        <mat-form-field class="example-full-width" >
+      <form [formGroup]="brandFilterForm" class="example-full-width form-container">
+        <mat-form-field class="example-full-width box1" >
           <mat-label>Filter by Name</mat-label>
           <input matInput formControlName="name">
           @if (nameControl.value) {
@@ -11,7 +11,7 @@
             </button>
           }
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width box">
           <mat-label>Country</mat-label>
           <input type="text" matInput [formControl]="countryControl" [matAutocomplete]="autoCountry">
           <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
@@ -26,7 +26,7 @@
             </button>
           }
         </mat-form-field>
-        <div class="">
+        <div class="box">
           <mat-button-toggle-group #group="matButtonToggleGroup">
             <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
               <mat-icon>view_module</mat-icon>
@@ -62,13 +62,13 @@
                 </mat-button-toggle>
               </mat-button-toggle-group>
             </div>
-            <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+            <button *ngIf="user?.isAdmin" class="button btn-purple-grad" (click)="onCreate()">Create</button>
           </form>
         </mat-expansion-panel>
       </mat-accordion>
     }
     @if (user?.isAdmin) {
-      <button class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+      <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
     }
   </div>
   @if (isCardView) {
