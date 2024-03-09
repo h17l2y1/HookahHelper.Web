@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
@@ -31,10 +31,12 @@ import {AdminGuard} from "./services/guards/admin.guard";
 import {AuthInterceptor} from "./services/interceptors/auth-interceptor";
 import {JwtRefreshInterceptor} from "./services/interceptors/jwt-refresh-interceptor";
 import {ConfirmNotificationInterceptor} from "./services/interceptors/confirm-notification-interceptor";
-import { ThemePickerComponent } from './sidenav/them-picker/theme-picker.component';
+import {ThemePickerComponent} from './sidenav/them-picker/theme-picker.component';
 import {StyleManagerService} from "./sidenav/them-picker/style-manager.service";
 import {ThemeService} from "./sidenav/them-picker/theme.service";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {defineElement} from "@lordicon/element";
+import lottie from "lottie-web";
 
 @NgModule({
   declarations: [
@@ -42,34 +44,34 @@ import {MatGridListModule} from "@angular/material/grid-list";
     SidenavComponent,
     ThemePickerComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatMenuModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatListModule,
-        RouterModule,
-        AppRoutingModule,
-        MatExpansionModule,
-        MatTooltipModule,
-        RouterModule.forRoot([]),
-        ToastrModule.forRoot(),
-        MatTabsModule,
-        MatDialogModule,
-        HttpClientModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatOptionModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        SharedModule,
-        AuthorizationModule,
-        MatGridListModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
+    RouterModule,
+    AppRoutingModule,
+    MatExpansionModule,
+    MatTooltipModule,
+    RouterModule.forRoot([]),
+    ToastrModule.forRoot(),
+    MatTabsModule,
+    MatDialogModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    SharedModule,
+    AuthorizationModule,
+    MatGridListModule,
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
@@ -84,7 +86,11 @@ import {MatGridListModule} from "@angular/material/grid-list";
     ThemeService,
   ],
   exports: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
 }

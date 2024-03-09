@@ -115,7 +115,12 @@
             }
           </a>
           <a class="tab" routerLink="/tobaccos">
-            <mat-icon class="icon material-icons-outlined">eco</mat-icon>
+            <lord-icon
+              src="https://cdn.lordicon.com/ccmaxgle.json"
+              trigger="hover"
+              colors="primary:#939393,secondary:#939393"
+              style="width:25px;height:25px">
+            </lord-icon>
             @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
               <span class="tab-text">Tobaccos</span>
             }
@@ -127,13 +132,23 @@
             }
           </a>
           <a class="tab" routerLink="/constructor" *ngIf="user?.isAdmin || !inDevelop">
-            <mat-icon class="icon material-icons-outlined">construction</mat-icon>
+            <lord-icon
+              src="https://cdn.lordicon.com/jdalicnn.json"
+              trigger="hover"
+              colors="primary:#939393,secondary:#939393"
+              style="width:25px;height:25px">
+            </lord-icon>
             @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
               <span class="tab-text">Constructor</span>
             }
           </a>
           <a class="tab" routerLink="/mixes" *ngIf="user?.isAdmin || !inDevelop">
-            <mat-icon class="icon material-icons-outlined">trending_up</mat-icon>
+            <lord-icon
+              src="https://cdn.lordicon.com/abwrkdvl.json"
+              trigger="hover"
+              colors="primary:#939393,secondary:#939393"
+              style="width:25px;height:25px">
+            </lord-icon>
             @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
               <span class="tab-text">Top mixes</span>
             }

@@ -9,7 +9,7 @@
       }
     }
 
-    margin-bottom: -1.25em !important;
+    margin-bottom: -1.25em !important; // костыль
 
     @media screen and (max-width: 767px){
       margin-bottom: 1px !important;
@@ -53,15 +53,7 @@
 
       .tobacco-table-image {
         width: 77px;
-        height: 77px;
-      }
-
-      .blue-color {
-        margin-right: 6px;
-      }
-
-      .view {
-        margin-right: 9px;
+        //height: 77px;
       }
 
       .tag-container {
@@ -72,10 +64,6 @@
 
       .mat-column-globalTags {
         //width: 15%;
-      }
-
-      .action-container {
-        display: flex;
       }
 
       .rating-container {
@@ -169,8 +157,6 @@
       margin-left: 0;
     }
   }
-
-
 
 }
 

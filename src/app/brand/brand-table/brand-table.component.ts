@@ -235,7 +235,6 @@ export class BrandTableComponent extends UserPermission implements OnInit, After
 
   public onDelete(id: string): void {
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      // width: "300px",
       backdropClass: 'blurred',
       autoFocus: false
     });

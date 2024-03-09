@@ -16,7 +16,7 @@
           <td mat-cell *matCellDef="let row"> {{row.name}} </td>
         </ng-container>
         <ng-container matColumnDef="tag">
-          <th mat-header-cell *matHeaderCellDef>Тег</th>
+          <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let row">
             <div class="tag-container">
               <app-tag [name]="row.name" [color]="row.color" [type]="TagType.Bordered"></app-tag>
@@ -32,8 +32,22 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let row">
-            <mat-icon class="icon blue-color" aria-hidden="false" fontIcon="settings" (click)="onUpdate(row.id)"></mat-icon>
-            <mat-icon class="icon red-color" fontIcon="delete" (click)="onDelete(row.id)"></mat-icon>
+            <div class="table-action-container">
+              <lord-icon
+                src="https://cdn.lordicon.com/ifsxxxte.json"
+                trigger="hover"
+                colors="primary:#0A84FF"
+                style="width:25px;height:25px"
+                (click)="onUpdate(row.id)">
+              </lord-icon>
+              <lord-icon
+                src="https://cdn.lordicon.com/skkahier.json"
+                trigger="hover"
+                colors="primary:#f44336"
+                style="width:25px;height:25px"
+                (click)="onDelete(row.id)">
+              </lord-icon>
+            </div>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TagTableComponent} from './tag-table/tag-table.component';
 import {TagRoutingModule} from "./tag-routing.module";
@@ -23,6 +23,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ColorPickerModule} from "ngx-color-picker";
 import {TagComponentModule} from "../shared/components/tag-component/tag-component.module";
+import {defineElement} from "@lordicon/element";
+import lottie from "lottie-web";
 
 @NgModule({
   declarations: [
@@ -55,7 +57,11 @@ import {TagComponentModule} from "../shared/components/tag-component/tag-compone
   providers: [
     TagService,
     NamePipe
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TagModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
 }

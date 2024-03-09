@@ -222,7 +222,7 @@
   </div>
   @if (isCardView) {
     <div class="tobacco-container">
-      @if(isLoadingResults){
+      @if (isLoadingResults) {
         <div class="card-container">
           @for (skeletonCards of skeletonCount; track skeletonCards) {
             <mat-card class="brand-card">
@@ -231,9 +231,13 @@
               </a>
               <div class="info">
                 <div class="title">
-                  <a class="title-link"><ngx-skeleton-loader [theme]="skeletonLineStyle"></ngx-skeleton-loader></a>
+                  <a class="title-link">
+                    <ngx-skeleton-loader [theme]="skeletonLineStyle"></ngx-skeleton-loader>
+                  </a>
                 </div>
-                <div class="description"><ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader></div>
+                <div class="description">
+                  <ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader>
+                </div>
               </div>
             </mat-card>
           }
@@ -243,7 +247,7 @@
           @for (tobacco of tobaccos; track tobacco; let i = $index) {
             <mat-card class="brand-card">
               <a class="image-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]">
-                @if (i < 25){
+                @if (i < 25) {
                   <img mat-card-image class="image"
                        ngSrc="{{tobacco.image.link}}"
                        priority=""
@@ -260,9 +264,9 @@
               </a>
               <div class="info">
                 <div class="title">
-                  <a class="title-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]"> {{tobacco.name}}</a>
+                  <a class="title-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]"> {{ tobacco.name }}</a>
                 </div>
-                <div class="description">{{tobacco.description}}</div>
+                <div class="description">{{ tobacco.description }}</div>
                 <div class="rating-container">
                   <star-rating
                     [showHalfStars]="true"
@@ -281,81 +285,99 @@
   } @else {
     <div class="table-container">
       <div class="example-container mat-elevation-z8">
-        @if (isLoadingResults){
+        @if (isLoadingResults) {
           <ngx-skeleton-loader count="20" [animation]="animation" [theme]="skeletonStyle"></ngx-skeleton-loader>
         }
         <div class="example-table-container">
-            <table mat-table [dataSource]="tobaccos" matSort matSortActive="name" matSortDisableClear
-                   matSortDirection="asc">
-              <ng-container matColumnDef="image">
-                <th mat-header-cell *matHeaderCellDef>Лого</th>
-                <td mat-cell *matCellDef="let row">
-                  <img class="tobacco-table-image" src="{{row.image?.link}}" alt="image"></td>
-              </ng-container>
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-                <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-              </ng-container>
-              <ng-container matColumnDef="description">
-                <th mat-header-cell *matHeaderCellDef>Description</th>
-                <td mat-cell *matCellDef="let row"> {{row.description}} </td>
-              </ng-container>
-              <ng-container matColumnDef="tags">
-                <th mat-header-cell *matHeaderCellDef>Теги</th>
-                <td mat-cell *matCellDef="let row">
-                  <div class="tag-container">
-                    <app-tag *ngFor="let tag of row.tagsDefault"
-                             [name]="tag.name"
-                             [color]="tag.color"
-                             [type]="TagType.Bordered">
-                    </app-tag>
-                  </div>
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="globalTags">
-                <th mat-header-cell *matHeaderCellDef>Глобальні теги</th>
-                <td mat-cell *matCellDef="let row">
-                  <div class="tag-container">
-                    <app-tag *ngFor="let tag of row.tagsGlobal"
-                             [name]="tag.name"
-                             [color]="tag.color"
-                             [type]="TagType.Filled">
-                    </app-tag>
-                  </div>
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="rating">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
-                <td mat-cell *matCellDef="let row">
-                  <div class="rating-container">
-                    <star-rating
-                      [showHalfStars]="true"
-                      [starType]="'svg'"
-                      [rating]="row.rating"
-                      [readOnly]="true">
-                    </star-rating>
-                    {{row.rating | number:'1.1-2'}}
-                    ({{row.ratingCount}})
-                  </div>
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let row">
-                  <div class="action-container">
-                    <mat-icon class="icon cyan-color" aria-hidden="false" fontIcon="pageview" (click)="onView(row.id)"></mat-icon>
-                    <mat-icon class="icon blue-color" aria-hidden="false" fontIcon="settings" (click)="onEdit(row.id)"></mat-icon>
-                    <mat-icon class="icon red-color" fontIcon="delete" (click)="onDelete(row.id)"></mat-icon>
-                  </div>
-                </td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data matching the filter "..."</td>
-              </tr>
-            </table>
-          </div>
+          <table mat-table [dataSource]="tobaccos" matSort matSortActive="name" matSortDisableClear
+                 matSortDirection="asc">
+            <ng-container matColumnDef="image">
+              <th mat-header-cell *matHeaderCellDef>Logo</th>
+              <td mat-cell *matCellDef="let row">
+                <img class="tobacco-table-image" src="{{row.image?.link}}" alt="image"></td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let row"> {{ row.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let row"> {{ row.description }}</td>
+            </ng-container>
+            <ng-container matColumnDef="tags">
+              <th mat-header-cell *matHeaderCellDef>Tags</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="tag-container">
+                  <app-tag *ngFor="let tag of row.tagsDefault"
+                           [name]="tag.name"
+                           [color]="tag.color"
+                           [type]="TagType.Bordered">
+                  </app-tag>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="globalTags">
+              <th mat-header-cell *matHeaderCellDef>Global Tags</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="tag-container">
+                  <app-tag *ngFor="let tag of row.tagsGlobal"
+                           [name]="tag.name"
+                           [color]="tag.color"
+                           [type]="TagType.Filled">
+                  </app-tag>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="rating">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="rating-container">
+                  <star-rating
+                    [showHalfStars]="true"
+                    [starType]="'svg'"
+                    [rating]="row.rating"
+                    [readOnly]="true">
+                  </star-rating>
+                  {{ row.rating | number:'1.1-2' }}
+                  ({{ row.ratingCount }})
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="table-action-container">
+                  <lord-icon
+                    src="https://cdn.lordicon.com/unukghxb.json"
+                    trigger="hover"
+                    colors="primary:#5DE6FF,secondary:#5DE6FF"
+                    style="width:25px;height:25px"
+                    (click)="onView(row.id)">
+                  </lord-icon>
+                  <lord-icon
+                    src="https://cdn.lordicon.com/ifsxxxte.json"
+                    trigger="hover"
+                    colors="primary:#0A84FF"
+                    style="width:25px;height:25px"
+                    (click)="onUpdate(row.id)">
+                  </lord-icon>
+                  <lord-icon
+                    src="https://cdn.lordicon.com/skkahier.json"
+                    trigger="hover"
+                    colors="primary:#f44336"
+                    style="width:25px;height:25px"
+                    (click)="onDelete(row.id)">
+                  </lord-icon>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "..."</td>
+            </tr>
+          </table>
+        </div>
 
       </div>
     </div>

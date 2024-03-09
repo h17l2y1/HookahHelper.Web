@@ -115,8 +115,8 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
 
   public logout(): void {
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      width: "300px",
-      backdropClass: 'blurred'
+      backdropClass: 'blurred',
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(popupResponse => {

@@ -46,7 +46,8 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
   public currentPage: number = 0;
   public pageSizeOptions: number[] = [20, 40, 60, 100];
   public pageSize: number = this.pageSizeOptions[0];
-  public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
+  // public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
+  public allColumns: string[] = ['image', 'name', 'tags', 'globalTags', 'rating', 'action'];
   public displayedColumns: string[] = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
   public filterOptions: TobaccoOptions = this.route.snapshot.data['filterOptions'];
   public linesOption: Line[] = this.route.snapshot.data['lines'];
@@ -290,7 +291,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
   public handlePageEvent(e: PageEvent): void {
     this.pageSize = e.pageSize;
     this.currentPage = e.pageIndex;
-    // this.getTobaccos();
   }
 
   public onView(id: string): void {
@@ -298,7 +298,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
     });
   }
 
-  public onEdit(id: string): void {
+  public onUpdate(id: string): void {
     this.tobaccoService.getById(id).pipe(
       tap(response => {
         const dialogRef = this.dialog.open(TobaccoEditorComponent, {
@@ -313,7 +313,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            // this.getTobaccos();
+            this.getTobaccos().subscribe();
           }
         });
       }))
@@ -322,12 +322,13 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
   public onDelete(id: string): void {
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      width: "300px"
+      backdropClass: 'blurred',
+      autoFocus: false
     });
     dialogRef.afterClosed().subscribe(popupResponse => {
       if (popupResponse) {
         this.tobaccoService.remove(id).pipe(
-          // tap(() => this.getTobaccos())
+          tap(() => this.getTobaccos().subscribe())
         ).subscribe();
       }
     });

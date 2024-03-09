@@ -117,7 +117,8 @@ export class TagTableComponent implements AfterViewInit {
 
   public onDelete(id: string): void {
     const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      width: "380px"
+      backdropClass: 'blurred',
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(popupResponse => {
