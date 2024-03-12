@@ -12,12 +12,14 @@ import {ImageCroppedEvent, ImageTransform} from "ngx-image-cropper";
 export class ImageUploadComponent implements OnInit {
   @Input() aspectRatio!: number;
   @Output() fileName: EventEmitter<string> = new EventEmitter<string>();
+  @Output() files: EventEmitter<File[]> = new EventEmitter<File[]>();
   private readonly imageTypes = ['.png', '.jpg', '.jpeg', '.webp'];
   public scale = 1;
   public isFileExist = false;
   public isFileLoaded = false;
   public croppedImage!: SafeUrl;
   public file!: File;
+  // public files!: File[];
   public imageControlLink!: FormControl;
   public imageControlBase64!: FormControl;
   public imageChangedEvent!: any;
@@ -61,6 +63,10 @@ export class ImageUploadComponent implements OnInit {
     this.isFileLoaded = true;
     const name = this.file.name.replace(new RegExp(this.imageTypes.join("|")), "");
     this.fileName.emit(name);
+  }
+
+  public onFilesDropped(files: File[]): void {
+    this.files.emit(files);
   }
 
 }

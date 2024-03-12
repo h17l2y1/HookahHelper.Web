@@ -43,6 +43,7 @@ export class TobaccoCreateComponent implements OnInit {
   public allTasteTags!: Tag[];
   public croppedImage: any = null;
   private tempId: number = 0;
+  public files!: File[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: null,
@@ -136,9 +137,9 @@ export class TobaccoCreateComponent implements OnInit {
     ).subscribe();
   }
 
-  public setName(name: string): void {
-    this.nameControl.setValue(name);
-  }
+  // public setName(name: string): void {
+  //   this.nameControl.setValue(name);
+  // }
 
   public displayFn(brand: Brand): string {
     return brand && brand.name ? brand.name : '';
@@ -213,25 +214,7 @@ export class TobaccoCreateComponent implements OnInit {
 
   private initCreateTobaccoForm(): FormGroup {
     return this.formBuilder.group({
-      tobaccos: this.formBuilder.array([
-        this.formBuilder.group({
-          tempId: this.formBuilder.control(this.getNextId()),
-          image: this.formBuilder.group({
-            name: null,
-            link: null,
-            base64: null,
-            type: ImageType.Tobacco,
-          }),
-          name: this.nameControl,
-          description: [null, Validators.maxLength(256)],
-          brandId: this.brandControl,
-          lineId: [
-            {value: null, disabled: true},
-            {validators: [Validators.required]}
-          ],
-          heavinessId: [null, [Validators.required]],
-        })
-      ]),
+      tobaccos: this.formBuilder.array([]),
     });
   };
 
@@ -262,7 +245,7 @@ export class TobaccoCreateComponent implements OnInit {
     return this.createTobaccoForm.get('tobaccos') as FormArray;
   }
 
-  public OnOneMore(): void {
+  public OnOneMore(file: File): void {
     this.getTobaccos.push(
       this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
@@ -290,5 +273,11 @@ export class TobaccoCreateComponent implements OnInit {
 
   public onRemove(tempId: number): void {
     this.getTobaccos.removeAt(tempId);
+  }
+
+  public onFilesDropped(files: any[]): void {
+    for (let i = 0; i < files.length; i++) {
+      this.OnOneMore(files[i]);
+    }
   }
 }

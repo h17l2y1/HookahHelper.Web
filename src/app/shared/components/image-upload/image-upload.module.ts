@@ -12,9 +12,10 @@ import {DndDirective} from "./dnd.directive";
     ImageUploadComponent,
     DndDirective
   ],
-  exports: [
-    ImageUploadComponent
-  ],
+    exports: [
+        ImageUploadComponent,
+        DndDirective
+    ],
   imports: [
     CommonModule,
     ImageCropperModule,

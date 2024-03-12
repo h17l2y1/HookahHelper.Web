@@ -14,7 +14,7 @@
       </image-cropper>
     </div>
     <ng-template #fakeZone>
-      <div class="container" appDnd (fileDropped)="onFileDropped($event)">
+      <div class="container" appDnd (fileDropped)="onFilesDropped($event)">
         <input type="file" #fileDropRef id="fileDropRef" (change)="fileChangeEvent($event)"/>
         <div class="file-container">
           <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
@@ -37,7 +37,7 @@
 
   <div *ngIf="isFileExist || isFileLoaded" class="file-upload-button" (click)="uploadFile.click()">
     <button mat-raised-button color="primary">Choose File</button>
-    <input #uploadFile (change)="fileChangeEvent($event)" type='file' style="display:none"/>
+    <input #uploadFile multiple (change)="fileChangeEvent($event)" type='file' style="display:none"/>
   </div>
 </div>
 

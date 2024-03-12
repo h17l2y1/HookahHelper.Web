@@ -45,6 +45,7 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 import {defineElement} from "@lordicon/element";
 import lottie from "lottie-web";
 import {ImageUploaderDirective} from "./tobacco-create2/image-uploader.directive";
+import {DndDirective} from "../shared/components/image-upload/dnd.directive";
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import {ImageUploaderDirective} from "./tobacco-create2/image-uploader.directive
     TobaccoQueryParamResolver,
     TobaccoLinesResolver,
     FilterSharedService,
+    DndDirective
     // ImageUploaderDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
