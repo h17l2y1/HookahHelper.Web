@@ -16,9 +16,6 @@ export class ImageUploadComponent implements OnInit {
   public scale = 1;
   public isFileExist = false;
   public isFileLoaded = false;
-  public transform: ImageTransform = {
-    translateUnit: 'px'
-  };
   public croppedImage!: SafeUrl;
   public file!: File;
   public imageControlLink!: FormControl;
@@ -36,29 +33,6 @@ export class ImageUploadComponent implements OnInit {
       this.isFileExist = true;
       this.fileChangeEvent(this.imageControlLink.value, true);
     }
-  }
-
-  public zoomOut(): void {
-    this.scale -= .1;
-    this.transform = {
-      ...this.transform,
-      scale: this.scale
-    };
-  }
-
-  public zoomIn(): void {
-    this.scale += .1;
-    this.transform = {
-      ...this.transform,
-      scale: this.scale
-    };
-  }
-
-  public resetImage(): void {
-    this.scale = 1;
-    this.transform = {
-      translateUnit: 'px'
-    };
   }
 
   public fileChangeEvent(event: any, isNew?: boolean): void {

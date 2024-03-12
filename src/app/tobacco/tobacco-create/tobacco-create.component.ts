@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {TobaccoService} from "../tobacco.service";
 import {Observable, of, startWith, switchMap, tap} from "rxjs";
@@ -42,6 +42,7 @@ export class TobaccoCreateComponent implements OnInit {
   public allTags!: Tag[];
   public allTasteTags!: Tag[];
   public croppedImage: any = null;
+  private tempId: number = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: null,
@@ -212,20 +213,25 @@ export class TobaccoCreateComponent implements OnInit {
 
   private initCreateTobaccoForm(): FormGroup {
     return this.formBuilder.group({
-      image: this.formBuilder.group({
-        name: null,
-        link: null,
-        base64: null,
-        type: ImageType.Tobacco,
-      }),
-      name: this.nameControl,
-      description: [null, Validators.maxLength(256)],
-      brandId: this.brandControl,
-      lineId: [
-        {value: null, disabled: true},
-        {validators: [Validators.required]}
-      ],
-      heavinessId: [null, [Validators.required]],
+      tobaccos: this.formBuilder.array([
+        this.formBuilder.group({
+          tempId: this.formBuilder.control(this.getNextId()),
+          image: this.formBuilder.group({
+            name: null,
+            link: null,
+            base64: null,
+            type: ImageType.Tobacco,
+          }),
+          name: this.nameControl,
+          description: [null, Validators.maxLength(256)],
+          brandId: this.brandControl,
+          lineId: [
+            {value: null, disabled: true},
+            {validators: [Validators.required]}
+          ],
+          heavinessId: [null, [Validators.required]],
+        })
+      ]),
     });
   };
 
@@ -250,5 +256,39 @@ export class TobaccoCreateComponent implements OnInit {
     this.createTobaccoForm.patchValue({
       name: this.namePipe.transform(this.createTobaccoForm.value.name)
     }, {emitEvent: false});
+  }
+
+  get getTobaccos(): FormArray {
+    return this.createTobaccoForm.get('tobaccos') as FormArray;
+  }
+
+  public OnOneMore(): void {
+    this.getTobaccos.push(
+      this.formBuilder.group({
+        tempId: this.formBuilder.control(this.getNextId()),
+        image: this.formBuilder.group({
+          name: null,
+          link: null,
+          base64: null,
+          type: ImageType.Tobacco,
+        }),
+        name: this.nameControl,
+        description: [null, Validators.maxLength(256)],
+        brandId: this.brandControl,
+        lineId: [
+          {value: null, disabled: true},
+          {validators: [Validators.required]}
+        ],
+        heavinessId: [null, [Validators.required]],
+      })
+    );
+  }
+
+  private getNextId(): number {
+    return ++this.tempId;
+  }
+
+  public onRemove(tempId: number): void {
+    this.getTobaccos.removeAt(tempId);
   }
 }

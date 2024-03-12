@@ -2,6 +2,9 @@
 
   .example-form {
     padding: 10px;
+    max-height: 1000px; // need edit this
+    overflow: scroll;
+    overflow-x: hidden;
   }
 
   .create-tobacco-container {

@@ -10,14 +10,8 @@
         [imageChangedEvent]="imageChangedEvent"
         [imageFile]="file"
         format="png"
-        (imageCropped)="imageCropped($event)"
-        [(transform)]="transform">
+        (imageCropped)="imageCropped($event)">
       </image-cropper>
-      <div class="image-cropper-actions">
-        <button mat-raised-button color="primary" (click)="zoomOut()">Zoom -</button>
-        <button mat-raised-button color="primary" (click)="zoomIn()">Zoom +</button>
-        <button mat-raised-button color="primary" (click)="resetImage()">Reset</button>
-      </div>
     </div>
     <ng-template #fakeZone>
       <div class="container" appDnd (fileDropped)="onFileDropped($event)">
