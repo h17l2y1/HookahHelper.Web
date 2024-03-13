@@ -1,8 +1,41 @@
 .popup-container {
 
+  .card-title {
+    margin-bottom: 20px;
+  }
+
+  .container {
+    margin: 0 20px 20px 20px;
+    text-align: center;
+    border: dashed 1px #979797;
+    border-radius: 15px;
+    position: relative;
+    color: white;
+    background-color: #262626;
+    padding-top: 3px;
+    padding-bottom: 20px;
+
+    // add if files selected
+    //display: flex;
+    //align-items: center;
+    //gap: 20px;
+    //justify-content: center;
+
+    &:hover {
+      border-color: #d2d2d2;
+    }
+
+    .file-container {
+      .dnd-text {
+        margin-bottom: 10px;
+        letter-spacing: 0.04rem;
+      }
+    }
+  }
+
   .example-form {
-    padding: 10px;
-    max-height: 1000px; // need edit this
+    padding: 0 20px;
+    max-height: 725px;
     overflow: scroll;
     overflow-x: hidden;
   }
@@ -10,10 +43,20 @@
   .create-tobacco-container {
     display: flex;
     justify-content: space-between;
+    border: 1px solid #2e2e2e;
+    border-radius: 15px;
+    background-color: #262626;
+    padding: 20px;
+    gap: 20px;
 
     .side {
       width: 33%;
-      padding: 10px;
+
+      .tobacco-image {
+        max-width: 300px;
+        max-height: 300px;
+        border-radius: 10px;
+      }
     }
 
     .example-full-width {
@@ -25,46 +68,13 @@
       margin-bottom: 24px;
     }
   }
-
 }
 
-.container {
-  width: 300px;
-  height: 300px;
-  padding: 1px;
-  text-align: center;
-  border: dashed 1px #979797;
-  position: relative;
-  margin: 0 auto;
-  color: white;
 
-  .file-container {
-    padding-top: 40px;
-  }
-
-  input {
-    opacity: 0;
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-  }
-
-  label {
-    color: white;
-    width: 183px;
-    height: 44px;
-    border-radius: 21.5px;
-    background-color: #db202f;
-    padding: 8px 16px;
-  }
-
-  h3 {
-    font-size: 20px;
-    font-weight: 600;
-  }
+.test {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .file-upload-button {
@@ -72,3 +82,8 @@
   display: flex;
   justify-content: center;
 }
+
+.popup-action-container {
+  padding: 20px 0;
+}
+

@@ -24,7 +24,7 @@ import {TobaccoService} from "../tobacco.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {MatSort} from "@angular/material/sort";
-import {TobaccoCreate2Component} from "../tobacco-create2/tobacco-create2.component";
+// import {TobaccoCreate2Component} from "../tobacco-create2/tobacco-create2.component";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];

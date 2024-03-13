@@ -71,15 +71,15 @@ body {
   justify-content: center;
   gap: 20px;
   padding-bottom: 20px;
+}
 
-  .popup-btn {
-    width: 185px !important;
-    height: 55px !important;
-    border-radius: 10px !important;
-    font-family: Roboto;
-    font-size: 14.6px;
-    border: none !important;
-  }
+.popup-btn {
+  width: 185px !important;
+  height: 55px !important;
+  border-radius: 10px !important;
+  font-family: Roboto;
+  font-size: 14.6px;
+  border: none !important;
 }
 
 .table-action-container {
@@ -87,5 +87,8 @@ body {
   gap: 10px
 }
 
+.mdc-dialog .mdc-dialog__content {
+  padding: 20px !important;
+}
 
 

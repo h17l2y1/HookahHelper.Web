@@ -245,7 +245,7 @@ export class TobaccoCreateComponent implements OnInit {
     return this.createTobaccoForm.get('tobaccos') as FormArray;
   }
 
-  public OnOneMore(file: File): void {
+  public OnOneMore(file: File, preview: string): void {
     this.getTobaccos.push(
       this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
@@ -255,6 +255,8 @@ export class TobaccoCreateComponent implements OnInit {
           base64: null,
           type: ImageType.Tobacco,
         }),
+        preview: preview,
+        file: file,
         name: this.nameControl,
         description: [null, Validators.maxLength(256)],
         brandId: this.brandControl,
@@ -277,7 +279,11 @@ export class TobaccoCreateComponent implements OnInit {
 
   public onFilesDropped(files: any[]): void {
     for (let i = 0; i < files.length; i++) {
-      this.OnOneMore(files[i]);
+      const reader: FileReader = new FileReader();
+      reader.onload = (e: any) => {
+        this.OnOneMore(files[i], e.target.result);
+      };
+      reader.readAsDataURL(files[i]);
     }
   }
 }
