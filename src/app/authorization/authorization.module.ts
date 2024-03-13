@@ -26,6 +26,7 @@ import {MatIconModule} from "@angular/material/icon";
     MatButtonModule,
     MatSelectModule,
     MatIconModule,
+
   ],
   providers: [
     AuthService,

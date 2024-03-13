@@ -12,17 +12,22 @@ import {TokenService} from "../../services/token.service";
 })
 export class LoginComponent {
   public createLoginForm: FormGroup = this.initLoginUserForm();
+  public hide = true;
 
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: FormBuilder,
     private authorizationService: AuthService,
-    private tokenService: TokenService,
-
-  ) {}
+    private tokenService: TokenService) {}
 
   public fixAutoFill(usr: Event, pwd: string): void {
-    if (usr) { this.createLoginForm.get('email')?.setValue((usr.target as HTMLInputElement).value) }
+    const xxx = usr.target as HTMLInputElement;
+    const psw = xxx.value;
+
+    if (usr) {
+      this.createLoginForm.get('email')?.setValue((usr.target as HTMLInputElement).value);
+      // this.createLoginForm.get('email')?.setValue(123);
+    }
     if (pwd) { this.createLoginForm.get('password')?.setValue(pwd) }
   }
 
