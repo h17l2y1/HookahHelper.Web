@@ -1,6 +1,5 @@
 <div class="popup-container" *ngIf="editTagForm">
   <h1 mat-dialog-title>Update Tag</h1>
-
   <div class="popup-data">
     <form [formGroup]="editTagForm" class="example-form">
       <div class="edit-tag-container">
@@ -24,9 +23,8 @@
       </div>
     </form>
     <div mat-dialog-actions class="popup-action-container">
-      <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Змінити</button>
-      <button class="button popup-actions-button" mat-flat-button (click)="onCancel()">Cancel</button>
+      <button class="popup-btn create-btn-color" (click)="onSave()">Update</button>
+      <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
     </div>
   </div>
-
 </div>

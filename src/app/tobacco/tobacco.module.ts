@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {TobaccoCreateComponent} from './tobacco-create/tobacco-create.component';
 import {TobaccoRoutingModule} from "./tobacco-routing.module";
 import {MatTableModule} from "@angular/material/table";
@@ -42,6 +42,8 @@ import {TobaccoQueryParamResolver} from "./tobacco-table/tobacco-query-param.res
 import {TobaccoLinesResolver} from "./tobacco-table/tobacco-lines.resolver";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
+import {defineElement} from "@lordicon/element";
+import lottie from "lottie-web";
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     MatExpansionModule,
     MatGridListModule,
     NgxSkeletonLoaderModule,
+    NgOptimizedImage
   ],
   providers: [
     TobaccoService,
@@ -92,7 +95,11 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     TobaccoQueryParamResolver,
     TobaccoLinesResolver,
     FilterSharedService,
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TobaccoModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
 }

@@ -9,7 +9,7 @@
       }
     }
 
-    margin-bottom: -1.25em !important;
+    margin-bottom: -1.25em !important; // костыль
 
     @media screen and (max-width: 767px){
       margin-bottom: 1px !important;
@@ -17,7 +17,7 @@
 
     ::ng-deep {
       .mat-button-toggle-button{
-        height: 56px !important;
+        height: 58px !important;
 
         @media screen and (max-width: 767px){
           height: 45px !important;
@@ -26,9 +26,9 @@
     }
 
     .button {
-      width: 210px;
-      height: 56px;
-      margin-bottom: 20px;
+      margin-bottom: 20px; // костыль
+      width: 214px !important;
+      height: 58px;
     }
 
     .example-full-width {
@@ -53,15 +53,7 @@
 
       .tobacco-table-image {
         width: 77px;
-        height: 77px;
-      }
-
-      .blue-color {
-        margin-right: 6px;
-      }
-
-      .view {
-        margin-right: 9px;
+        //height: 77px;
       }
 
       .tag-container {
@@ -72,10 +64,6 @@
 
       .mat-column-globalTags {
         //width: 15%;
-      }
-
-      .action-container {
-        display: flex;
       }
 
       .rating-container {
@@ -169,8 +157,6 @@
       margin-left: 0;
     }
   }
-
-
 
 }
 

@@ -1,7 +1,7 @@
 .popup-container {
 
   .example-form {
-    padding: 0 20px 0 20px;
+    padding: 10px;
   }
 
   .create-tobacco-container {
@@ -17,7 +17,7 @@
     }
 
     .add-line-btn {
-      height: 56px;
+      height: 58px;
       margin-bottom: 24px;
     }
 
@@ -34,29 +34,4 @@
       }
     }
   }
-
-  .popup-action-container {
-    display: flex;
-    padding-bottom: 30px;
-
-    .popup-actions-button {
-      height: 42px;
-      min-width: 130px;
-    }
-
-    .save-color {
-      background-color: #abddff !important;
-    }
-  }
-}
-
-
-.mat-mdc-dialog-title {
-  background-color: #abddff !important;
-  padding-bottom: 18px;
-  color: black;
-}
-
-.blue-color {
-  color: black;
 }

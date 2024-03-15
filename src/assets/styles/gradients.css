@@ -1,0 +1,34 @@
+.azure {
+  background: rgb(1,114,175) !important;
+  background: linear-gradient(90deg, rgba(1,114,175,1) 0%, rgba(116,254,189,1) 100%) !important;
+}
+
+.peach {
+  background: rgb(255,148,115);
+  background: linear-gradient(90deg, rgba(255,148,115,1) 0%, rgba(255,249,210,1) 100%);
+}
+
+.malibu {
+  background: rgb(7,0,222);
+  background: linear-gradient(90deg, rgba(7,0,222,1) 0%, rgba(221,255,201,1) 100%);
+}
+
+.butterfly {
+  background: rgb(255,64,102);
+  background: linear-gradient(90deg, rgba(255,64,102,1) 0%, rgba(255,241,106,1) 100%);
+}
+
+.neon {
+  background: rgb(97,87,255);
+  background: linear-gradient(90deg, rgba(97,87,255,1) 0%, rgba(238,73,253,1) 100%);
+}
+
+.lime {
+  background: rgb(45,255,80);
+  background: linear-gradient(90deg, rgba(45,255,80,1) 0%, rgba(255,248,120,1) 100%);
+}
+
+.mojito {
+  background: rgb(16,60,231);
+  background: linear-gradient(90deg, rgba(16,60,231,1) 0%, rgba(100,233,255,1) 100%);
+}

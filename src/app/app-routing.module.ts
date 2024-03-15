@@ -13,6 +13,7 @@ const routes: Routes = [
   {path: 'constructor', loadChildren: () => import('./constructor/constructor.module').then(m => m.ConstructorModule)},
   {path: 'mixes', loadChildren: () => import('./top-mix/top-mix.module').then(m => m.TopMixModule)},
   {path: '', redirectTo: '/tobaccos', pathMatch: 'full'},
+  {path: '**', redirectTo: '/tobaccos', pathMatch: 'full'},
 ];
 
 @NgModule({

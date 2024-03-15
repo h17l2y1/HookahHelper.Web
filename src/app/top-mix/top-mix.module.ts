@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TopMixComponent} from './top-mix.component';
 import {TopMixRoutingModule} from "./top-mix-routing.module";
@@ -18,6 +18,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MixViewComponent} from "./mix-view/mix-view.component";
 import {ReviewService} from "../services/review.service";
 import {TopMixQueryParamResolver} from "./top-mix-query-param.resolver";
+import {defineElement} from "@lordicon/element";
+import lottie from "lottie-web";
 
 @NgModule({
   declarations: [
@@ -43,8 +45,13 @@ import {TopMixQueryParamResolver} from "./top-mix-query-param.resolver";
   providers: [
     TopMixService,
     ReviewService,
-    TopMixQueryParamResolver
-  ]
+    TopMixQueryParamResolver,
+    ReviewService
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TopMixModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
 }

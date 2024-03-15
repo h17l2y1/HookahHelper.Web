@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {BrandRoutingModule} from "./brand-routing.module";
 import {BrandTableComponent} from './brand-table/brand-table.component';
 import {MatInputModule} from "@angular/material/input";
@@ -28,6 +28,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {BrandFilterOptionsResolver} from "./brand-filter-options.resolver";
 import {BrandQueryParamResolver} from "./brand-query-param.resolver";
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
+import {defineElement} from "@lordicon/element";
+import lottie from "lottie-web";
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     StarRatingModule,
     ImageUploadModule,
     MatExpansionModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    NgOptimizedImage
   ],
   providers: [
     BrandService,
@@ -64,7 +67,11 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     NamePipe,
     BrandFilterOptionsResolver,
     BrandQueryParamResolver
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BrandModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
 }

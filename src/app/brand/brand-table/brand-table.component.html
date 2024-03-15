@@ -1,8 +1,8 @@
 <div class="table-container">
   <div class="table-top-panel">
     @if (!isMobileMode) {
-      <form [formGroup]="brandFilterForm" class="example-full-width">
-        <mat-form-field class="example-full-width" >
+      <form [formGroup]="brandFilterForm" class="example-full-width form-container">
+        <mat-form-field class="example-full-width box1" >
           <mat-label>Filter by Name</mat-label>
           <input matInput formControlName="name">
           @if (nameControl.value) {
@@ -11,7 +11,7 @@
             </button>
           }
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width box">
           <mat-label>Country</mat-label>
           <input type="text" matInput [formControl]="countryControl" [matAutocomplete]="autoCountry">
           <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
@@ -26,7 +26,7 @@
             </button>
           }
         </mat-form-field>
-        <div class="">
+        <div class="box">
           <mat-button-toggle-group #group="matButtonToggleGroup">
             <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
               <mat-icon>view_module</mat-icon>
@@ -62,13 +62,13 @@
                 </mat-button-toggle>
               </mat-button-toggle-group>
             </div>
-            <button *ngIf="user?.isAdmin" class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+            <button *ngIf="user?.isAdmin" class="button btn-purple-grad" (click)="onCreate()">Create</button>
           </form>
         </mat-expansion-panel>
       </mat-accordion>
     }
     @if (user?.isAdmin) {
-      <button class="button purple-background-color" mat-flat-button (click)="onCreate()">Create</button>
+      <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
     }
   </div>
   @if (isCardView) {
@@ -78,21 +78,33 @@
           @for (skeleton of skeletonCount; track skeleton) {
             <mat-card class="brand-card">
               <a class="image-link" [routerLink]="['/tobaccos/']">
-                <ngx-skeleton-loader class="brand-card-image" count="1" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
+                <ngx-skeleton-loader class="brand-card-image" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
               </a>
               <div class="info">
-                <span class="title"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span><br>
-                <span class="description"><ngx-skeleton-loader count="1" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
+                <span class="title"><ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
               </div>
             </mat-card>
           }
         </div>
       } @else {
         <div class="card-container">
-          @for (brand of brands; track brand) {
+          @for (brand of brands; track brand; let i = $index) {
             <mat-card class="brand-card">
               <a class="image-link" [routerLink]="['/tobaccos/']" [queryParams]="{brandId: brand.id}">
-                <img mat-card-image class="brand-card-image" src="{{brand.image.link}}" alt="image error">
+                @if(i < 25){
+                  <img mat-card-image class="brand-card-image"
+                       ngSrc="{{brand.image.link}}"
+                       width="auto"
+                       height="auto"
+                       priority=""
+                       alt="image error">
+                } @else {
+                  <img mat-card-image class="brand-card-image"
+                       ngSrc="{{brand.image.link}}"
+                       width="auto"
+                       height="auto"
+                       alt="image error">
+                }
               </a>
               <div class="info">
                 <span class="title">{{ brand.name }}</span><br>
@@ -113,7 +125,7 @@
         <table mat-table [dataSource]="brands" class="example-table" matSort matSortActive="name" matSortDisableClear
                matSortDirection="asc">
           <ng-container matColumnDef="image">
-            <th mat-header-cell *matHeaderCellDef>Лого</th>
+            <th mat-header-cell *matHeaderCellDef>Logo</th>
             <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)">
               <img class="brand-card-image" src="{{row.image?.link}}" alt="image">
             </td>
@@ -133,9 +145,22 @@
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let row">
-              <mat-icon class="icon blue-color" aria-hidden="false" fontIcon="settings"
-                        (click)="onUpdate(row.id)"></mat-icon>
-              <mat-icon class="icon red-color" fontIcon="delete" (click)="onDelete(row.id)"></mat-icon>
+              <div class="table-action-container">
+                <lord-icon
+                  src="https://cdn.lordicon.com/ifsxxxte.json"
+                  trigger="hover"
+                  colors="primary:#0A84FF"
+                  style="width:25px;height:25px"
+                  (click)="onUpdate(row.id)">
+                </lord-icon>
+                <lord-icon
+                  src="https://cdn.lordicon.com/skkahier.json"
+                  trigger="hover"
+                  colors="primary:#f44336"
+                  style="width:25px;height:25px"
+                  (click)="onDelete(row.id)">
+                </lord-icon>
+              </div>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
