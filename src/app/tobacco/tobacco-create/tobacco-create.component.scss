@@ -1,89 +1,111 @@
 .popup-container {
 
   .card-title {
-    margin-bottom: 20px;
   }
 
-  .container {
-    margin: 0 20px 20px 20px;
-    text-align: center;
-    border: dashed 1px #979797;
-    border-radius: 15px;
-    position: relative;
-    color: white;
-    background-color: #262626;
-    padding-top: 3px;
-    padding-bottom: 20px;
-
-    // add if files selected
-    //display: flex;
-    //align-items: center;
-    //gap: 20px;
-    //justify-content: center;
-
-    &:hover {
-      border-color: #d2d2d2;
-    }
-
-    .file-container {
-      .dnd-text {
-        margin-bottom: 10px;
-        letter-spacing: 0.04rem;
-      }
-    }
-  }
-
-  .example-form {
-    padding: 0 20px;
-    max-height: 725px;
-    overflow: scroll;
-    overflow-x: hidden;
-  }
-
-  .create-tobacco-container {
+  .mat-dialog-content-override {
+    padding: 20px 20px 0 20px !important;
+    overflow: hidden;
     display: flex;
-    justify-content: space-between;
-    border: 1px solid #2e2e2e;
-    border-radius: 15px;
-    background-color: #262626;
-    padding: 20px;
+    flex-direction: column;
     gap: 20px;
 
-    .side {
-      width: 33%;
+    .card-data {
+      .container-narrow {
+        text-align: center;
+        border: dashed 2px #979797;
+        border-radius: 15px;
+        position: relative;
+        color: white;
+        background-color: #262626;
 
-      .tobacco-image {
-        max-width: 300px;
-        max-height: 300px;
-        border-radius: 10px;
+        &:hover {
+          border-color: #d2d2d2;
+        }
+      }
+
+      .file-container-narrow {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .dnd-text-narrow {
+        letter-spacing: 0.04rem;
+      }
+
+      .container {
+        text-align: center;
+        border: dashed 2px #979797;
+        border-radius: 15px;
+        position: relative;
+        color: white;
+        background-color: #262626;
+        padding-top: 3px;
+        padding-bottom: 20px;
+
+        &:hover {
+          border-color: #d2d2d2;
+        }
+
+        .file-container {
+          .dnd-text {
+            margin-bottom: 10px;
+            letter-spacing: 0.04rem;
+          }
+        }
       }
     }
 
-    .example-full-width {
-      width: 100%;
-    }
+    .example-form {
+      padding-right: 20px;
+      max-height: 725px;
+      overflow: scroll;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
 
-    .add-line-btn {
-      height: 58px;
-      margin-bottom: 24px;
+      .create-tobacco-container {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #2e2e2e;
+        border-radius: 15px;
+        background-color: #262626;
+        padding: 20px 20px 0 20px;
+        gap: 20px;
+
+        .side {
+          width: 25%;
+
+          .tobacco-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+          }
+
+          .popup-btn {
+            width: 100% !important;
+          }
+        }
+
+        .example-full-width {
+          width: 100%;
+        }
+
+        .add-line-btn {
+          height: 58px;
+          margin-bottom: 24px;
+        }
+      }
     }
   }
+
+  .card-button-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+
 }
-
-
-.test {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.file-upload-button {
-  padding-top: 10px;
-  display: flex;
-  justify-content: center;
-}
-
-.popup-action-container {
-  padding: 20px 0;
-}
-

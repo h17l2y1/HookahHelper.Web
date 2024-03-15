@@ -1,120 +1,118 @@
 <div class="popup-container">
   <h1 mat-dialog-title class="card-title">Create Tobacco</h1>
-
-  <div class="card-data">
-    <div class="container" appDnd (fileDropped)="onFilesDropped($event)">
-      <div class="file-container">
-        <lord-icon
-          src="https://cdn.lordicon.com/xtnsvhie.json"
-          trigger="loop"
-          colors="primary:#FFFFFF"
-          delay="2000"
-          style="width:120px;height:120px">
-        </lord-icon>
-        <div class="dnd-text">Drop your images here</div>
-        <div class="dnd-text">or</div>
-        <button class="popup-btn create-btn-color" (click)="fileInput.click()">Choose File</button>
+  <mat-dialog-content class="mat-dialog-content-override">
+    <div class="card-data">
+      <div [ngClass]="getContainerClasses" appDnd (fileDropped)="onFilesDropped($event)">
+        <div [ngClass]="getFileContainerClasses">
+          <lord-icon
+            src="https://cdn.lordicon.com/xtnsvhie.json"
+            trigger="loop"
+            colors="primary:#FFFFFF"
+            delay="2000"
+            style="width:120px;height:120px">
+          </lord-icon>
+          <div [ngClass]="getDndTextClasses">Drop your images here</div>
+          <div [ngClass]="getDndTextClasses">or</div>
+          <button class="popup-btn create-btn-color" (click)="fileInput.click()">Choose File</button>
+        </div>
+        <input hidden multiple type="file" accept=".png, .jpg, .webp" #fileInput>
       </div>
-      <input hidden type="file" accept=".png, .jpg, .webp" #fileInput>
     </div>
-  </div>
 
-    <form [formGroup]="createTobaccoForm" class="example-form">
-      <div class="test" formArrayName="tobaccos">
-        <div *ngFor="let tobacco of getTobaccos.controls; let i=index">
-          <div [formGroupName]="i" class="">
-            <div class="create-tobacco-container">
-              <div class="side">
-                <img class="tobacco-image" src="{{tobacco.value.preview}}" alt="">
-              </div>
-              <div class="side">
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Tobacco Name</mat-label>
-                  <input matInput formControlName="name" (keyup)="onChange()">
-                </mat-form-field>
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Brand</mat-label>
-                  <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="autoBrands">
-                  <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
-                      {{option.name}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Heaviness</mat-label>
-                  <mat-select formControlName="heavinessId">
-                    <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
-                      {{option.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Line</mat-label>
-                  <mat-select formControlName="lineId">
-                    <mat-option *ngFor="let option of linesOption" [value]="option.id">
-                      {{option.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="side">
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Description</mat-label>
-                  <input matInput formControlName="description">
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <mat-label>Tags</mat-label>
-                  <mat-chip-grid #chipGrid aria-label="Fruit selection">
-                    <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
-                      {{tag.name}}
-                      <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
-                        <mat-icon>cancel</mat-icon>
-                      </button>
-                    </mat-chip-row>
-                  </mat-chip-grid>
-                  <input placeholder="New Tag..." #tagInput
-                         [formControl]="tagControl"
-                         [matChipInputFor]="chipGrid"
-                         [matAutocomplete]="auto"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                  <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let tag of filteredTags" [value]="tag">
-                      {{tag.name}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <mat-label>Taste</mat-label>
-                  <mat-chip-grid #chipTasteGrid aria-label="Fruit selection">
-                    <mat-chip-row *ngFor="let tag of selectedTasteTags" (removed)="removeTasteTag(tag)">
-                      {{tag.name}}
-                      <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
-                        <mat-icon>cancel</mat-icon>
-                      </button>
-                    </mat-chip-row>
-                  </mat-chip-grid>
-                  <input placeholder="New Tag..." #tagTasteInput
-                         [formControl]="tagTasteControl"
-                         [matChipInputFor]="chipTasteGrid"
-                         [matAutocomplete]="autoTaste"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                  <mat-autocomplete #autoTaste="matAutocomplete">
-                    <mat-option *ngFor="let tag of filteredTasteTags" [value]="tag">
-                      {{tag.name}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <button class="popup-btn create-btn-color">Remove</button>
-              </div>
+    @if (getTobaccos.controls.length > 1) {
+      <form [formGroup]="createTobaccoForm" class="example-form">
+        <ng-container formArrayName="tobaccos" *ngFor="let tobacco of getTobaccos.controls; let i=index">
+          <div [formGroupName]="i" class="create-tobacco-container">
+            <div class="side">
+              <img class="tobacco-image" src="{{tobacco.value.preview}}" alt="">
+            </div>
+            <div class="side">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Tobacco Name</mat-label>
+                <input matInput formControlName="name" (keyup)="onChange()">
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Brand</mat-label>
+                <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="autoBrands">
+                <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
+                    {{ option.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Heaviness</mat-label>
+                <mat-select formControlName="heavinessId">
+                  <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
+                    {{ option.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Line</mat-label>
+                <mat-select formControlName="lineId">
+                  <mat-option *ngFor="let option of linesOption" [value]="option.id">
+                    {{ option.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="side">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Description</mat-label>
+                <input matInput formControlName="description">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Tags</mat-label>
+                <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                  <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+                    {{ tag.name }}
+                    <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                </mat-chip-grid>
+                <input placeholder="New Tag..." #tagInput
+                       [formControl]="tagControl"
+                       [matChipInputFor]="chipGrid"
+                       [matAutocomplete]="auto"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let tag of filteredTags" [value]="tag">
+                    {{ tag.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Taste</mat-label>
+                <mat-chip-grid #chipTasteGrid aria-label="Fruit selection">
+                  <mat-chip-row *ngFor="let tag of selectedTasteTags" (removed)="removeTasteTag(tag)">
+                    {{ tag.name }}
+                    <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                </mat-chip-grid>
+                <input placeholder="New Tag..." #tagTasteInput
+                       [formControl]="tagTasteControl"
+                       [matChipInputFor]="chipTasteGrid"
+                       [matAutocomplete]="autoTaste"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                <mat-autocomplete #autoTaste="matAutocomplete">
+                  <mat-option *ngFor="let tag of filteredTasteTags" [value]="tag">
+                    {{ tag.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <button class="popup-btn create-btn-color">Remove</button>
             </div>
           </div>
-        </div>
-      </div>
-    </form>
-
-    <div class="popup-action-container">
-      <button class="popup-btn create-btn-color" (click)="onSave()">Create</button>
-      <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
-    </div>
+        </ng-container>
+      </form>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions class="card-button-container">
+    <button class="popup-btn create-btn-color" (click)="onSave()">Create</button>
+    <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
 </div>

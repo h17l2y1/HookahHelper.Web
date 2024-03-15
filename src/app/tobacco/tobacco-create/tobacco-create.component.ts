@@ -286,4 +286,16 @@ export class TobaccoCreateComponent implements OnInit {
       reader.readAsDataURL(files[i]);
     }
   }
+
+  get getFileContainerClasses(): string {
+    return this.getTobaccos.controls.length > 1 ? 'file-container-narrow' : 'file-container';
+  }
+
+  get getDndTextClasses(): string {
+    return this.getTobaccos.controls.length > 1 ? 'dnd-text-narrow' : 'dnd-text';
+  }
+
+  get getContainerClasses(): string {
+    return this.getTobaccos.controls.length > 1 ? 'container-narrow' : 'container';
+  }
 }
