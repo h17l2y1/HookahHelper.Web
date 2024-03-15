@@ -24,7 +24,6 @@ import {TobaccoService} from "../tobacco.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {MatSort} from "@angular/material/sort";
-// import {TobaccoCreate2Component} from "../tobacco-create2/tobacco-create2.component";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -276,7 +275,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
   public onCreate(): void {
     const dialogRef = this.dialog.open(TobaccoCreateComponent, {
-      maxWidth: '1000px',
+      // maxWidth: '1000px',
       backdropClass: 'blurred',
       enterAnimationDuration: ENTER_ANIMATION_DURATION,
       exitAnimationDuration: EXIT_ANIMATION_DURATION

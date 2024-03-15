@@ -44,7 +44,6 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 import {defineElement} from "@lordicon/element";
 import lottie from "lottie-web";
-import {ImageUploaderDirective} from "./tobacco-create2/image-uploader.directive";
 import {DndDirective} from "../shared/components/image-upload/dnd.directive";
 
 @NgModule({
@@ -98,7 +97,6 @@ import {DndDirective} from "../shared/components/image-upload/dnd.directive";
     TobaccoLinesResolver,
     FilterSharedService,
     DndDirective
-    // ImageUploaderDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
