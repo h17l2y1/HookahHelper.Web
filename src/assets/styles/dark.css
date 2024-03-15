@@ -68,6 +68,33 @@ body {
     background-color: #64366C !important;
     color: white !important;
   }
+
+  .card-data {
+    .container-narrow {
+      border: dashed 2px #979797;
+      color: white;
+      background-color: #262626;
+
+      &:hover {
+        border-color: #d2d2d2;
+      }
+    }
+
+    .container {
+      border: dashed 2px #979797;
+      color: white;
+      background-color: #262626;
+
+      &:hover {
+        border-color: #d2d2d2;
+      }
+    }
+  }
+
+  .create-tobacco-container {
+    border: 1px solid #2e2e2e !important;
+    background-color: #262626 !important;
+  }
 }
 
 .create-btn-color {
