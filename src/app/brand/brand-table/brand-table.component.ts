@@ -42,7 +42,7 @@ export class BrandTableComponent extends UserPermission implements OnInit, After
   public isMobileMode!: boolean;
   public totalRows: number = 0;
   public currentPage: number = 0;
-  public pageSizeOptions: number[] = [30, 60, 120];
+  public pageSizeOptions: number[] = [20, 60, 120];
   public pageSize: number = this.pageSizeOptions[0];
   public isLoadingResults: boolean = false;
   public brands: Brand[] = [];
@@ -92,6 +92,7 @@ export class BrandTableComponent extends UserPermission implements OnInit, After
     const tableType: TableTypes = this.getTableState();
     this.isCardView = tableType === TableTypes.Card;
     this.queryParams.take = this.queryParams.take ? this.queryParams.take : this.pageSize;
+    this.currentPage = this.queryParams.page ? this.queryParams.page : 0;
 
     this.nameControl.valueChanges.pipe(
       debounceTime(1500),

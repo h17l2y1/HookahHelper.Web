@@ -30,7 +30,7 @@ export class TopMixComponent extends UserPermission implements OnInit, AfterView
   public displayedColumns!: string[];
   public totalRows = 0;
   public currentPage = 0;
-  public pageSizeOptions = [30, 60, 120];
+  public pageSizeOptions = [5, 60, 120];
   public pageSize = this.pageSizeOptions[0];
   public queryParams: QueryParams = this.route.snapshot.data['queryParam'];
   public nameControl: FormControl = this.formBuilder.control(this.queryParams.name);
@@ -52,6 +52,7 @@ export class TopMixComponent extends UserPermission implements OnInit, AfterView
     this.displayedColumns = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1)
     this.queryParams.take = this.queryParams.take ? this.queryParams.take : this.pageSize;
     this.getMixes().subscribe();
+    this.currentPage = this.queryParams.page ? this.queryParams.page : 0;
     this.nameControl.valueChanges.pipe(
       debounceTime(1500),
       distinctUntilChanged(),

@@ -112,6 +112,7 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
   ngOnInit(): void {
     this.queryParams.take = this.queryParams.take ? this.queryParams.take : this.pageSize;
+    this.currentPage = this.queryParams.page ? this.queryParams.page : 0;
 
     this.nameControl.valueChanges.pipe(
       debounceTime(1500),
