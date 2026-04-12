@@ -126,7 +126,9 @@ export class TobaccoCreateComponent implements OnInit {
           return this.lineService.getLinesByBrandId(brand.id).pipe(
             tap(lines => {
               this.linesOption = lines;
-              this.createTobaccoForm.get('lineId')?.enable();
+              this.getTobaccos.controls.forEach(control => {
+                control.get('lineId')?.enable();
+              });
             }),
           );
         } else {
@@ -164,7 +166,7 @@ export class TobaccoCreateComponent implements OnInit {
   }
 
   public onSave(oneMore = false): void {
-    if (this.createTobaccoForm.invalid) {
+    if (this.createTobaccoForm.invalid || this.getTobaccos.length === 0) {
       this.createTobaccoForm.markAllAsTouched();
       return;
     }
@@ -190,8 +192,13 @@ export class TobaccoCreateComponent implements OnInit {
   }
 
   private mapCreateTobaccoRequest(): Tobacco {
-    const request: Tobacco = this.createTobaccoForm.value;
-    request.brandId = this.createTobaccoForm.value.brandId.id;
+    const tobacco = this.getTobaccos.getRawValue()[0];
+    const brand = tobacco?.brandId as Brand | null;
+    if (!brand?.id) {
+      throw new Error('Brand is required');
+    }
+    const request: Tobacco = tobacco;
+    request.brandId = brand.id;
     request.tags = this.selectedTags;
     const tags = this.selectedTags.concat(this.selectedTasteTags);
     request.tobaccoTags = tags.map(tag => {
@@ -252,7 +259,7 @@ export class TobaccoCreateComponent implements OnInit {
         image: this.formBuilder.group({
           name: null,
           link: null,
-          base64: null,
+          base64: preview,
           type: ImageType.Tobacco,
         }),
         preview: preview,
@@ -285,6 +292,17 @@ export class TobaccoCreateComponent implements OnInit {
       };
       reader.readAsDataURL(files[i]);
     }
+  }
+
+  public onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const files = input.files ? Array.from(input.files) : [];
+    if (!files.length) {
+      return;
+    }
+
+    this.onFilesDropped(files);
+    input.value = '';
   }
 
   get getFileContainerClasses(): string {

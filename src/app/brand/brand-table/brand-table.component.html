@@ -94,15 +94,15 @@
                 @if(i < 25){
                   <img mat-card-image class="brand-card-image"
                        ngSrc="{{brand.image.link}}"
-                       width="auto"
-                       height="auto"
+                       width="300"
+                       height="300"
                        priority=""
                        alt="image error">
                 } @else {
                   <img mat-card-image class="brand-card-image"
                        ngSrc="{{brand.image.link}}"
-                       width="auto"
-                       height="auto"
+                       width="300"
+                       height="300"
                        alt="image error">
                 }
               </a>
@@ -127,7 +127,7 @@
           <ng-container matColumnDef="image">
             <th mat-header-cell *matHeaderCellDef>Logo</th>
             <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)">
-              <img class="brand-card-image" src="{{row.image?.link}}" alt="image">
+              <img class="brand-card-image" ngSrc="{{row.image?.link}}" width="100" height="100" alt="image">
             </td>
           </ng-container>
           <ng-container matColumnDef="name">

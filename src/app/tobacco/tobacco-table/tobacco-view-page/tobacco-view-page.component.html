@@ -6,86 +6,112 @@
     <div class="characteristics">
       <div class="tobacco-name">{{ tobacco.name }}</div>
       <div class="rating-container">
-        <star-rating
-          [showHalfStars]="true"
-          [starType]="'svg'"
-          [rating]="tobacco.rating"
-          [readOnly]="true">
-        </star-rating>
         {{ tobacco.rating }} ({{ tobacco.ratingCount }})
       </div>
       <div class="parameters">
         <div class="param">
           <div class="characteristic-name">Сладкость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="5"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+            </div>
+            <span class="meter-value">5/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Кислость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="5"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+            </div>
+            <span class="meter-value">5/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Пряность</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="0"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+            </div>
+            <span class="meter-value">0/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Свежесть</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="1"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+            </div>
+            <span class="meter-value">1/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Вкус</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="2"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+              <span class="meter-segment"></span>
+            </div>
+            <span class="meter-value">2/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Крепкость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="4"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment"></span>
+            </div>
+            <span class="meter-value">4/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Жаростойкость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="4"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment"></span>
+            </div>
+            <span class="meter-value">4/5</span>
+          </div>
         </div>
         <div class="param">
           <div class="characteristic-name">Дымность</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="5"
-            [readOnly]="true">
-          </star-rating>
+          <div class="meter">
+            <div class="meter-track">
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+              <span class="meter-segment active"></span>
+            </div>
+            <span class="meter-value">5/5</span>
+          </div>
         </div>
       </div>
     </div>
@@ -101,12 +127,7 @@
             <div class="name">{{ review.name }}</div>
             <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
           </div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="review.rating"
-            [readOnly]="true">
-          </star-rating>
+          <div>{{ review.rating }}/5</div>
         </div>
         <div class="text">{{ review.comment }}</div>
       </div>

@@ -15,10 +15,10 @@
           <div [ngClass]="getDndTextClasses">or</div>
           <button class="popup-btn create-btn-color" (click)="fileInput.click()">Choose File</button>
         </div>
-        <input hidden multiple type="file" accept=".png, .jpg, .webp" #fileInput>
+        <input hidden multiple type="file" accept=".png, .jpg, .webp" #fileInput (change)="onFilesSelected($event)">
       </div>
     </div>
-    @if (getTobaccos.controls.length > 1) {
+    @if (getTobaccos.controls.length > 0) {
       <form [formGroup]="createTobaccoForm" class="example-form">
         <ng-container formArrayName="tobaccos" *ngFor="let tobacco of getTobaccos.controls; let i=index">
           <div [formGroupName]="i" class="create-tobacco-container">

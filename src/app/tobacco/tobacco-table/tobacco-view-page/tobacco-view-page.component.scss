@@ -46,9 +46,42 @@
         .param {
           display: flex;
           align-items: center;
+          column-gap: 30px;
 
           .characteristic-name {
             width: 130px;
+            flex-shrink: 0;
+          }
+
+          .meter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+
+            .meter-track {
+              display: flex;
+              gap: 6px;
+              flex: 1;
+            }
+
+            .meter-segment {
+              height: 8px;
+              border-radius: 10px;
+              flex: 1;
+              background: rgba(137, 170, 178, 0.35);
+            }
+
+            .meter-segment.active {
+              background: #49ece7;
+              box-shadow: 0 0 8px rgba(73, 236, 231, 0.55);
+            }
+
+            .meter-value {
+              min-width: 34px;
+              text-align: right;
+              font-weight: 600;
+            }
           }
         }
       }

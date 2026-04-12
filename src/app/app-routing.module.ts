@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: 'tags',
     loadChildren: () => import('./tag/tag.module').then(m => m.TagModule),
-    canActivate: [AdminGuard]
+    // canActivate: [AdminGuard]
   },
   {path: 'constructor', loadChildren: () => import('./constructor/constructor.module').then(m => m.ConstructorModule)},
   {path: 'mixes', loadChildren: () => import('./top-mix/top-mix.module').then(m => m.TopMixModule)},
