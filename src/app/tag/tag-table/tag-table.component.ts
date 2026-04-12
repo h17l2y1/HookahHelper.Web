@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import { MatSort, MatSortHeader } from "@angular/material/sort";
 import {QueryParams} from "../../interfaces/models/queryParams";
-import {MatTableDataSource} from "@angular/material/table";
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatNoDataRow } from "@angular/material/table";
 import {map, merge, startWith, switchMap, tap} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
@@ -12,12 +12,18 @@ import {Tag} from "../../interfaces/entity/tag";
 import {TagCreateComponent} from "../tag-create/tag-create.component";
 import {TagEditorComponent} from "../tag-editor/tag-editor.component";
 import {TagType} from "../../interfaces/enums/tag-type";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { TagComponentComponent } from '../../shared/components/tag-component/tag-component.component';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-tag-table',
     templateUrl: './tag-table.component.html',
     styleUrls: ['./tag-table.component.scss'],
-    standalone: false
+    imports: [MatFormField, MatLabel, MatInput, MatProgressBar, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, TagComponentComponent, MatCheckbox, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatNoDataRow, MatPaginator],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TagTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

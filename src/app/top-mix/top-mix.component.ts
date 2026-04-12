@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import { MatSort, MatSortHeader } from "@angular/material/sort";
 import {QueryParams} from "../interfaces/models/queryParams";
-import {MatTableDataSource} from "@angular/material/table";
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatNoDataRow } from "@angular/material/table";
 import {Mix} from "../interfaces/entity/mix";
 import {TopMixService} from "./top-mix.service";
 import {map, merge, startWith, switchMap, tap} from "rxjs";
@@ -11,12 +11,18 @@ import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {MatDialog} from "@angular/material/dialog";
 import {MixViewComponent} from "./mix-view/mix-view.component";
 import {UserPermission} from "../shared/user-permission";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { StarRatingModule } from 'angular-star-rating';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-top-mix',
     templateUrl: './top-mix.component.html',
     styleUrls: ['./top-mix.component.scss'],
-    standalone: false
+    imports: [MatFormField, MatLabel, MatInput, MatProgressBar, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, StarRatingModule, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatNoDataRow, MatPaginator, DecimalPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TopMixComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

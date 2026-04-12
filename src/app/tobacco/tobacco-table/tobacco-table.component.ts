@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild} from '@angular/core';
 import {QueryParams} from "../../interfaces/models/queryParams";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
 import {debounceTime, distinctUntilChanged, filter, Observable, switchMap, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {LineService} from "../../services/line.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {TobaccoCreateComponent} from "../tobacco-create/tobacco-create.component";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 import {UserDataSharedService} from "../../services/shared/user-data-shared.service";
@@ -23,7 +23,23 @@ import {ConfirmationPopupComponent} from "../../shared/components/confirmation-p
 import {TobaccoService} from "../tobacco.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
-import {MatSort} from "@angular/material/sort";
+import { MatSort, MatSortHeader } from "@angular/material/sort";
+import { MatGridList, MatGridTile } from '@angular/material/grid-list';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { MatCard, MatCardImage } from '@angular/material/card';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgOptimizedImage, DecimalPipe } from '@angular/common';
+import { StarRatingModule } from 'angular-star-rating';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatNoDataRow } from '@angular/material/table';
+import { TagComponentComponent } from '../../shared/components/tag-component/tag-component.component';
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -34,7 +50,8 @@ export interface TobaccoList extends Tobacco {
     selector: 'app-tobacco-table',
     templateUrl: './tobacco-table.component.html',
     styleUrls: ['./tobacco-table.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatGridList, MatGridTile, MatFormField, MatLabel, MatInput, MatAutocompleteTrigger, MatAutocomplete, MatOption, MatIconButton, MatSuffix, MatIcon, MatSelect, MatButtonToggleGroup, MatButtonToggle, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatCard, NgxSkeletonLoaderModule, RouterLink, NgOptimizedImage, MatCardImage, StarRatingModule, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatSortHeader, TagComponentComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatNoDataRow, MatPaginator, DecimalPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TobaccoTableComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

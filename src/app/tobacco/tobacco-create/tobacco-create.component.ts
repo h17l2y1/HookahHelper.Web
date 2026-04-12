@@ -1,6 +1,6 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from "@angular/material/dialog";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {TobaccoService} from "../tobacco.service";
 import {Observable, of, startWith, switchMap, tap} from "rxjs";
@@ -15,12 +15,23 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TagService} from "../../tag/tag.service";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { DndDirective } from '../../shared/components/image-upload/dnd.directive';
+import { NgClass, AsyncPipe } from '@angular/common';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatChipGrid, MatChipRow, MatChipRemove, MatChipInput } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-tobacco-create',
     templateUrl: './tobacco-create.component.html',
     styleUrls: ['./tobacco-create.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, DndDirective, NgClass, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatAutocompleteTrigger, MatAutocomplete, MatOption, MatSelect, MatChipGrid, MatChipRow, MatChipRemove, MatIcon, MatChipInput, MatDialogActions, AsyncPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TobaccoCreateComponent implements OnInit {
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;

@@ -1,16 +1,22 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatDialogRef, MatDialogTitle, MatDialogActions } from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagType} from "../../interfaces/enums/tag-type";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { TagComponentComponent } from '../../shared/components/tag-component/tag-component.component';
+import { MatButton } from '@angular/material/button';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @Component({
     selector: 'app-tag-create',
     templateUrl: './tag-create.component.html',
     styleUrls: ['./tag-create.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSlideToggle, TagComponentComponent, MatButton, ColorPickerModule, MatDialogActions]
 })
 export class TagCreateComponent {
   public toggle: boolean = false;

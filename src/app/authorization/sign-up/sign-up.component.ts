@@ -1,8 +1,11 @@
 import {Component} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { MatDialogRef, MatDialogTitle, MatDialogActions } from "@angular/material/dialog";
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {User} from "../../interfaces/entity/user";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
 
 interface Role {
   value: string;
@@ -12,7 +15,7 @@ interface Role {
     selector: 'app-sign-up',
     templateUrl: './sign-up.component.html',
     styleUrls: ['./sign-up.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatDialogActions, MatButton]
 })
 
 

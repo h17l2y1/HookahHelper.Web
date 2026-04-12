@@ -1,14 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {tap} from "rxjs";
-import {FormBuilder, FormControl} from "@angular/forms";
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {CountryService} from "../../../services/country.service";
 import {Country} from "../../../interfaces/entity/country";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
 
 @Component({
     selector: 'app-country-select',
     templateUrl: './country-select.component.html',
     styleUrls: ['./country-select.component.scss'],
-    standalone: false
+    imports: [MatFormField, MatLabel, MatInput, FormsModule, MatAutocompleteTrigger, ReactiveFormsModule, MatAutocomplete, MatOption]
 })
 export class CountrySelectComponent implements OnInit {
   public countryAutocompleteControl: FormControl = this.formBuilder.control('');

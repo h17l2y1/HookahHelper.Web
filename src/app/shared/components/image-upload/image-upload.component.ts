@@ -1,13 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroupDirective} from "@angular/forms";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {ImageCroppedEvent, ImageTransform} from "ngx-image-cropper";
+import { ImageCroppedEvent, ImageTransform, ImageCropperModule } from "ngx-image-cropper";
+import { DndDirective } from './dnd.directive';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-image-upload',
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss'],
-    standalone: false
+    imports: [ImageCropperModule, DndDirective, MatButton]
 })
 
 export class ImageUploadComponent implements OnInit {

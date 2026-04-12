@@ -1,8 +1,8 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {Line} from "../../interfaces/entity/line";
 import {Observable, startWith, switchMap, tap} from "rxjs";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle } from "@angular/material/dialog";
 import {TobaccoService} from "../tobacco.service";
 import {LineService} from "../../services/line.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
@@ -13,12 +13,21 @@ import {HeavinessService} from "../../services/heaviness.service";
 import {TobaccoTag} from "../../interfaces/entity/tobacco-tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagService} from "../../tag/tag.service";
+import { ImageUploadComponent } from '../../shared/components/image-upload/image-upload.component';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatChipGrid, MatChipRow, MatChipRemove, MatChipInput } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-tobacco-editor',
     templateUrl: './tobacco-editor.component.html',
     styleUrls: ['./tobacco-editor.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, FormsModule, ReactiveFormsModule, ImageUploadComponent, MatFormField, MatLabel, MatInput, MatSelect, MatOption, MatChipGrid, MatChipRow, MatChipRemove, MatIcon, MatChipInput, MatAutocompleteTrigger, MatAutocomplete, AsyncPipe]
 })
 export class TobaccoEditorComponent implements OnInit {
   public readonly aspectRatio: number = 1;

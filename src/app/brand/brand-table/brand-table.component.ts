@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {BrandCreateComponent} from "../brand-create/brand-create.component";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../../constants";
 import {UserDataSharedService} from "../../services/shared/user-data-shared.service";
 import {TableTypes} from "../../interfaces/enums/table-type";
@@ -9,7 +9,7 @@ import {UserPermission} from "../../shared/user-permission";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 import {debounceTime, distinctUntilChanged, Observable, tap} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
-import {ActivatedRoute, Router} from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {QueryParams} from "../../interfaces/models/queryParams";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Brand} from "../../interfaces/entity/brand";
@@ -17,13 +17,27 @@ import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {BrandService} from "../brand.service";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
 import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
-import {MatSort} from "@angular/material/sort";
+import { MatSort, MatSortHeader } from "@angular/material/sort";
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
+import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { CountrySelectComponent } from '../../shared/components/country-select/country-select.component';
+import { MatCard, MatCardImage } from '@angular/material/card';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgOptimizedImage } from '@angular/common';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 
 @Component({
     selector: 'app-brand-table',
     templateUrl: './brand-table.component.html',
     styleUrls: ['./brand-table.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIconButton, MatSuffix, MatIcon, MatAutocompleteTrigger, MatAutocomplete, MatOption, MatButtonToggleGroup, MatButtonToggle, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, CountrySelectComponent, MatCard, RouterLink, NgxSkeletonLoaderModule, NgOptimizedImage, MatCardImage, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BrandTableComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

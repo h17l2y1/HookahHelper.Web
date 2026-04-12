@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
 import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
@@ -10,6 +10,13 @@ import {UserPermission} from "../shared/user-permission";
 import {ThemeService} from "./them-picker/theme.service";
 import {Observable, Subject, takeUntil, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { ThemePickerComponent } from './them-picker/theme-picker.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
 
 enum Screen {
   XSmall = 'XSmall',
@@ -23,7 +30,8 @@ enum Screen {
     selector: 'sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
-    standalone: false
+    imports: [RouterLink, MatIcon, ThemePickerComponent, NgIf, MatTooltip, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, RouterOutlet, AsyncPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SidenavComponent extends UserPermission implements OnDestroy {
   public options$: Observable<any> = this.themeService.getThemeOptions();

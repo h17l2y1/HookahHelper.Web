@@ -1,9 +1,6 @@
 import {Directive, EventEmitter, HostBinding, HostListener, Output} from '@angular/core';
 
-@Directive({
-    selector: '[appDnd]',
-    standalone: false
-})
+@Directive({ selector: '[appDnd]' })
 export class DndDirective {
   @HostBinding('class.fileover') fileOver!: boolean;
   @Output() fileDropped = new EventEmitter<any>();

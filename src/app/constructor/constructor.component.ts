@@ -4,24 +4,27 @@ import {BrandService} from "../brand/brand.service";
 import {filter, switchMap, tap} from "rxjs";
 import {Brand} from "../interfaces/entity/brand";
 import {Tobacco} from "../interfaces/entity/tobacco";
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from "@angular/forms";
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, CdkDrag, CdkDragPreview } from "@angular/cdk/drag-drop";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {TopMixService} from "../top-mix/top-mix.service";
 import {TobaccoMix} from "../interfaces/entity/tobacco-mix";
 import {Mix} from "../interfaces/entity/mix";
 import {ChartValue} from "./chart-value";
+import { MatFormField, MatLabel, MatError, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import { MatBadge } from '@angular/material/badge';
+import { MatCard, MatCardImage, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { PieChartModule } from '@swimlane/ngx-charts';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
 
 @Component({
     selector: 'app-constructor',
     templateUrl: './constructor.component.html',
     styleUrls: ['./constructor.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, CdkDropList, MatBadge, MatCard, MatCardImage, MatCardContent, MatCardTitle, MatError, MatIcon, MatSuffix, PieChartModule, MatAutocompleteTrigger, MatAutocomplete, MatOption, CdkDrag, CdkDragPreview]
 })
 export class ConstructorComponent implements OnInit {
   public brandControl: FormControl = this.formBuilder.control('');

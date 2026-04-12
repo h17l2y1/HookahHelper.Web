@@ -1,11 +1,16 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {Tobacco} from "../../../interfaces/entity/tobacco";
 import {ReviewService} from "../../../services/review.service";
 import {TokenService} from "../../../services/token.service";
 import {Review} from "../../../interfaces/entity/review";
 import {jwtDecode, JwtPayload} from "jwt-decode";
 import {ActivatedRoute} from "@angular/router";
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { StarRatingModule } from 'angular-star-rating';
+import { MatButton } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 
 interface UserData {
   isAnonymous: boolean;
@@ -42,7 +47,7 @@ interface RadarLabel {
     selector: 'app-tobacco-view-page',
     templateUrl: './tobacco-view-page.component.html',
     styleUrls: ['./tobacco-view-page.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, StarRatingModule, MatButton, DatePipe]
 })
 export class TobaccoViewPageComponent {
   public readonly maxCharacteristicValue = 5;

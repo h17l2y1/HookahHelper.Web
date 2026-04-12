@@ -1,11 +1,16 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TokenService} from "../../services/token.service";
 import {Review} from "../../interfaces/entity/review";
 import {jwtDecode, JwtPayload} from "jwt-decode";
 import {ReviewService} from "../../services/review.service";
 import {Mix} from "../../interfaces/entity/mix";
+import { StarRatingModule } from 'angular-star-rating';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 
 interface UserData {
   isAnonymous: boolean;
@@ -16,7 +21,7 @@ interface UserData {
     selector: 'app-mix-view',
     templateUrl: './mix-view.component.html',
     styleUrls: ['./mix-view.component.scss'],
-    standalone: false
+    imports: [StarRatingModule, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, DatePipe]
 })
 export class MixViewComponent {
 
