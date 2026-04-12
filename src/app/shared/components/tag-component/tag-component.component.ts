@@ -2,9 +2,10 @@ import {Component, Input} from '@angular/core';
 import {TagType} from "../../../interfaces/enums/tag-type";
 
 @Component({
-  selector: 'app-tag',
-  templateUrl: './tag-component.component.html',
-  styleUrls: ['./tag-component.component.scss']
+    selector: 'app-tag',
+    templateUrl: './tag-component.component.html',
+    styleUrls: ['./tag-component.component.scss'],
+    standalone: false
 })
 export class TagComponentComponent {
   @Input({required: true}) color!: string;

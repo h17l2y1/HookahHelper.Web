@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {MatInputModule} from "@angular/material/input";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
@@ -12,27 +12,20 @@ import {MatCardModule} from "@angular/material/card";
 import {NamePipe} from "./pipes/name.pipe";
 import {OnlyNumbersPipe} from './pipes/only-numbers.pipe';
 
-@NgModule({
-  declarations: [
-    ConfirmationPopupComponent,
-    NamePipe,
-    OnlyNumbersPipe
-  ],
-  providers: [],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    MatButtonModule,
-    FormsModule,
-    MatCardModule
-  ],
-  exports: [
-    ConfirmationPopupComponent
-  ]
-})
+@NgModule({ declarations: [
+        ConfirmationPopupComponent,
+        NamePipe,
+        OnlyNumbersPipe
+    ],
+    exports: [
+        ConfirmationPopupComponent
+    ], imports: [CommonModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatProgressBarModule,
+        MatDialogModule,
+        MatButtonModule,
+        FormsModule,
+        MatCardModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class SharedModule {
 }

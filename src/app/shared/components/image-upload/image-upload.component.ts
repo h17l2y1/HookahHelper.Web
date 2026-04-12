@@ -4,9 +4,10 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {ImageCroppedEvent, ImageTransform} from "ngx-image-cropper";
 
 @Component({
-  selector: 'app-image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss']
+    selector: 'app-image-upload',
+    templateUrl: './image-upload.component.html',
+    styleUrls: ['./image-upload.component.scss'],
+    standalone: false
 })
 
 export class ImageUploadComponent implements OnInit {

@@ -12,9 +12,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
 
 @Component({
-  selector: 'app-brand-editor',
-  templateUrl: './brand-editor.component.html',
-  styleUrls: ['./brand-editor.component.scss']
+    selector: 'app-brand-editor',
+    templateUrl: './brand-editor.component.html',
+    styleUrls: ['./brand-editor.component.scss'],
+    standalone: false
 })
 export class BrandEditorComponent implements OnInit {
   public readonly aspectRatio: number = 127/51;

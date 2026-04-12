@@ -18,9 +18,10 @@ import {Mix} from "../interfaces/entity/mix";
 import {ChartValue} from "./chart-value";
 
 @Component({
-  selector: 'app-constructor',
-  templateUrl: './constructor.component.html',
-  styleUrls: ['./constructor.component.scss']
+    selector: 'app-constructor',
+    templateUrl: './constructor.component.html',
+    styleUrls: ['./constructor.component.scss'],
+    standalone: false
 })
 export class ConstructorComponent implements OnInit {
   public brandControl: FormControl = this.formBuilder.control('');

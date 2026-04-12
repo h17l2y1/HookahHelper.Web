@@ -13,9 +13,10 @@ interface UserData {
   userId: string | null;
 }
 @Component({
-  selector: 'app-mix-view',
-  templateUrl: './mix-view.component.html',
-  styleUrls: ['./mix-view.component.scss']
+    selector: 'app-mix-view',
+    templateUrl: './mix-view.component.html',
+    styleUrls: ['./mix-view.component.scss'],
+    standalone: false
 })
 export class MixViewComponent {
 

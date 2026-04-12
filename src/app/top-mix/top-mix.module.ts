@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {TopMixComponent} from './top-mix.component';
 import {TopMixRoutingModule} from "./top-mix-routing.module";
 import {TopMixService} from "./top-mix.service";
-import {HttpClientModule} from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -20,33 +20,27 @@ import {ReviewService} from "../services/review.service";
 import {defineElement} from "@lordicon/element";
 import lottie from "lottie-web";
 
-@NgModule({
-  declarations: [
-    TopMixComponent,
-    MixViewComponent
-  ],
-  imports: [
-    CommonModule,
-    TopMixRoutingModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    MatProgressBarModule,
-    StarRatingModule.forRoot(),
-    ReactiveFormsModule,
-  ],
-  providers: [
-    TopMixService,
-    ReviewService
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-})
+@NgModule({ declarations: [
+        TopMixComponent,
+        MixViewComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
+        TopMixRoutingModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        MatProgressBarModule,
+        StarRatingModule.forRoot(),
+        ReactiveFormsModule], providers: [
+        TopMixService,
+        ReviewService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class TopMixModule {
   constructor() {
     defineElement(lottie.loadAnimation);

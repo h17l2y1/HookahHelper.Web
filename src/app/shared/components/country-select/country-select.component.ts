@@ -5,9 +5,10 @@ import {CountryService} from "../../../services/country.service";
 import {Country} from "../../../interfaces/entity/country";
 
 @Component({
-  selector: 'app-country-select',
-  templateUrl: './country-select.component.html',
-  styleUrls: ['./country-select.component.scss']
+    selector: 'app-country-select',
+    templateUrl: './country-select.component.html',
+    styleUrls: ['./country-select.component.scss'],
+    standalone: false
 })
 export class CountrySelectComponent implements OnInit {
   public countryAutocompleteControl: FormControl = this.formBuilder.control('');

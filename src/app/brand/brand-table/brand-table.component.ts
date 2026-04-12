@@ -20,9 +20,10 @@ import {ConfirmationPopupComponent} from "../../shared/components/confirmation-p
 import {MatSort} from "@angular/material/sort";
 
 @Component({
-  selector: 'app-brand-table',
-  templateUrl: './brand-table.component.html',
-  styleUrls: ['./brand-table.component.scss']
+    selector: 'app-brand-table',
+    templateUrl: './brand-table.component.html',
+    styleUrls: ['./brand-table.component.scss'],
+    standalone: false
 })
 export class BrandTableComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

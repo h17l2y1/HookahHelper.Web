@@ -31,9 +31,10 @@ export interface TobaccoList extends Tobacco {
 }
 
 @Component({
-  selector: 'app-tobacco-table',
-  templateUrl: './tobacco-table.component.html',
-  styleUrls: ['./tobacco-table.component.scss']
+    selector: 'app-tobacco-table',
+    templateUrl: './tobacco-table.component.html',
+    styleUrls: ['./tobacco-table.component.scss'],
+    standalone: false
 })
 export class TobaccoTableComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

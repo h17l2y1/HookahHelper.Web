@@ -14,9 +14,10 @@ import {TagEditorComponent} from "../tag-editor/tag-editor.component";
 import {TagType} from "../../interfaces/enums/tag-type";
 
 @Component({
-  selector: 'app-tag-table',
-  templateUrl: './tag-table.component.html',
-  styleUrls: ['./tag-table.component.scss']
+    selector: 'app-tag-table',
+    templateUrl: './tag-table.component.html',
+    styleUrls: ['./tag-table.component.scss'],
+    standalone: false
 })
 export class TagTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -7,9 +7,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagType} from "../../interfaces/enums/tag-type";
 
 @Component({
-  selector: 'app-tag-create',
-  templateUrl: './tag-create.component.html',
-  styleUrls: ['./tag-create.component.scss']
+    selector: 'app-tag-create',
+    templateUrl: './tag-create.component.html',
+    styleUrls: ['./tag-create.component.scss'],
+    standalone: false
 })
 export class TagCreateComponent {
   public toggle: boolean = false;

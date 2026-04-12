@@ -6,9 +6,10 @@ import {AuthService} from "../auth.service";
 import {TokenService} from "../../services/token.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent {
   public createLoginForm: FormGroup = this.initLoginUserForm();

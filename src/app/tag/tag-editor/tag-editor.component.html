@@ -1,30 +1,32 @@
-<div class="popup-container" *ngIf="editTagForm">
-  <h1 mat-dialog-title>Update Tag</h1>
-  <div class="popup-data">
-    <form [formGroup]="editTagForm" class="example-form">
-      <div class="edit-tag-container">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Tag Name</mat-label>
-          <input matInput formControlName="name" (keyup)="onChange()">
-        </mat-form-field>
-        <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
-        <div class="tag-view-container">
-          <div class="tags-container">
-            <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Bordered"></app-tag>
-            <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Filled"></app-tag>
+@if (editTagForm) {
+  <div class="popup-container">
+    <h1 mat-dialog-title>Update Tag</h1>
+    <div class="popup-data">
+      <form [formGroup]="editTagForm" class="example-form">
+        <div class="edit-tag-container">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Tag Name</mat-label>
+            <input matInput formControlName="name" (keyup)="onChange()">
+          </mat-form-field>
+          <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
+          <div class="tag-view-container">
+            <div class="tags-container">
+              <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Bordered"></app-tag>
+              <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Filled"></app-tag>
+            </div>
+            <button mat-flat-button
+              class="button colors"
+              [(colorPicker)]="color"
+              (click)="toggle=!toggle;">
+              Choose color
+            </button>
           </div>
-          <button mat-flat-button
-                  class="button colors"
-                  [(colorPicker)]="color"
-                  (click)="toggle=!toggle;">
-            Choose color
-          </button>
         </div>
+      </form>
+      <div mat-dialog-actions class="popup-action-container">
+        <button class="popup-btn create-btn-color" (click)="onSave()">Update</button>
+        <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
       </div>
-    </form>
-    <div mat-dialog-actions class="popup-action-container">
-      <button class="popup-btn create-btn-color" (click)="onSave()">Update</button>
-      <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
     </div>
   </div>
-</div>
+}

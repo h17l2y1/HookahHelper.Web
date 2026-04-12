@@ -15,9 +15,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagService} from "../../tag/tag.service";
 
 @Component({
-  selector: 'app-tobacco-editor',
-  templateUrl: './tobacco-editor.component.html',
-  styleUrls: ['./tobacco-editor.component.scss']
+    selector: 'app-tobacco-editor',
+    templateUrl: './tobacco-editor.component.html',
+    styleUrls: ['./tobacco-editor.component.scss'],
+    standalone: false
 })
 export class TobaccoEditorComponent implements OnInit {
   public readonly aspectRatio: number = 1;

@@ -1,5 +1,5 @@
 import {ErrorHandler, Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpRequest, HttpResponse} from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http';
 import {ToastrService} from "ngx-toastr";
 
 @Injectable({

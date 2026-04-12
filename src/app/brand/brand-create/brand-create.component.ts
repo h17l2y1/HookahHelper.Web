@@ -11,9 +11,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
 
 @Component({
-  selector: 'app-brand-create',
-  templateUrl: './brand-create.component.html',
-  styleUrls: ['./brand-create.component.scss']
+    selector: 'app-brand-create',
+    templateUrl: './brand-create.component.html',
+    styleUrls: ['./brand-create.component.scss'],
+    standalone: false
 })
 export class BrandCreateComponent {
   public readonly aspectRatio: number = 127/51;

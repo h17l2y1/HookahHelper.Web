@@ -20,9 +20,10 @@ enum Screen {
 }
 
 @Component({
-  selector: 'sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+    selector: 'sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    standalone: false
 })
 export class SidenavComponent extends UserPermission implements OnDestroy {
   public options$: Observable<any> = this.themeService.getThemeOptions();

@@ -13,9 +13,10 @@ import {MixViewComponent} from "./mix-view/mix-view.component";
 import {UserPermission} from "../shared/user-permission";
 
 @Component({
-  selector: 'app-top-mix',
-  templateUrl: './top-mix.component.html',
-  styleUrls: ['./top-mix.component.scss']
+    selector: 'app-top-mix',
+    templateUrl: './top-mix.component.html',
+    styleUrls: ['./top-mix.component.scss'],
+    standalone: false
 })
 export class TopMixComponent extends UserPermission implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

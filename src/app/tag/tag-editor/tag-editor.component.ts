@@ -7,9 +7,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagType} from "../../interfaces/enums/tag-type";
 
 @Component({
-  selector: 'app-tag-editor',
-  templateUrl: './tag-editor.component.html',
-  styleUrls: ['./tag-editor.component.scss']
+    selector: 'app-tag-editor',
+    templateUrl: './tag-editor.component.html',
+    styleUrls: ['./tag-editor.component.scss'],
+    standalone: false
 })
 export class TagEditorComponent {
   public toggle: boolean = false;

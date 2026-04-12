@@ -39,136 +39,138 @@
       </form>
     }
     @else {
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Select filters
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <form [formGroup]="brandFilterForm" class="example-form mobile-form">
-            <mat-form-field class="example-full-width">
-              <mat-label>Filter by Name</mat-label>
-              <input matInput formControlName="name">
-            </mat-form-field>
-            <app-country-select class="" [control]="countryControl"></app-country-select>
-            <div>
-              <mat-button-toggle-group #group="matButtonToggleGroup">
-                <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
-                  <mat-icon>view_module</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (change)="switchTableView(TableTypes.List)">
-                  <mat-icon>view_list</mat-icon>
-                </mat-button-toggle>
-              </mat-button-toggle-group>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Select filters
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="brandFilterForm" class="example-form mobile-form">
+          <mat-form-field class="example-full-width">
+            <mat-label>Filter by Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+          <app-country-select class="" [control]="countryControl"></app-country-select>
+          <div>
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+              <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
+                <mat-icon>view_module</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle (change)="switchTableView(TableTypes.List)">
+                <mat-icon>view_list</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          @if (user?.isAdmin) {
+            <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
+          }
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+  }
+  @if (user?.isAdmin) {
+    <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
+  }
+</div>
+@if (isCardView) {
+  <div class="brand-container">
+    @if(isLoadingResults){
+      <div class="card-container">
+        @for (skeleton of skeletonCount; track skeleton) {
+          <mat-card class="brand-card">
+            <a class="image-link" [routerLink]="['/tobaccos/']">
+              <ngx-skeleton-loader class="brand-card-image" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
+            </a>
+            <div class="info">
+              <span class="title"><ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
             </div>
-            <button *ngIf="user?.isAdmin" class="button btn-purple-grad" (click)="onCreate()">Create</button>
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
-    }
-    @if (user?.isAdmin) {
-      <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
+          </mat-card>
+        }
+      </div>
+    } @else {
+      <div class="card-container">
+        @for (brand of brands; track brand; let i = $index) {
+          <mat-card class="brand-card">
+            <a class="image-link" [routerLink]="['/tobaccos/']" [queryParams]="{brandId: brand.id}">
+              @if(i < 25){
+                <img mat-card-image class="brand-card-image"
+                  ngSrc="{{brand.image.link}}"
+                  width="300"
+                  height="300"
+                  priority=""
+                  alt="image error">
+              } @else {
+                <img mat-card-image class="brand-card-image"
+                  ngSrc="{{brand.image.link}}"
+                  width="300"
+                  height="300"
+                  alt="image error">
+              }
+            </a>
+            <div class="info">
+              <span class="title">{{ brand.name }}</span><br>
+              <span class="description">{{ brand.description }}</span>
+            </div>
+          </mat-card>
+        }
+      </div>
     }
   </div>
-  @if (isCardView) {
-    <div class="brand-container">
-      @if(isLoadingResults){
-        <div class="card-container">
-          @for (skeleton of skeletonCount; track skeleton) {
-            <mat-card class="brand-card">
-              <a class="image-link" [routerLink]="['/tobaccos/']">
-                <ngx-skeleton-loader class="brand-card-image" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
-              </a>
-              <div class="info">
-                <span class="title"><ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader></span>
-              </div>
-            </mat-card>
-          }
-        </div>
-      } @else {
-        <div class="card-container">
-          @for (brand of brands; track brand; let i = $index) {
-            <mat-card class="brand-card">
-              <a class="image-link" [routerLink]="['/tobaccos/']" [queryParams]="{brandId: brand.id}">
-                @if(i < 25){
-                  <img mat-card-image class="brand-card-image"
-                       ngSrc="{{brand.image.link}}"
-                       width="300"
-                       height="300"
-                       priority=""
-                       alt="image error">
-                } @else {
-                  <img mat-card-image class="brand-card-image"
-                       ngSrc="{{brand.image.link}}"
-                       width="300"
-                       height="300"
-                       alt="image error">
-                }
-              </a>
-              <div class="info">
-                <span class="title">{{ brand.name }}</span><br>
-                <span class="description">{{ brand.description }}</span>
-              </div>
-            </mat-card>
-          }
-        </div>
-      }
-    </div>
-  }
-  @else {
-    <div class="example-container mat-elevation-z8">
-      <div class="example-table-container">
-        @if (isLoadingResults) {
-          <ngx-skeleton-loader count="20" [animation]="animation" [theme]="skeletonStyle"></ngx-skeleton-loader>
-        }
-        <table mat-table [dataSource]="brands" class="example-table" matSort matSortActive="name" matSortDisableClear
-               matSortDirection="asc">
-          <ng-container matColumnDef="image">
-            <th mat-header-cell *matHeaderCellDef>Logo</th>
-            <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)">
-              <img class="brand-card-image" ngSrc="{{row.image?.link}}" width="100" height="100" alt="image">
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.name }}</td>
-          </ng-container>
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef class="table-secondary-columns">Description</th>
-            <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.description }}</td>
-          </ng-container>
-          <ng-container matColumnDef="country">
-            <th mat-header-cell *matHeaderCellDef class="table-secondary-columns">Country</th>
-            <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.country.name }}</td>
-          </ng-container>
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let row">
-              <div class="table-action-container">
-                <lord-icon
-                  src="https://cdn.lordicon.com/ifsxxxte.json"
-                  trigger="hover"
-                  colors="primary:#0A84FF"
-                  style="width:25px;height:25px"
-                  (click)="onUpdate(row.id)">
-                </lord-icon>
-                <lord-icon
-                  src="https://cdn.lordicon.com/skkahier.json"
-                  trigger="hover"
-                  colors="primary:#f44336"
-                  style="width:25px;height:25px"
-                  (click)="onDelete(row.id)">
-                </lord-icon>
-              </div>
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
-    </div>
-  }
+}
+@else {
+<div class="example-container mat-elevation-z8">
+  <div class="example-table-container">
+    @if (isLoadingResults) {
+      <ngx-skeleton-loader count="20" [animation]="animation" [theme]="skeletonStyle"></ngx-skeleton-loader>
+    }
+    <table mat-table [dataSource]="brands" class="example-table" matSort matSortActive="name" matSortDisableClear
+      matSortDirection="asc">
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>Logo</th>
+        <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)">
+          <img class="brand-card-image" ngSrc="{{row.image?.link}}" width="100" height="100" alt="image">
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef class="table-secondary-columns">Description</th>
+        <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.description }}</td>
+      </ng-container>
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef class="table-secondary-columns">Country</th>
+        <td mat-cell *matCellDef="let row" (click)="onBrandList(row.id)"> {{ row.country.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="table-action-container">
+            <lord-icon
+              src="https://cdn.lordicon.com/ifsxxxte.json"
+              trigger="hover"
+              colors="primary:#0A84FF"
+              style="width:25px;height:25px"
+              (click)="onUpdate(row.id)">
+            </lord-icon>
+            <lord-icon
+              src="https://cdn.lordicon.com/skkahier.json"
+              trigger="hover"
+              colors="primary:#f44336"
+              style="width:25px;height:25px"
+              (click)="onDelete(row.id)">
+            </lord-icon>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+}
 </div>
 
 <div class="paginator-container">

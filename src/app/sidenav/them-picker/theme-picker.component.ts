@@ -3,8 +3,9 @@ import { ThemeService } from './theme.service';
 import {Option} from "./option.model";
 
 @Component({
-  selector: 'app-them-picker',
-  templateUrl: './theme-picker.component.html'
+    selector: 'app-them-picker',
+    templateUrl: './theme-picker.component.html',
+    standalone: false
 })
 export class ThemePickerComponent {
   @Input() options!: Option[];

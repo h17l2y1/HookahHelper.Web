@@ -15,7 +15,7 @@ import {AppComponent} from './app.component';
 import {SidenavComponent} from "./sidenav/sidenav.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {provideToastr, ToastrModule} from "ngx-toastr";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {ErrorInterceptor} from "./services/interceptors/error-interceptor";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -38,57 +38,51 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {defineElement} from "@lordicon/element";
 import lottie from "lottie-web";
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    SidenavComponent,
-    ThemePickerComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatListModule,
-    RouterModule,
-    AppRoutingModule,
-    MatExpansionModule,
-    MatTooltipModule,
-    RouterModule.forRoot([]),
-    ToastrModule.forRoot(),
-    MatTabsModule,
-    MatDialogModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatOptionModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    SharedModule,
-    AuthorizationModule,
-    MatGridListModule,
-  ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ConfirmNotificationInterceptor, multi: true},
-    AuthGuard,
-    AdminGuard,
-    TokenService,
-    provideAnimations(),
-    provideToastr(),
-    StyleManagerService,
-    ThemeService,
-  ],
-  exports: [],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        SidenavComponent,
+        ThemePickerComponent,
+    ],
+    exports: [],
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatListModule,
+        RouterModule,
+        AppRoutingModule,
+        MatExpansionModule,
+        MatTooltipModule,
+        RouterModule.forRoot([]),
+        ToastrModule.forRoot(),
+        MatTabsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatOptionModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        SharedModule,
+        AuthorizationModule,
+        MatGridListModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ConfirmNotificationInterceptor, multi: true },
+        AuthGuard,
+        AdminGuard,
+        TokenService,
+        provideAnimations(),
+        provideToastr(),
+        StyleManagerService,
+        ThemeService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
   constructor() {
     defineElement(lottie.loadAnimation);

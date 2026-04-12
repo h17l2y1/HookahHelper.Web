@@ -17,9 +17,10 @@ import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
 
 @Component({
-  selector: 'app-tobacco-create',
-  templateUrl: './tobacco-create.component.html',
-  styleUrls: ['./tobacco-create.component.scss']
+    selector: 'app-tobacco-create',
+    templateUrl: './tobacco-create.component.html',
+    styleUrls: ['./tobacco-create.component.scss'],
+    standalone: false
 })
 export class TobaccoCreateComponent implements OnInit {
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;

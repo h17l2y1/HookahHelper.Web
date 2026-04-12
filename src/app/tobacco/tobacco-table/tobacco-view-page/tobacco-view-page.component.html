@@ -1,161 +1,102 @@
-<div class="view-popup" *ngIf="tobacco">
-  <div class="data-container">
-    <div class="view-card-image">
-      <img class="image" src="{{tobacco.image.link}}" alt="image error"/>
-    </div>
-    <div class="characteristics">
-      <div class="tobacco-name">{{ tobacco.name }}</div>
-      <div class="rating-container">
-        {{ tobacco.rating }} ({{ tobacco.ratingCount }})
+@if (tobacco) {
+  <div class="view-popup">
+    <div class="data-container">
+      <div class="view-card-image">
+        <img class="image" src="{{tobacco.image.link}}" alt="image error"/>
       </div>
-      <div class="parameters">
-        <div class="param">
-          <div class="characteristic-name">Сладкость</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-            </div>
-            <span class="meter-value">5/5</span>
-          </div>
+      <div class="characteristics">
+        <div class="tobacco-name">{{ tobacco.name }}</div>
+        <div class="rating-container">
+          {{ tobacco.rating }} ({{ tobacco.ratingCount }})
         </div>
-        <div class="param">
-          <div class="characteristic-name">Кислость</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
+        <div class="parameters">
+          @for (characteristic of characteristics; track characteristic) {
+            <div class="param">
+              <div class="characteristic-name">{{ characteristic.name }}</div>
+              <div class="meter">
+                <div class="meter-track">
+                  @for (segment of meterSegments; track segment) {
+                    <span
+                      class="meter-segment"
+                      [class.active]="segment <= characteristic.value">
+                    </span>
+                  }
+                </div>
+                <span class="meter-value">{{ characteristic.value }}/{{ maxCharacteristicValue }}</span>
+              </div>
             </div>
-            <span class="meter-value">5/5</span>
-          </div>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Пряность</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-            </div>
-            <span class="meter-value">0/5</span>
-          </div>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Свежесть</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-            </div>
-            <span class="meter-value">1/5</span>
-          </div>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Вкус</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-              <span class="meter-segment"></span>
-            </div>
-            <span class="meter-value">2/5</span>
-          </div>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Крепкость</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment"></span>
-            </div>
-            <span class="meter-value">4/5</span>
-          </div>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Жаростойкость</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment"></span>
-            </div>
-            <span class="meter-value">4/5</span>
-          </div>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Дымность</div>
-          <div class="meter">
-            <div class="meter-track">
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-              <span class="meter-segment active"></span>
-            </div>
-            <span class="meter-value">5/5</span>
-          </div>
+          }
         </div>
       </div>
+      <div class="schema">
+        <svg class="radar-chart" [attr.viewBox]="'0 0 ' + radarSize + ' ' + radarSize" role="img" aria-label="Tobacco characteristics radar">
+          <circle class="radar-bg" [attr.cx]="radarCenter" [attr.cy]="radarCenter" [attr.r]="radarRadius + 12"></circle>
+          @for (ring of radarRings; track ring) {
+            <polygon class="radar-ring" [attr.points]="getRingPoints(ring)"></polygon>
+          }
+          @for (axis of radarAxisLines; track axis) {
+            <line
+              class="radar-axis"
+              [attr.x1]="axis.x1"
+              [attr.y1]="axis.y1"
+              [attr.x2]="axis.x2"
+              [attr.y2]="axis.y2">
+            </line>
+          }
+          <polygon class="radar-value" [attr.points]="radarValuePoints"></polygon>
+          @for (label of radarLabels; track label) {
+            <text
+              class="radar-label"
+              [attr.x]="label.x"
+              [attr.y]="label.y"
+              [attr.text-anchor]="label.anchor"
+              [attr.dominant-baseline]="label.baseline">
+              {{ label.name }}
+            </text>
+          }
+        </svg>
+      </div>
     </div>
-    <div class="schema">
-      schema
+    <div class="review-container">
+      <div class="comments-container">
+        @for (review of tobacco.reviews; track review) {
+          <div class="comment">
+            <div class="comment-header">
+              <div class="name-date-container">
+                <div class="name">{{ review.name }}</div>
+                <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
+              </div>
+              <div>{{ review.rating }}/5</div>
+            </div>
+            <div class="text">{{ review.comment }}</div>
+          </div>
+        }
+      </div>
+      <div class="add-review-container">
+        <form class="example-form add-review" [formGroup]="createReviewForm">
+          <div>Write review</div>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Review</mat-label>
+            <textarea matInput placeholder="Your review" formControlName="text"></textarea>
+          </mat-form-field>
+          <div class="rating">
+            <star-rating-control
+              [showHalfStars]="true"
+              [starType]="'svg'"
+              [readOnly]="false"
+              labelPosition="top"
+              labelText="Rating"
+              formControlName="rating"
+              [hoverEnabled]="true">
+            </star-rating-control>
+          </div>
+          <button class="button popup-actions-button blue-color" mat-flat-button (click)="onSend()">Send</button>
+        </form>
+      </div>
     </div>
   </div>
-  <div class="review-container">
-    <div class="comments-container">
-      <div class="comment" *ngFor="let review of tobacco.reviews">
-        <div class="comment-header">
-          <div class="name-date-container">
-            <div class="name">{{ review.name }}</div>
-            <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
-          </div>
-          <div>{{ review.rating }}/5</div>
-        </div>
-        <div class="text">{{ review.comment }}</div>
-      </div>
-    </div>
-    <div class="add-review-container">
-      <form class="example-form add-review" [formGroup]="createReviewForm">
-        <div>Write review</div>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Review</mat-label>
-          <textarea matInput placeholder="Your review" formControlName="text"></textarea>
-        </mat-form-field>
-        <div class="rating">
-          <star-rating-control
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [readOnly]="false"
-            labelPosition="top"
-            labelText="Rating"
-            formControlName="rating"
-            [hoverEnabled]="true">
-          </star-rating-control>
-        </div>
-        <button class="button popup-actions-button blue-color" mat-flat-button (click)="onSend()">Send</button>
-      </form>
-    </div>
-  </div>
-</div>
+}
