@@ -94,15 +94,15 @@
                 @if(i < 25){
                   <img mat-card-image class="brand-card-image"
                        ngSrc="{{brand.image.link}}"
-                       width="auto"
-                       height="auto"
-                       priority=""
+                       width="300"
+                       height="120"
+                       [priority]="true"
                        alt="image error">
                 } @else {
                   <img mat-card-image class="brand-card-image"
                        ngSrc="{{brand.image.link}}"
-                       width="auto"
-                       height="auto"
+                       width="300"
+                       height="120"
                        alt="image error">
                 }
               </a>
@@ -181,5 +181,4 @@
     aria-label="Select page">
   </mat-paginator>
 </div>
-
 

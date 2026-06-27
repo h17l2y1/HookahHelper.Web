@@ -11,6 +11,26 @@ import {Country} from "../../interfaces/entity/country";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
 
+interface UpdateBrandRequest {
+  id: number;
+  image: {
+    id: number;
+    name: string;
+    link: string;
+    base64: string | null;
+    type: ImageType;
+  };
+  name: string;
+  description?: string | null;
+  countryId: string;
+  lines?: Array<{
+    id?: string | null;
+    brandId: string;
+    name: string;
+    isNew: boolean;
+  }>;
+}
+
 @Component({
   selector: 'app-brand-editor',
   templateUrl: './brand-editor.component.html',
@@ -23,7 +43,7 @@ export class BrandEditorComponent implements OnInit {
   public countyControl: FormControl = this.formBuilder.control('', [Validators.required]);
   public brand$: Observable<Brand> = this.brandService.getById(this.data.id).pipe(
     tap(response => {
-      this.countyControl.setValue(response.country.id)
+      this.countyControl.setValue(String(response.country.id))
       this.updateBrandForm = this.initBrandUpdateForm(response);
     })
   );
@@ -45,9 +65,8 @@ export class BrandEditorComponent implements OnInit {
   }
 
   public onSave(): void {
-    const request: CreateBrand = this.updateBrandForm.value;
+    const request = this.buildRequest();
     request.image.name = `brand: ${request.name};`;
-    request.lines = request.lines ? request.lines : undefined;
     this.brandService.update(request).subscribe(() => {
       this.dialogRef.close(true);
     });
@@ -79,9 +98,10 @@ export class BrandEditorComponent implements OnInit {
     const arr: FormGroup[] = lines.map(line => {
       return this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
-        id: this.formBuilder.control(line.id),
-        brandId: this.formBuilder.control(this.brandId),
-        name: this.formBuilder.control(line.name)
+        id: this.formBuilder.control(String(line.id)),
+        brandId: this.formBuilder.control(String(this.brandId)),
+        name: this.formBuilder.control(line.name),
+        isNew: this.formBuilder.control(false)
       })
     })
 
@@ -104,7 +124,8 @@ export class BrandEditorComponent implements OnInit {
     this.getLines.push(
       this.formBuilder.group({
         tempId: this.formBuilder.control(this.getNextId()),
-        brandId: this.formBuilder.control(this.brandId),
+        id: this.formBuilder.control(null),
+        brandId: this.formBuilder.control(String(this.brandId)),
         name: this.formBuilder.control(''),
         isNew: true,
       })
@@ -115,5 +136,28 @@ export class BrandEditorComponent implements OnInit {
     this.updateBrandForm.patchValue({
       name: this.namePipe.transform(this.updateBrandForm.value.name)
     }, {emitEvent: false})
+  }
+
+  private buildRequest(): UpdateBrandRequest {
+    const raw = this.updateBrandForm.getRawValue();
+    return {
+      id: Number(raw.id),
+      image: {
+        id: Number(raw.image.id),
+        name: raw.image.name,
+        link: raw.image.link,
+        base64: raw.image.base64,
+        type: raw.image.type,
+      },
+      name: raw.name,
+      description: raw.description,
+      countryId: String(raw.countryId),
+      lines: raw.lines?.map((line: { id?: string | null; brandId: string; name: string; isNew?: boolean }) => ({
+        id: line.id ? String(line.id) : null,
+        brandId: String(line.brandId ?? this.brandId),
+        name: line.name,
+        isNew: Boolean(line.isNew),
+      })),
+    };
   }
 }

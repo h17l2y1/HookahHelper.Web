@@ -188,16 +188,18 @@ export class TobaccoCreateComponent implements OnInit {
   }
 
   private mapCreateTobaccoRequest(): Tobacco {
-    const request: Tobacco = this.createTobaccoForm.value;
-    request.brandId = this.createTobaccoForm.value.brandId.id;
+    const raw = this.createTobaccoForm.getRawValue();
+    const request = raw as Tobacco;
+    request.brandId = String(raw.brandId?.id ?? raw.brandId);
+    request.lineId = String(raw.lineId);
     request.tags = this.selectedTags;
     const tags = this.selectedTags.concat(this.selectedTasteTags);
     request.tobaccoTags = tags.map(tag => {
       return {
         id: undefined,
         tobaccoId: request.id,
-        tagId: tag.id,
-        isNew: tag.isNew
+        tagId: String(tag.id),
+        isNew: Boolean(tag.isNew),
       }
     });
     request.tags = this.selectedTags;
