@@ -6,8 +6,8 @@
     "start": "node server.js",
     "build": "ng build",
     "dev": "ng serve",
-    "heroku": "ng serve --configuration=production",
-    "heroku-postbuild": "ng build --configuration production",
+    "start:prod": "ng serve --configuration=production",
+    "prod": "ng serve",
     "postinstall": "node post-install.js"
   },
   "private": true,

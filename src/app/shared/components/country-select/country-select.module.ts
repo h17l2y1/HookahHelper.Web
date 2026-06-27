@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CountrySelectComponent } from './country-select.component';
-import {MatInputModule} from "@angular/material/input";
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
@@ -14,8 +12,6 @@ import {ReactiveFormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
-    MatInputModule,
-    MatAutocompleteModule,
     ReactiveFormsModule,
   ]
 })

@@ -10,7 +10,7 @@
   //padding: 25px 25px 25px 0;
   //align-items: center;
 
-  .example-list2 {
+.example-list2 {
     display: flex;
     justify-content: space-around;
     border: dashed 2px #ccc;
@@ -20,17 +20,27 @@
     overflow: auto;
     flex-wrap: wrap;
 
-    .brand-card {
+    .tobacco-card {
       width: 225px;
       height: 325px;
       border-radius: 30px;
-      box-shadow: none;
+      background: #2f2f2f;
       transition: transform .5s;
       color: #d3d3d3;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      gap: 12px;
 
       .title {
         font-size: 1.1em;
         text-align: center;
+      }
+
+      .tobacco-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
       }
 
       .example-full-width2 {
@@ -128,29 +138,22 @@
   0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.mat-badge-content {
-  font-family: 'Material Icons', serif;
-  font-size: 20px;
-  line-height: 28px;
-  right: 0 !important;
-  top: -1px !important;
-  z-index: 1;
-  width: 30px;
-  height: 30px;
-}
-
 .card-wrapper {
   //margin-top: 25px;
 }
 
 .badge {
-  width: 28px;
+  width: auto;
   height: 28px;
   z-index: 2;
   top: 20px;
   right: -210px;
   cursor: pointer;
   user-select: none;
+  border: 0;
+  border-radius: 999px;
+  background: #f44336;
+  color: white;
 }
 
 .chart {
@@ -174,3 +177,13 @@
   }
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.error {
+  color: #ff8b8b;
+  font-size: 12px;
+}

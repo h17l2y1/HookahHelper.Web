@@ -16,7 +16,6 @@ import {Brand} from "../../interfaces/entity/brand";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
 import {BrandService} from "../brand.service";
 import {BrandEditorComponent} from "../brand-editor/brand-editor.component";
-import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
 import {MatSort} from "@angular/material/sort";
 
 @Component({
@@ -234,15 +233,9 @@ export class BrandTableComponent extends UserPermission implements OnInit, After
   }
 
   public onDelete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      backdropClass: 'blurred',
-      autoFocus: false
-    });
-    dialogRef.afterClosed().subscribe(popupResponse => {
-      if (popupResponse) {
-        this.brandService.remove(id).subscribe(() => this.redirect())
-      }
-    });
+    if (window.confirm('Delete this brand?')) {
+      this.brandService.remove(id).subscribe(() => this.redirect());
+    }
   }
 
   public onBrandList(id: string): void {

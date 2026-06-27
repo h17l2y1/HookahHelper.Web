@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagType} from "../../interfaces/enums/tag-type";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tag-create',
@@ -18,10 +18,10 @@ export class TagCreateComponent {
   public createTagForm: FormGroup = this.initCreateTagForm();
 
   constructor(
-    public dialogRef: MatDialogRef<TagCreateComponent>,
     private formBuilder: FormBuilder,
     private tagService: TagService,
     private namePipe: NamePipe,
+    private router: Router,
   ) {}
 
   private initCreateTagForm(): FormGroup {
@@ -40,12 +40,21 @@ export class TagCreateComponent {
     const request: Tag = this.createTagForm.value;
     request.color = this.color;
     this.tagService.create(request).subscribe(() => {
-      this.dialogRef.close(oneMore);
+      if (oneMore) {
+        this.createTagForm.reset({
+          name: 'Tag',
+          isGlobal: false,
+          color: '#595959',
+        });
+        this.color = '#595959';
+        return;
+      }
+      void this.router.navigate(['/tags']);
     });
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    void this.router.navigate(['/tags']);
   }
 
   public onChange(): void {

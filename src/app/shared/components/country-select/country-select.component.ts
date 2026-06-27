@@ -30,18 +30,12 @@ export class CountrySelectComponent implements OnInit {
 
     this.countryAutocompleteControl.valueChanges.pipe(
       tap(value => {
-        if (typeof value === 'string') {
-          this.filteredCountriesOptions = this._filter(this.allCountriesOption, value);
-          return;
-        }
-        this.control.setValue(value?.id)
-        this.filteredCountriesOptions = value?.name ? this._filter(this.allCountriesOption, value.name) : this.allCountriesOption.slice();
+        const text = typeof value === 'string' ? value : value?.name ?? '';
+        this.filteredCountriesOptions = text ? this._filter(this.allCountriesOption, text) : this.allCountriesOption.slice();
+        const matched = this.allCountriesOption.find(country => country.name === text);
+        this.control.setValue(matched?.id ?? null);
       }),
     ).subscribe();
-  }
-
-  public displayFn(country: { name: string }): string {
-    return country && country.name ? country.name : '';
   }
 
   private _filter(array: { name: string }[], name: string): any {

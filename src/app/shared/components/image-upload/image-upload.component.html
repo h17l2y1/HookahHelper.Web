@@ -14,9 +14,9 @@
         [(transform)]="transform">
       </image-cropper>
       <div class="image-cropper-actions">
-        <button mat-raised-button color="primary" (click)="zoomOut()">Zoom -</button>
-        <button mat-raised-button color="primary" (click)="zoomIn()">Zoom +</button>
-        <button mat-raised-button color="primary" (click)="resetImage()">Reset</button>
+        <button class="action-btn" type="button" (click)="zoomOut()">Zoom -</button>
+        <button class="action-btn" type="button" (click)="zoomIn()">Zoom +</button>
+        <button class="action-btn" type="button" (click)="resetImage()">Reset</button>
       </div>
     </div>
     <ng-template #fakeZone>
@@ -35,17 +35,16 @@
           </svg>
           <h3>Drag and drop file here</h3>
           <h3>or</h3>
-          <button mat-raised-button color="primary" (click)="fileDropRef.click()">Choose File</button>
+          <button class="action-btn" type="button" (click)="fileDropRef.click()">Choose File</button>
         </div>
       </div>
     </ng-template>
   </div>
 
   <div *ngIf="isFileExist || isFileLoaded" class="file-upload-button" (click)="uploadFile.click()">
-    <button mat-raised-button color="primary">Choose File</button>
+    <button class="action-btn" type="button">Choose File</button>
     <input #uploadFile (change)="fileChangeEvent($event)" type='file' style="display:none"/>
   </div>
 </div>
-
 
 

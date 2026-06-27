@@ -24,8 +24,6 @@ import {ChartValue} from "./chart-value";
 })
 export class ConstructorComponent implements OnInit {
   public brandControl: FormControl = this.formBuilder.control('');
-  public brandAutocompleteControl: FormControl = this.formBuilder.control('');
-  public filteredBrandsOptions!: Brand[];
   public allBrandsOption!: Brand[];
   public tobaccos: Tobacco[] = [];
   public selectedTobaccos: Tobacco[] = [];
@@ -47,11 +45,7 @@ export class ConstructorComponent implements OnInit {
     this.constructorForm.valueChanges.pipe(
       tap((data: Mix) => {
         const total = data.tobaccoMixes.reduce((n, {percent}) => n + +percent, 0);
-        console.log(total)
         if (total > 100) {
-          console.log('> 100')
-          // const control = this.constructorForm.get('tobaccoMixes');
-          // control?.setErrors({'total percentage over 100': true});
           this.getTobaccoMix.controls.forEach(control => {
             control?.setErrors({'total percentage over 100': true});
             control.markAsTouched();
@@ -65,7 +59,6 @@ export class ConstructorComponent implements OnInit {
     this.brandService.getOptions().pipe(
       tap(brands => {
         this.allBrandsOption = brands;
-        this.filteredBrandsOptions = brands;
       })
     ).subscribe();
 
@@ -73,17 +66,6 @@ export class ConstructorComponent implements OnInit {
       filter(Boolean),
       switchMap((brandId) => this.tobaccoService.getByBrandId(brandId)),
       tap(response => this.tobaccos = response)
-    ).subscribe();
-
-    this.brandAutocompleteControl.valueChanges.pipe(
-      tap((value: string | Brand) => {
-        if (typeof value === 'string') {
-          this.filteredBrandsOptions = this._filter(value);
-          return;
-        }
-        this.brandControl.setValue(value?.id)
-        this.filteredBrandsOptions = value?.name ? this._filter(value.name) : this.allBrandsOption.slice();
-      }),
     ).subscribe();
   }
 
@@ -104,10 +86,6 @@ export class ConstructorComponent implements OnInit {
     );
     this.setAvgPercentToControls();
     this.updateChart();
-  }
-
-  public displayFn(brand: { name: string }): string {
-    return brand && brand.name ? brand.name : '';
   }
 
   public drop(event: CdkDragDrop<Tobacco[]>): void {
@@ -187,11 +165,6 @@ export class ConstructorComponent implements OnInit {
 
   private getNextId(): number {
     return ++this.tempId;
-  }
-
-  private _filter(name: string): Brand[] {
-    const filterValue = name.toLowerCase();
-    return this.allBrandsOption.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   private initFormArray(): FormGroup {

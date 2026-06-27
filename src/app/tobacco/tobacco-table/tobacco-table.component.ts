@@ -19,7 +19,6 @@ import {Tag} from "../../interfaces/entity/tag";
 import {TagType} from 'src/app/interfaces/enums/tag-type';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
-import {ConfirmationPopupComponent} from "../../shared/components/confirmation-popup/confirmation-popup.component";
 import {TobaccoService} from "../tobacco.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
@@ -321,17 +320,11 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
   }
 
   public onDelete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      backdropClass: 'blurred',
-      autoFocus: false
-    });
-    dialogRef.afterClosed().subscribe(popupResponse => {
-      if (popupResponse) {
-        this.tobaccoService.remove(id).pipe(
-          tap(() => this.getTobaccos().subscribe())
-        ).subscribe();
-      }
-    });
+    if (window.confirm('Delete this tobacco?')) {
+      this.tobaccoService.remove(id).pipe(
+        tap(() => this.getTobaccos().subscribe())
+      ).subscribe();
+    }
   }
 
 }

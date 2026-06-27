@@ -5,29 +5,31 @@
   <form [formGroup]="createLoginForm" class="example-form" *ngIf="createLoginForm">
     <div class="create-account-container">
       <div class="side">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Email</mat-label>
-          <mat-icon matTextPrefix class="input-icon">mail</mat-icon>
-          <input matInput
-                 type="email"
-                 (change)="fixAutoFill($event, pwd.value)"
-                 placeholder="Ex. pat@example.com"
-                 formControlName="email"
-                 name="username"
-                 required>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Пароль</mat-label>
-          <mat-icon matTextPrefix class="input-icon">lock</mat-icon>
-          <input matInput #pwd
-                 placeholder="Password"
-                 formControlName="password"
-                 type="password"
-                 name="password"
-                 required>
-        </mat-form-field>
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input
+            type="email"
+            (change)="fixAutoFill($event, pwd.value)"
+            placeholder="Ex. pat@example.com"
+            formControlName="email"
+            name="username"
+            required>
+        </label>
+        <label class="field">
+          <span class="field-label">Пароль</span>
+          <input
+            #pwd
+            placeholder="Password"
+            formControlName="password"
+            type="password"
+            name="password"
+            required>
+        </label>
       </div>
     </div>
   </form>
-  <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Login</button>
+  <div class="actions">
+    <button class="button popup-actions-button purple-background-color" type="button" (click)="onSave()">Login</button>
+    <button class="button popup-actions-button cancel-btn-color" type="button" (click)="onCancel()">Cancel</button>
+  </div>
 </div>

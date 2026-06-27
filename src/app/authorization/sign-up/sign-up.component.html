@@ -1,41 +1,33 @@
 <div class="popup-container">
-  <h1 mat-dialog-title>Sign Up</h1>
+  <h1 class="title">Sign Up</h1>
   <form [formGroup]="createSignUpForm" class="example-form">
     <div class="create-account-container">
       <div class="side">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Імʼя</mat-label>
-          <input matInput formControlName="firstName">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Пізвище</mat-label>
-          <input matInput formControlName="lastName">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Пароль</mat-label>
-          <input matInput formControlName="password">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Повторіть пароль</mat-label>
-          <input matInput formControlName="confirmPassword">
-        </mat-form-field>
-<!--        <mat-form-field class="example-full-width" appearance="fill">-->
-<!--          <mat-label>Роль</mat-label>-->
-<!--          <mat-select formControlName="role">-->
-<!--            <mat-option *ngFor="let role of roles" [value]="role.value">-->
-<!--              {{role.viewValue}}-->
-<!--            </mat-option>-->
-<!--          </mat-select>-->
-<!--        </mat-form-field>-->
+        <label class="field">
+          <span class="field-label">Імʼя</span>
+          <input type="text" formControlName="firstName">
+        </label>
+        <label class="field">
+          <span class="field-label">Пізвище</span>
+          <input type="text" formControlName="lastName">
+        </label>
+        <label class="field">
+          <span class="field-label">Email</span>
+          <input type="email" formControlName="email">
+        </label>
+        <label class="field">
+          <span class="field-label">Пароль</span>
+          <input type="password" formControlName="password">
+        </label>
+        <label class="field">
+          <span class="field-label">Повторіть пароль</span>
+          <input type="password" formControlName="confirmPassword">
+        </label>
       </div>
     </div>
   </form>
-  <div mat-dialog-actions class="popup-action-container">
-    <button class="button popup-actions-button purple-background-color" mat-flat-button (click)="onSave()">Create</button>
-    <button class="button popup-actions-button cancel-btn-color" mat-flat-button (click)="onCancel()">Cancel</button>
+  <div class="actions">
+    <button class="button popup-actions-button purple-background-color" type="button" (click)="onSave()">Create</button>
+    <button class="button popup-actions-button cancel-btn-color" type="button" (click)="onCancel()">Cancel</button>
   </div>
 </div>

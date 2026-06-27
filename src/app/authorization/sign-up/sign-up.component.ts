@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {User} from "../../interfaces/entity/user";
+import {Router} from "@angular/router";
 
 interface Role {
   value: string;
@@ -23,20 +23,20 @@ export class SignUpComponent {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<SignUpComponent>,
     private formBuilder: FormBuilder,
-    private authorizationService: AuthService
+    private authorizationService: AuthService,
+    private router: Router
   ) {
   }
   public onSave(): void {
     const request: User = this.createSignUpForm.value;
     this.authorizationService.signUp(request).subscribe(() => {
-      this.dialogRef.close(true);
+      void this.router.navigate(['/login']);
     });
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    void this.router.navigate(['/tobaccos']);
   }
 
   private initCreateUserForm(): FormGroup {

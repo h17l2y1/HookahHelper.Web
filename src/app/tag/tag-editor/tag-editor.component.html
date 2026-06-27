@@ -1,30 +1,33 @@
 <div class="popup-container" *ngIf="editTagForm">
-  <h1 mat-dialog-title>Update Tag</h1>
+  <h1 class="title">Update Tag</h1>
   <div class="popup-data">
     <form [formGroup]="editTagForm" class="example-form">
       <div class="edit-tag-container">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Tag Name</mat-label>
-          <input matInput formControlName="name" (keyup)="onChange()">
-        </mat-form-field>
-        <mat-slide-toggle formControlName="isGlobal">Is Global</mat-slide-toggle>
+        <label class="field">
+          <span class="field-label">Tag Name</span>
+          <input type="text" formControlName="name" (keyup)="onChange()">
+        </label>
+        <label class="check-row">
+          <input type="checkbox" formControlName="isGlobal">
+          <span>Is Global</span>
+        </label>
         <div class="tag-view-container">
           <div class="tags-container">
             <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Bordered"></app-tag>
             <app-tag [name]="nameControl.value" [color]="color" [type]="TagType.Filled"></app-tag>
           </div>
-          <button mat-flat-button
-                  class="button colors"
-                  [(colorPicker)]="color"
-                  (click)="toggle=!toggle;">
+          <button class="button colors" type="button" (click)="toggle=!toggle;">
             Choose color
           </button>
+          @if (toggle) {
+            <input type="color" [(ngModel)]="color" [ngModelOptions]="{standalone: true}">
+          }
         </div>
       </div>
     </form>
-    <div mat-dialog-actions class="popup-action-container">
-      <button class="popup-btn create-btn-color" (click)="onSave()">Update</button>
-      <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
+    <div class="popup-action-container">
+      <button class="popup-btn create-btn-color" type="button" (click)="onSave()">Update</button>
+      <button class="popup-btn cancel-btn-color" type="button" (click)="onCancel()">Cancel</button>
     </div>
   </div>
 </div>

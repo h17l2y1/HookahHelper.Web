@@ -1,72 +1,57 @@
 <div class="table-container">
   <div class="table-top-panel">
-    <mat-form-field>
-      <mat-label>Filter by Name</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
-    </mat-form-field>
-<!--    <button class="button btn-purple-grad" mat-flat-button (click)="onCreate()">Create</button>-->
+    <label class="filter-field">
+      <span>Filter by Name</span>
+      <input type="text" (input)="applyFilter($event)" #input>
+    </label>
   </div>
-  <div class="example-container mat-elevation-z8">
-    <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
+  <div class="example-container">
+    <div *ngIf="isLoadingResults" class="loading-line"></div>
     <div class="example-table-container">
-      <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-          <td mat-cell *matCellDef="let row" (click)="notAdminView(row.id)"> {{row.name}} </td>
-        </ng-container>
-        <ng-container matColumnDef="rating">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
-          <td mat-cell *matCellDef="let row" (click)="notAdminView(row.id)">
-            <div class="rating-container">
-              <star-rating
-                [showHalfStars]="true"
-                [starType]="'svg'"
-                [rating]="row.rating"
-                [readOnly]="true">
-              </star-rating>{{row.rating | number:'1.1-2'}}
-            </div>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let row">
-            <div class="table-action-container">
-              <lord-icon
-                src="https://cdn.lordicon.com/unukghxb.json"
-                trigger="hover"
-                colors="primary:#5DE6FF,,secondary:#5DE6FF"
-                style="width:25px;height:25px"
-                (click)="onView(row.id)">
-              </lord-icon>
-              <lord-icon
-                src="https://cdn.lordicon.com/ifsxxxte.json"
-                trigger="hover"
-                colors="primary:#0A84FF"
-                style="width:25px;height:25px">
-              </lord-icon>
-              <lord-icon
-                src="https://cdn.lordicon.com/skkahier.json"
-                trigger="hover"
-                colors="primary:#f44336"
-                style="width:25px;height:25px">
-              </lord-icon>
-            </div>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-        </tr>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rating</th>
+            <th *ngIf="user?.isAdmin">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of mixes" (click)="notAdminView(row.id)">
+            <td>{{ row.name }}</td>
+            <td>
+              <div class="rating-container">
+                <star-rating
+                  [showHalfStars]="true"
+                  [starType]="'svg'"
+                  [rating]="row.rating"
+                  [readOnly]="true">
+                </star-rating>
+                {{ row.rating | number:'1.1-2' }}
+              </div>
+            </td>
+            <td *ngIf="user?.isAdmin">
+              <div class="table-action-container">
+                <button type="button" class="icon-btn" (click)="onView(row.id); $event.stopPropagation()">View</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="!mixes.length && !isLoadingResults">
+            <td [attr.colspan]="user?.isAdmin ? 3 : 2">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <mat-paginator
-      (page)="handlePageEvent($event)"
-      [length]="totalRows"
-      [pageIndex]="currentPage"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      aria-label="Select page">
-    </mat-paginator>
+  </div>
+  <div class="pagination">
+    <button type="button" (click)="prevPage()" [disabled]="currentPage === 0">Prev</button>
+    <span>Page {{ currentPage + 1 }}</span>
+    <button type="button" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalRows">Next</button>
+    <label>
+      <span>Rows</span>
+      <select [value]="pageSize" (change)="setPageSize($any($event.target).value)">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+    </label>
   </div>
 </div>

@@ -1,20 +1,20 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
-import {MatTableModule} from "@angular/material/table";
-import {MatDialogModule} from "@angular/material/dialog";
 import {TagTableComponent} from "./tag-table/tag-table.component";
+import {TagCreateComponent} from "./tag-create/tag-create.component";
+import {TagEditorComponent} from "./tag-editor/tag-editor.component";
 
 const routes: Routes = [
   {path: '', component: TagTableComponent},
+  {path: 'create', component: TagCreateComponent},
+  {path: 'edit/:id', component: TagEditorComponent},
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    [RouterModule.forChild(routes)],
-    MatTableModule,
-    MatDialogModule
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule]
 })

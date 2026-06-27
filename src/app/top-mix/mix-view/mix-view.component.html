@@ -1,18 +1,18 @@
-<div class="view-popup">
+<div class="view-popup" *ngIf="mix">
   <div class="data-container">
     <div class="image">
       <img class="image" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="asdasd"/>
     </div>
     <div class="characteristics">
-      <div>{{ data.mix.name }}</div>
+      <div>{{ mix.name }}</div>
       <div class="rating-container">
         <star-rating
           [showHalfStars]="true"
           [starType]="'svg'"
-          [rating]="data.mix.rating"
+          [rating]="mix.rating"
           [readOnly]="true">
         </star-rating>
-        {{ data.mix.rating }} ({{ data.mix.ratingCount }})
+        {{ mix.rating }} ({{ mix.ratingCount }})
       </div>
 <!--      <div class="parameters">-->
 <!--        <div>Characteristics</div>-->
@@ -96,7 +96,7 @@
   </div>
   <div class="review-container">
     <div class="comments-container">
-      <div class="comment" *ngFor="let review of data.mix.reviews">
+      <div class="comment" *ngFor="let review of mix.reviews">
         <div class="comment-header">
           <div class="name-date-container">
             <div class="name">{{ review.name }}</div>
@@ -115,14 +115,14 @@
     <div class="add-review-container">
       <form class="example-form add-review" [formGroup]="createReviewForm">
         <div>Write review</div>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Review</mat-label>
-          <textarea matInput placeholder="Your review" formControlName="text"></textarea>
-        </mat-form-field>
+        <label class="field">
+          <span>Name</span>
+          <input type="text" formControlName="name">
+        </label>
+        <label class="field">
+          <span>Review</span>
+          <textarea placeholder="Your review" formControlName="text"></textarea>
+        </label>
         <div class="rating">
           <star-rating-control
             [showHalfStars]="true"
@@ -133,7 +133,7 @@
             formControlName="rating">
           </star-rating-control>
         </div>
-        <button class="button popup-actions-button blue-color" mat-flat-button (click)="onSend()">Send</button>
+        <button class="button popup-actions-button blue-color" type="button" (click)="onSend()">Send</button>
       </form>
     </div>
   </div>

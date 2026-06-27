@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {User} from "../../interfaces/entity/user";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "../auth.service";
 import {TokenService} from "../../services/token.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -14,10 +14,10 @@ export class LoginComponent {
   public createLoginForm: FormGroup = this.initLoginUserForm();
 
   constructor(
-    public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: FormBuilder,
     private authorizationService: AuthService,
     private tokenService: TokenService,
+    private router: Router,
 
   ) {}
 
@@ -30,12 +30,12 @@ export class LoginComponent {
     const request: User = this.createLoginForm.value;
     this.authorizationService.login(request).subscribe((token) => {
       this.tokenService.saveTokens(token);
-      this.dialogRef.close(token.accessToken);
+      void this.router.navigate(['/tobaccos']);
     });
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    void this.router.navigate(['/tobaccos']);
   }
 
   private initLoginUserForm(): FormGroup {

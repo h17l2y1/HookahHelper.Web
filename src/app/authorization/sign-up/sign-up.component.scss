@@ -1,5 +1,42 @@
-.side{
-  display: flex;
-  flex-direction: column;
-  margin: 10px 30px;
+.popup-container {
+  padding: 40px;
+  max-width: 420px;
+
+  .title {
+    margin: 0 0 20px;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .field-label {
+        font-size: 13px;
+        opacity: .8;
+      }
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #2f2f2f;
+        background: #111;
+        color: #fff;
+        border-radius: 12px;
+        padding: 14px 16px;
+        outline: none;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
 }

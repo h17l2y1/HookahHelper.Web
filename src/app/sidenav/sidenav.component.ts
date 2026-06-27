@@ -1,15 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION} from "../constants";
-import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
-import {LoginComponent} from "../authorization/login/login.component";
-import {ConfirmationPopupComponent} from "../shared/components/confirmation-popup/confirmation-popup.component";
 import {UserDataSharedService} from "../services/shared/user-data-shared.service";
 import {TokenService} from "../services/token.service";
 import {UserPermission} from "../shared/user-permission";
 import {ThemeService} from "./them-picker/theme.service";
 import {Observable, Subject, takeUntil, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {Router} from "@angular/router";
 
 enum Screen {
   XSmall = 'XSmall',
@@ -29,14 +25,15 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
   public isMobile!: boolean;
   public inDevelop: boolean = true;
   public currentScreenSize!: string;
+  public userMenuOpen = false;
   private destroyed: Subject<void> = new Subject<void>();
 
   constructor(
     userDataService: UserDataSharedService,
-    private dialog: MatDialog,
     private themeService: ThemeService,
     private breakpointObserver: BreakpointObserver,
-    private tokenService: TokenService) {
+    private tokenService: TokenService,
+    private router: Router) {
     super(userDataService);
     this.themeService.setTheme("dark");
 
@@ -85,46 +82,18 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
   }
 
   public signUp(): void {
-    const dialogRef = this.dialog.open(SignUpComponent, {
-      data: null,
-      minWidth: '380px',
-      backdropClass: 'blurred',
-      enterAnimationDuration: ENTER_ANIMATION_DURATION,
-      exitAnimationDuration: EXIT_ANIMATION_DURATION
-    });
-
-    dialogRef.afterClosed().subscribe();
+    void this.router.navigate(['/sign-up']);
   }
 
   public login(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      data: null,
-      minWidth: '380px',
-      backdropClass: 'blurred',
-      enterAnimationDuration: ENTER_ANIMATION_DURATION,
-      exitAnimationDuration: EXIT_ANIMATION_DURATION
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      const userData = this.tokenService.getUserData();
-      if (userData) {
-        this.userDataService.setUser(userData);
-      }
-    });
+    void this.router.navigate(['/login']);
   }
 
   public logout(): void {
-    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-      backdropClass: 'blurred',
-      autoFocus: false
-    });
-
-    dialogRef.afterClosed().subscribe(popupResponse => {
-      if (popupResponse) {
-        this.tokenService.logout();
-        this.userDataService.setUser(null);
-      }
-    });
+    if (window.confirm('Log out?')) {
+      this.tokenService.logout();
+      this.userDataService.setUser(null);
+    }
   }
 
   ngOnDestroy() {
