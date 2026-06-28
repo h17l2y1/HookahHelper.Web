@@ -1,5 +1,6 @@
 .tobacco-container {
   .tobacco-top-panel {
+    width: 100%;
 
     .mat-button-toggle-group {
       top: -10px;
@@ -27,7 +28,7 @@
 
     .button {
       margin-bottom: 20px; // костыль
-      width: 214px !important;
+      width: min(214px, 100%) !important;
       height: 58px;
     }
 
@@ -35,21 +36,111 @@
       display: flex;
       justify-content: space-between;
       gap: 0.5rem;
+      min-width: 0;
 
       @media screen and (min-width: 1px) and (max-width: 767px){
         flex-direction: column;
       }
     }
 
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .filter-item {
+      min-width: 0;
+    }
+
+    .actions-item,
+    .create-item {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .actions-item {
+      justify-content: flex-start;
+    }
+
+    .create-item {
+      justify-content: flex-end;
+    }
+
     .mat-mdc-form-field {
-      //max-width: 169px;
+      width: 100%;
+    }
+
+    .mobile-toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+
+      mat-accordion {
+        width: 100%;
+      }
+
+      .mobile-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+      }
+
+      ::ng-deep .mat-button-toggle-group {
+        width: 100%;
+      }
+
+      ::ng-deep .mat-button-toggle-button {
+        flex: 1 1 50%;
+      }
+
+      .mobile-create {
+        width: 100% !important;
+        margin-bottom: 0;
+      }
     }
   }
 
   .table-container {
     padding-top: 20px;
+    width: 100%;
 
     .example-table-container {
+      width: 100%;
+      overflow: auto;
+
+      table {
+        width: 100%;
+        table-layout: fixed;
+
+        .mat-column-image {
+          width: 92px;
+        }
+
+        .mat-column-name {
+          width: 18%;
+        }
+
+        .mat-column-tags {
+          width: 18%;
+        }
+
+        .mat-column-globalTags {
+          width: 18%;
+        }
+
+        .mat-column-rating {
+          width: 150px;
+        }
+
+        .mat-column-action {
+          width: 120px;
+        }
+      }
 
       .tobacco-table-image {
         width: 77px;
@@ -74,24 +165,17 @@
 
   .card-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
     grid-template-rows: auto;
     padding: 20px 0 20px 0;
-
-    @media screen and (min-width: 768px) and (max-width: 1000px){
-      grid-template-columns: repeat(4,1fr) !important;
-    }
-
-    @media screen and (min-width: 1px) and (max-width: 767px){
-      grid-template-columns: repeat(2,1fr) !important;
-      gap: 10px;
-    }
+    width: 100%;
 
     .brand-card {
       border-radius: 8px;
       transition: transform .5s;
       overflow: hidden;
+      min-width: 0;
 
       @media (min-width: 768px) {
         &:hover {
@@ -105,6 +189,7 @@
 
         .image {
           width: 100%;
+          height: auto;
         }
       }
 
@@ -166,4 +251,3 @@
 
 
 }
-

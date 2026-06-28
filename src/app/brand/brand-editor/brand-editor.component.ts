@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Brand} from "../../interfaces/entity/brand";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {CreateBrand} from "../../interfaces/other/create-brand";
 import {Line} from "../../interfaces/entity/line";
 import {BrandService} from "../brand.service";
 import {Observable, tap} from "rxjs";
@@ -74,6 +73,10 @@ export class BrandEditorComponent implements OnInit {
 
   public onCancel(): void {
     this.dialogRef.close();
+  }
+
+  public get countryIdControl(): FormControl {
+    return this.updateBrandForm.get('countryId') as FormControl;
   }
 
   private initBrandUpdateForm(brand: Brand): FormGroup {

@@ -1,41 +1,39 @@
 <div class="popup-container">
-  <h1 mat-dialog-title class="title">Create Brand</h1>
+  <h1 class="title">Create Brand</h1>
   <form [formGroup]="createBrandForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
         <app-image-upload [aspectRatio]="aspectRatio"></app-image-upload>
       </div>
       <div class="side">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Brand Name</mat-label>
-          <input matInput formControlName="name" (keyup)="onChange()">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Country</mat-label>
-          <mat-select formControlName="countryId">
-            <mat-option *ngFor="let item of countries$ | async" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
+        <label class="ui-field">
+          <span class="ui-label">Brand Name</span>
+          <input class="ui-input" type="text" formControlName="name" (keyup)="onChange()">
+        </label>
+        <app-search-select
+          label="Country"
+          placeholder="Select country"
+          [options]="countries$ | async"
+          [control]="countryIdControl">
+        </app-search-select>
+        <label class="ui-field">
+          <span class="ui-label">Description</span>
+          <textarea class="ui-textarea" formControlName="description"></textarea>
+        </label>
       </div>
       <div class="side">
-        <button class="button add-line-btn example-full-width purple-background-color" mat-flat-button (click)="addLine()">Add line</button>
+        <button class="button add-line-btn example-full-width purple-background-color" type="button" (click)="addLine()">Add line</button>
         <div formArrayName="lines">
           <div *ngFor="let line of getLines.controls; let i=index" class="brand-line-container">
             <div [formGroupName]="i" class="inp-brand-line">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Line Name</mat-label>
-                <input formControlName="name" matInput (keyup)="onChange()">
-              </mat-form-field>
+              <label class="ui-field">
+                <span class="ui-label">Line Name</span>
+                <input class="ui-input" type="text" formControlName="name" (keyup)="onChange()">
+              </label>
               <br>
             </div>
-            <button mat-mini-fab color="warn" class="w-100 btn-remove" (click)="onRemove(i)">
-              <mat-icon>delete</mat-icon>
+            <button type="button" class="btn-remove" (click)="onRemove(i)">
+              ×
             </button>
           </div>
         </div>
@@ -43,7 +41,7 @@
     </div>
   </form>
   <div class="popup-action-container">
-    <button class="popup-btn create-btn-color" (click)="onSave()">Create</button>
-    <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
+    <button class="popup-btn create-btn-color" type="button" (click)="onSave()">Create</button>
+    <button class="popup-btn cancel-btn-color" type="button" (click)="onCancel()">Cancel</button>
   </div>
 </div>

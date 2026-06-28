@@ -15,113 +15,152 @@
         {{ tobacco.rating }} ({{ tobacco.ratingCount }})
       </div>
       <div class="parameters">
-        <div class="param">
-          <div class="characteristic-name">Сладкость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="5"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Кислость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="5"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Пряность</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="0"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Свежесть</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="1"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Вкус</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="2"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Крепкость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="4"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Жаростойкость</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="4"
-            [readOnly]="true">
-          </star-rating>
-        </div>
-        <div class="param">
-          <div class="characteristic-name">Дымность</div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="5"
-            [readOnly]="true">
-          </star-rating>
-        </div>
+        @for (item of tasteRatingConfig; track item.key) {
+          <div class="param">
+            <div class="characteristic-name">{{ item.label }}</div>
+            <star-rating
+              [showHalfStars]="true"
+              [starType]="'svg'"
+              [rating]="getTasteAverage(item.key)"
+              [readOnly]="true">
+            </star-rating>
+          </div>
+        }
       </div>
     </div>
     <div class="schema">
-      schema
+      <div class="schema-header">
+        <div>
+          <div class="schema-title">Taste schema</div>
+          <div class="schema-subtitle">Average and your review</div>
+        </div>
+        <div class="schema-legend">
+          <span class="legend-item average">Average</span>
+          @if (hasUserReview()) {
+            <span class="legend-item user">My rating</span>
+          }
+        </div>
+      </div>
+      <svg class="radar-chart" [attr.viewBox]="'0 0 ' + radarSize + ' ' + radarSize" role="img" aria-label="Taste radar chart">
+        <g class="grid">
+          @for (ring of getRadarGridRings(); track ring) {
+            <polygon [attr.points]="getRadarGridPoints(ring)"></polygon>
+          }
+          @for (axisPoint of getRadarAxisPoints(); track axisPoint.x) {
+            <line
+              [attr.x1]="radarCenter"
+              [attr.y1]="radarCenter"
+              [attr.x2]="axisPoint.x"
+              [attr.y2]="axisPoint.y">
+            </line>
+          }
+        </g>
+
+        <polygon class="radar-fill average" [attr.points]="getRadarAveragePoints()"></polygon>
+        <polygon class="radar-outline average" [attr.points]="getRadarAveragePoints()"></polygon>
+
+        @if (getRadarUserPoints()) {
+          <polygon class="radar-fill user" [attr.points]="getRadarUserPoints()"></polygon>
+          <polygon class="radar-outline user" [attr.points]="getRadarUserPoints()"></polygon>
+        }
+
+        <g class="axis-labels">
+          @for (item of getRadarLabelPoints(); track item.key) {
+            <text
+              [attr.x]="item.x"
+              [attr.y]="item.y"
+              [attr.text-anchor]="item.anchor">
+              {{ item.label }}
+            </text>
+          }
+        </g>
+
+        <g class="axis-nodes">
+          @for (point of getRadarAxisPoints(); track point.x) {
+            <circle [attr.cx]="point.x" [attr.cy]="point.y" r="3.5"></circle>
+          }
+        </g>
+      </svg>
     </div>
   </div>
   <div class="review-container">
     <div class="comments-container">
-      <div class="comment" *ngFor="let review of tobacco.reviews">
-        <div class="comment-header">
-          <div class="name-date-container">
-            <div class="name">{{ review.name }}</div>
-            <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
+      @if (tobacco.reviews && tobacco.reviews.length) {
+        <div class="comment" *ngFor="let review of tobacco.reviews; trackBy: trackReview">
+          <div class="comment-header">
+            <div class="comment-author">
+              <div class="avatar">{{ getInitials(review.name) }}</div>
+              <div class="name-date-container">
+                <div class="name-row">
+                  <div class="name">{{ review.name }}</div>
+                  <div class="date-time">{{ review.creationDate | date : 'MMM d, y' }}</div>
+                </div>
+                <div class="comment-labels">
+                  <span class="label-chip">Taste review</span>
+                  <span class="label-chip subtle">Global {{ review.rating | number:'1.1-1' }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="rating-pill">
+              <star-rating
+                [showHalfStars]="true"
+                [starType]="'svg'"
+                [rating]="review.rating"
+                [readOnly]="true">
+              </star-rating>
+              <span>{{ review.rating | number:'1.1-2' }}</span>
+            </div>
           </div>
-          <star-rating
-            [showHalfStars]="true"
-            [starType]="'svg'"
-            [rating]="review.rating"
-            [readOnly]="true">
-          </star-rating>
+          <div class="text" [class.empty]="!review.comment">{{ review.comment || 'No written comment' }}</div>
+          <div class="taste-summary">
+            <div class="taste-item">
+              <span>Сладкость</span>
+              <strong>{{ review.sweetness | number:'1.0-1' }}</strong>
+            </div>
+            <div class="taste-item">
+              <span>Кислость</span>
+              <strong>{{ review.sourness | number:'1.0-1' }}</strong>
+            </div>
+            <div class="taste-item">
+              <span>Свежесть</span>
+              <strong>{{ review.freshness | number:'1.0-1' }}</strong>
+            </div>
+            <div class="taste-item">
+              <span>Яркость вкуса</span>
+              <strong>{{ review.flavorBrightness | number:'1.0-1' }}</strong>
+            </div>
+            <div class="taste-item">
+              <span>Крепкость</span>
+              <strong>{{ review.strength | number:'1.0-1' }}</strong>
+            </div>
+            <div class="taste-item">
+              <span>Жаростойкость</span>
+              <strong>{{ review.heatResistance | number:'1.0-1' }}</strong>
+            </div>
+            <div class="taste-item">
+              <span>Дымность</span>
+              <strong>{{ review.smokiness | number:'1.0-1' }}</strong>
+            </div>
+          </div>
         </div>
-        <div class="text">{{ review.comment }}</div>
-      </div>
+      } @else {
+        <div class="empty-comments">
+          <div class="empty-title">No comments yet</div>
+          <div class="empty-text">Be the first to leave a review and rate the taste profile.</div>
+        </div>
+      }
     </div>
     <div class="add-review-container">
       <form class="example-form add-review" [formGroup]="createReviewForm">
         <div>Write review</div>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Review</mat-label>
-          <textarea matInput placeholder="Your review" formControlName="text"></textarea>
-        </mat-form-field>
+        <label class="ui-field">
+          <span class="ui-label">Name</span>
+          <input class="ui-input" type="text" formControlName="name">
+        </label>
+        <label class="ui-field">
+          <span class="ui-label">Review</span>
+          <textarea class="ui-textarea" placeholder="Your review" formControlName="text"></textarea>
+        </label>
         <div class="rating">
           <star-rating-control
             [showHalfStars]="true"
@@ -133,7 +172,22 @@
             [hoverEnabled]="true">
           </star-rating-control>
         </div>
-        <button class="button popup-actions-button blue-color" mat-flat-button (click)="onSend()">Send</button>
+        <div class="taste-rating-grid">
+          @for (item of tasteRatingConfig; track item.key) {
+            <div class="taste-rating-field">
+              <star-rating-control
+                [showHalfStars]="true"
+                [starType]="'svg'"
+                [readOnly]="false"
+                [labelText]="item.label"
+                labelPosition="top"
+                [formControlName]="item.key"
+                [hoverEnabled]="true">
+              </star-rating-control>
+            </div>
+          }
+        </div>
+        <button class="button popup-actions-button blue-color" type="button" (click)="onSend()">Send</button>
       </form>
     </div>
   </div>

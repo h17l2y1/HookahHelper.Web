@@ -1,138 +1,112 @@
-<div class="header">
-  @if (isMobile) {
-    <div class="tool-bar">
-      <div class="header-left">
-        <div class="tabs-container">
-          <a class="tab" routerLink="/brands">
-            <span class="material-icons-outlined">person</span>
-            <span class="tab-text">BRANDS</span>
-          </a>
-          <a class="tab" routerLink="/tobaccos">
-            <span class="material-icons-outlined">person</span>
-            <span class="tab-text">TOBACCOS</span>
-          </a>
-        </div>
-      </div>
-      <div class="header-right">
-        <div class="tabs-container">
-          <div class="app-container">
-            <app-them-picker [options]="options$ | async"
-                             (themeChange)="themeChangeHandler($event)"></app-them-picker>
-          </div>
-          <button class="tab user-trigger" type="button" (click)="userMenuOpen = !userMenuOpen">
-            @if (user) {
-              <div class="user-data">
-                <div class="user-pictures"></div>
-              </div>
-            } @else {
-              <span class="material-icons-outlined">account_circle</span>
-            }
-          </button>
-          @if (userMenuOpen) {
-            <div class="account-menu">
-              @if (!user) {
-                <button type="button" class="account-menu-item" (click)="signUp()">Sign In</button>
-                <button type="button" class="account-menu-item" (click)="login()">Login</button>
-              } @else {
-                <button type="button" class="account-menu-item" (click)="logout()">Logout</button>
-              }
-            </div>
+<header class="header-shell">
+  <div class="header-surface">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark">H</span>
+      <span class="brand-copy">
+        <span class="brand-name">HookahHub</span>
+        <span class="brand-subtitle">brands, tobaccos, reviews</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <app-them-picker
+        [checked]="isLightTheme"
+        (themeChange)="themeChangeHandler($event)">
+      </app-them-picker>
+
+      <div class="user-area">
+        <button class="user-button" type="button" (click)="userMenuOpen = !userMenuOpen">
+          @if (user) {
+            <span class="avatar" aria-hidden="true"></span>
+            <span class="user-meta">
+              <span class="user-label">Account</span>
+              <span class="user-name">{{ user.name }}</span>
+            </span>
+          } @else {
+          <span class="user-icon" aria-hidden="true">U</span>
+          <span class="user-meta">
+              <span class="user-name">Sign in</span>
+            </span>
           }
-        </div>
+          <span class="chevron" aria-hidden="true">▾</span>
+        </button>
+
+        @if (userMenuOpen) {
+          <div class="account-menu">
+            @if (!user) {
+              <button type="button" class="account-menu-item" (click)="signUp()">Sign in</button>
+              <button type="button" class="account-menu-item" (click)="login()">Login</button>
+            } @else {
+              <button type="button" class="account-menu-item" routerLink="#">Settings</button>
+              <button type="button" class="account-menu-item danger" (click)="logout()">Logout</button>
+            }
+          </div>
+        }
       </div>
     </div>
-  } @else {
-    <div class="tool-bar">
-      <div class="header-left">
-        <span class="logo">HookahHub</span>
-      </div>
-      <div class="header-right">
-        <div class="tabs-container">
-          <div class="app-container">
-            <app-them-picker [options]="options$ | async"
-                             (themeChange)="themeChangeHandler($event)"></app-them-picker>
-          </div>
-          <button class="tab user-trigger" type="button" (click)="userMenuOpen = !userMenuOpen">
-            @if (user) {
-              <div class="user-data">
-                <div class="user-pictures"></div>
-                <span class="user-name">{{ user.name }}</span>
-              </div>
-            } @else {
-              <span class="material-icons-outlined">account_circle</span>
-            }
-          </button>
-          @if (userMenuOpen) {
-            <div class="account-menu">
-              @if (!user) {
-                <button type="button" class="account-menu-item" (click)="signUp()">Sign In</button>
-                <button type="button" class="account-menu-item" (click)="login()">Login</button>
-              } @else {
-                <button type="button" class="account-menu-item" routerLink="#">Settings</button>
-                <button type="button" class="account-menu-item" routerLink="#">Help</button>
-                <button type="button" class="account-menu-item" (click)="logout()">Logout</button>
-              }
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-  }
-</div>
+  </div>
+</header>
+
 <div class="main-data-container">
   @if (!isMobile) {
     <aside class="sidebar-container">
       <div class="container">
         <nav>
-          <a class="tab" routerLink="/brands">
-            <span class="icon material-icons-outlined">storefront</span>
-            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-              <span class="tab-text">Brands</span>
-            }
-          </a>
-          <a class="tab" routerLink="/tobaccos">
+          <a class="sidebar-link" routerLink="/brands" routerLinkActive="active">
             <lord-icon
-              src="https://cdn.lordicon.com/ccmaxgle.json"
+              class="icon"
+              src="https://cdn.lordicon.com/ifsxxxte.json"
               trigger="hover"
               colors="primary:#939393,secondary:#939393"
-              style="width:25px;height:25px">
+              style="width:24px;height:24px">
             </lord-icon>
-            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-              <span class="tab-text">Tobaccos</span>
-            }
+            <span class="tab-text">Brands</span>
           </a>
-          <a class="tab" routerLink="/tags" *ngIf="user?.isAdmin">
-            <span class="icon material-icons-outlined">label</span>
-            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-              <span class="tab-text">Tags</span>
-            }
-          </a>
-          <a class="tab" routerLink="/constructor" *ngIf="user?.isAdmin || !inDevelop">
+          <a class="sidebar-link" routerLink="/tobaccos" routerLinkActive="active">
             <lord-icon
+              class="icon"
+              src="https://cdn.lordicon.com/unukghxb.json"
+              trigger="hover"
+              colors="primary:#939393,secondary:#939393"
+              style="width:24px;height:24px">
+            </lord-icon>
+            <span class="tab-text">Tobaccos</span>
+          </a>
+          <a class="sidebar-link" routerLink="/tags" routerLinkActive="active" *ngIf="user?.isAdmin">
+            <lord-icon
+              class="icon"
+              src="https://cdn.lordicon.com/skkahier.json"
+              trigger="hover"
+              colors="primary:#939393,secondary:#939393"
+              style="width:24px;height:24px">
+            </lord-icon>
+            <span class="tab-text">Tags</span>
+          </a>
+          <a class="sidebar-link" routerLink="/constructor" routerLinkActive="active" *ngIf="user?.isAdmin || !inDevelop">
+            <lord-icon
+              class="icon"
               src="https://cdn.lordicon.com/jdalicnn.json"
               trigger="hover"
               colors="primary:#939393,secondary:#939393"
-              style="width:25px;height:25px">
+              style="width:24px;height:24px">
             </lord-icon>
-            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-              <span class="tab-text">Constructor</span>
-            }
+            <span class="tab-text">Constructor</span>
           </a>
-          <a class="tab" routerLink="/mixes" *ngIf="user?.isAdmin || !inDevelop">
+          <a class="sidebar-link" routerLink="/mixes" routerLinkActive="active" *ngIf="user?.isAdmin || !inDevelop">
             <lord-icon
+              class="icon"
               src="https://cdn.lordicon.com/abwrkdvl.json"
               trigger="hover"
               colors="primary:#939393,secondary:#939393"
-              style="width:25px;height:25px">
+              style="width:24px;height:24px">
             </lord-icon>
-            @if (currentScreenSize === Screen.Large || currentScreenSize === Screen.XLarge) {
-              <span class="tab-text">Top mixes</span>
-            }
+            <span class="tab-text">Top mixes</span>
           </a>
         </nav>
       </div>
     </aside>
   }
+
   <div class="component-container">
     <router-outlet></router-outlet>
   </div>

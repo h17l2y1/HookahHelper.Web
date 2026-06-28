@@ -3,7 +3,10 @@
 .table-container {
   .table-top-panel {
     display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
     justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: -1.25em !important;
 
     @media screen and (max-width: 767px){
@@ -11,18 +14,26 @@
     }
 
     .form-container {
+      flex: 1 1 680px;
+      min-width: 0;
+
+      .mat-mdc-form-field {
+        width: 100%;
+        min-width: 0;
+      }
+
       .example-full-width {
         display: flex;
         justify-content: space-between;
         gap: 0.5rem;
+        min-width: 0;
+        flex: 1 1 240px;
 
         @media screen and (max-width: 767px){
           flex-direction: column;
         }
       }
     }
-
-
 
     ::ng-deep {
       .mat-button-toggle-button{
@@ -32,12 +43,32 @@
 
     .form-container {
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
+      min-width: 0;
+    }
+
+    .mobile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .example-full-width,
+      app-country-select,
+      .button,
+      mat-button-toggle-group {
+        width: 100%;
+      }
+
+      .mobile-create {
+        margin-top: 4px;
+      }
     }
 
     .button {
-      width: 214px !important;
+      width: min(214px, 100%) !important;
       height: 58px;
+      flex: 0 0 auto;
     }
   }
 
@@ -47,32 +78,25 @@
     .card-container {
       gap: 32px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       grid-template-rows: auto;
 
-
       @media screen and (max-width: 767px){
-        grid-template-columns: repeat(2,1fr);
         gap: 10px;
         padding: 10px 0 10px 0;
-      }
-
-      @media screen and (min-width: 768px) and (max-width: 1279px){
-        grid-template-columns: repeat(3,1fr);
-      }
-
-      @media screen and (min-width: 1280px) and (max-width: 1600px){
-        grid-template-columns: repeat(4,1fr);
       }
 
       .brand-card {
         border-radius: 8px;
         cursor: pointer;
         transition: transform .5s;
+        min-width: 0;
+        overflow: hidden;
 
         .brand-card-image {
           border-top-left-radius: 8px;
           border-top-right-radius: 8px;
+          width: 100%;
         }
 
         .info {
@@ -116,23 +140,44 @@
   .example-container {
     position: relative;
     padding: 20px 0 20px 0;
+    width: 100%;
 
     .example-table-container {
       position: relative;
       min-height: 140px;
       max-height: 90%;
       overflow: auto;
+      width: 100%;
 
-      @media (max-width: 480px) {
-        .brand-card-image {
-          width: 50px;
+      .example-table {
+        width: 100%;
+        table-layout: fixed;
+
+        .mat-column-image {
+          width: 92px;
+        }
+
+        .mat-column-name {
+          width: 18%;
+        }
+
+        .mat-column-description {
+          width: auto;
+        }
+
+        .mat-column-country {
+          width: 18%;
+        }
+
+        .mat-column-action {
+          width: 110px;
         }
       }
 
-      @media (min-width: 480px) {
-        .brand-card-image {
-          width: 100px;
-        }
+      th, td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

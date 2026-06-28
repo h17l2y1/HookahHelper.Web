@@ -1,32 +1,15 @@
-import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import { ThemeService } from './theme.service';
-import {Option} from "./option.model";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-them-picker',
-  templateUrl: './theme-picker.component.html'
+  templateUrl: './theme-picker.component.html',
+  styleUrls: ['./theme-picker.component.scss']
 })
 export class ThemePickerComponent {
-  @Input() options!: Option[];
-  @Output() themeChange: EventEmitter<string> = new EventEmitter<string>();
-  public isOpen = false;
+  @Input() checked = false;
+  @Output() themeChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private themeService: ThemeService) {}
-
-  toggle(): void {
-    this.isOpen = !this.isOpen;
-  }
-
-  @HostListener('document:click', ['$event'])
-  closeOnOutsideClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement | null;
-    if (!target?.closest('.theme-picker')) {
-      this.isOpen = false;
-    }
-  }
-
-  changeTheme(themeToSet: any) {
-    this.themeChange.emit(themeToSet);
-    this.isOpen = false;
+  toggleTheme(): void {
+    this.themeChange.emit(!this.checked);
   }
 }

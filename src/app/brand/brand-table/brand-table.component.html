@@ -2,30 +2,19 @@
   <div class="table-top-panel">
     @if (!isMobileMode) {
       <form [formGroup]="brandFilterForm" class="example-full-width form-container">
-        <mat-form-field class="example-full-width box1" >
-          <mat-label>Filter by Name</mat-label>
-          <input matInput formControlName="name">
-          @if (nameControl.value) {
-            <button matSuffix mat-icon-button (click)="nameControl.reset()">
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-        </mat-form-field>
-        <mat-form-field class="example-full-width box">
-          <mat-label>Country</mat-label>
-          <input type="text" matInput [formControl]="countryControl" [matAutocomplete]="autoCountry">
-          <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
-            <mat-option [value]='{id: null}'>Усi</mat-option>
-            @for (option of countriesOptionsFiltered; track option) {
-              <mat-option [value]="option">{{ option.name }}</mat-option>
+        <label class="ui-field box1">
+          <span class="ui-label">Filter by Name</span>
+          <input class="ui-input" type="text" formControlName="name">
+        </label>
+        <label class="ui-field box">
+          <span class="ui-label">Country</span>
+          <select class="ui-select" [formControl]="countryControl">
+            <option [ngValue]="null">All countries</option>
+            @for (option of countries; track option) {
+              <option [ngValue]="option">{{ option.name }}</option>
             }
-          </mat-autocomplete>
-          @if (countryControl.value) {
-            <button matSuffix mat-icon-button (click)="countryControl.reset()">
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-        </mat-form-field>
+          </select>
+        </label>
         <div class="box">
           <mat-button-toggle-group #group="matButtonToggleGroup">
             <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
@@ -47,10 +36,10 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <form [formGroup]="brandFilterForm" class="example-form mobile-form">
-            <mat-form-field class="example-full-width">
-              <mat-label>Filter by Name</mat-label>
-              <input matInput formControlName="name">
-            </mat-form-field>
+            <label class="ui-field">
+              <span class="ui-label">Filter by Name</span>
+              <input class="ui-input" type="text" formControlName="name">
+            </label>
             <app-country-select class="" [control]="countryControl"></app-country-select>
             <div>
               <mat-button-toggle-group #group="matButtonToggleGroup">
@@ -62,12 +51,12 @@
                 </mat-button-toggle>
               </mat-button-toggle-group>
             </div>
-            <button *ngIf="user?.isAdmin" class="button btn-purple-grad" (click)="onCreate()">Create</button>
+            <button *ngIf="user?.isAdmin" class="button btn-purple-grad mobile-create" (click)="onCreate()">Create</button>
           </form>
         </mat-expansion-panel>
       </mat-accordion>
     }
-    @if (user?.isAdmin) {
+    @if (user?.isAdmin && !isMobileMode) {
       <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
     }
   </div>
@@ -181,4 +170,3 @@
     aria-label="Select page">
   </mat-paginator>
 </div>
-

@@ -1,19 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
-import {UserDataSharedService} from "../services/shared/user-data-shared.service";
-import {TokenService} from "../services/token.service";
-import {UserPermission} from "../shared/user-permission";
-import {ThemeService} from "./them-picker/theme.service";
-import {Observable, Subject, takeUntil, tap} from "rxjs";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {Router} from "@angular/router";
-
-enum Screen {
-  XSmall = 'XSmall',
-  Small = 'Small',
-  Medium = 'Medium',
-  Large = 'Large',
-  XLarge = 'XLarge',
-}
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Router} from '@angular/router';
+import {Subject, takeUntil} from 'rxjs';
+import {UserDataSharedService} from '../services/shared/user-data-shared.service';
+import {TokenService} from '../services/token.service';
+import {UserPermission} from '../shared/user-permission';
+import {ThemeService} from './them-picker/theme.service';
 
 @Component({
   selector: 'sidenav',
@@ -21,11 +13,10 @@ enum Screen {
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent extends UserPermission implements OnDestroy {
-  public options$: Observable<any> = this.themeService.getThemeOptions();
-  public isMobile!: boolean;
-  public inDevelop: boolean = true;
-  public currentScreenSize!: string;
+  public isMobile = false;
+  public inDevelop = true;
   public userMenuOpen = false;
+  public isLightTheme = false;
   private destroyed: Subject<void> = new Subject<void>();
 
   constructor(
@@ -35,50 +26,19 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
     private tokenService: TokenService,
     private router: Router) {
     super(userDataService);
-    this.themeService.setTheme("dark");
+    this.isLightTheme = this.themeService.initTheme() === 'light';
 
     this.breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        '(max-width: 767px)',
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
-      .pipe(
-        takeUntil(this.destroyed),
-        tap(() => {
-          if (this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
-            this.currentScreenSize = 'XSmall';
-            this.isMobile = true;
-          }
-          if (this.breakpointObserver.isMatched('(max-width: 767px)')) {
-            this.isMobile = true;
-            return;
-          }
-          if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
-            this.currentScreenSize = 'Small';
-            this.isMobile = false;
-          }
-          if (this.breakpointObserver.isMatched(Breakpoints.Medium)) {
-            this.currentScreenSize = 'Medium';
-            this.isMobile = false;
-          }
-          if (this.breakpointObserver.isMatched(Breakpoints.Large)) {
-            this.currentScreenSize = 'Large';
-            this.isMobile = false;
-          }
-          if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
-            this.currentScreenSize = 'XLarge';
-            this.isMobile = false;
-          }
-        })
-      ).subscribe();
+      .observe([Breakpoints.XSmall, '(max-width: 767px)'])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(() => {
+        this.isMobile = this.breakpointObserver.isMatched(Breakpoints.XSmall) || this.breakpointObserver.isMatched('(max-width: 767px)');
+      });
   }
 
-  themeChangeHandler(themeToSet: any) {
-    this.themeService.setTheme(themeToSet);
+  themeChangeHandler(isLightTheme: boolean): void {
+    this.isLightTheme = isLightTheme;
+    this.themeService.toggleTheme(isLightTheme);
   }
 
   public signUp(): void {
@@ -96,10 +56,8 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed.next();
     this.destroyed.complete();
   }
-
-  protected readonly Screen = Screen;
 }

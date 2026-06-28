@@ -1,0 +1,32 @@
+<div class="search-select">
+  <label class="search-select-label">{{ label }}</label>
+  <div class="search-select-shell" [class.open]="isOpen">
+    <input
+      class="search-select-input"
+      type="text"
+      [placeholder]="placeholder"
+      [formControl]="searchControl"
+      (focus)="openDropdown()"
+      (blur)="closeDropdown()">
+    <button
+      *ngIf="clearable && control.value"
+      type="button"
+      class="search-select-clear"
+      aria-label="Clear selection"
+      (mousedown)="$event.preventDefault()"
+      (click)="clearSelection($event)">
+      ×
+    </button>
+  </div>
+  <div class="search-select-dropdown" *ngIf="isOpen && filteredOptions.length">
+    <button
+      type="button"
+      class="search-select-option"
+      *ngFor="let option of filteredOptions"
+      (mousedown)="$event.preventDefault()"
+      (click)="selectOption(option)">
+      <span class="option-name">{{ option.name }}</span>
+      <span class="option-id" *ngIf="option.id !== null && option.id !== undefined">#{{ option.id }}</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.country-select {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+
+  span {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

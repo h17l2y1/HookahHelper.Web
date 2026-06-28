@@ -1,94 +1,61 @@
 <div class="popup-container">
-  <h1 mat-dialog-title>Create Tobacco</h1>
+  <h1>Create Tobacco</h1>
   <form [formGroup]="createTobaccoForm" class="example-form">
     <div class="create-tobacco-container">
       <div class="side">
         <app-image-upload [aspectRatio]="aspectRatio" (fileName)="setName($event)"></app-image-upload>
       </div>
       <div class="side">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Tobacco Name</mat-label>
-          <input matInput formControlName="name" (keyup)="onChange()">
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Brand</mat-label>
-          <input type="text" matInput [formControl]="brandControl" [matAutocomplete]="autoBrands">
-          <mat-autocomplete #autoBrands="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredBrandsOptions" [value]="option">
-              {{option.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Heaviness</mat-label>
-          <mat-select formControlName="heavinessId">
-            <mat-option *ngFor="let option of heaviness$ | async" [value]="option.id">
-              {{option.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Line</mat-label>
-          <mat-select formControlName="lineId">
-            <mat-option *ngFor="let option of linesOption" [value]="option.id">
-              {{option.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <label class="ui-field">
+          <span class="ui-label">Tobacco Name</span>
+          <input class="ui-input" type="text" formControlName="name" (keyup)="onChange()">
+        </label>
+        <app-search-select
+          label="Brand"
+          placeholder="Search brand"
+          [options]="allBrandsOption"
+          [control]="brandIdControl"
+          (valueSelected)="onBrandSelected($event)">
+        </app-search-select>
+        <app-search-select
+          label="Heaviness"
+          placeholder="Select heaviness"
+          [options]="heaviness$ | async"
+          [control]="heavinessIdControl">
+        </app-search-select>
+        <label class="ui-field">
+          <span class="ui-label">Line</span>
+          <select class="ui-select" formControlName="lineId">
+            <option [ngValue]="null">Select line</option>
+            <option *ngFor="let option of linesOption" [ngValue]="option.id">{{ option.name }}</option>
+          </select>
+        </label>
       </div>
       <div class="side">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Tags</mat-label>
-          <mat-chip-grid #chipGrid aria-label="Fruit selection">
-            <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
-              {{tag.name}}
-              <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
-          </mat-chip-grid>
-          <input placeholder="New Tag..." #tagInput
-                 [formControl]="tagControl"
-                 [matChipInputFor]="chipGrid"
-                 [matAutocomplete]="auto"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let tag of filteredTags" [value]="tag">
-              {{tag.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Taste</mat-label>
-          <mat-chip-grid #chipTasteGrid aria-label="Fruit selection">
-            <mat-chip-row *ngFor="let tag of selectedTasteTags" (removed)="removeTasteTag(tag)">
-              {{tag.name}}
-              <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
-          </mat-chip-grid>
-          <input placeholder="New Tag..." #tagTasteInput
-                 [formControl]="tagTasteControl"
-                 [matChipInputFor]="chipTasteGrid"
-                 [matAutocomplete]="autoTaste"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-          <mat-autocomplete #autoTaste="matAutocomplete">
-            <mat-option *ngFor="let tag of filteredTasteTags" [value]="tag">
-              {{tag.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <label class="ui-field">
+          <span class="ui-label">Description</span>
+          <textarea class="ui-textarea" formControlName="description"></textarea>
+        </label>
+        <app-token-picker
+          label="Tags"
+          placeholder="Search tag..."
+          [options]="allTags"
+          [selected]="selectedTags"
+          (selectedChange)="onTagsSelected($event)">
+        </app-token-picker>
+        <app-token-picker
+          label="Taste"
+          placeholder="Search taste..."
+          [options]="allTasteTags"
+          [selected]="selectedTasteTags"
+          (selectedChange)="onTasteTagsSelected($event)">
+        </app-token-picker>
       </div>
     </div>
   </form>
   <div class="popup-action-container">
-    <button class="popup-btn create-btn-color" (click)="onSave()">Create</button>
-    <button class="popup-btn create-btn-color" (click)="onSave(true)">Create more</button>
-    <button class="popup-btn cancel-btn-color" (click)="onCancel()">Cancel</button>
+    <button class="popup-btn create-btn-color" type="button" (click)="onSave()">Create</button>
+    <button class="popup-btn create-btn-color" type="button" (click)="onSave(true)">Create more</button>
+    <button class="popup-btn cancel-btn-color" type="button" (click)="onCancel()">Cancel</button>
   </div>
 </div>

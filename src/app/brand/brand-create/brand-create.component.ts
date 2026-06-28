@@ -9,6 +9,7 @@ import {Observable} from "rxjs";
 import {Country} from "../../interfaces/entity/country";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-brand-create',
@@ -45,6 +46,10 @@ export class BrandCreateComponent {
 
   public onCancel(): void {
     this.dialogRef.close();
+  }
+
+  public get countryIdControl(): FormControl {
+    return this.createBrandForm.get('countryId') as FormControl;
   }
 
   private initCreateBrandForm(): FormGroup {
