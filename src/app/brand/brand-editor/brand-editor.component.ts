@@ -1,5 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Component, OnInit} from '@angular/core';
 import {Brand} from "../../interfaces/entity/brand";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Line} from "../../interfaces/entity/line";
@@ -9,6 +8,7 @@ import {CountryService} from "../../services/country.service";
 import {Country} from "../../interfaces/entity/country";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
+import {ActivatedRoute, Router} from "@angular/router";
 
 interface UpdateBrandRequest {
   id: number;
@@ -37,29 +37,38 @@ interface UpdateBrandRequest {
 })
 export class BrandEditorComponent implements OnInit {
   public readonly aspectRatio: number = 127/51;
+  public brand!: Brand;
   public updateBrandForm!: FormGroup;
   private tempId: number = 0;
   public countyControl: FormControl = this.formBuilder.control('', [Validators.required]);
-  public brand$: Observable<Brand> = this.brandService.getById(this.data.id).pipe(
-    tap(response => {
-      this.countyControl.setValue(String(response.country.id))
-      this.updateBrandForm = this.initBrandUpdateForm(response);
-    })
-  );
+  public brand$: Observable<Brand> = new Observable<Brand>();
   public countries$: Observable<Country[]> = this.countryService.getOptions();
   private brandId!: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: string },
-    public dialogRef: MatDialogRef<BrandEditorComponent>,
     private formBuilder: FormBuilder,
     private countryService: CountryService,
     private brandService: BrandService,
     private namePipe: NamePipe,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.router.navigate(['/brands']);
+      return;
+    }
+
+    this.brand$ = this.brandService.getById(id).pipe(
+      tap(response => {
+        this.brand = response;
+        this.countyControl.setValue(String(response.country.id));
+        this.updateBrandForm = this.initBrandUpdateForm(response);
+      })
+    );
     this.brand$.subscribe();
   }
 
@@ -67,12 +76,12 @@ export class BrandEditorComponent implements OnInit {
     const request = this.buildRequest();
     request.image.name = `brand: ${request.name};`;
     this.brandService.update(request).subscribe(() => {
-      this.dialogRef.close(true);
+      this.router.navigate(['/brands']);
     });
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    this.router.navigate(['/brands']);
   }
 
   public get countryIdControl(): FormControl {

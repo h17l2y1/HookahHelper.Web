@@ -1,5 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {TobaccoService} from "../tobacco.service";
@@ -15,6 +14,7 @@ import {TagService} from "../../tag/tag.service";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
 import {SearchSelectOption} from "../../shared/components/search-select/search-select.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tobacco-create',
@@ -36,8 +36,6 @@ export class TobaccoCreateComponent implements OnInit {
   public croppedImage: any = null;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: null,
-    public dialogRef: MatDialogRef<TobaccoCreateComponent>,
     private formBuilder: FormBuilder,
     private tobaccoService: TobaccoService,
     private lineService: LineService,
@@ -45,6 +43,7 @@ export class TobaccoCreateComponent implements OnInit {
     private brandService: BrandService,
     private tagService: TagService,
     private namePipe: NamePipe,
+    private router: Router,
   ) {
   }
 
@@ -112,9 +111,10 @@ export class TobaccoCreateComponent implements OnInit {
           }
         })
         this.selectedTags = [];
+        this.selectedTasteTags = [];
         return;
       }
-      this.dialogRef.close(true);
+      this.router.navigate(['/tobaccos']);
     });
   }
 
@@ -140,7 +140,7 @@ export class TobaccoCreateComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    this.router.navigate(['/tobaccos']);
   }
 
   public get brandIdControl(): FormControl {

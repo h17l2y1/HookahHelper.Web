@@ -1,5 +1,4 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Component} from '@angular/core';
 import {Brand} from "../../interfaces/entity/brand";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreateBrand} from "../../interfaces/other/create-brand";
@@ -10,6 +9,7 @@ import {Country} from "../../interfaces/entity/country";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {ImageType} from "../../interfaces/enums/image-type";
 import {FormControl} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-brand-create',
@@ -23,12 +23,11 @@ export class BrandCreateComponent {
   public countries$: Observable<Country[]> = this.countryService.getOptions();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Brand,
-    public dialogRef: MatDialogRef<BrandCreateComponent>,
     private formBuilder: FormBuilder,
     private brandService: BrandService,
     private countryService: CountryService,
     private namePipe: NamePipe,
+    private router: Router,
   ) {
   }
 
@@ -40,12 +39,12 @@ export class BrandCreateComponent {
       request.lines = request.lines[0].name ? request.lines : undefined;
     }
     this.brandService.create(request).subscribe(() => {
-      this.dialogRef.close(true);
+      this.router.navigate(['/brands']);
     });
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    this.router.navigate(['/brands']);
   }
 
   public get countryIdControl(): FormControl {

@@ -1,8 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Line} from "../../interfaces/entity/line";
 import {Observable, tap} from "rxjs";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TobaccoService} from "../tobacco.service";
 import {LineService} from "../../services/line.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
@@ -13,6 +12,7 @@ import {TobaccoTag} from "../../interfaces/entity/tobacco-tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagService} from "../../tag/tag.service";
 import {SearchSelectOption} from "../../shared/components/search-select/search-select.component";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-tobacco-editor',
@@ -21,28 +21,34 @@ import {SearchSelectOption} from "../../shared/components/search-select/search-s
 })
 export class TobaccoEditorComponent implements OnInit {
   public readonly aspectRatio: number = 1;
-  public editTobaccoForm: FormGroup = this.initEditTobaccoForm();
-  public linesOption$: Observable<Line[]> = this.lineService.getLinesByBrandId(this.data.tobacco.brandId);
+  public tobacco!: Tobacco;
+  public editTobaccoForm!: FormGroup;
+  public linesOption$!: Observable<Line[]>;
   public heaviness$: Observable<Heaviness[]> = this.heavinessService.getOptions();
-  public selectedTags: Tag[] = this.data.tobacco.tags.filter(tag => !tag.isGlobal);
-  public selectedTasteTags: Tag[] = this.data.tobacco.tags.filter(tag => tag.isGlobal);
+  public selectedTags: Tag[] = [];
+  public selectedTasteTags: Tag[] = [];
   public allTags: Tag[] = [];
   public allTasteTags: Tag[] = [];
   public removedTags: TobaccoTag[] = [];
   public removedTasteTags: TobaccoTag[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { tobacco: Tobacco },
-    public dialogRef: MatDialogRef<TobaccoEditorComponent>,
     private formBuilder: FormBuilder,
     private tobaccoService: TobaccoService,
     private lineService: LineService,
     private tagService: TagService,
     private heavinessService: HeavinessService,
     private namePipe: NamePipe,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.tobacco = this.route.snapshot.data['tobacco'];
+    this.selectedTags = this.tobacco.tags.filter(tag => !tag.isGlobal);
+    this.selectedTasteTags = this.tobacco.tags.filter(tag => tag.isGlobal);
+    this.linesOption$ = this.lineService.getLinesByBrandId(this.tobacco.brandId);
+    this.editTobaccoForm = this.initEditTobaccoForm();
     this.tagService.getOptions().pipe(
       tap(response => {
         this.allTags = response.filter(tag => !tag.isGlobal);
@@ -52,7 +58,7 @@ export class TobaccoEditorComponent implements OnInit {
   }
 
   public removeTag(removedTag: Tag): void {
-    const exTag = this.data.tobacco.tobaccoTags?.find(tag => tag.tagId === removedTag.id && !removedTag.isNew);
+    const exTag = this.tobacco.tobaccoTags?.find(tag => tag.tagId === removedTag.id && !removedTag.isNew);
 
     if (exTag) {
       exTag.isRemoved = true
@@ -66,7 +72,7 @@ export class TobaccoEditorComponent implements OnInit {
   }
 
   public removeTasteTag(removedTag: Tag): void {
-    const exTag = this.data.tobacco.tobaccoTags?.find(tag => tag.tagId === removedTag.id && !removedTag.isNew);
+    const exTag = this.tobacco.tobaccoTags?.find(tag => tag.tagId === removedTag.id && !removedTag.isNew);
     if (exTag) {
       exTag.isRemoved = true
       this.removedTasteTags.push(exTag)
@@ -93,13 +99,13 @@ export class TobaccoEditorComponent implements OnInit {
     }
     const request = this.mapRequestModel();
     this.tobaccoService.update(request).subscribe(() => {
-      this.dialogRef.close(true);
+      this.router.navigate(['/tobaccos']);
     });
   }
 
   private mapRequestModel(): Tobacco {
     const request: Tobacco = this.editTobaccoForm.value;
-    request.brandId = this.data.tobacco.brandId;
+    request.brandId = this.tobacco.brandId;
     request.tags = this.selectedTags;
     const tags = this.selectedTags.concat(this.selectedTasteTags);
     const removedTags = this.removedTags.concat(this.removedTasteTags);
@@ -118,7 +124,7 @@ export class TobaccoEditorComponent implements OnInit {
   }
 
   public onCancel(): void {
-    this.dialogRef.close();
+    this.router.navigate(['/tobaccos']);
   }
 
   public get heavinessIdControl(): FormControl {
@@ -131,19 +137,19 @@ export class TobaccoEditorComponent implements OnInit {
 
   public initEditTobaccoForm(): FormGroup {
     return this.formBuilder.group({
-      id: [this.data.tobacco.id, [Validators.required]],
-      rating: [this.data.tobacco.rating, [Validators.required]],
-      ratingCount: [this.data.tobacco.ratingCount, [Validators.required]],
-      name: [this.data.tobacco.name, [Validators.required]],
-      description: this.data.tobacco.description,
-      brandId: {value: this.data.tobacco.brandId, disabled: true},
-      lineId: [this.data.tobacco.lineId, [Validators.required]],
-      heavinessId: [this.data.tobacco.heavinessId, [Validators.required]],
+      id: [this.tobacco.id, [Validators.required]],
+      rating: [this.tobacco.rating, [Validators.required]],
+      ratingCount: [this.tobacco.ratingCount, [Validators.required]],
+      name: [this.tobacco.name, [Validators.required]],
+      description: this.tobacco.description,
+      brandId: {value: this.tobacco.brandId, disabled: true},
+      lineId: [this.tobacco.lineId, [Validators.required]],
+      heavinessId: [this.tobacco.heavinessId, [Validators.required]],
       image: this.formBuilder.group({
-        id: this.data.tobacco.image.id,
-        base64: this.data.tobacco.image.base64,
-        link: this.data.tobacco.image.link,
-        type: this.data.tobacco.image.type,
+        id: this.tobacco.image.id,
+        base64: this.tobacco.image.base64,
+        link: this.tobacco.image.link,
+        type: this.tobacco.image.type,
       })
     });
   }

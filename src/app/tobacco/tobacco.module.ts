@@ -2,14 +2,9 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {TobaccoCreateComponent} from './tobacco-create/tobacco-create.component';
 import {TobaccoRoutingModule} from "./tobacco-routing.module";
-import {MatTableModule} from "@angular/material/table";
-import {MatDialogModule} from "@angular/material/dialog";
 import {TobaccoService} from "./tobacco.service";
 import {SharedModule} from "../shared/shared.module";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatSortModule} from "@angular/material/sort";
-import {MatCardModule} from "@angular/material/card";
 import {BrandService} from "../brand/brand.service";
 import {CountryService} from "../services/country.service";
 import {TobaccoEditorComponent} from './tobacco-editor/tobacco-editor.component';
@@ -25,7 +20,6 @@ import {TagComponentModule} from "../shared/components/tag-component/tag-compone
 import {TobaccoViewPageComponent} from './tobacco-table/tobacco-view-page/tobacco-view-page.component';
 import {TobaccoResolver} from "../services/resolvers/tobacco.resolver";
 import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
-import {MatExpansionModule} from "@angular/material/expansion";
 import {FilterSharedService} from "./filter-shared.service";
 import {TobaccoFilterOptionsResolver} from "./tobacco-table/tobacco-filter-options.resolver";
 import {TobaccoQueryParamResolver} from "./tobacco-table/tobacco-query-param.resolver";
@@ -45,17 +39,11 @@ import lottie from "lottie-web";
     CommonModule,
     TobaccoRoutingModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatTableModule,
-    MatCardModule,
     SharedModule,
-    MatPaginatorModule,
-    MatSortModule,
     StarRatingModule.forRoot(),
     ImageUploadModule,
     TagComponentModule,
     CountrySelectModule,
-    MatExpansionModule,
     NgxSkeletonLoaderModule,
     NgOptimizedImage
   ],
