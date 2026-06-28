@@ -1,16 +1,21 @@
 .tag {
-  border: solid white 2px;
-  border-radius: 20px;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
   margin-bottom: 3px;
-  padding: 6px 12px;
-  font-size: 14px;
-  font-family: Roboto, serif;
-  transition: transform .3s;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+  white-space: nowrap;
 
   &:hover {
-    transition: transform .3s;
-    transform: scale(1.1);
+    transform: translateY(-1px) scale(1.03);
     cursor: default;
   }
 }

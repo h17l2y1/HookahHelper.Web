@@ -15,15 +15,23 @@
             }
           </select>
         </label>
-        <div class="box">
-          <mat-button-toggle-group #group="matButtonToggleGroup">
-            <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
-              <mat-icon>view_module</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (change)="switchTableView(TableTypes.List)">
-              <mat-icon>list</mat-icon>
-            </mat-button-toggle>
-          </mat-button-toggle-group>
+        <div class="box view-switch" aria-label="Switch brand view">
+          <button
+            type="button"
+            class="view-switch-button"
+            [class.active]="isCardView"
+            (click)="switchTableView(TableTypes.Card)">
+            <span class="view-switch-icon">▦</span>
+            <span>Cards</span>
+          </button>
+          <button
+            type="button"
+            class="view-switch-button"
+            [class.active]="!isCardView"
+            (click)="switchTableView(TableTypes.List)">
+            <span class="view-switch-icon">☰</span>
+            <span>Table</span>
+          </button>
         </div>
       </form>
     }
@@ -41,15 +49,23 @@
               <input class="ui-input" type="text" formControlName="name">
             </label>
             <app-country-select class="" [control]="countryControl"></app-country-select>
-            <div>
-              <mat-button-toggle-group #group="matButtonToggleGroup">
-                <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
-                  <mat-icon>view_module</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (change)="switchTableView(TableTypes.List)">
-                  <mat-icon>view_list</mat-icon>
-                </mat-button-toggle>
-              </mat-button-toggle-group>
+            <div class="view-switch mobile-view-switch" aria-label="Switch brand view">
+              <button
+                type="button"
+                class="view-switch-button"
+                [class.active]="isCardView"
+                (click)="switchTableView(TableTypes.Card)">
+                <span class="view-switch-icon">▦</span>
+                <span>Cards</span>
+              </button>
+              <button
+                type="button"
+                class="view-switch-button"
+                [class.active]="!isCardView"
+                (click)="switchTableView(TableTypes.List)">
+                <span class="view-switch-icon">☰</span>
+                <span>Table</span>
+              </button>
             </div>
             <button *ngIf="user?.isAdmin" class="button btn-purple-grad mobile-create" (click)="onCreate()">Create</button>
           </form>

@@ -65,276 +65,296 @@
             </label>
           </div>
           <div class="filter-item actions-item">
-            <mat-button-toggle-group #group="matButtonToggleGroup">
-              <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
-                <mat-icon>view_module</mat-icon>
-              </mat-button-toggle>
-              <mat-button-toggle (change)="switchTableView(TableTypes.List)">
-                <mat-icon>view_list</mat-icon>
-              </mat-button-toggle>
-            </mat-button-toggle-group>
+            <div class="view-switch" aria-label="Switch tobacco view">
+              <button
+                type="button"
+                class="view-switch-button"
+                [class.active]="isCardView"
+                (click)="switchTableView(TableTypes.Card)">
+                <span class="view-switch-icon">▦</span>
+                <span>Cards</span>
+              </button>
+              <button
+                type="button"
+                class="view-switch-button"
+                [class.active]="!isCardView"
+                (click)="switchTableView(TableTypes.List)">
+                <span class="view-switch-icon">☰</span>
+                <span>Table</span>
+              </button>
+            </div>
           </div>
           @if (user?.isAdmin) {
             <div class="filter-item create-item">
-              <button class="button btn-purple-grad" (click)="onCreate()">Create</button>
+              <button class="button btn-purple-grad" type="button" (click)="onCreate()">Create</button>
             </div>
           }
         </div>
       </form>
     } @else {
-      <div class="mobile-toolbar">
-        <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Select filters
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <form [formGroup]="filterForm" class="example-full-width">
-              <label class="ui-field">
-                <span class="ui-label">Filter by Name</span>
-                <input class="ui-input" type="text" [formControl]="nameControl">
-              </label>
-              <label class="ui-field">
-                <span class="ui-label">Flavors</span>
-                <select class="ui-select" [formControl]="tagControl">
-                  <option [ngValue]="null">All flavors</option>
-                  @for (option of filterOptions.tags; track option) {
-                    <option [ngValue]="option">{{ option.name }}</option>
-                  }
-                </select>
-              </label>
-              <label class="ui-field">
-                <span class="ui-label">Brand</span>
-                <select class="ui-select" [formControl]="brandControl">
-                  <option [ngValue]="null">All brands</option>
-                  @for (option of filterOptions.brands; track option) {
-                    <option [ngValue]="option">{{ option.name }}</option>
-                  }
-                </select>
-              </label>
-              <label class="ui-field">
-                <span class="ui-label">Line</span>
-                <select class="ui-select" [formControl]="lineControl">
-                  <option [ngValue]="null">All lines</option>
-                  @for (option of linesOption; track option) {
-                    <option [ngValue]="option">{{ option.name }}</option>
-                  }
-                </select>
-              </label>
-              <label class="ui-field">
-                <span class="ui-label">Country</span>
-                <select class="ui-select" [formControl]="countryControl">
-                  <option [ngValue]="null">All countries</option>
-                  @for (option of filterOptions.countries; track option) {
-                    <option [ngValue]="option">{{ option.name }}</option>
-                  }
-                </select>
-              </label>
-              <label class="ui-field">
-                <span class="ui-label">Heaviness</span>
-                <select class="ui-select" [formControl]="heavinessControl">
-                  <option [ngValue]="null">All levels</option>
-                  @for (option of filterOptions.heaviness; track option) {
-                    <option [ngValue]="option">{{ option.name }}</option>
-                  }
-                </select>
-              </label>
-              <!--            <div class="">-->
-              <!--              <mat-button-toggle-group #group="matButtonToggleGroup">-->
-              <!--                <mat-button-toggle (change)="switchTableView(TableTypes.Card)">-->
-              <!--                  <mat-icon>view_module</mat-icon>-->
-              <!--                </mat-button-toggle>-->
-              <!--                <mat-button-toggle (change)="switchTableView(TableTypes.List)">-->
-              <!--                  <mat-icon>view_list</mat-icon>-->
-              <!--                </mat-button-toggle>-->
-              <!--              </mat-button-toggle-group>-->
-              <!--            </div>-->
-            </form>
-          </mat-expansion-panel>
-        </mat-accordion>
-        <div class="mobile-actions">
-          <mat-button-toggle-group #group="matButtonToggleGroup">
-            <mat-button-toggle (change)="switchTableView(TableTypes.Card)">
-              <mat-icon>view_module</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (change)="switchTableView(TableTypes.List)">
-              <mat-icon>view_list</mat-icon>
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-          <button *ngIf="user?.isAdmin" class="button btn-purple-grad mobile-create" (click)="onCreate()">Create</button>
+      <details class="mobile-filters">
+        <summary class="mobile-filters-summary">Select filters</summary>
+        <form [formGroup]="filterForm" class="mobile-filters-body">
+          <label class="ui-field">
+            <span class="ui-label">Filter by Name</span>
+            <input class="ui-input" type="text" [formControl]="nameControl">
+          </label>
+          <label class="ui-field">
+            <span class="ui-label">Flavors</span>
+            <select class="ui-select" [formControl]="tagControl">
+              <option [ngValue]="null">All flavors</option>
+              @for (option of filterOptions.tags; track option) {
+                <option [ngValue]="option">{{ option.name }}</option>
+              }
+            </select>
+          </label>
+          <label class="ui-field">
+            <span class="ui-label">Brand</span>
+            <select class="ui-select" [formControl]="brandControl">
+              <option [ngValue]="null">All brands</option>
+              @for (option of filterOptions.brands; track option) {
+                <option [ngValue]="option">{{ option.name }}</option>
+              }
+            </select>
+          </label>
+          <label class="ui-field">
+            <span class="ui-label">Line</span>
+            <select class="ui-select" [formControl]="lineControl">
+              <option [ngValue]="null">All lines</option>
+              @for (option of linesOption; track option) {
+                <option [ngValue]="option">{{ option.name }}</option>
+              }
+            </select>
+          </label>
+          <label class="ui-field">
+            <span class="ui-label">Country</span>
+            <select class="ui-select" [formControl]="countryControl">
+              <option [ngValue]="null">All countries</option>
+              @for (option of filterOptions.countries; track option) {
+                <option [ngValue]="option">{{ option.name }}</option>
+              }
+            </select>
+          </label>
+          <label class="ui-field">
+            <span class="ui-label">Heaviness</span>
+            <select class="ui-select" [formControl]="heavinessControl">
+              <option [ngValue]="null">All levels</option>
+              @for (option of filterOptions.heaviness; track option) {
+                <option [ngValue]="option">{{ option.name }}</option>
+              }
+            </select>
+          </label>
+        </form>
+      </details>
+      <div class="mobile-actions">
+        <div class="view-switch mobile-view-switch" aria-label="Switch tobacco view">
+          <button
+            type="button"
+            class="view-switch-button"
+            [class.active]="isCardView"
+            (click)="switchTableView(TableTypes.Card)">
+            <span class="view-switch-icon">▦</span>
+            <span>Cards</span>
+          </button>
+          <button
+            type="button"
+            class="view-switch-button"
+            [class.active]="!isCardView"
+            (click)="switchTableView(TableTypes.List)">
+            <span class="view-switch-icon">☰</span>
+            <span>Table</span>
+          </button>
         </div>
+        <button *ngIf="user?.isAdmin" class="button btn-purple-grad mobile-create" type="button" (click)="onCreate()">Create</button>
       </div>
     }
   </div>
+
   @if (isCardView) {
-    <div class="tobacco-container">
+    <section class="card-container">
       @if (isLoadingResults) {
-        <div class="card-container">
-          @for (skeletonCards of skeletonCount; track skeletonCards) {
-            <mat-card class="brand-card">
-              <a class="image-link">
-                <ngx-skeleton-loader class="brand-card-image" [theme]="skeletonImageStyle"></ngx-skeleton-loader>
-              </a>
-              <div class="info">
-                <div class="title">
-                  <a class="title-link">
-                    <ngx-skeleton-loader [theme]="skeletonLineStyle"></ngx-skeleton-loader>
-                  </a>
-                </div>
-                <div class="description">
-                  <ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader>
-                </div>
+        @for (skeletonCards of skeletonCount; track skeletonCards) {
+          <div class="tobacco-card skeleton-card">
+            <div class="skeleton-image">
+              <ngx-skeleton-loader [theme]="skeletonImageStyle"></ngx-skeleton-loader>
+            </div>
+            <div class="info">
+              <div class="title">
+                <ngx-skeleton-loader [theme]="skeletonLineStyle"></ngx-skeleton-loader>
               </div>
-            </mat-card>
-          }
-        </div>
+              <div class="card-tag-container">
+                <ngx-skeleton-loader count="3" [theme]="skeletonLineStyle"></ngx-skeleton-loader>
+              </div>
+              <div class="description">
+                <ngx-skeleton-loader count="2" [theme]="skeletonLineStyle"></ngx-skeleton-loader>
+              </div>
+            </div>
+          </div>
+        }
       } @else {
-        <div class="card-container">
-          @for (tobacco of tobaccos; track tobacco; let i = $index) {
-            <mat-card class="brand-card">
-              <a class="image-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]">
-                @if (i < 25) {
-                  <img mat-card-image class="image"
-                       ngSrc="{{tobacco.image.link}}"
-                       [priority]="true"
-                       width="300"
-                       height="120"
-                       alt="image error">
-                } @else {
-                  <img mat-card-image class="image"
-                       ngSrc="{{tobacco.image.link}}"
-                       width="300"
-                       height="120"
-                       alt="image error">
-                }
-              </a>
-              <div class="info">
-                <div class="title">
-                  <a class="title-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]"> {{ tobacco.name }}</a>
-                </div>
-                <div class="description">{{ tobacco.description }}</div>
-                <div class="rating-container">
-                  <star-rating
-                    [showHalfStars]="true"
-                    [starType]="'svg'"
-                    [rating]="tobacco.rating"
-                    [readOnly]="true">
-                  </star-rating>
-                  {{ tobacco.rating | number:'1.1-2' }}
-                </div>
+        @for (tobacco of tobaccosList; track tobacco.id; let i = $index) {
+          <article class="tobacco-card">
+            <a class="image-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]">
+              <img
+                class="image"
+                ngSrc="{{tobacco.image.link}}"
+                [priority]="i < 25"
+                width="300"
+                height="120"
+                alt="image error">
+            </a>
+            <div class="info">
+              <div class="title">
+                <a class="title-link" [routerLink]="['/tobaccos/tobacco/', tobacco.id]">{{ tobacco.name }}</a>
               </div>
-            </mat-card>
+              <div class="card-tag-container">
+                <app-tag
+                  *ngFor="let tag of tobacco.tags"
+                  [name]="tag.name"
+                  [color]="tag.color"
+                  [type]="tag.isGlobal ? TagType.Filled : TagType.Bordered">
+                </app-tag>
+              </div>
+              <div class="description">{{ tobacco.description }}</div>
+              <div class="rating-container">
+                <star-rating
+                  [showHalfStars]="true"
+                  [starType]="'svg'"
+                  [rating]="tobacco.rating"
+                  [readOnly]="true">
+                </star-rating>
+                {{ tobacco.rating | number:'1.1-2' }}
+              </div>
+            </div>
+          </article>
+        }
+      }
+    </section>
+  } @else {
+    <section class="table-container">
+      @if (isLoadingResults) {
+        <ngx-skeleton-loader count="20" [animation]="animation" [theme]="skeletonStyle"></ngx-skeleton-loader>
+      } @else {
+        <div class="native-table" role="table" aria-label="Tobacco list">
+          <div class="native-table-header" role="row">
+            <button type="button" class="native-cell header-cell image-cell" role="columnheader" disabled>Logo</button>
+            <button type="button" class="native-cell header-cell name-cell sortable" role="columnheader" (click)="toggleSort('name')">
+              <span>Name</span>
+              <span class="sort-indicator">{{ sortIcon('name') }}</span>
+            </button>
+            <div class="native-cell header-cell tags-cell" role="columnheader">Tags</div>
+            <div class="native-cell header-cell global-tags-cell" role="columnheader">Global Tags</div>
+            <button type="button" class="native-cell header-cell rating-cell sortable" role="columnheader" (click)="toggleSort('rating')">
+              <span>Rating</span>
+              <span class="sort-indicator">{{ sortIcon('rating') }}</span>
+            </button>
+            @if (user?.isAdmin) {
+              <div class="native-cell header-cell action-cell" role="columnheader">Actions</div>
+            }
+          </div>
+
+        @if (tobaccosList.length) {
+            @for (row of tobaccosList; track row.id) {
+              <div class="native-table-row" role="row">
+                <button type="button" class="native-cell image-cell clickable" role="cell" (click)="onView(row.id)">
+                  <img class="tobacco-table-image" [src]="row.image.link" alt="image">
+                </button>
+                <button type="button" class="native-cell name-cell clickable" role="cell" (click)="onView(row.id)">
+                  {{ row.name }}
+                </button>
+                <div class="native-cell tags-cell" role="cell">
+                  <div class="tag-container">
+                    <app-tag
+                      *ngFor="let tag of row.tagsDefault"
+                      [name]="tag.name"
+                      [color]="tag.color"
+                      [type]="TagType.Bordered">
+                    </app-tag>
+                  </div>
+                </div>
+                <div class="native-cell global-tags-cell" role="cell">
+                  <div class="tag-container">
+                    <app-tag
+                      *ngFor="let tag of row.tagsGlobal"
+                      [name]="tag.name"
+                      [color]="tag.color"
+                      [type]="TagType.Filled">
+                    </app-tag>
+                  </div>
+                </div>
+                <div class="native-cell rating-cell" role="cell">
+                  <div class="rating-container">
+                    <star-rating
+                      [showHalfStars]="true"
+                      [starType]="'svg'"
+                      [rating]="row.rating"
+                      [readOnly]="true">
+                    </star-rating>
+                    {{ row.rating | number:'1.1-2' }}
+                    ({{ row.ratingCount }})
+                  </div>
+                </div>
+                @if (user?.isAdmin) {
+                  <div class="native-cell action-cell" role="cell">
+                    <div class="table-action-container">
+                      <lord-icon
+                        src="https://cdn.lordicon.com/unukghxb.json"
+                        trigger="hover"
+                        colors="primary:#5DE6FF,secondary:#5DE6FF"
+                        style="width:25px;height:25px"
+                        (click)="onView(row.id)">
+                      </lord-icon>
+                      <lord-icon
+                        src="https://cdn.lordicon.com/ifsxxxte.json"
+                        trigger="hover"
+                        colors="primary:#0A84FF"
+                        style="width:25px;height:25px"
+                        (click)="onUpdate(row.id)">
+                      </lord-icon>
+                      <lord-icon
+                        src="https://cdn.lordicon.com/skkahier.json"
+                        trigger="hover"
+                        colors="primary:#f44336"
+                        style="width:25px;height:25px"
+                        (click)="onDelete(row.id)">
+                      </lord-icon>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          } @else {
+            <div class="native-empty">No data matching the filter.</div>
           }
         </div>
       }
-    </div>
-  } @else {
-    <div class="table-container">
-      <div class="example-container mat-elevation-z8">
-        @if (isLoadingResults) {
-          <ngx-skeleton-loader count="20" [animation]="animation" [theme]="skeletonStyle"></ngx-skeleton-loader>
-        }
-        <div class="example-table-container">
-          <table mat-table [dataSource]="tobaccos" matSort matSortActive="name" matSortDisableClear
-                 matSortDirection="asc">
-            <ng-container matColumnDef="image">
-              <th mat-header-cell *matHeaderCellDef>Logo</th>
-              <td mat-cell *matCellDef="let row">
-                <img class="tobacco-table-image" src="{{row.image?.link}}" alt="image"></td>
-            </ng-container>
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-              <td mat-cell *matCellDef="let row"> {{ row.name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef>Description</th>
-              <td mat-cell *matCellDef="let row"> {{ row.description }}</td>
-            </ng-container>
-            <ng-container matColumnDef="tags">
-              <th mat-header-cell *matHeaderCellDef>Tags</th>
-              <td mat-cell *matCellDef="let row">
-                <div class="tag-container">
-                  <app-tag *ngFor="let tag of row.tagsDefault"
-                           [name]="tag.name"
-                           [color]="tag.color"
-                           [type]="TagType.Bordered">
-                  </app-tag>
-                </div>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="globalTags">
-              <th mat-header-cell *matHeaderCellDef>Global Tags</th>
-              <td mat-cell *matCellDef="let row">
-                <div class="tag-container">
-                  <app-tag *ngFor="let tag of row.tagsGlobal"
-                           [name]="tag.name"
-                           [color]="tag.color"
-                           [type]="TagType.Filled">
-                  </app-tag>
-                </div>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="rating">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
-              <td mat-cell *matCellDef="let row">
-                <div class="rating-container">
-                  <star-rating
-                    [showHalfStars]="true"
-                    [starType]="'svg'"
-                    [rating]="row.rating"
-                    [readOnly]="true">
-                  </star-rating>
-                  {{ row.rating | number:'1.1-2' }}
-                  ({{ row.ratingCount }})
-                </div>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let row">
-                <div class="table-action-container">
-                  <lord-icon
-                    src="https://cdn.lordicon.com/unukghxb.json"
-                    trigger="hover"
-                    colors="primary:#5DE6FF,secondary:#5DE6FF"
-                    style="width:25px;height:25px"
-                    (click)="onView(row.id)">
-                  </lord-icon>
-                  <lord-icon
-                    src="https://cdn.lordicon.com/ifsxxxte.json"
-                    trigger="hover"
-                    colors="primary:#0A84FF"
-                    style="width:25px;height:25px"
-                    (click)="onUpdate(row.id)">
-                  </lord-icon>
-                  <lord-icon
-                    src="https://cdn.lordicon.com/skkahier.json"
-                    trigger="hover"
-                    colors="primary:#f44336"
-                    style="width:25px;height:25px"
-                    (click)="onDelete(row.id)">
-                  </lord-icon>
-                </div>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">No data matching the filter "..."</td>
-            </tr>
-          </table>
-        </div>
-
-      </div>
-    </div>
+    </section>
   }
-  <mat-paginator
-    (page)="handlePageEvent($event)"
-    [length]="totalRows"
-    [pageIndex]="currentPage"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    aria-label="Select page">
-  </mat-paginator>
+
+  <div class="pagination-bar">
+    <div class="pagination-info">
+      <span>Showing {{ rangeStart }} - {{ rangeEnd }} of {{ totalRows }}</span>
+      <label class="page-size-picker">
+        <span>Per page</span>
+        <select class="ui-select" [value]="pageSize" (change)="handlePageSizeChange($event)">
+          @for (size of pageSizeOptions; track size) {
+            <option [value]="size">{{ size }}</option>
+          }
+        </select>
+      </label>
+    </div>
+    <div class="pagination-controls">
+      <button type="button" class="pagination-button" [disabled]="currentPage === 0" (click)="previousPage()">Prev</button>
+      @for (page of pageNumbers; track page) {
+        <button
+          type="button"
+          class="pagination-button page-number"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)">
+          {{ page + 1 }}
+        </button>
+      }
+      <button type="button" class="pagination-button" [disabled]="currentPage >= totalPages - 1" (click)="nextPage()">Next</button>
+    </div>
+  </div>
 </div>

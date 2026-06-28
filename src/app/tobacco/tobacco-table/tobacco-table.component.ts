@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {QueryParams} from "../../interfaces/models/queryParams";
 import {Brand} from "../../interfaces/entity/brand";
 import {Line} from "../../interfaces/entity/line";
@@ -17,12 +17,10 @@ import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 import {TobaccoOptions} from "../../interfaces/models/tobacco-options";
 import {Tag} from "../../interfaces/entity/tag";
 import {TagType} from 'src/app/interfaces/enums/tag-type';
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {TobaccoEditorComponent} from "../tobacco-editor/tobacco-editor.component";
 import {TobaccoService} from "../tobacco.service";
 import {Tobacco} from "../../interfaces/entity/tobacco";
 import {GetAllResponse} from "../../interfaces/models/get-all-response";
-import {MatSort} from "@angular/material/sort";
 
 export interface TobaccoList extends Tobacco {
   tagsDefault: Tag[];
@@ -35,8 +33,6 @@ export interface TobaccoList extends Tobacco {
   styleUrls: ['./tobacco-table.component.scss']
 })
 export class TobaccoTableComponent extends UserPermission implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
   public readonly tobaccoTableKey: string = 'tobacco_table_state';
   public readonly TableTypes = TableTypes;
   public readonly TagType = TagType;
@@ -45,15 +41,9 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
   public currentPage: number = 0;
   public pageSizeOptions: number[] = [20, 40, 60, 100];
   public pageSize: number = this.pageSizeOptions[0];
-  // public allColumns: string[] = ['image', 'name', 'description', 'tags', 'globalTags', 'rating', 'action'];
-  public allColumns: string[] = ['image', 'name', 'tags', 'globalTags', 'rating', 'action'];
-  public displayedColumns: string[] = this.user?.isAdmin ? this.allColumns : this.allColumns.slice(0, -1);
   public filterOptions: TobaccoOptions = this.route.snapshot.data['filterOptions'];
   public linesOption: Line[] = this.route.snapshot.data['lines'];
   public queryParams: QueryParams = this.route.snapshot.data['queryParam'];
-  public brandsOptionsFiltered: Brand[] = this.filterOptions.brands.slice();
-  public countriesOptionsFiltered: Country[] = this.filterOptions.countries.slice();
-  public tagsOptionsFiltered: Tag[] = this.filterOptions.tags.slice();
   public nameControl: FormControl = this.formBuilder.control(this.queryParams.name);
   public tagControl: FormControl = this.formBuilder.control(this.filterOptions.tags.find(x => x.id === this.queryParams.tagId));
   public brandControl: FormControl = this.formBuilder.control(this.filterOptions.brands.find(x => x.id === this.queryParams.brandId));
@@ -63,9 +53,11 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
   public filterForm: FormGroup = this.initFilterForm();
   public isMobileMode!: boolean;
   public tobaccos: Tobacco[] = [];
-  public tobaccosList!: TobaccoList[];
+  public tobaccosList: TobaccoList[] = [];
   public isLoadingResults!: boolean;
   public animation: string = 'progress-dark';
+  public sortField: string = this.queryParams.type ?? 'name';
+  public sortDirection: string = this.queryParams.sortBy ?? 'asc';
   public skeletonStyle = {
     'border-radius': '5px',
     'height': '50px',
@@ -111,6 +103,8 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
   ngOnInit(): void {
     this.queryParams.take = this.queryParams.take ? this.queryParams.take : this.pageSize;
+    this.queryParams.type = this.queryParams.type ?? this.sortField;
+    this.queryParams.sortBy = this.queryParams.sortBy ?? this.sortDirection;
 
     this.nameControl.valueChanges.pipe(
       debounceTime(1500),
@@ -123,10 +117,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
     this.tagControl.valueChanges.pipe(
       tap(value => {
-        if (typeof value === 'string') {
-          this.tagsOptionsFiltered = this._filter(this.filterOptions.tags, value);
-          return;
-        }
         this.queryParams.tagId = this.tagControl.value?.id;
         this.redirect()
       })
@@ -134,10 +124,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
     this.brandControl.valueChanges.pipe(
       tap(value => {
-        if (typeof value === 'string') {
-          this.brandsOptionsFiltered = this._filter(this.filterOptions.brands, value);
-          return;
-        }
         if (!value) {
           this.lineControl.reset(null, {emitEvent: false});
           this.lineControl.disable();
@@ -170,10 +156,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
 
     this.countryControl.valueChanges.pipe(
       tap(value => {
-        if (typeof value === 'string') {
-          this.countriesOptionsFiltered = this._filter(this.filterOptions.countries, value);
-          return;
-        }
         this.queryParams.countryId = this.countryControl.value?.id;
         this.redirect()
       })
@@ -188,25 +170,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
   }
 
   ngAfterViewInit(): void {
-    if (!this.isCardView) {
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-
-      this.sort.sortChange.pipe(
-        tap(value => {
-          this.queryParams.sortBy = value.direction;
-          this.queryParams.type = value.active;
-          this.redirect();
-        })
-      ).subscribe();
-    }
-
-    this.paginator.page.pipe(
-      tap(value => {
-        this.queryParams.page = value.pageIndex;
-        this.queryParams.take = value.pageSize;
-        this.redirect();
-      })
-    ).subscribe();
   }
 
   private getTobaccos(): Observable<GetAllResponse<Tobacco>> {
@@ -229,11 +192,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
           return;
         }),
       )
-  }
-
-  private _filter(array: { name: string }[], name: string): any {
-    const filterValue = name.toLowerCase();
-    return array.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   private redirect(): void {
@@ -263,6 +221,79 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
     return this.isCardView;
   }
 
+  public toggleSort(field: string): void {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+
+    this.queryParams.type = this.sortField;
+    this.queryParams.sortBy = this.sortDirection;
+    this.redirect();
+  }
+
+  public isSorted(field: string): boolean {
+    return this.sortField === field;
+  }
+
+  public sortIcon(field: string): string {
+    if (!this.isSorted(field)) {
+      return '↕';
+    }
+    return this.sortDirection === 'asc' ? '↑' : '↓';
+  }
+
+  public get totalPages(): number {
+    return Math.max(0, Math.ceil(this.totalRows / this.pageSize));
+  }
+
+  public get pageNumbers(): number[] {
+    return this.totalPages
+      ? Array.from({length: this.totalPages}, (_, index) => index)
+      : [];
+  }
+
+  public get rangeStart(): number {
+    return this.totalRows ? (this.currentPage * this.pageSize) + 1 : 0;
+  }
+
+  public get rangeEnd(): number {
+    return Math.min((this.currentPage + 1) * this.pageSize, this.totalRows);
+  }
+
+  public goToPage(pageIndex: number): void {
+    if (pageIndex < 0 || pageIndex >= this.totalPages || pageIndex === this.currentPage) {
+      return;
+    }
+
+    this.currentPage = pageIndex;
+    this.queryParams.page = pageIndex;
+    this.redirect();
+  }
+
+  public previousPage(): void {
+    this.goToPage(this.currentPage - 1);
+  }
+
+  public nextPage(): void {
+    this.goToPage(this.currentPage + 1);
+  }
+
+  public handlePageSizeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    if (!value || value === this.pageSize) {
+      return;
+    }
+
+    this.pageSize = value;
+    this.currentPage = 0;
+    this.queryParams.page = 0;
+    this.queryParams.take = value;
+    this.redirect();
+  }
+
   private getTableState(): TableTypes {
     const type = localStorage.getItem(this.tobaccoTableKey);
     if (!type) {
@@ -285,11 +316,6 @@ export class TobaccoTableComponent extends UserPermission implements OnInit, Aft
         this.redirect();
       }
     });
-  }
-
-  public handlePageEvent(e: PageEvent): void {
-    this.pageSize = e.pageSize;
-    this.currentPage = e.pageIndex;
   }
 
   public onView(id: string): void {

@@ -2,12 +2,8 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {BrandRoutingModule} from "./brand-routing.module";
 import {BrandTableComponent} from './brand-table/brand-table.component';
-import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatSelectModule} from "@angular/material/select";
 import {BrandEditorComponent} from './brand-editor/brand-editor.component';
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../shared/shared.module";
@@ -17,9 +13,6 @@ import {MatSortModule} from "@angular/material/sort";
 import {CountryService} from "../services/country.service";
 import {BrandCreateComponent} from './brand-create/brand-create.component';
 import {NamePipe} from "../shared/pipes/name.pipe";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {CountrySelectModule} from "../shared/components/country-select/country-select.module";
 import {MatCardModule} from "@angular/material/card";
 import {StarRatingModule} from "angular-star-rating";
@@ -40,19 +33,12 @@ import lottie from "lottie-web";
   imports: [
     CommonModule,
     BrandRoutingModule,
-    MatInputModule,
     ReactiveFormsModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule,
     MatDialogModule,
     MatTableModule,
     SharedModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressBarModule,
-    MatButtonToggleModule,
-    MatAutocompleteModule,
     CountrySelectModule,
     MatCardModule,
     StarRatingModule,
