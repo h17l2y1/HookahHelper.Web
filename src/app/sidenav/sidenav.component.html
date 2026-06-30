@@ -47,65 +47,69 @@
   </div>
 </header>
 
-<div class="main-data-container">
-  @if (!isMobile) {
-    <aside class="sidebar-container">
-      <div class="container">
-        <nav>
-          <a class="sidebar-link" routerLink="/brands" routerLinkActive="active">
-            <lord-icon
-              class="icon"
-              src="https://cdn.lordicon.com/ifsxxxte.json"
-              trigger="hover"
-              colors="primary:#939393,secondary:#939393"
-              style="width:24px;height:24px">
-            </lord-icon>
-            <span class="tab-text">Brands</span>
-          </a>
-          <a class="sidebar-link" routerLink="/tobaccos" routerLinkActive="active">
-            <lord-icon
-              class="icon"
-              src="https://cdn.lordicon.com/unukghxb.json"
-              trigger="hover"
-              colors="primary:#939393,secondary:#939393"
-              style="width:24px;height:24px">
-            </lord-icon>
-            <span class="tab-text">Tobaccos</span>
-          </a>
-          <a class="sidebar-link" routerLink="/tags" routerLinkActive="active" *ngIf="user?.isAdmin">
-            <lord-icon
-              class="icon"
-              src="https://cdn.lordicon.com/skkahier.json"
-              trigger="hover"
-              colors="primary:#939393,secondary:#939393"
-              style="width:24px;height:24px">
-            </lord-icon>
-            <span class="tab-text">Tags</span>
-          </a>
-          <a class="sidebar-link" routerLink="/constructor" routerLinkActive="active" *ngIf="user?.isAdmin || !inDevelop">
-            <lord-icon
-              class="icon"
-              src="https://cdn.lordicon.com/jdalicnn.json"
-              trigger="hover"
-              colors="primary:#939393,secondary:#939393"
-              style="width:24px;height:24px">
-            </lord-icon>
-            <span class="tab-text">Constructor</span>
-          </a>
-          <a class="sidebar-link" routerLink="/mixes" routerLinkActive="active" *ngIf="user?.isAdmin || !inDevelop">
-            <lord-icon
-              class="icon"
-              src="https://cdn.lordicon.com/abwrkdvl.json"
-              trigger="hover"
-              colors="primary:#939393,secondary:#939393"
-              style="width:24px;height:24px">
-            </lord-icon>
-            <span class="tab-text">Top mixes</span>
-          </a>
-        </nav>
-      </div>
-    </aside>
-  }
+<div class="main-data-container" [class.sidebar-collapsed]="sidebarCollapsed">
+  <aside class="sidebar-container" [class.collapsed]="sidebarCollapsed" [class.mobile]="isMobile">
+    <div class="sidebar-header">
+      <button type="button" class="sidebar-toggle" (click)="toggleSidebar()">
+        <span class="sidebar-toggle-icon">{{ sidebarCollapsed ? '☰' : '✕' }}</span>
+        <span class="sidebar-toggle-text">Menu</span>
+      </button>
+    </div>
+    <div class="container">
+      <nav>
+        <a class="sidebar-link" routerLink="/brands" routerLinkActive="active">
+          <lord-icon
+            class="icon"
+            src="https://cdn.lordicon.com/ifsxxxte.json"
+            trigger="hover"
+            colors="primary:#939393,secondary:#939393"
+            style="width:24px;height:24px">
+          </lord-icon>
+          <span class="tab-text">Brands</span>
+        </a>
+        <a class="sidebar-link" routerLink="/tobaccos" routerLinkActive="active">
+          <lord-icon
+            class="icon"
+            src="https://cdn.lordicon.com/unukghxb.json"
+            trigger="hover"
+            colors="primary:#939393,secondary:#939393"
+            style="width:24px;height:24px">
+          </lord-icon>
+          <span class="tab-text">Tobaccos</span>
+        </a>
+        <a class="sidebar-link" routerLink="/tags" routerLinkActive="active" *ngIf="user?.isAdmin">
+          <lord-icon
+            class="icon"
+            src="https://cdn.lordicon.com/skkahier.json"
+            trigger="hover"
+            colors="primary:#939393,secondary:#939393"
+            style="width:24px;height:24px">
+          </lord-icon>
+          <span class="tab-text">Tags</span>
+        </a>
+        <a class="sidebar-link" routerLink="/constructor" routerLinkActive="active" *ngIf="user?.isAdmin || !inDevelop">
+          <lord-icon
+            class="icon"
+            src="https://cdn.lordicon.com/jdalicnn.json"
+            trigger="hover"
+            colors="primary:#939393,secondary:#939393"
+            style="width:24px;height:24px">
+          </lord-icon>
+          <span class="tab-text">Constructor</span>
+        </a>
+        <a class="sidebar-link" routerLink="/mixes" routerLinkActive="active" *ngIf="user?.isAdmin || !inDevelop">
+          <lord-icon
+            class="icon"
+            src="https://cdn.lordicon.com/abwrkdvl.json"
+            trigger="hover"
+            colors="primary:#939393,secondary:#939393"
+            style="width:24px;height:24px">
+          </lord-icon>
+          <span class="tab-text">Top mixes</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
   <div class="component-container">
     <router-outlet></router-outlet>

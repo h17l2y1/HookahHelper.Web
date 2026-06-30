@@ -14,6 +14,7 @@ import {ThemeService} from './them-picker/theme.service';
 })
 export class SidenavComponent extends UserPermission implements OnDestroy {
   public isMobile = false;
+  public sidebarCollapsed = false;
   public inDevelop = true;
   public userMenuOpen = false;
   public isLightTheme = false;
@@ -33,6 +34,7 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
       .pipe(takeUntil(this.destroyed))
       .subscribe(() => {
         this.isMobile = this.breakpointObserver.isMatched(Breakpoints.XSmall) || this.breakpointObserver.isMatched('(max-width: 767px)');
+        this.sidebarCollapsed = this.isMobile;
       });
   }
 
@@ -54,6 +56,10 @@ export class SidenavComponent extends UserPermission implements OnDestroy {
       this.tokenService.logout();
       this.userDataService.setUser(null);
     }
+  }
+
+  public toggleSidebar(): void {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
   }
 
   ngOnDestroy(): void {

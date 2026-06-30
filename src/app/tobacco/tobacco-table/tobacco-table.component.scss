@@ -408,6 +408,58 @@
     }
   }
 
+  @media (max-width: 1280px) {
+    .example-table-container {
+      .native-table-header,
+      .native-table-row {
+        grid-template-columns: 72px minmax(160px, 1.1fr) minmax(160px, 1fr) 120px 120px;
+      }
+
+      .global-tags-cell {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .example-table-container {
+      .native-table-header,
+      .native-table-row {
+        grid-template-columns: 64px minmax(140px, 1.2fr) minmax(120px, 1fr) 120px;
+      }
+
+      .tags-cell {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .example-table-container {
+      .native-table-header,
+      .native-table-row {
+        grid-template-columns: 56px minmax(120px, 1fr) 96px 96px;
+      }
+
+      .native-cell {
+        padding: 12px 10px;
+      }
+
+      .image-cell {
+        justify-content: center;
+      }
+
+      .tobacco-table-image {
+        width: 48px;
+        height: 48px;
+      }
+
+      .rating-cell {
+        font-size: 12px;
+      }
+    }
+  }
+
   ::ng-deep {
     .star-container {
       margin-left: 0;
