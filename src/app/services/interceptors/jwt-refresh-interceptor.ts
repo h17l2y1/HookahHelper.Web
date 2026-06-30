@@ -16,6 +16,10 @@ export class JwtRefreshInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     return next.handle(request).pipe(
       catchError((error) => {
+        if (this.isAuthRequest(request)) {
+          return throwError(error);
+        }
+
         if (error.status === 401) {
           return this.authService.refreshToken().pipe(
             tap((response: Tokens) => {
@@ -39,5 +43,11 @@ export class JwtRefreshInterceptor implements HttpInterceptor {
         return throwError(error);
       })
     );
+  }
+
+  private isAuthRequest(request: HttpRequest<any>): boolean {
+    return request.url.includes('Account/Login')
+      || request.url.includes('Account/SignUp')
+      || request.url.includes('Account/RefreshAuthToken');
   }
 }
