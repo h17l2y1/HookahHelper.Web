@@ -17,6 +17,10 @@ export class ConfirmNotificationInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     return next.handle(request).pipe(
       tap((event) => {
+        if (request.url.includes('Tag/Import')) {
+          return;
+        }
+
         if (event instanceof HttpResponse && event.status === 200) {
           this.confirmHandler.handleConfirm(request)
         }

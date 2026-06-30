@@ -5,6 +5,8 @@ import {QueryParams} from "../interfaces/models/queryParams";
 import {Observable} from "rxjs";
 import {GetAllResponse} from "../interfaces/models/get-all-response";
 import {Tag} from "../interfaces/entity/tag";
+import {TagImportRequest} from "../interfaces/models/tag-import-request";
+import {TagImportResult} from "../interfaces/models/tag-import-result";
 
 @Injectable()
 export class TagService {
@@ -27,6 +29,10 @@ export class TagService {
 
   public create(data: Tag): Observable<void> {
     return this.http.post<void>(this.rootUrl + 'Tag/Create', data);
+  }
+
+  public importTags(data: TagImportRequest[]): Observable<TagImportResult> {
+    return this.http.post<TagImportResult>(this.rootUrl + 'Tag/Import', data);
   }
 
   public update(data: any): Observable<any> {

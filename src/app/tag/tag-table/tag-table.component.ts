@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { finalize } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { QueryParams } from '../../interfaces/models/queryParams';
 import { TagService } from '../tag.service';
 import { Tag } from '../../interfaces/entity/tag';
 import { TagType } from '../../interfaces/enums/tag-type';
+import { TagImportRequest } from '../../interfaces/models/tag-import-request';
 
 @Component({
   selector: 'app-tag-table',
@@ -17,11 +21,17 @@ export class TagTableComponent implements OnInit {
   public pageSize = this.pageSizeOptions[0];
   public filters: QueryParams = { name: null };
   public isLoadingResults = true;
+  public isImportPopupOpen = false;
+  public isImporting = false;
+  public importError: string | null = null;
+  public importJsonControl: FormControl = this.formBuilder.control(this.getDefaultImportJson(), [Validators.required]);
   public tags: Tag[] = [];
 
   constructor(
+    private readonly formBuilder: FormBuilder,
     private readonly tagService: TagService,
     private readonly router: Router,
+    private readonly toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -62,5 +72,109 @@ export class TagTableComponent implements OnInit {
     }
   }
 
+  public openImportPopup(): void {
+    this.importError = null;
+    this.importJsonControl.setValue(this.getDefaultImportJson());
+    this.importJsonControl.markAsPristine();
+    this.isImportPopupOpen = true;
+  }
+
+  public closeImportPopup(): void {
+    if (this.isImporting) {
+      return;
+    }
+
+    this.isImportPopupOpen = false;
+    this.importError = null;
+  }
+
+  public onImportJson(): void {
+    const payload = this.parseImportJson();
+    if (!payload) {
+      return;
+    }
+
+    this.isImporting = true;
+    this.importError = null;
+
+    this.tagService.importTags(payload).pipe(
+      finalize(() => {
+        this.isImporting = false;
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.toastr.success(`Imported ${result.createdCount} of ${result.totalCount} tags`);
+        this.isImportPopupOpen = false;
+        this.getTags();
+      },
+      error: () => {
+        this.importError = 'Import failed. Check JSON structure and try again.';
+      },
+    });
+  }
+
+  public onBackdropClick(): void {
+    this.closeImportPopup();
+  }
+
   protected readonly TagType = TagType;
+
+  private parseImportJson(): TagImportRequest[] | null {
+    const rawJson = String(this.importJsonControl.value ?? '').trim();
+    if (!rawJson) {
+      this.importError = 'Paste a JSON array of tags.';
+      return null;
+    }
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(rawJson);
+    } catch {
+      this.importError = 'Invalid JSON. Expected an array of tag objects.';
+      return null;
+    }
+
+    if (!Array.isArray(parsed)) {
+      this.importError = 'JSON must be an array of tags.';
+      return null;
+    }
+
+    const payload: TagImportRequest[] = [];
+    for (let index = 0; index < parsed.length; index++) {
+      const item = parsed[index];
+      if (!item || typeof item !== 'object') {
+        this.importError = `Tag at index ${index} is not an object.`;
+        return null;
+      }
+
+      const record = item as Record<string, unknown>;
+      const name = typeof record['name'] === 'string' ? record['name'].trim() : '';
+      const color = typeof record['color'] === 'string' ? record['color'].trim() : '';
+      const isGlobal = typeof record['isGlobal'] === 'boolean' ? record['isGlobal'] : null;
+
+      if (!name || !color || isGlobal === null) {
+        this.importError = `Tag at index ${index} must contain name, color and isGlobal fields.`;
+        return null;
+      }
+
+      payload.push({ name, color, isGlobal });
+    }
+
+    if (!payload.length) {
+      this.importError = 'JSON array is empty.';
+      return null;
+    }
+
+    return payload;
+  }
+
+  private getDefaultImportJson(): string {
+    return JSON.stringify([
+      {
+        name: 'Sample Tag',
+        color: '#595959',
+        isGlobal: false,
+      },
+    ], null, 2);
+  }
 }

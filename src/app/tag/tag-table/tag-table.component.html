@@ -4,7 +4,10 @@
       <span>Filter by Name</span>
       <input type="text" (keyup)="applyFilter($event)" #input>
     </label>
-    <button class="button btn-purple-grad" type="button" (click)="onCreate()">Create</button>
+    <div class="top-actions">
+      <button class="button btn-purple-grad secondary-action" type="button" (click)="openImportPopup()">Загрузить JSON</button>
+      <button class="button btn-purple-grad" type="button" (click)="onCreate()">Create</button>
+    </div>
   </div>
   <div class="example-container">
     @if (isLoadingResults) {
@@ -66,4 +69,41 @@
       </select>
     </div>
   </div>
+
+  @if (isImportPopupOpen) {
+    <div class="import-modal-backdrop" (click)="onBackdropClick()">
+      <div class="import-modal" (click)="$event.stopPropagation()">
+        <div class="import-modal-header">
+          <div>
+            <div class="import-modal-title">Upload tags from JSON</div>
+            <div class="import-modal-subtitle">Paste an array of tag objects with name, color and isGlobal.</div>
+          </div>
+          <button type="button" class="import-modal-close" (click)="closeImportPopup()">×</button>
+        </div>
+
+        <label class="import-field">
+          <span>JSON</span>
+          <textarea
+            class="import-textarea"
+            [formControl]="importJsonControl"
+            placeholder='[
+  {
+    "name": "Sample Tag",
+    "color": "#595959",
+    "isGlobal": false
+  }
+]'></textarea>
+        </label>
+
+        @if (importError) {
+          <div class="import-error">{{ importError }}</div>
+        }
+
+        <div class="import-actions">
+          <button type="button" class="import-action secondary" (click)="closeImportPopup()" [disabled]="isImporting">Cancel</button>
+          <button type="button" class="import-action primary" (click)="onImportJson()" [disabled]="isImporting">Import</button>
+        </div>
+      </div>
+    </div>
+  }
 </div>
