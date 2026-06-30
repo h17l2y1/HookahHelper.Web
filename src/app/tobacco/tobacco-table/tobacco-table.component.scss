@@ -319,9 +319,11 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: #fff;
 
         .title-link {
           text-decoration: none !important;
+          color: inherit;
         }
 
       }
