@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -22,15 +21,20 @@ export class TagTableComponent implements OnInit {
   public filters: QueryParams = { name: null };
   public isLoadingResults = true;
   public isImportPopupOpen = false;
+  public isCreatePopupOpen = false;
+  public isEditPopupOpen = false;
+  public isDeletePopupOpen = false;
   public isImporting = false;
+  public isDeleting = false;
   public importError: string | null = null;
   public importJsonControl: FormControl = this.formBuilder.control(this.getDefaultImportJson(), [Validators.required]);
   public tags: Tag[] = [];
+  public selectedTagId: string | null = null;
+  public selectedTagName: string | null = null;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly tagService: TagService,
-    private readonly router: Router,
     private readonly toastr: ToastrService,
   ) {}
 
@@ -59,17 +63,52 @@ export class TagTableComponent implements OnInit {
   }
 
   public onCreate(): void {
-    void this.router.navigate(['/tags/create']);
+    this.isCreatePopupOpen = true;
   }
 
   public onUpdate(id: string): void {
-    void this.router.navigate(['/tags/edit', id]);
+    this.selectedTagId = id;
+    this.isEditPopupOpen = true;
   }
 
   public onDelete(id: string): void {
-    if (window.confirm('Delete this tag?')) {
-      this.tagService.remove(id).subscribe(() => this.getTags());
+    const tag = this.tags.find((item) => item.id === id);
+    this.selectedTagId = id;
+    this.selectedTagName = tag?.name ?? null;
+    this.isDeletePopupOpen = true;
+  }
+
+  public closeDeletePopup(): void {
+    if (this.isDeleting) {
+      return;
     }
+
+    this.isDeletePopupOpen = false;
+    this.selectedTagId = null;
+    this.selectedTagName = null;
+  }
+
+  public confirmDelete(): void {
+    if (!this.selectedTagId) {
+      return;
+    }
+
+    this.isDeleting = true;
+    this.tagService.remove(this.selectedTagId).pipe(
+      finalize(() => {
+        this.isDeleting = false;
+      }),
+    ).subscribe({
+      next: () => {
+        this.closeDeletePopup();
+        this.getTags();
+      },
+      error: () => {
+        this.importError = null;
+        this.closeDeletePopup();
+        this.toastr.error('Delete failed');
+      },
+    });
   }
 
   public openImportPopup(): void {
@@ -86,6 +125,21 @@ export class TagTableComponent implements OnInit {
 
     this.isImportPopupOpen = false;
     this.importError = null;
+  }
+
+  public closeCreatePopup(): void {
+    this.isCreatePopupOpen = false;
+  }
+
+  public closeEditPopup(): void {
+    this.isEditPopupOpen = false;
+    this.selectedTagId = null;
+  }
+
+  public handleTagSaved(): void {
+    this.closeCreatePopup();
+    this.closeEditPopup();
+    this.getTags();
   }
 
   public onImportJson(): void {
@@ -150,10 +204,10 @@ export class TagTableComponent implements OnInit {
       const record = item as Record<string, unknown>;
       const name = typeof record['name'] === 'string' ? record['name'].trim() : '';
       const color = typeof record['color'] === 'string' ? record['color'].trim() : '';
-      const isGlobal = typeof record['isGlobal'] === 'boolean' ? record['isGlobal'] : null;
+      const isGlobal = typeof record['isGlobal'] === 'boolean' ? record['isGlobal'] : false;
 
-      if (!name || !color || isGlobal === null) {
-        this.importError = `Tag at index ${index} must contain name, color and isGlobal fields.`;
+      if (!name || !color) {
+        this.importError = `Tag at index ${index} must contain name and color fields.`;
         return null;
       }
 
@@ -173,7 +227,6 @@ export class TagTableComponent implements OnInit {
       {
         name: 'Sample Tag',
         color: '#595959',
-        isGlobal: false,
       },
     ], null, 2);
   }

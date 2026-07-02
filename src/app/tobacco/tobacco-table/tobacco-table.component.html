@@ -235,7 +235,8 @@
       @if (isLoadingResults) {
         <ngx-skeleton-loader count="20" [animation]="animation" [theme]="skeletonStyle"></ngx-skeleton-loader>
       } @else {
-        <div class="native-table" role="table" aria-label="Tobacco list">
+        <div class="example-table-container">
+          <div class="native-table" role="table" aria-label="Tobacco list">
           <div class="native-table-header" role="row">
             <button type="button" class="native-cell header-cell image-cell" role="columnheader" disabled>Logo</button>
             <button type="button" class="native-cell header-cell name-cell sortable" role="columnheader" (click)="toggleSort('name')">
@@ -253,7 +254,7 @@
             }
           </div>
 
-        @if (tobaccosList.length) {
+          @if (tobaccosList.length) {
             @for (row of tobaccosList; track row.id) {
               <div class="native-table-row" role="row">
                 <button type="button" class="native-cell image-cell clickable" role="cell" (click)="onView(row.id)">
@@ -326,6 +327,7 @@
           } @else {
             <div class="native-empty">No data matching the filter.</div>
           }
+          </div>
         </div>
       }
     </section>

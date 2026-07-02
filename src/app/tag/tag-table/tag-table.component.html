@@ -33,7 +33,13 @@
               </div>
             </td>
             <td>
-              <input type="checkbox" [disabled]="true" [checked]="row.isGlobal">
+              <div class="global-flag" [class.checked]="row.isGlobal">
+                <span class="global-flag-box">
+                  @if (row.isGlobal) {
+                    <span class="global-flag-check">✓</span>
+                  }
+                </span>
+              </div>
             </td>
             <td>
               <div class="table-action-container">
@@ -76,7 +82,7 @@
         <div class="import-modal-header">
           <div>
             <div class="import-modal-title">Upload tags from JSON</div>
-            <div class="import-modal-subtitle">Paste an array of tag objects with name, color and isGlobal.</div>
+            <div class="import-modal-subtitle">Paste an array of tag objects with name and color. isGlobal is optional and defaults to false.</div>
           </div>
           <button type="button" class="import-modal-close" (click)="closeImportPopup()">×</button>
         </div>
@@ -89,8 +95,7 @@
             placeholder='[
   {
     "name": "Sample Tag",
-    "color": "#595959",
-    "isGlobal": false
+    "color": "#595959"
   }
 ]'></textarea>
         </label>
@@ -103,6 +108,48 @@
           <button type="button" class="import-action secondary" (click)="closeImportPopup()" [disabled]="isImporting">Cancel</button>
           <button type="button" class="import-action primary" (click)="onImportJson()" [disabled]="isImporting">Import</button>
         </div>
+      </div>
+    </div>
+  }
+
+  @if (isCreatePopupOpen) {
+    <div class="import-modal-backdrop" (click)="closeCreatePopup()">
+      <div class="import-modal tag-modal" (click)="$event.stopPropagation()">
+        <button type="button" class="import-modal-close tag-modal-close" (click)="closeCreatePopup()">×</button>
+        <app-tag-create
+          (saved)="handleTagSaved()"
+          (closed)="closeCreatePopup()">
+        </app-tag-create>
+      </div>
+    </div>
+  }
+
+  @if (isEditPopupOpen && selectedTagId) {
+    <div class="import-modal-backdrop" (click)="closeEditPopup()">
+      <div class="import-modal tag-modal" (click)="$event.stopPropagation()">
+        <button type="button" class="import-modal-close tag-modal-close" (click)="closeEditPopup()">×</button>
+        <app-tag-editor
+          [tagId]="selectedTagId"
+          (saved)="handleTagSaved()"
+          (closed)="closeEditPopup()">
+        </app-tag-editor>
+      </div>
+    </div>
+  }
+
+  @if (isDeletePopupOpen) {
+    <div class="import-modal-backdrop" (click)="closeDeletePopup()">
+      <div class="import-modal tag-modal confirm-modal" (click)="$event.stopPropagation()">
+        <button type="button" class="import-modal-close tag-modal-close" (click)="closeDeletePopup()">×</button>
+        <app-confirmation-popup
+          title="Delete tag"
+          [description]="'Delete ' + (selectedTagName ?? 'this tag') + '? This action cannot be undone.'"
+          confirmText="Delete"
+          cancelText="Cancel"
+          confirmTone="danger"
+          (confirmed)="confirmDelete()"
+          (cancelled)="closeDeletePopup()">
+        </app-confirmation-popup>
       </div>
     </div>
   }

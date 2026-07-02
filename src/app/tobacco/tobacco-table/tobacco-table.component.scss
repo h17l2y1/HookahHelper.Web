@@ -145,20 +145,25 @@
     .example-table-container {
       width: 100%;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
 
       .native-table {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 0;
         width: 100%;
+        min-width: 1080px;
       }
 
       .native-table-header,
       .native-table-row {
         display: grid;
-        grid-template-columns: 92px minmax(180px, 1.2fr) 1fr 1fr 150px 120px;
+        grid-template-columns: 92px minmax(220px, 1.25fr) minmax(220px, 1fr) minmax(220px, 1fr) 150px 132px;
         gap: 0;
-        align-items: stretch;
+        align-items: center;
       }
 
       .native-table-header {
@@ -171,10 +176,12 @@
       .native-cell {
         display: flex;
         align-items: center;
+        justify-content: flex-start;
         min-width: 0;
+        box-sizing: border-box;
         padding: 14px 16px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(255, 255, 255, 0.03);
+        border: 0;
+        background: transparent;
       }
 
       .header-cell {
@@ -183,7 +190,6 @@
         text-transform: uppercase;
         font-weight: 700;
         color: rgba(255, 255, 255, 0.72);
-        background: rgba(255, 255, 255, 0.05);
       }
 
       .sortable {
@@ -193,6 +199,7 @@
         appearance: none;
         width: 100%;
         text-align: left;
+        white-space: nowrap;
       }
 
       .sort-indicator {
@@ -200,13 +207,7 @@
       }
 
       .native-table-row {
-        border-radius: 18px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.02);
-      }
-
-      .native-table-row:hover {
-        background: rgba(255, 255, 255, 0.04);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
       }
 
       .clickable {
@@ -219,6 +220,22 @@
 
       .image-cell {
         justify-content: center;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .name-cell {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .tags-cell,
+      .global-tags-cell,
+      .action-cell {
+        align-items: center;
       }
 
       .tobacco-table-image {
@@ -232,16 +249,26 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.35rem;
+        align-items: center;
       }
 
       .rating-container {
         display: flex;
         align-items: center;
         gap: 8px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+      }
+
+      .table-action-container {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
       }
 
       .action-cell {
-        justify-content: flex-start;
+        justify-content: center;
       }
 
       .native-empty {
@@ -408,39 +435,8 @@
     }
   }
 
-  @media (max-width: 1280px) {
-    .example-table-container {
-      .native-table-header,
-      .native-table-row {
-        grid-template-columns: 72px minmax(160px, 1.1fr) minmax(160px, 1fr) 120px 120px;
-      }
-
-      .global-tags-cell {
-        display: none;
-      }
-    }
-  }
-
-  @media (max-width: 1100px) {
-    .example-table-container {
-      .native-table-header,
-      .native-table-row {
-        grid-template-columns: 64px minmax(140px, 1.2fr) minmax(120px, 1fr) 120px;
-      }
-
-      .tags-cell {
-        display: none;
-      }
-    }
-  }
-
   @media (max-width: 767px) {
     .example-table-container {
-      .native-table-header,
-      .native-table-row {
-        grid-template-columns: 56px minmax(120px, 1fr) 96px 96px;
-      }
-
       .native-cell {
         padding: 12px 10px;
       }
@@ -457,12 +453,32 @@
       .rating-cell {
         font-size: 12px;
       }
+
+      .native-table {
+        min-width: 940px;
+      }
     }
   }
 
   ::ng-deep {
     .star-container {
       margin-left: 0;
+    }
+
+    .rating-container star-rating,
+    .rating-container .star-rating {
+      display: inline-flex;
+      flex: 0 0 auto;
+    }
+
+    .rating-container .star-container {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .native-cell .ng-star-inserted {
+      align-self: center;
     }
   }
 

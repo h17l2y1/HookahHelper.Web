@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TagService} from "../tag.service";
 import {Tag} from "../../interfaces/entity/tag";
 import {NamePipe} from "../../shared/pipes/name.pipe";
 import {TagType} from "../../interfaces/enums/tag-type";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tag-create',
@@ -12,16 +11,16 @@ import {Router} from "@angular/router";
   styleUrls: ['./tag-create.component.scss']
 })
 export class TagCreateComponent {
-  public toggle: boolean = false;
   public color: string = '#595959';
   public nameControl: FormControl = this.formBuilder.control('Tag', [Validators.required, Validators.minLength(3),Validators.maxLength(50)]);
   public createTagForm: FormGroup = this.initCreateTagForm();
+  @Output() public saved = new EventEmitter<void>();
+  @Output() public closed = new EventEmitter<void>();
 
   constructor(
     private formBuilder: FormBuilder,
     private tagService: TagService,
     private namePipe: NamePipe,
-    private router: Router,
   ) {}
 
   private initCreateTagForm(): FormGroup {
@@ -39,6 +38,7 @@ export class TagCreateComponent {
     }
     const request: Tag = this.createTagForm.value;
     request.color = this.color;
+    this.createTagForm.patchValue({ color: this.color }, { emitEvent: false });
     this.tagService.create(request).subscribe(() => {
       if (oneMore) {
         this.createTagForm.reset({
@@ -49,18 +49,23 @@ export class TagCreateComponent {
         this.color = '#595959';
         return;
       }
-      void this.router.navigate(['/tags']);
+      this.saved.emit();
     });
   }
 
   public onCancel(): void {
-    void this.router.navigate(['/tags']);
+    this.closed.emit();
   }
 
   public onChange(): void {
     this.createTagForm.patchValue({
       name: this.namePipe.transform(this.createTagForm.value.name)
     }, {emitEvent: false})
+  }
+
+  public onColorChange(color: string): void {
+    this.color = color;
+    this.createTagForm.patchValue({ color }, { emitEvent: false });
   }
 
   protected readonly TagType = TagType;

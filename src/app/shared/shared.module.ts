@@ -7,6 +7,7 @@ import {OnlyNumbersPipe} from './pipes/only-numbers.pipe';
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchSelectComponent} from "./components/search-select/search-select.component";
 import {TokenPickerComponent} from "./components/token-picker/token-picker.component";
+import {ConfirmationPopupComponent} from "./components/confirmation-popup/confirmation-popup.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {TokenPickerComponent} from "./components/token-picker/token-picker.compo
     OnlyNumbersPipe,
     SearchSelectComponent,
     TokenPickerComponent,
+    ConfirmationPopupComponent,
   ],
   providers: [],
   imports: [
@@ -27,6 +29,7 @@ import {TokenPickerComponent} from "./components/token-picker/token-picker.compo
     OnlyNumbersPipe,
     SearchSelectComponent,
     TokenPickerComponent,
+    ConfirmationPopupComponent,
   ]
 })
 export class SharedModule {
